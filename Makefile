@@ -11,117 +11,102 @@
 # **************************************************************************** #
 
 NAME		= minishell
+OBJ_DIR		= obj
+
+# Library Directories
+LIBFT_DIR	= libs/libft
+PRINTF_DIR	= libs/ft_printf
+GC_DIR		= libs/grabage_collector
+
+# Source Files by Module
+EXECUTOR_SRC	= executor.c exec_cmd.c exec_pipe.c redirections.c
+BUILTINS_SRC	= builtin_cd.c builtin_echo.c builtin_env.c builtin_exit.c \
+				  builtin_export.c builtin_pwd.c builtin_unset.c
+ENV_SRC			= env_list.c env_utils.c
+
+# Main sources (all sources in this branch)
+SRCS = $(addprefix executor/, $(EXECUTOR_SRC)) \
+       $(addprefix builtins/, $(BUILTINS_SRC)) \
+       $(addprefix env/, $(ENV_SRC))
+
+OBJS = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
+
+# Library Files
+LIBFT_LIB		= $(LIBFT_DIR)/libft.a
+LIBFT_FLAGS		= -L$(LIBFT_DIR) -lft
+PRINTF_LIB		= $(PRINTF_DIR)/libftprintf.a
+PRINTF_FLAGS	= -L$(PRINTF_DIR) -lftprintf
+GC_LIB			= $(GC_DIR)/libgc.a
+GC_FLAGS		= -L$(GC_DIR) -lgc
 
 # Compiler and Flags
-CC			= cc
-CFLAGS		= -Wall -Wextra -Werror -g
-INCLUDES	= -I./includes -I./libs/libft -I./libs/ft_printf \
-			  -I./libs/grabage_collector -I./libs/get-next-line
-LDFLAGS		= -lreadline
+CC				= cc
+CFLAGS			= -Wall -Wextra -Werror
+INCLUDE_FLAGS	= -I./includes -I./libs/libft -I./libs/ft_printf \
+				  -I./libs/grabage_collector -I./executor -I./builtins -I./env
+CFLAGS			+= -g -g3
+CFLAGS			+= $(INCLUDE_FLAGS)
+LDFLAGS			= -lreadline
 
-# Directories
-SRC_DIR		= src
-OBJ_DIR		= obj
-LIBS_DIR	= libs
-
-# Library Paths
-LIBFT_DIR	= $(LIBS_DIR)/libft
-PRINTF_DIR	= $(LIBS_DIR)/ft_printf
-GC_DIR		= $(LIBS_DIR)/grabage_collector
-GNL_DIR		= $(LIBS_DIR)/get-next-line
-
-LIBFT		= $(LIBFT_DIR)/libft.a
-PRINTF		= $(PRINTF_DIR)/libftprintf.a
-GC			= $(GC_DIR)/libgc.a
-
-# Source Files
-SRCS		= $(SRC_DIR)/main/main.c \
-			  $(SRC_DIR)/main/signals.c \
-			  $(SRC_DIR)/lexer/lexer.c \
-			  $(SRC_DIR)/lexer/quotes.c \
-			  $(SRC_DIR)/parser/parser.c \
-			  $(SRC_DIR)/parser/parse_cmd.c \
-			  $(SRC_DIR)/parser/build_ast.c \
-			  $(SRC_DIR)/expander/expander.c \
-			  $(SRC_DIR)/expander/wildcard.c \
-			  $(SRC_DIR)/executor/executor.c \
-			  $(SRC_DIR)/executor/exec_cmd.c \
-			  $(SRC_DIR)/executor/exec_pipe.c \
-			  $(SRC_DIR)/executor/redirections.c \
-			  $(SRC_DIR)/builtins/builtin_cd.c \
-			  $(SRC_DIR)/builtins/builtin_echo.c \
-			  $(SRC_DIR)/builtins/builtin_env.c \
-			  $(SRC_DIR)/builtins/builtin_exit.c \
-			  $(SRC_DIR)/builtins/builtin_export.c \
-			  $(SRC_DIR)/builtins/builtin_pwd.c \
-			  $(SRC_DIR)/builtins/builtin_unset.c \
-			  $(SRC_DIR)/env/env_list.c \
-			  $(SRC_DIR)/env/env_utils.c \
-			  $(SRC_DIR)/utils/error.c \
-			  $(SRC_DIR)/utils/free.c \
-			  $(SRC_DIR)/utils/strings.c
-
-# Object Files
-OBJS		= $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
+RM				= rm -f
 
 # Colors
-GREEN		= \033[0;32m
-YELLOW		= \033[0;33m
-RED			= \033[0;31m
-RESET		= \033[0m
+GREEN			= \033[0;32m
+YELLOW			= \033[0;33m
+RED				= \033[0;31m
+RESET			= \033[0m
 
-# Rules
 all: $(NAME)
 
-$(NAME): $(LIBFT) $(PRINTF) $(GC) $(OBJS)
+$(NAME): $(OBJS) $(LIBFT_LIB) $(PRINTF_LIB) $(GC_LIB)
 	@echo "$(YELLOW)Linking $(NAME)...$(RESET)"
-	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(PRINTF) $(GC) $(LDFLAGS) -o $(NAME)
-	@echo "$(GREEN)✓ $(NAME) compiled successfully!$(RESET)"
+	@$(CC) $(OBJS) $(PRINTF_FLAGS) $(LIBFT_FLAGS) $(GC_FLAGS) $(LDFLAGS) -o $(NAME)
+	@echo "$(GREEN)✓ Successfully built $(NAME)!$(RESET)"
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	@mkdir -p $(dir $@)
+$(OBJ_DIR)/%.o: %.c $(LIBFT_LIB) $(PRINTF_LIB) $(GC_LIB)
+	@mkdir -p $(@D)
 	@echo "$(YELLOW)Compiling $<...$(RESET)"
-	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 
-$(LIBFT):
-	@echo "$(YELLOW)Building libft...$(RESET)"
-	@make -C $(LIBFT_DIR)
+$(LIBFT_LIB):
+	@echo "$(YELLOW)Building Libft...$(RESET)"
+	@make -s -C $(LIBFT_DIR)
 
-$(PRINTF):
+$(PRINTF_LIB):
 	@echo "$(YELLOW)Building ft_printf...$(RESET)"
-	@make -C $(PRINTF_DIR)
+	@make -s -C $(PRINTF_DIR)
 
-$(GC):
+$(GC_LIB):
 	@echo "$(YELLOW)Building garbage collector...$(RESET)"
-	@make -C $(GC_DIR)
+	@make -s -C $(GC_DIR)
 
 clean:
-	@echo "$(RED)Cleaning object files...$(RESET)"
-	@rm -rf $(OBJ_DIR)
-	@make -C $(LIBFT_DIR) clean
-	@make -C $(PRINTF_DIR) clean
-	@make -C $(GC_DIR) clean
+	@if [ -d "$(LIBFT_DIR)" ]; then make -s -C $(LIBFT_DIR) clean; fi
+	@if [ -d "$(PRINTF_DIR)" ]; then make -s -C $(PRINTF_DIR) clean; fi
+	@if [ -d "$(GC_DIR)" ]; then make -s -C $(GC_DIR) clean; fi
+	@$(RM) -r $(OBJ_DIR)
+	@echo "$(RED)Cleaned object files.$(RESET)"
 
 fclean: clean
-	@echo "$(RED)Removing $(NAME)...$(RESET)"
-	@rm -f $(NAME)
-	@make -C $(LIBFT_DIR) fclean
-	@make -C $(PRINTF_DIR) fclean
-	@make -C $(GC_DIR) fclean
+	@if [ -d "$(LIBFT_DIR)" ]; then make -s -C $(LIBFT_DIR) fclean; fi
+	@if [ -d "$(PRINTF_DIR)" ]; then make -s -C $(PRINTF_DIR) fclean; fi
+	@if [ -d "$(GC_DIR)" ]; then make -s -C $(GC_DIR) fclean; fi
+	@$(RM) $(NAME)
+	@echo "$(RED)Removed binary: $(NAME).$(RESET)"
 
 re: fclean all
 
 # Debugging targets
-debug: CFLAGS += -g3 -fsanitize=address
+debug: CFLAGS += -fsanitize=address
 debug: re
 
 valgrind: $(NAME)
-	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes \
+	@valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes \
 		--suppressions=readline.supp ./$(NAME)
 
 # Norminette
 norm:
 	@echo "$(YELLOW)Checking norminette...$(RESET)"
-	@norminette $(SRC_DIR) includes | grep -v "OK!" || echo "$(GREEN)✓ Norminette OK!$(RESET)"
+	@norminette executor builtins env includes 2>&1 | grep -v "OK!" || echo "$(GREEN)✓ Norminette OK!$(RESET)"
 
 .PHONY: all clean fclean re debug valgrind norm
