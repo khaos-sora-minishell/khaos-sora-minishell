@@ -1,4 +1,4 @@
-NAME = garbage_collecter.a
+NAME = garbage_collector.a
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -Iinclude
