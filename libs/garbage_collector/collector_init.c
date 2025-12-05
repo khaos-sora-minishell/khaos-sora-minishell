@@ -1,31 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   gc_malloc.c                                        :+:      :+:    :+:   */
+/*   collector_init.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: harici <harici@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/17 16:57:16 by akivam            #+#    #+#             */
-/*   Updated: 2025/11/17 20:34:26 by harici           ###   ########.fr       */
+/*   Created: 2025/11/17 17:30:39 by akivam            #+#    #+#             */
+/*   Updated: 2025/11/28 20:25:14 by akivam           ###   ########.tr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "internal_collector.h"
 
-void	*gc_malloc(size_t size)
+void	collector_init(void *stack_start)
 {
-	t_collecter	**head_ptr;
-	t_collecter	*new_header;
+	void	**stack_ptr;
 
-	if (size == 0)
-		return (NULL);
-	new_header = malloc(sizeof(t_collecter) + size);
-	if (!new_header)
-		return (NULL);
-	head_ptr = get_gc_head();
-	new_header->is_marked = 0;
-	new_header->size = size;
-	new_header->next = *head_ptr;
-	*head_ptr = new_header;
-	return ((void *)(new_header + 1));
+	if (!stack_start)
+		return ;
+	stack_ptr = get_gc_stack_start();
+	if (!stack_ptr)
+		return ;
+	*stack_ptr = stack_start;
 }

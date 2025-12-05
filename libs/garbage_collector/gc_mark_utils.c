@@ -6,7 +6,7 @@
 /*   By: harici <harici@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 21:01:37 by harici            #+#    #+#             */
-/*   Updated: 2025/11/17 21:01:41 by harici           ###   ########.fr       */
+/*   Updated: 2025/11/28 20:25:14 by akivam           ###   ########.tr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ static void	scan_stack_range(void *start, void *end)
 	}
 }
 
+//!/* Her iki yönü de desteklenebilir belki*/
 void	mark_from_stack(void)
 {
 	void	**stack_start_ptr;

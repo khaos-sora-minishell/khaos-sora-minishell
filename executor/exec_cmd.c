@@ -11,9 +11,7 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "minishell.h"
-
-//! redirection handler()
+#include "../includes/executor.h"
 
 /*
  * Tek bir komutu çalıştırır - fork, execve
@@ -24,12 +22,12 @@ void	execute_command(t_cmd *cmd, t_shell *shell)
 	char	*cmd_path;
 	int		status;
 
-	if (!cmd || !cmd->args || cmd->args[0])
+	if (!cmd || !cmd->args || !cmd->args[0])
 		return ;
 	// builtin kontrolü
 	if (is_builtin(cmd->args[0]))
 	{
-		shell->exit_status = execute_builtin(cmd->args[0], cmd->args, shell);
+		shell->exit_status = execute_builtin(cmd->args, shell);
 		return ;
 	}
 	// external cmd için fork

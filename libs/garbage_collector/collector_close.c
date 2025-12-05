@@ -1,21 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   collector_init.c                                   :+:      :+:    :+:   */
+/*   collector_close.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: harici <harici@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/17 17:30:39 by akivam            #+#    #+#             */
-/*   Updated: 2025/11/17 21:03:10 by harici           ###   ########.fr       */
+/*   Created: 2025/11/17 20:46:45 by harici            #+#    #+#             */
+/*   Updated: 2025/11/28 20:25:14 by akivam           ###   ########.tr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "internal_collector.h"
 
-void	collector_init(void *stack_start)
+void	collector_close(void)
 {
-	void	**stack_ptr;
+	t_collecter	**head_ptr;
+	t_collecter	*current;
+	t_collecter	*next;
 
-	stack_ptr = get_gc_stack_start();
-	*stack_ptr = stack_start;
+	head_ptr = get_gc_head();
+	current = *head_ptr;
+	while (current)
+	{
+		next = current->next;
+		free(current);
+		current = next;
+	}
+	*head_ptr = NULL;
 }

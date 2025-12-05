@@ -6,7 +6,7 @@
 /*   By: harici <harici@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 20:34:08 by harici            #+#    #+#             */
-/*   Updated: 2025/11/17 21:02:27 by harici           ###   ########.fr       */
+/*   Updated: 2025/11/28 20:25:14 by akivam           ###   ########.tr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ void	mark_pointer(void *ptr)
 	}
 }
 
+//!/* turend  slower but safer*/
+//! if getting error turn this i+=sizeof(void *) => i++
 void	mark_memory_region(void *start, size_t size)
 {
 	size_t	i;
@@ -61,7 +63,7 @@ int	is_valid_pointer(void *ptr)
 	while (node)
 	{
 		data_ptr = (void *)(node + 1);
-		if (ptr >= data_ptr && ptr < (void *)((char *)data_ptr + node->size))
+		if (ptr == data_ptr)
 			return (1);
 		node = node->next;
 	}

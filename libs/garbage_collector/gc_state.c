@@ -1,23 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_header_from_ptr.c                              :+:      :+:    :+:   */
+/*   gc_state.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
+/*   By: harici <harici@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/17 20:04:00 by akivam            #+#    #+#             */
-/*   Updated: 2025/11/17 20:04:03 by akivam           ###   ########.fr       */
+/*   Created: 2025/11/17 17:12:56 by akivam            #+#    #+#             */
+/*   Updated: 2025/11/28 20:25:14 by akivam           ###   ########.tr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "internal_collector.h"
 
-t_collecter	*get_header_from_ptr(void *ptr)
+t_collecter	**get_gc_head(void)
 {
-	t_collecter	*header;
+	static t_collecter	*head = NULL;
 
-	if (!ptr)
-		return (NULL);
-	header = (t_collecter *)ptr - 1;
-	return (header);
+	return (&head);
+}
+
+void	**get_gc_stack_start(void)
+{
+	static void	*stack_start = NULL;
+
+	return (&stack_start);
 }

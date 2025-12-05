@@ -19,8 +19,9 @@
 void	execute_ast(t_ast_node *ast, t_shell *shell)
 {
 	pid_t	pid;
+	int		status;
 
-	if (!shell)
+	if (!ast || !shell)
 		return ;
 	if (ast->type == NODE_CMD)
 		execute_command(ast->cmd, shell);
@@ -41,11 +42,19 @@ void	execute_ast(t_ast_node *ast, t_shell *shell)
 	else if (ast->type == NODE_SUBSHELL)
 	{
 		pid = fork();
+		if (pid == -1)
+		{
+			perror("fork");
+			shell->exit_status = 1;
+			return ;
+		}
 		if (pid == 0)
 		{
 			execute_ast(ast->subshell_node, shell);
 			exit(shell->exit_status);
 		}
-		waitpid(pid, &shell->exit_status, 0);
+		waitpid(pid, &status, 0);
+		if (WIFEXITED(status))
+			shell->exit_status = WEXITSTATUS(status);
 	}
 }

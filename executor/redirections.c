@@ -47,7 +47,7 @@ int	setup_redirections(t_redir *redirs, t_shell *shell)
 		}
 		else if (current_redir->type == TOKEN_REDIR_APPEND) // >>
 		{
-			fd = open(current_redir->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			fd = open(current_redir->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 			if (fd == -1)
 			{
 				perror(current_redir->file);

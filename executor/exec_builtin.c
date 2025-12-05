@@ -56,7 +56,7 @@ int	is_builtin(char *cmd)
 	i = 0;
 	while (builtins[i].name)
 	{
-		if (ft_strcmp(cmd, builtins[i]. name) == 0)
+		if (ft_strcmp(cmd, builtins[i].name) == 0)
 			return (1);
 		i++;
 	}
@@ -69,18 +69,18 @@ int	is_builtin(char *cmd)
 */
 int	execute_builtin(char **args, t_shell *shell)
 {
-	t_builtin	*builtins;
-	int			i;
+    t_builtin	*builtins;
+    int			i;
 
-	if (! args || !args[0])
-		return (1);
-	builtins = get_builtins();
-	i = 0;
-	while (builtins[i].name)
-	{
-		if (ft_strcmp(args[0], builtins[i].name) == 0)
-			return (builtins[i].func(args, shell));
-		i++;
-	}
-	return (1);
+    if (!args || !args[0])
+        return (1);
+    builtins = get_builtins();
+    i = 0;
+    while (builtins[i].name)
+    {
+        if (ft_strcmp(args[0], builtins[i].name) == 0)
+            return (builtins[i].func(args, shell)); 
+        i++;
+    }
+    return (1);
 }

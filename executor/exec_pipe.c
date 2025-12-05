@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "executor.h"
 
 /*
  * Pipe yönetimi - pipe(), fork(), dup2()
@@ -31,9 +31,9 @@ void	execute_pipe(t_ast_node *left, t_ast_node *right, t_shell *shell)
 	left_pid = fork();
 	if (left_pid == 0)
 	{
-		close(pipefd[1]);
-		dup2(pipefd[0], STDOUT_FILENO);
 		close(pipefd[0]);
+		dup2(pipefd[1], STDOUT_FILENO);
+		close(pipefd[1]);
 		execute_ast(left, shell);
 		exit(shell->exit_status);
 	}
