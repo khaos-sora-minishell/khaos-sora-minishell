@@ -143,7 +143,7 @@ int main(void)
 
 ```
 +------------------+
-| t_collecter      |  ← Header (metadata)
+| t_collector      |  ← Header (metadata)
 | - is_marked: 0/1 |     Mark bit for GC
 | - size: N bytes  |     Allocation size
 | - next: ptr      |     Next in list

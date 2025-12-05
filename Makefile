@@ -16,7 +16,7 @@ OBJ_DIR		= obj
 # Library Directories
 LIBFT_DIR	= libs/libft
 PRINTF_DIR	= libs/ft_printf
-GC_DIR		= libs/grabage_collector
+GC_DIR		= libs/garbage_collector
 
 # Source Files by Module
 EXECUTOR_SRC	= executor.c exec_cmd.c exec_pipe.c redirections.c
@@ -36,14 +36,14 @@ LIBFT_LIB		= $(LIBFT_DIR)/libft.a
 LIBFT_FLAGS		= -L$(LIBFT_DIR) -lft
 PRINTF_LIB		= $(PRINTF_DIR)/libftprintf.a
 PRINTF_FLAGS	= -L$(PRINTF_DIR) -lftprintf
-GC_LIB			= $(GC_DIR)/libgc.a
-GC_FLAGS		= -L$(GC_DIR) -lgc
+GC_LIB			= $(GC_DIR)/garbage_collector.a
+GC_FLAGS		= -L$(GC_DIR) -lgarbage_collector
 
 # Compiler and Flags
 CC				= cc
 CFLAGS			= -Wall -Wextra -Werror
 INCLUDE_FLAGS	= -I./includes -I./libs/libft -I./libs/ft_printf \
-				  -I./libs/grabage_collector -I./executor -I./builtins -I./env
+				  -I./libs/garbage_collector -I./executor -I./builtins -I./env
 CFLAGS			+= -g -g3
 CFLAGS			+= $(INCLUDE_FLAGS)
 LDFLAGS			= -lreadline
@@ -60,7 +60,7 @@ all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT_LIB) $(PRINTF_LIB) $(GC_LIB)
 	@echo "$(YELLOW)Linking $(NAME)...$(RESET)"
-	@$(CC) $(OBJS) $(PRINTF_FLAGS) $(LIBFT_FLAGS) $(GC_FLAGS) $(LDFLAGS) -o $(NAME)
+	@$(CC) $(OBJS) $(LIBFT_LIB) $(PRINTF_LIB) $(GC_LIB) $(LDFLAGS) -o $(NAME)
 	@echo "$(GREEN)✓ Successfully built $(NAME)!$(RESET)"
 
 $(OBJ_DIR)/%.o: %.c $(LIBFT_LIB) $(PRINTF_LIB) $(GC_LIB)

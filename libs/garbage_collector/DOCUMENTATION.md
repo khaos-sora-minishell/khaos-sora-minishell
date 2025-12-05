@@ -67,10 +67,10 @@ Each allocation consists of a header and user data:
 ```
 Memory Address Space:
 ┌──────────────────────────────────────┐
-│  Header: t_collecter                 │  ← GC metadata
+│  Header: t_collector                 │  ← GC metadata
 │  - is_marked: unsigned char (0/1)    │
 │  - size: size_t (user data size)     │
-│  - next: t_collecter* (linked list)  │
+│  - next: t_collector* (linked list)  │
 ├──────────────────────────────────────┤
 │  User Data                           │  ← User sees this pointer
 │  (size bytes)                        │
@@ -84,12 +84,12 @@ Pointer returned to user: &(header + 1)
 #### Block Header
 
 ```c
-typedef struct s_collecter
+typedef struct s_collector
 {
     unsigned char      is_marked;  // 0 or 1 (mark bit)
     size_t             size;       // Size of user data
-    struct s_collecter *next;      // Next block in list
-} t_collecter;
+    struct s_collector *next;      // Next block in list
+} t_collector;
 ```
 
 **Fields:**
@@ -101,7 +101,7 @@ typedef struct s_collecter
 
 ```c
 // In gc_state.c (file-scope static)
-static t_collecter *gc_head = NULL;        // Head of allocation list
+static t_collector *gc_head = NULL;        // Head of allocation list
 static void *gc_stack_start = NULL;        // Stack start for scanning
 ```
 
@@ -170,7 +170,7 @@ void *__wrap_malloc(size_t size)
 void *gc_malloc(size_t size)
 {
     // Use internal malloc - won't be wrapped!
-    t_collecter *header = GC_INTERNAL_MALLOC(sizeof(t_collecter) + size);
+    t_collector *header = GC_INTERNAL_MALLOC(sizeof(t_collector) + size);
     // ...
 }
 ```
@@ -260,14 +260,14 @@ int main(void)
 ```c
 void *gc_malloc(size_t size)
 {
-    t_collecter **head_ptr;
-    t_collecter *new_header;
+    t_collector **head_ptr;
+    t_collector *new_header;
 
     if (size == 0)
         return (NULL);
     
     // Step 1: Allocate header + data using internal malloc
-    new_header = GC_INTERNAL_MALLOC(sizeof(t_collecter) + size);
+    new_header = GC_INTERNAL_MALLOC(sizeof(t_collector) + size);
     if (!new_header)
         return (NULL);
     
@@ -330,7 +330,7 @@ void *gc_calloc(size_t nmemb, size_t size)
 void *gc_realloc(void *ptr, size_t size)
 {
     void *new_ptr;
-    t_collecter *old_header;
+    t_collector *old_header;
     size_t copy_size;
 
     // Special cases
@@ -413,8 +413,8 @@ void mark_from_stack(void)
 ```c
 void mark_pointer(void *ptr)
 {
-    t_collecter **head_ptr;
-    t_collecter *node;
+    t_collector **head_ptr;
+    t_collector *node;
     void *data_ptr;
 
     head_ptr = get_gc_head();
@@ -463,8 +463,8 @@ void mark_memory_region(void *start, size_t size)
 ```c
 int is_valid_pointer(void *ptr)
 {
-    t_collecter **head_ptr;
-    t_collecter *node;
+    t_collector **head_ptr;
+    t_collector *node;
     void *data_ptr;
     void *end_ptr;
 
@@ -517,10 +517,10 @@ Block D:
 ```c
 void gc_sweep(void)
 {
-    t_collecter **head_ptr;
-    t_collecter *current;
-    t_collecter *prev;
-    t_collecter *next;
+    t_collector **head_ptr;
+    t_collector *current;
+    t_collector *prev;
+    t_collector *next;
 
     head_ptr = get_gc_head();
     current = *head_ptr;
@@ -819,14 +819,14 @@ GC_CLEANUP();  // Cleanup before exit
 #### get_header_from_ptr
 
 ```c
-t_collecter *get_header_from_ptr(void *ptr)
+t_collector *get_header_from_ptr(void *ptr)
 {
     if (!ptr)
         return (NULL);
     
     // User pointer points to data
     // Header is just before it
-    return ((t_collecter *)ptr - 1);
+    return ((t_collector *)ptr - 1);
 }
 ```
 
@@ -838,10 +838,10 @@ t_collecter *get_header_from_ptr(void *ptr)
 
 ```c
 // In gc_state.c (file-scope static)
-static t_collecter *gc_head = NULL;
+static t_collector *gc_head = NULL;
 static void *gc_stack_start = NULL;
 
-t_collecter **get_gc_head(void)
+t_collector **get_gc_head(void)
 {
     return (&gc_head);
 }
@@ -1035,7 +1035,7 @@ malloc(size)  // → __wrap_malloc → gc_malloc (wrapped)
 
 **Per Allocation:**
 ```
-Header size: sizeof(t_collecter) ≈ 16-24 bytes
+Header size: sizeof(t_collector) ≈ 16-24 bytes
 Minimum allocation: 16-24 bytes overhead + user data
 ```
 

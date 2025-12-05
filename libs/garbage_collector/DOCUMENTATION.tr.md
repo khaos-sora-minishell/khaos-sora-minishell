@@ -67,10 +67,10 @@ Her bellek ayırma, bir başlık (header) ve kullanıcı verisinden oluşur:
 ```
 Bellek Adres Alanı:
 ┌──────────────────────────────────────┐
-│  Başlık: t_collecter                 │  ← GC üstverisi (metadata)
+│  Başlık: t_collector                 │  ← GC üstverisi (metadata)
 │  - is_marked: unsigned char (0/1)    │
 │  - size: size_t (kullanıcı veri boyutu)│
-│  - next: t_collecter* (bağlı liste)  │
+│  - next: t_collector* (bağlı liste)  │
 ├──────────────────────────────────────┤
 │  Kullanıcı Verisi                    │  ← Kullanıcı bu işaretçiyi görür
 │  (size bayt)                         │
@@ -84,12 +84,12 @@ Kullanıcıya dönen işaretçi: &(header + 1)
 #### Blok Başlığı
 
 ```c
-typedef struct s_collecter
+typedef struct s_collector
 {
     unsigned char      is_marked;  // 0 veya 1 (işaretleme biti)
     size_t             size;       // Kullanıcı verisinin boyutu
-    struct s_collecter *next;      // Listedeki sonraki blok
-} t_collecter;
+    struct s_collector *next;      // Listedeki sonraki blok
+} t_collector;
 ```
 
 **Alanlar:**
@@ -101,7 +101,7 @@ typedef struct s_collecter
 
 ```c
 // gc_state.c içinde (dosya kapsamında statik)
-static t_collecter *gc_head = NULL;        // Bellek ayırma listesinin başı
+static t_collector *gc_head = NULL;        // Bellek ayırma listesinin başı
 static void *gc_stack_start = NULL;        // Tarama için stack başlangıcı
 ```
 
@@ -170,7 +170,7 @@ void *__wrap_malloc(size_t size)
 void *gc_malloc(size_t size)
 {
     // Dahili malloc kullan - bu sarmalanmayacak!
-    t_collecter *header = GC_INTERNAL_MALLOC(sizeof(t_collecter) + size);
+    t_collector *header = GC_INTERNAL_MALLOC(sizeof(t_collector) + size);
     // ...
 }
 ```
@@ -260,14 +260,14 @@ int main(void)
 ```c
 void *gc_malloc(size_t size)
 {
-    t_collecter **head_ptr;
-    t_collecter *new_header;
+    t_collector **head_ptr;
+    t_collector *new_header;
 
     if (size == 0)
         return (NULL);
     
     // Adım 1: Başlık + veri için dahili malloc ile bellek ayır
-    new_header = GC_INTERNAL_MALLOC(sizeof(t_collecter) + size);
+    new_header = GC_INTERNAL_MALLOC(sizeof(t_collector) + size);
     if (!new_header)
         return (NULL);
     
@@ -330,7 +330,7 @@ void *gc_calloc(size_t nmemb, size_t size)
 void *gc_realloc(void *ptr, size_t size)
 {
     void *new_ptr;
-    t_collecter *old_header;
+    t_collector *old_header;
     size_t copy_size;
 
     // Özel durumlar
@@ -413,8 +413,8 @@ void mark_from_stack(void)
 ```c
 void mark_pointer(void *ptr)
 {
-    t_collecter **head_ptr;
-    t_collecter *node;
+    t_collector **head_ptr;
+    t_collector *node;
     void *data_ptr;
 
     head_ptr = get_gc_head();
@@ -463,8 +463,8 @@ void mark_memory_region(void *start, size_t size)
 ```c
 int is_valid_pointer(void *ptr)
 {
-    t_collecter **head_ptr;
-    t_collecter *node;
+    t_collector **head_ptr;
+    t_collector *node;
     void *data_ptr;
     void *end_ptr;
 
@@ -517,10 +517,10 @@ Blok D:
 ```c
 void gc_sweep(void)
 {
-    t_collecter **head_ptr;
-    t_collecter *current;
-    t_collecter *prev;
-    t_collecter *next;
+    t_collector **head_ptr;
+    t_collector *current;
+    t_collector *prev;
+    t_collector *next;
 
     head_ptr = get_gc_head();
     current = *head_ptr;
@@ -819,14 +819,14 @@ GC_CLEANUP();  // Çıkmadan önce temizle
 #### get_header_from_ptr
 
 ```c
-t_collecter *get_header_from_ptr(void *ptr)
+t_collector *get_header_from_ptr(void *ptr)
 {
     if (!ptr)
         return (NULL);
     
     // Kullanıcı işaretçisi veriyi gösterir
     // Başlık hemen öncesindedir
-    return ((t_collecter *)ptr - 1);
+    return ((t_collector *)ptr - 1);
 }
 ```
 
@@ -838,10 +838,10 @@ t_collecter *get_header_from_ptr(void *ptr)
 
 ```c
 // gc_state.c içinde (dosya kapsamında statik)
-static t_collecter *gc_head = NULL;
+static t_collector *gc_head = NULL;
 static void *gc_stack_start = NULL;
 
-t_collecter **get_gc_head(void)
+t_collector **get_gc_head(void)
 {
     return (&gc_head);
 }
@@ -1035,7 +1035,7 @@ malloc(size)  // → __wrap_malloc → gc_malloc (sarmalanmış)
 
 **Her Ayırma İçin:**
 ```
-Başlık boyutu: sizeof(t_collecter) ≈ 16-24 bayt
+Başlık boyutu: sizeof(t_collector) ≈ 16-24 bayt
 Minimum ayırma: 16-24 bayt ek yük + kullanıcı verisi
 ```
 

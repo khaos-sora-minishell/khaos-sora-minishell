@@ -16,7 +16,7 @@
 # include "garbage_collector.h"
 # include <stdlib.h>
 
-t_collecter	**get_gc_head(void);
+t_collector	**get_gc_head(void);
 void		**get_gc_stack_start(void);
 
 void		gc_collect(void);
@@ -24,7 +24,7 @@ void		gc_collect(void);
 // core GC logic functions
 void		gc_mark(void);
 void		gc_sweep(void);
-t_collecter	*get_header_from_ptr(void *ptr);
+t_collector	*get_header_from_ptr(void *ptr);
 
 // gc_mark helper functions
 int			is_valid_pointer(void *ptr);

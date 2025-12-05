@@ -15,7 +15,7 @@
 /*
  * Get environment variable value
  */
-char	*get_env_value(t_env *env, const char *key)
+char	*get_env_value(t_env *env, char *key)
 {
 	(void)env;
 	(void)key;
@@ -26,18 +26,19 @@ char	*get_env_value(t_env *env, const char *key)
 /*
  * Set environment variable
  */
-void	set_env_value(t_env **env, const char *key, const char *value)
+void	set_env_value(t_env **env, char *key, char *value, void *arena)
 {
 	(void)env;
 	(void)key;
 	(void)value;
+	(void)arena;
 	// TODO: Implement set env value
 }
 
 /*
  * Unset environment variable
  */
-void	unset_env_value(t_env **env, const char *key)
+void	unset_env_value(t_env **env, char *key)
 {
 	(void)env;
 	(void)key;

@@ -12,9 +12,9 @@
 
 #include "internal_collector.h"
 
-t_collecter	**get_gc_head(void)
+t_collector	**get_gc_head(void)
 {
-	static t_collecter	*head = NULL;
+	static t_collector	*head = NULL;
 
 	return (&head);
 }

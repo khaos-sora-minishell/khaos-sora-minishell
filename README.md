@@ -32,7 +32,7 @@ minishell/
 ├── libs/                  # Kütüphaneler
 │   ├── libft/            # 42 libft
 │   ├── ft_printf/        # Printf implementasyonu
-│   ├── grabage_collector/# Garbage collector
+│   ├── garbage_collector/# Garbage collector
 │   └── get-next-line/    # GNL
 └── resources/            # Dokümantasyon
     └── mimari_ornegi.md  # Detaylı mimari dokümantasyonu

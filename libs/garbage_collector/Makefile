@@ -1,4 +1,4 @@
-NAME = garbage_collecter.a
+NAME = garbage_collector.a
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
@@ -72,7 +72,7 @@ help:
 	@printf '    Rebuild from scratch\n'
 	@printf '\n'
 	@printf '$(YELLOW)Usage:$(RESET)\n'
-	@printf '    gcc your_code.c -L. -lgarbage_collecter -o program\n'
+	@printf '    gcc your_code.c -L. -lgarbage_collector -o program\n'
 	@printf '\n'
 
 .PHONY: all clean fclean re help

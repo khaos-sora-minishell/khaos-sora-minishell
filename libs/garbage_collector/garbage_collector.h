@@ -15,13 +15,13 @@
 
 # include <stddef.h>
 
-typedef struct s_collecter
+typedef struct s_collector
 {
 	unsigned char		is_marked;
 	size_t				size;
-	struct s_collecter	*next;
+	struct s_collector	*next;
 
-}						t_collecter;
+}						t_collector;
 
 void					collector_init(void *stack_start);
 void					collector_close(void);

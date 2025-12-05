@@ -15,7 +15,7 @@
 void	*gc_realloc(void *ptr, size_t size)
 {
 	void		*new_ptr;
-	t_collecter	*old_header;
+	t_collector	*old_header;
 	size_t		copy_size;
 
 	if (!ptr)

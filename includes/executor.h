@@ -16,11 +16,12 @@
 # include "minishell.h"
 
 /* ========== EXECUTOR ========== */
-int		executor(t_ast_node *root, t_shell *shell);
-void	execute_cmd(t_cmd *cmd, t_shell *shell);
-void	execute_pipe(t_ast_node *node, t_shell *shell);
-void	execute_and(t_ast_node *node, t_shell *shell);
-void	execute_or(t_ast_node *node, t_shell *shell);
-void	execute_subshell(t_ast_node *node, t_shell *shell);
+void	executor_run(t_shell *shell);
+void	execute_ast(t_ast_node *ast, t_shell *shell);
+void	execute_command(t_cmd *cmd, t_shell *shell);
+void	execute_pipe(t_ast_node *left, t_ast_node *right, t_shell *shell);
+int		setup_redirections(t_redir *redirs, t_shell *shell);
+int		is_builtin(char *cmd);
+int		execute_builtin(char **args, t_shell *shell);
 
 #endif

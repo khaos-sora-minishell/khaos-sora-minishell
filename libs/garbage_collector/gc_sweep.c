@@ -12,8 +12,8 @@
 
 #include "internal_collector.h"
 
-static void	sweep_unmarked(t_collecter **head_ptr, t_collecter **prev,
-		t_collecter *current, t_collecter *next)
+static void	sweep_unmarked(t_collector **head_ptr, t_collector **prev,
+		t_collector *current, t_collector *next)
 {
 	if (*prev)
 		(*prev)->next = next;
@@ -24,10 +24,10 @@ static void	sweep_unmarked(t_collecter **head_ptr, t_collecter **prev,
 
 void	gc_sweep(void)
 {
-	t_collecter	**head_ptr;
-	t_collecter	*current;
-	t_collecter	*prev;
-	t_collecter	*next;
+	t_collector	**head_ptr;
+	t_collector	*current;
+	t_collector	*prev;
+	t_collector	*next;
 
 	head_ptr = get_gc_head();
 	current = *head_ptr;

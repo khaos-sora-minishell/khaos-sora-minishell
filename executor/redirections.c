@@ -20,6 +20,7 @@ int	setup_redirections(t_redir *redirs, t_shell *shell)
 	t_redir	*current_redir;
 	int		fd;
 
+	(void)shell;
 	current_redir = redirs;
 	while (current_redir)
 	{

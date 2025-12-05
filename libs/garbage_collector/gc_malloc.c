@@ -14,12 +14,12 @@
 
 void	*gc_malloc(size_t size)
 {
-	t_collecter	**head_ptr;
-	t_collecter	*new_header;
+	t_collector	**head_ptr;
+	t_collector	*new_header;
 
 	if (size == 0)
 		return (NULL);
-	new_header = malloc(sizeof(t_collecter) + size);
+	new_header = malloc(sizeof(t_collector) + size);
 	if (!new_header)
 		return (NULL);
 	head_ptr = get_gc_head();

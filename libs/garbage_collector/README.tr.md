@@ -144,7 +144,7 @@ int main(void)
 
 ```
 +------------------+
-| t_collecter      |  ← Başlık (metadata)
+| t_collector      |  ← Başlık (metadata)
 | - is_marked: 0/1 |     GC için işaretleme biti
 | - size: N bayt   |     Ayrılan boyut
 | - next: ptr      |     Listedeki sonraki eleman

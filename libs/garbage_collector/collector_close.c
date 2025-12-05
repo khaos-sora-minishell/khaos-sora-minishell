@@ -14,9 +14,9 @@
 
 void	collector_close(void)
 {
-	t_collecter	**head_ptr;
-	t_collecter	*current;
-	t_collecter	*next;
+	t_collector	**head_ptr;
+	t_collector	*current;
+	t_collector	*next;
 
 	head_ptr = get_gc_head();
 	current = *head_ptr;

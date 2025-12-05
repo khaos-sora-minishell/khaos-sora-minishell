@@ -14,8 +14,8 @@
 
 void	mark_pointer(void *ptr)
 {
-	t_collecter	**head_ptr;
-	t_collecter	*node;
+	t_collector	**head_ptr;
+	t_collector	*node;
 	void		*data_ptr;
 
 	head_ptr = get_gc_head();
@@ -52,8 +52,8 @@ void	mark_memory_region(void *start, size_t size)
 
 int	is_valid_pointer(void *ptr)
 {
-	t_collecter	**head_ptr;
-	t_collecter	*node;
+	t_collector	**head_ptr;
+	t_collector	*node;
 	void		*data_ptr;
 
 	if (!ptr)

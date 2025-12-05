@@ -12,12 +12,12 @@
 
 #include "internal_collector.h"
 
-t_collecter	*get_header_from_ptr(void *ptr)
+t_collector	*get_header_from_ptr(void *ptr)
 {
-	t_collecter	*header;
+	t_collector	*header;
 
 	if (!ptr)
 		return (NULL);
-	header = (t_collecter *)ptr - 1;
+	header = (t_collector *)ptr - 1;
 	return (header);
 }
