@@ -43,7 +43,8 @@ GC_FLAGS		= -L$(GC_DIR) -lgarbage_collector
 CC				= cc
 CFLAGS			= -Wall -Wextra -Werror
 INCLUDE_FLAGS	= -I./includes -I./libs/libft -I./libs/ft_printf \
-				  -I./libs/garbage_collector -I./executor -I./builtins -I./env
+				  -I./libs/garbage_collector -I./libs/garbage_collector/include \
+				  -I./executor -I./builtins -I./env
 CFLAGS			+= -g -g3
 CFLAGS			+= $(INCLUDE_FLAGS)
 LDFLAGS			= -lreadline
