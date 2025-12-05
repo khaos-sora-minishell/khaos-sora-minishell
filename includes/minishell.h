@@ -24,20 +24,20 @@
 /*                               INCLUDES                                     */
 /* ========================================================================== */
 
-# include "../libs/grabage_collector/garbage_collector.h"
-# include <dirent.h>
-# include <errno.h>
-# include <fcntl.h>
-# include <readline/history.h>
-# include <readline/readline.h>
-# include <signal.h>
-# include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <string.h>
-# include <sys/stat.h>
-# include <sys/wait.h>
 # include <unistd.h>
+# include <stdbool.h>
+# include <signal.h>
+# include <sys/wait.h>
+# include <sys/stat.h>
+# include <fcntl.h>
+# include <dirent.h>
+# include <string.h>
+# include <errno.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include "garbage_collector.h"
 
 /* ========================================================================== */
 /*                          GLOBAL SIGNAL VARIABLE                            */

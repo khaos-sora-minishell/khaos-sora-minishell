@@ -23,13 +23,12 @@ typedef struct s_builtin
 	t_builtin_func	func;
 }					t_builtin;
 
-
 /* ========== BUILTINS ========== */
 int					is_builtin(char *cmd);
 int					execute_builtin(char **args, t_shell *shell);
-int					builtin_echo(char **args);
+int					builtin_echo(char **args, t_shell *shell);
 int					builtin_cd(char **args, t_shell *shell);
-int					builtin_pwd(void);
+int					builtin_pwd(char **args, t_shell *shell);
 int					builtin_export(char **args, t_shell *shell);
 int					builtin_unset(char **args, t_shell *shell);
 int					builtin_env(t_shell *shell);
