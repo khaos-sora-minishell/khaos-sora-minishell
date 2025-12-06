@@ -12,7 +12,7 @@
 
 
 #include "builtins.h"
-
+#include "libft.h"
 /*
 ** Builtin komut yapısı
 */

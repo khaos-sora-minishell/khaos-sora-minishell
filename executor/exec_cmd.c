@@ -11,7 +11,40 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "../includes/executor.h"
+#include "executor.h"
+#include "builtins.h"
+
+
+/*
+find executable path for command
+returns command path or null if not find 
+*/
+static char *find_command_path(char *cmd, t_shell *shell)
+{
+	int i;
+	char *path;
+	char *full_path;
+	t_gc_context *contex;
+	if(!cmd || shell->path_dirs)
+		return NULL;
+	if (ft_strchr(cmd, '/'))
+	{
+		if(access(cmd, X_OK) == 0)
+			return(cmd);
+		return NULL;
+	}
+	contex = gc_get_current();
+	i = 0;
+	while (shell->path_dirs[i])
+	{
+		path = gc_strjoin(contex, shell->path_dirs[i], "/");
+		full_path = gc_strjoin(contex, path, cmd);
+		if(access(full_path, X_OK) == 0)
+			return(full_path);
+		i++;
+	}
+	return NULL;
+}
 
 /*
  * Tek bir komutu çalıştırır - fork, execve

@@ -83,7 +83,7 @@ t_env	*init_env(char **envp, void *arena)
 		return (NULL);
 	while (envp[i])
 	{
-		process_env_str(head, envp[i], arena);
+		process_env_str(&head, envp[i], arena);
 		i++;
 	}
 	return (head);
