@@ -16,6 +16,7 @@
 #include <readline/readline.h>
 #include <stdio.h>
 #include "libft.h"
+#include "garbage_collector.h"
 
 /*
  * Parse PATH environment variable into array
@@ -25,19 +26,17 @@ char	**parse_path(t_env *env, void *arena)
 {
 	char			*path_value;
 	char			**dirs;
+	t_gc_context	*gc;
 
-	(void)arena;  // Şimdilik kullanılmıyor
+	gc = (t_gc_context *)arena;
 	
 	// Get PATH value from env
 	path_value = get_env_value(env, "PATH");
 	if (!path_value)
 		return (NULL);
 	
-	// Split by ':'
-	dirs = ft_split(path_value, ':');  // ⚠️ ft_split uses malloc, needs manual free
-	
-	// TODO: Bu dirs'i GC ile yönetmek için gc_strdup ile kopyala
-	// Şimdilik ft_split'in malloc'unu kullanıyoruz
+	// Split by ':' using GC
+	dirs = gc_split(gc, path_value, ':');
 	
 	return (dirs);
 }
@@ -85,20 +84,7 @@ void	init_shell(t_shell *shell, char **envp)
  */
 void	cleanup_shell(t_shell *shell)
 {
-	int	i;
-
-	// ⚠️ path_dirs ft_split ile allocate edildi, manuel free gerekli
-	if (shell->path_dirs)
-	{
-		i = 0;
-		while (shell->path_dirs[i])
-		{
-			free(shell->path_dirs[i]);
-			i++;
-		}
-		free(shell->path_dirs);
-	}
-	
+	// GC otomatik olarak tüm allocate edilmiş memory'yi temizler
 	if (shell->global_arena)
 		gc_destroy(shell->global_arena);
 }
@@ -128,7 +114,7 @@ static t_ast_node	*create_mock_ast(t_shell *shell, char *input)
 		return (NULL);
 	
 	cmd->redirs = NULL;
-	cmd->args = ft_split(input, ' ');  // ⚠️ Manual malloc
+	cmd->args = gc_split(gc, input, ' ');
 	
 	node->cmd = cmd;
 	return (node);
@@ -136,21 +122,12 @@ static t_ast_node	*create_mock_ast(t_shell *shell, char *input)
 
 /*
  * Clean mock AST args
+ * (GC kullanıldığı için artık gerek yok, ama API uyumluluğu için tutuldu)
  */
 static void	cleanup_mock_args(char **args)
 {
-	int	i;
-
-	if (!args)
-		return ;
-	
-	i = 0;
-	while (args[i])
-	{
-		free(args[i]);
-		i++;
-	}
-	free(args);
+	(void)args;
+	// GC otomatik temizliyor
 }
 
 /*
