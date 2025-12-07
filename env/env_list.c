@@ -51,7 +51,7 @@ static void	process_env_str(t_env **head, char *env_str, void *arena)
 	char			*value;
 	t_env			*node;
 
-	arena = gc_get_current(); // arena parameter maybe
+	arena = (t_gc_context *)arena; // arena parameter maybe
 	eq_pos = ft_strchr(env_str, '=');
 	if (eq_pos)
 	{

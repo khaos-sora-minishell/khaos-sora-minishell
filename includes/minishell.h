@@ -198,6 +198,7 @@ void							init_shell(t_shell *shell, char **envp);
 void							cleanup_shell(t_shell *shell);
 
 /* ========== ENVIRONMENT ========== */
+t_env							*init_env(char **envp, void *arena);
 char							*get_env_value(t_env *env, char *key);
 void							set_env_value(t_env **env, char *key,
 									char *value, void *arena);

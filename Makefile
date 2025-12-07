@@ -6,7 +6,7 @@
 #    By: akivam <akivam@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/19 00:00:00 by akivam            #+#    #+#              #
-#    Updated: 2025/11/19 00:00:00 by akivam           ###   ########.fr        #
+#    Updated: 2025/12/07 00:00:00 by akivam           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ EXECUTOR_SRC	= executor.c exec_ast.c exec_builtin.c exec_cmd.c exec_pipe.c redir
 BUILTINS_SRC	= builtin_cd.c builtin_echo.c builtin_env.c builtin_exit.c \
 				  builtin_export.c builtin_pwd.c builtin_unset.c
 ENV_SRC			= env_list.c env_utils.c
-UTILS_SRC		= ft_strcmp.c
+UTILS_SRC		= ft_strcmp.c is_special_char.c is_whitespace.c
 
 # Main sources
 SRCS = $(addprefix executor/, $(EXECUTOR_SRC)) \
@@ -49,6 +49,9 @@ INCLUDE_FLAGS	= -I./includes -I./libs/libft -I./libs/ft_printf \
 CFLAGS			+= -g -g3
 CFLAGS			+= $(INCLUDE_FLAGS)
 LDFLAGS			= -lreadline
+
+# ✅ WRAPPER KULLANMIYORUZ - Bu satırları kaldırdık:
+# GC_WRAP = -Wl,--wrap=malloc -Wl,--wrap=calloc -Wl,--wrap=realloc -Wl,--wrap=free
 
 RM				= rm -f
 

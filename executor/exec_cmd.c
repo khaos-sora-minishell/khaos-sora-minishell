@@ -10,44 +10,60 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "executor.h"
-#include "minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_cmd.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/19 19:20:37 by akivam            #+#    #+#             */
+/*   Updated: 2025/12/07 00:00:00 by akivam           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "builtins.h"
+#include "executor.h"
+#include "libft.h"
+#include "minishell.h"
 
 /*
-find executable path for command
-returns command path or null if not find 
-*/
-char *find_command_path(char *cmd, t_shell *shell)
+ * Find executable path for command
+ * Returns command path or NULL if not found
+ */
+char	*find_command_path(char *cmd, t_shell *shell)
 {
-	int i;
-	char *path;
-	char *full_path;
-	t_gc_context *contex;
-	if(!cmd || shell->path_dirs)
-		return NULL;
+	int				i;
+	char			*path;
+	char			*full_path;
+	t_gc_context	*gc;
+
+	if (!cmd || !shell || !shell->path_dirs)
+		return (NULL);
+	// Eğer / içeriyorsa doğrudan path
 	if (ft_strchr(cmd, '/'))
 	{
-		if(access(cmd, X_OK) == 0)
-			return(cmd);
-		return NULL;
+		if (access(cmd, X_OK) == 0)
+			return (cmd);
+		return (NULL);
 	}
-	contex = gc_get_current();
+	// ✅ Shell'den GC al - gc_get_current() GEREKMİYOR!
+	gc = (t_gc_context *)shell->global_arena;
+	// PATH dizinlerinde ara
 	i = 0;
 	while (shell->path_dirs[i])
 	{
-		path = gc_strjoin(contex, shell->path_dirs[i], "/");
-		full_path = gc_strjoin(contex, path, cmd);
-		if(access(full_path, X_OK) == 0)
-			return(full_path);
+		path = gc_strjoin(gc, shell->path_dirs[i], "/");
+		full_path = gc_strjoin(gc, path, cmd);
+		if (access(full_path, X_OK) == 0)
+			return (full_path);
 		i++;
 	}
-	return NULL;
+	return (NULL);
 }
 
 /*
- * Tek bir komutu çalıştırır - fork, execve
+ * Execute a single command - fork, execve
  */
 void	execute_command(t_cmd *cmd, t_shell *shell)
 {
@@ -57,19 +73,26 @@ void	execute_command(t_cmd *cmd, t_shell *shell)
 
 	if (!cmd || !cmd->args || !cmd->args[0])
 		return ;
-	// builtin kontrolü
+	// Builtin kontrolü
 	if (is_builtin(cmd->args[0]))
 	{
 		shell->exit_status = execute_builtin(cmd->args, shell);
 		return ;
 	}
-	// external cmd için fork
+	// External command için fork
 	pid = fork();
-	if (pid == 0)
+	if (pid == -1)
 	{
-		// setup redirections
+		perror("fork");
+		shell->exit_status = 1;
+		return ;
+	}
+	if (pid == 0) // Child process
+	{
+		// Setup redirections
 		if (setup_redirections(cmd->redirs, shell) == -1)
 			exit(1);
+		// Find command path
 		cmd_path = find_command_path(cmd->args[0], shell);
 		if (!cmd_path)
 		{
@@ -77,13 +100,13 @@ void	execute_command(t_cmd *cmd, t_shell *shell)
 			ft_putendl_fd(": command not found", 2);
 			exit(127);
 		}
-		// execve
+		// Execute
 		execve(cmd_path, cmd->args, shell->env_array);
-		// if execve faild
+		// If execve failed
 		perror("execve");
 		exit(126);
 	}
-	// parent process
+	// Parent process - wait for child
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
 		shell->exit_status = WEXITSTATUS(status);
