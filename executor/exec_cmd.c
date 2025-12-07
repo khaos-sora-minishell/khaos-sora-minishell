@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 19:20:37 by akivam            #+#    #+#             */
-/*   Updated: 2025/11/19 19:20:37 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/07 20:43:30 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,16 +40,13 @@ char	*find_command_path(char *cmd, t_shell *shell)
 
 	if (!cmd || !shell || !shell->path_dirs)
 		return (NULL);
-	// Eğer / içeriyorsa doğrudan path
 	if (ft_strchr(cmd, '/'))
 	{
 		if (access(cmd, X_OK) == 0)
 			return (cmd);
 		return (NULL);
 	}
-	// ✅ Shell'den GC al - gc_get_current() GEREKMİYOR!
 	gc = (t_gc_context *)shell->global_arena;
-	// PATH dizinlerinde ara
 	i = 0;
 	while (shell->path_dirs[i])
 	{
@@ -63,23 +60,41 @@ char	*find_command_path(char *cmd, t_shell *shell)
 }
 
 /*
+ * Child process - setup redirections and execute command
+ */
+static void	exec_child_process(t_cmd *cmd, t_shell *shell)
+{
+	char	*cmd_path;
+
+	if (setup_redirections(cmd->redirs, shell) == -1)
+		exit(1);
+	cmd_path = find_command_path(cmd->args[0], shell);
+	if (!cmd_path)
+	{
+		ft_putstr_fd(cmd->args[0], 2);
+		ft_putendl_fd(": command not found", 2);
+		exit(127);
+	}
+	execve(cmd_path, cmd->args, shell->env_array);
+	perror("execve");
+	exit(126);
+}
+
+/*
  * Execute a single command - fork, execve
  */
 void	execute_command(t_cmd *cmd, t_shell *shell)
 {
 	pid_t	pid;
-	char	*cmd_path;
 	int		status;
 
 	if (!cmd || !cmd->args || !cmd->args[0])
 		return ;
-	// Builtin kontrolü
 	if (is_builtin(cmd->args[0]))
 	{
 		shell->exit_status = execute_builtin(cmd->args, shell);
 		return ;
 	}
-	// External command için fork
 	pid = fork();
 	if (pid == -1)
 	{
@@ -87,26 +102,8 @@ void	execute_command(t_cmd *cmd, t_shell *shell)
 		shell->exit_status = 1;
 		return ;
 	}
-	if (pid == 0) // Child process
-	{
-		// Setup redirections
-		if (setup_redirections(cmd->redirs, shell) == -1)
-			exit(1);
-		// Find command path
-		cmd_path = find_command_path(cmd->args[0], shell);
-		if (!cmd_path)
-		{
-			ft_putstr_fd(cmd->args[0], 2);
-			ft_putendl_fd(": command not found", 2);
-			exit(127);
-		}
-		// Execute
-		execve(cmd_path, cmd->args, shell->env_array);
-		// If execve failed
-		perror("execve");
-		exit(126);
-	}
-	// Parent process - wait for child
+	if (pid == 0)
+		exec_child_process(cmd, shell);
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
 		shell->exit_status = WEXITSTATUS(status);

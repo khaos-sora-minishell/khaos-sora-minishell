@@ -6,12 +6,13 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 19:20:23 by akivam            #+#    #+#             */
-/*   Updated: 2025/11/19 19:20:24 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/07 21:05:58 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "utils.h"
+#include <stddef.h>
 
 /*
  * Get environment variable value
@@ -77,36 +78,4 @@ void	unset_env_value(t_env **env, char *key)
 		prev = curr;
 		curr = curr->next;
 	}
-}
-
-char	**env_list_to_array(t_env *env, void *arena)
-{
-	t_env			*tmp;
-	char			**array;
-	int				count;
-	int				i;
-	t_gc_context	*contex;
-	char			*temp_str;
-
-	contex = (t_gc_context *)arena;
-	count = 0;
-	tmp = env;
-	while (tmp && ++count)
-		tmp = tmp->next;
-	array = gc_malloc(contex, sizeof(char *) * (count + 1));
-	if (!array)
-		return (NULL);
-	i = 0;
-	tmp = env;
-	while (tmp)
-	{
-		if (tmp->value)
-		{
-			temp_str = gc_strjoin(contex, tmp->key, "=");
-			array[i++] = gc_strjoin(contex, temp_str, tmp->value);
-		}
-		tmp = tmp->next;
-	}
-	array[i] = NULL;
-	return (array);
 }

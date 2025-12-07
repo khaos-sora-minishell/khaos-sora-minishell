@@ -6,10 +6,9 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 22:21:32 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/04 22:21:33 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/07 20:46:51 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "builtins.h"
 #include "libft.h"
@@ -22,15 +21,14 @@
 static t_builtin	*get_builtins(void)
 {
 	static t_builtin	builtins[] = {
-		{"cd", builtin_cd},
-		{"echo", builtin_echo},
-		{"env", builtin_env},
-		{"exit", builtin_exit},
-		{"export", builtin_export},
-		{"pwd", builtin_pwd},
-		{"unset", builtin_unset},
-		{NULL, NULL}
-	};
+	{"cd", builtin_cd},
+	{"echo", builtin_echo},
+	{"env", builtin_env},
+	{"exit", builtin_exit},
+	{"export", builtin_export},
+	{"pwd", builtin_pwd},
+	{"unset", builtin_unset},
+	{NULL, NULL}};
 
 	return (builtins);
 }
@@ -62,18 +60,18 @@ int	is_builtin(char *cmd)
 */
 int	execute_builtin(char **args, t_shell *shell)
 {
-    t_builtin	*builtins;
-    int			i;
+	t_builtin	*builtins;
+	int			i;
 
-    if (!args || !args[0])
-        return (1);
-    builtins = get_builtins();
-    i = 0;
-    while (builtins[i].name)
-    {
-        if (ft_strcmp(args[0], builtins[i].name) == 0)
-            return (builtins[i].func(args, shell)); 
-        i++;
-    }
-    return (1);
+	if (!args || !args[0])
+		return (1);
+	builtins = get_builtins();
+	i = 0;
+	while (builtins[i].name)
+	{
+		if (ft_strcmp(args[0], builtins[i].name) == 0)
+			return (builtins[i].func(args, shell));
+		i++;
+	}
+	return (1);
 }
