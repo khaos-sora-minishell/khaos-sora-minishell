@@ -24,4 +24,7 @@ int		setup_redirections(t_redir *redirs, t_shell *shell);
 int		is_builtin(char *cmd);
 int		execute_builtin(char **args, t_shell *shell);
 
+void	execute_command(t_cmd *cmd, t_shell *shell);
+void	execute_pipe(t_ast_node *left, t_ast_node *right, t_shell *shell);
+
 #endif

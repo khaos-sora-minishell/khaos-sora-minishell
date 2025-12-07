@@ -495,3 +495,12 @@ SHLVL is always set to the current level of the nested shells. It starts from 1.
 
 ### Exit Status
 - (to be added)
+
+/*
+** Builtin komut yapısı
+*/
+typedef struct s_builtin
+{
+	char			*name;
+	t_builtin_func	func;
+}	t_builtin;

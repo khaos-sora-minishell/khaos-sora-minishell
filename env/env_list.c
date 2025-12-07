@@ -18,7 +18,7 @@ static t_env	*create_env_node(char *key, char *value, void *arena)
 {
 	t_env	*node;
 
-	node = gc_malloc(gc_get_current(), sizeof(t_env));
+	node = gc_malloc((t_gc_context *)arena, sizeof(t_env));
 	if (!node)
 		return (NULL);
 	node->key = key;
@@ -50,18 +50,17 @@ static void	process_env_str(t_env **head, char *env_str, void *arena)
 	char			*key;
 	char			*value;
 	t_env			*node;
-	t_gc_context	*contex;
 
-	contex = gc_get_current(); // arena parameter maybe
+	arena = gc_get_current(); // arena parameter maybe
 	eq_pos = ft_strchr(env_str, '=');
 	if (eq_pos)
 	{
-		key = gc_strndup(contex, env_str, eq_pos - env_str);
-		value = gc_strdup(contex, eq_pos + 1);
+		key = gc_strndup(arena, env_str, eq_pos - env_str);
+		value = gc_strdup(arena, eq_pos + 1);
 	}
 	else
 	{
-		key = gc_strdup(contex, env_str);
+		key = gc_strdup(arena, env_str);
 		value = NULL; // EXPORT edilmiş ama değeri yok
 	}
 	node = create_env_node(key, value, arena);

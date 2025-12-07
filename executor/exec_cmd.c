@@ -12,14 +12,14 @@
 
 #include "libft.h"
 #include "executor.h"
+#include "minishell.h"
 #include "builtins.h"
-
 
 /*
 find executable path for command
 returns command path or null if not find 
 */
-static char *find_command_path(char *cmd, t_shell *shell)
+char *find_command_path(char *cmd, t_shell *shell)
 {
 	int i;
 	char *path;

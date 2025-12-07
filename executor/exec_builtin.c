@@ -13,14 +13,7 @@
 
 #include "builtins.h"
 #include "libft.h"
-/*
-** Builtin komut yapısı
-*/
-typedef struct s_builtin
-{
-	char			*name;
-	t_builtin_func	func;
-}	t_builtin;
+#include "utils.h"
 
 /*
 ** Builtin listesini döndürür

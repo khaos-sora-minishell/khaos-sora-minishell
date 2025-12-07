@@ -17,34 +17,35 @@ OBJ_DIR		= obj
 LIBFT_DIR	= libs/libft
 PRINTF_DIR	= libs/ft_printf
 GC_DIR		= libs/garbage_collector
+ENV_DIR		= env/
 
 # Source Files by Module
-EXECUTOR_SRC	= executor.c exec_cmd.c exec_pipe.c redirections.c
+EXECUTOR_SRC	= executor.c exec_ast.c exec_builtin.c exec_cmd.c exec_pipe.c redirections.c
 BUILTINS_SRC	= builtin_cd.c builtin_echo.c builtin_env.c builtin_exit.c \
 				  builtin_export.c builtin_pwd.c builtin_unset.c
 ENV_SRC			= env_list.c env_utils.c
+UTILS_SRC		= ft_strcmp.c
 
-# Main sources (all sources in this branch)
+# Main sources
 SRCS = $(addprefix executor/, $(EXECUTOR_SRC)) \
        $(addprefix builtins/, $(BUILTINS_SRC)) \
-       $(addprefix env/, $(ENV_SRC))
+       $(addprefix env/, $(ENV_SRC)) \
+       $(addprefix utils/, $(UTILS_SRC)) \
+	   main.c
 
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
 
 # Library Files
 LIBFT_LIB		= $(LIBFT_DIR)/libft.a
-LIBFT_FLAGS		= -L$(LIBFT_DIR) -lft
 PRINTF_LIB		= $(PRINTF_DIR)/libftprintf.a
-PRINTF_FLAGS	= -L$(PRINTF_DIR) -lftprintf
-GC_LIB			= $(GC_DIR)/garbage_collector.a
-GC_FLAGS		= -L$(GC_DIR) -lgarbage_collector
+GC_LIB			= $(GC_DIR)/garbage_collecter.a
 
 # Compiler and Flags
 CC				= cc
 CFLAGS			= -Wall -Wextra -Werror
 INCLUDE_FLAGS	= -I./includes -I./libs/libft -I./libs/ft_printf \
 				  -I./libs/garbage_collector -I./libs/garbage_collector/include \
-				  -I./executor -I./builtins -I./env
+				  -I./executor -I./builtins -I./env -I./utils
 CFLAGS			+= -g -g3
 CFLAGS			+= $(INCLUDE_FLAGS)
 LDFLAGS			= -lreadline
@@ -64,7 +65,7 @@ $(NAME): $(OBJS) $(LIBFT_LIB) $(PRINTF_LIB) $(GC_LIB)
 	@$(CC) $(OBJS) $(LIBFT_LIB) $(PRINTF_LIB) $(GC_LIB) $(LDFLAGS) -o $(NAME)
 	@echo "$(GREEN)✓ Successfully built $(NAME)!$(RESET)"
 
-$(OBJ_DIR)/%.o: %.c $(LIBFT_LIB) $(PRINTF_LIB) $(GC_LIB)
+$(OBJ_DIR)/%.o: %.c
 	@mkdir -p $(@D)
 	@echo "$(YELLOW)Compiling $<...$(RESET)"
 	@$(CC) $(CFLAGS) -c $< -o $@
@@ -97,7 +98,6 @@ fclean: clean
 
 re: fclean all
 
-# Debugging targets
 debug: CFLAGS += -fsanitize=address
 debug: re
 
@@ -105,9 +105,8 @@ valgrind: $(NAME)
 	@valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes \
 		--suppressions=readline.supp ./$(NAME)
 
-# Norminette
 norm:
 	@echo "$(YELLOW)Checking norminette...$(RESET)"
-	@norminette executor builtins env includes 2>&1 | grep -v "OK!" || echo "$(GREEN)✓ Norminette OK!$(RESET)"
+	@norminette main executor builtins env utils includes 2>&1 | grep -v "OK!" || echo "$(GREEN)✓ Norminette OK!$(RESET)"
 
 .PHONY: all clean fclean re debug valgrind norm

@@ -36,7 +36,7 @@ void	set_env_value(t_env **env, char *key, char *value, void *arena)
 	t_env			*new_node;
 	t_gc_context	*contex;
 
-	contex = gc_get_current();
+	contex = (t_gc_context *)arena;
 	curr = *env;
 	while ((curr))
 	{
@@ -88,7 +88,7 @@ char	**env_list_to_array(t_env *env, void *arena)
 	t_gc_context	*contex;
 	char			*temp_str;
 
-	contex = gc_get_current();
+	contex = (t_gc_context *)arena;
 	count = 0;
 	tmp = env;
 	while (tmp && ++count)

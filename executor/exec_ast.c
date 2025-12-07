@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "executor.h"
 
 /*
  ** Main executor girişi - Parser'dan gelen AST'yi execute eder
