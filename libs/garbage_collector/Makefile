@@ -35,6 +35,7 @@ SRC = memory/gc_malloc.c \
       string/gc_strdup.c \
       string/gc_strndup.c \
       string/gc_strjoin.c \
+      string/gc_split.c \
       string/gc_atoi.c \
       string/gc_itoa.c \
       string/gc_uitoa.c \
