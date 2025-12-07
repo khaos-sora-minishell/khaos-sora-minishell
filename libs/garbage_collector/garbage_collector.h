@@ -81,6 +81,7 @@ char			*gc_substr(t_gc_context *contex, const char *s, size_t start,
 					size_t len);
 char			*gc_strtrim(t_gc_context *contex, const char *s1,
 					const char *set);
+char			**gc_split(t_gc_context *contex, const char *s, char c);
 /*scope managment*/
 int				gc_scope_push(t_gc_context *contex);
 void			gc_scope_pop(t_gc_context *contex);
