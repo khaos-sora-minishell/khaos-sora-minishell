@@ -36,7 +36,7 @@ static void	gc_remove_global(t_gc_context *contex, t_gc_allocation *alloc)
 }
 
 /*update statistics when freeing allocation*/
-static void	gc_update_stats(t_gc_context *contex, size_t size)
+static void	gc_update_free_stats(t_gc_context *contex, size_t size)
 {
 	contex->total_freed += size;
 	contex->current_usage -= size;
@@ -54,7 +54,7 @@ static void	gc_free_scope_allocs(t_gc_context *contex, t_gc_scope *scope)
 	{
 		next = current->scope_next;
 		gc_remove_global(contex, current);
-		gc_update_stats(contex, current->size);
+		gc_update_free_stats(contex, current->size);
 		gc_free_allocation(current);
 		current = next;
 	}

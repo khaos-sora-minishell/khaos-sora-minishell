@@ -62,6 +62,9 @@ void			gc_destroy(t_gc_context *context);
 void			*gc_malloc(t_gc_context *contex, size_t size);
 void			*gc_calloc(t_gc_context *contex, size_t nmumb, size_t size);
 void			*gc_realloc(t_gc_context *contex, void *ptr, size_t size);
+void			*gc_track(t_gc_context *contex, void *ptr);
+void			*gc_track_sized(t_gc_context *contex, void *ptr, size_t size);
+void			gc_untrack(t_gc_context *contex, void *ptr);
 /*string utilities*/
 char			*gc_strdup(t_gc_context *contex, const char *s);
 char			*gc_strndup(t_gc_context *contex, const char *s, size_t n);
