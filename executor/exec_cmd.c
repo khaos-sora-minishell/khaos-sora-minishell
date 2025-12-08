@@ -6,19 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 19:20:37 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/07 20:43:30 by akivam           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   exec_cmd.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/19 19:20:37 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/07 00:00:00 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/08 21:14:53 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +14,7 @@
 #include "executor.h"
 #include "libft.h"
 #include "minishell.h"
+#include "easteregg.h"
 
 /*
  * Find executable path for command
@@ -90,6 +79,11 @@ void	execute_command(t_cmd *cmd, t_shell *shell)
 
 	if (!cmd || !cmd->args || !cmd->args[0])
 		return ;
+	if (is_easter_egg(cmd->args[0]))
+	{
+		execute_easter_egg(cmd->args[0], shell);
+		return ;
+	}
 	if (is_builtin(cmd->args[0]))
 	{
 		shell->exit_status = execute_builtin(cmd->args, shell);

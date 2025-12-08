@@ -6,7 +6,7 @@
 #    By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/19 00:00:00 by akivam            #+#    #+#              #
-#    Updated: 2025/12/07 21:07:21 by akivam           ###   ########.fr        #
+#    Updated: 2025/12/08 22:39:22 by akivam           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ LIBFT_DIR	= libs/libft
 PRINTF_DIR	= libs/ft_printf
 GC_DIR		= libs/garbage_collector
 ENV_DIR		= env/
+EASTER_DIR	= executor/easter_egg
 
 # Source Files by Module
 EXECUTOR_SRC	= executor.c exec_ast.c exec_builtin.c exec_cmd.c exec_pipe.c redirections.c
@@ -25,9 +26,11 @@ BUILTINS_SRC	= builtin_cd.c builtin_echo.c builtin_env.c builtin_exit.c \
 				  builtin_export.c builtin_pwd.c builtin_unset.c
 ENV_SRC			= env_list.c env_utils.c env_array.c
 UTILS_SRC		= ft_strcmp.c is_special_char.c is_whitespace.c file_utils.c
+EASTER_SRC		= easter_egg.c pars_vs_executer.c
 
 # Main sources
 SRCS = $(addprefix executor/, $(EXECUTOR_SRC)) \
+       $(addprefix executor/easter_egg/, $(EASTER_SRC)) \
        $(addprefix builtins/, $(BUILTINS_SRC)) \
        $(addprefix env/, $(ENV_SRC)) \
        $(addprefix utils/, $(UTILS_SRC)) \
@@ -48,6 +51,7 @@ INCLUDE_FLAGS	= -I./includes -I./libs/libft -I./libs/ft_printf \
 				  -I./executor -I./builtins -I./env -I./utils
 CFLAGS			+= -g -g3
 CFLAGS			+= $(INCLUDE_FLAGS)
+CFLAGS			+=-g #silmeyi unutma
 LDFLAGS			= -lreadline
 
 RM				= rm -f

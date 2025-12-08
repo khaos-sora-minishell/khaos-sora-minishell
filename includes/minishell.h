@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 19:20:48 by akivam            #+#    #+#             */
-/*   Updated: 2025/11/19 19:20:48 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/08 19:07:29 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ typedef enum e_node_type
 	/* --- BONUS NODE TYPES --- */
 	NODE_AND,     // Dal düğüm: && operatörü
 	NODE_OR,      // Dal düğüm: || operatörü
-	NODE_SUBSHELL // Dal düğüm: () ile gruplanmış komutlar
+	NODE_SUBSHELL, // Dal düğüm: () ile gruplanmış komutlar
 }								t_node_type;
 
 /* ========================================================================== */

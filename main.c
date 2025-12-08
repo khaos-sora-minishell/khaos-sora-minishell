@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 00:00:00 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/07 20:31:30 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/08 22:35:27 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,39 +135,30 @@ static void	cleanup_mock_args(char **args)
  */
 static void	shell_loop(t_shell *shell)
 {
-	char	*line;
+	char			*line;
+	t_gc_context	*gc;
 
+	gc = (t_gc_context *)shell->global_arena;
 	while (1)
 	{
 		line = readline("minishell> ");
-		
-		if (!line)  // Ctrl+D
+		if (!line)
 		{
 			printf("exit\n");
 			break ;
 		}
-		
+		gc_track(gc, line);
 		if (*line)
 			add_history(line);
-		
-		if (!*line)  // Empty line
-		{
-			free(line);
+		if (!*line)
 			continue ;
-		}
-		
-		// TEMPORARY: Create mock AST
 		shell->ast_root = create_mock_ast(shell, line);
-		
 		if (shell->ast_root)
 		{
 			executor_run(shell);
-			
 			if (shell->ast_root->cmd && shell->ast_root->cmd->args)
 				cleanup_mock_args(shell->ast_root->cmd->args);
 		}
-		
-		free(line);
 	}
 }
 
