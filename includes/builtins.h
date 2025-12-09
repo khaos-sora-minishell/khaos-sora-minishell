@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 19:20:48 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/07 20:33:43 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/09 21:22:12 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,13 @@ int					builtin_export(char **args, t_shell *shell);
 int					builtin_unset(char **args, t_shell *shell);
 int					builtin_env(char **args, t_shell *shell);
 int					builtin_exit(char **args, t_shell *shell);
+
+/*exstras*/
+int					builtin_type(char **args, t_shell *shell);
+int					builtin_tty(char **args, t_shell *shell);
+int					builtin_clear(char **args, t_shell *shell);
+int					builtin_true(char **args, t_shell *shell);
+int					builtin_false(char **args, t_shell *shell);
+int					builtin_help(char **args, t_shell *shell);
 
 #endif

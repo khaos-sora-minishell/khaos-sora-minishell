@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 19:20:48 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/08 19:07:29 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/09 22:44:56 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,6 +172,7 @@ typedef struct s_shell
 	/* Ortam Değişkenleri */
 	t_env *env_list;  // Linked list formatında
 	char **env_array; // execve için char** formatında
+	t_env *alias_list; // alias için linked list formatında
 
 	/* PATH Yönetimi */
 	char **path_dirs; // PATH'ten split edilmiş dizinler
