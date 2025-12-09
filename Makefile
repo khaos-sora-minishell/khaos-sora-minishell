@@ -34,7 +34,7 @@ SRCS = $(addprefix executor/, $(EXECUTOR_SRC)) \
        $(addprefix executor/easter_egg/, $(EASTER_SRC)) \
        $(addprefix builtins/, $(BUILTINS_SRC)) \
        $(addprefix env/, $(ENV_SRC)) \
-       $(addprefix utils/, $(UTILS_SRC)) \
+       $(addprefix executor_utils/, $(UTILS_SRC)) \
 	   main.c
 
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
@@ -49,7 +49,7 @@ CC				= cc
 CFLAGS			= -Wall -Wextra -Werror
 INCLUDE_FLAGS	= -I./includes -I./libs/libft -I./libs/ft_printf \
 				  -I./libs/garbage_collector -I./libs/garbage_collector/include \
-				  -I./executor -I./builtins -I./env -I./utils
+				  -I./executor -I./builtins -I./env -I./executor_utils
 CFLAGS			+= -g -g3
 CFLAGS			+= $(INCLUDE_FLAGS)
 CFLAGS			+=-g #silmeyi unutma
