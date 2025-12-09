@@ -25,7 +25,7 @@
 # include <errno.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# include "../libs/grabage_collector/garbage_collector.h"
+# include "../libs/garbage_collector/garbage_collector.h"
 
 /* ========================================================================== */
 /*                          GLOBAL SIGNAL VARIABLE                            */
