@@ -6,15 +6,14 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 19:20:23 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/07 21:05:49 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/09 18:35:01 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "libft.h"
+#include "minishell.h"
 #include <stddef.h>
 
-/* create new a env node*/
 static t_env	*create_env_node(char *key, char *value, void *arena)
 {
 	t_env	*node;
@@ -28,7 +27,6 @@ static t_env	*create_env_node(char *key, char *value, void *arena)
 	return (node);
 }
 
-/*add element of list end  */
 static void	env_add_back(t_env **head, t_env *new_node)
 {
 	t_env	*temp;
@@ -46,21 +44,22 @@ static void	env_add_back(t_env **head, t_env *new_node)
 
 static void	process_env_str(t_env **head, char *env_str, void *arena)
 {
-	char	*eq_pos;
-	char	*key;
-	char	*value;
-	t_env	*node;
+	char			*eq_pos;
+	char			*key;
+	char			*value;
+	t_env			*node;
+	t_gc_context	*gc;
 
-	arena = (t_gc_context *)arena;
+	gc = (t_gc_context *)arena;
 	eq_pos = ft_strchr(env_str, '=');
 	if (eq_pos)
 	{
-		key = gc_strndup(arena, env_str, eq_pos - env_str);
-		value = gc_strdup(arena, eq_pos + 1);
+		key = gc_strndup(gc, env_str, eq_pos - env_str);
+		value = gc_strdup(gc, eq_pos + 1);
 	}
 	else
 	{
-		key = gc_strdup(arena, env_str);
+		key = gc_strdup(gc, env_str);
 		value = NULL;
 	}
 	node = create_env_node(key, value, arena);
@@ -68,9 +67,25 @@ static void	process_env_str(t_env **head, char *env_str, void *arena)
 		env_add_back(head, node);
 }
 
-/*
- * Environment linked list operations
- */
+static void	setup_min_env(t_env **head, t_gc_context *gc)
+{
+	char	*cwd;
+
+	if (!get_env_value(*head, "PWD"))
+	{
+		cwd = getcwd(NULL, 0);
+		if (cwd)
+		{
+			set_env_value(head, "PWD", cwd, gc);
+			free(cwd);
+		}
+	}
+	if (!get_env_value(*head, "SHLVL"))
+		set_env_value(head, "SHLVL", "1", gc);
+	if (!get_env_value(*head, "_"))
+		set_env_value(head, "_", "/usr/bin/env", gc);
+}
+
 t_env	*init_env(char **envp, void *arena)
 {
 	t_env	*head;
@@ -78,12 +93,14 @@ t_env	*init_env(char **envp, void *arena)
 
 	head = NULL;
 	i = 0;
-	if (!envp)
-		return (NULL);
-	while (envp[i])
+	if (envp)
 	{
-		process_env_str(&head, envp[i], arena);
-		i++;
+		while (envp[i])
+		{
+			process_env_str(&head, envp[i], arena);
+			i++;
+		}
 	}
+	setup_min_env(&head, (t_gc_context *)arena);
 	return (head);
 }
