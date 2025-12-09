@@ -1,26 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_unset.c                                    :+:      :+:    :+:   */
+/*   builtin_tty.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/19 19:19:58 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/09 22:48:43 by akivam           ###   ########.fr       */
+/*   Created: 2025/12/09 20:55:31 by akivam            #+#    #+#             */
+/*   Updated: 2025/12/09 20:55:57 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "printf.h"
 
-int	builtin_unset(char **args, t_shell *shell)
+int	builtin_tty(char **args, t_shell *shell)
 {
-	int	i;
+	char	*tty;
 
-	i = 0;
-	while (args[i])
+	(void)args;
+	(void)shell;
+	if (isatty(0))
 	{
-		unset_env_value(&shell->env_list, args[i]);
-		i++;
+		tty = ttyname(0);
+		if (tty)
+		{
+			printf("%s\n", tty);
+			return (0);
+		}
 	}
-	return (0);
+	printf("not a tty\n");
+	return (1);
 }

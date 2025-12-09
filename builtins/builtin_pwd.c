@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 19:19:58 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/08 22:30:45 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/09 16:49:59 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,17 @@
 int	builtin_pwd(char **args, t_shell *shell)
 {
 	char			*current_path;
-	t_gc_context	*gc;
+	t_gc_context	*contex;
 
 	(void)args;
-	gc = (t_gc_context *)shell->global_arena;
+	contex = (t_gc_context *)shell->global_arena;
 	current_path = getcwd(NULL, 0);
 	if (!current_path)
 	{
 		perror("minishell: pwd");
 		return (1);
 	}
-	gc_track(gc, current_path);
+	gc_track(contex, current_path);
 	printf("%s\n", current_path);
 	return (0);
 }
