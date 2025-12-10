@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 19:20:37 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/08 21:14:53 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/10 21:57:37 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,9 @@ char	*find_command_path(char *cmd, t_shell *shell)
 	char			*full_path;
 	t_gc_context	*gc;
 
-	if (!cmd || !shell || !shell->path_dirs)
+	if (!cmd || !shell)
+		return (NULL);
+	if (!shell->path_dirs)
 		return (NULL);
 	if (ft_strchr(cmd, '/'))
 	{

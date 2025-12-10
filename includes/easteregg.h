@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 19:11:12 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/08 21:19:20 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/10 22:07:00 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,5 @@ void				execute_easter_egg(char **args, t_shell *shell);
 
 void				harici_pars(char **args, t_shell *shell);
 void				akivam_executer(char **args, t_shell *shell);
-
+void				set_terminal_name(char **args, t_shell *shell);
 #endif

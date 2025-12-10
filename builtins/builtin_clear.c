@@ -6,7 +6,10 @@
 
 static int ft_outc(int c)
 {
-	write(1, &c, 1);
+	unsigned char ch;
+
+	ch = (unsigned char)c;
+	write(1, &ch, 1);
 	return 0;
 }
 
@@ -29,6 +32,6 @@ int builtin_clear(char **args, t_shell *shell)
 	}
 	clear_string = tgetstr("cl",NULL);
 	if(clear_string)
-		tputs(clear_string, 1 ,ft_outc);
+		tputs(clear_string, 1, ft_outc);
 	return 0;
 }

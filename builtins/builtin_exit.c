@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 19:19:57 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/09 16:16:29 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/10 22:45:05 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,25 +45,25 @@ static int	is_numeric(char *str)
 int	builtin_exit(char **args, t_shell *shell)
 {
 	int				exit_code;
-	t_gc_context	*gc;
+	t_gc_context	*contex;
 
 	ft_putendl_fd("exit", 1);
-	gc = (t_gc_context *)shell->global_arena;
+	contex = (t_gc_context *)shell->global_arena;
 	if (!args[1])
 	{
-		gc_destroy(gc);
+		gc_destroy(contex);
 		exit(shell->exit_status);
 	}
 	if (!is_numeric(args[1]))
 	{
 		ft_err_printf("minishell: exit: %s: numeric argument required\n",
 			args[1]);
-		gc_destroy(gc);
+		gc_destroy(contex);
 		exit(2);
 	}
 	if (args[2])
 		return (ft_err_printf("minishell: exit: too many arguments\n"), 1);
 	exit_code = ft_atoi(args[1]) % 256;
-	gc_destroy(gc);
+	gc_destroy(contex);
 	exit(exit_code);
 }

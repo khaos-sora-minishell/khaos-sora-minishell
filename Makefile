@@ -6,7 +6,7 @@
 #    By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/19 00:00:00 by akivam            #+#    #+#              #
-#    Updated: 2025/12/10 15:41:53 by akivam           ###   ########.fr        #
+#    Updated: 2025/12/10 22:24:47 by akivam           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ ENV_SRC			= env_list.c env_utils.c env_array.c
 
 UTILS_SRC		= ft_strcmp.c is_special_char.c is_whitespace.c file_utils.c
 
-EASTER_SRC		= easter_egg.c pars_vs_executer.c
+EASTER_SRC		= easter_egg.c pars_vs_executer.c set_terminal_name.c
 
 # Main sources
 SRCS = $(addprefix executor/, $(EXECUTOR_SRC)) \

@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 20:52:24 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/08 21:18:11 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/10 22:07:53 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ static t_easter_egg	*get_easter_egg(void)
 	static t_easter_egg	easter[] = {
 	{"harici_pars", harici_pars},
 	{"akivam_executer", akivam_executer},
+	{"set-terminal", set_terminal_name},
 	{NULL, NULL}};
 
 	return (easter);
