@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 22:21:32 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/09 21:11:25 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/10 17:21:31 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ static t_builtin	*get_builtins(void)
 	{"exit", builtin_exit},
 	{"export", builtin_export},
 	{"pwd", builtin_pwd},
+	{"unset", builtin_unset},
 	{"type", builtin_type},
 	{"tty", builtin_tty},
 	{"clear", builtin_clear},
