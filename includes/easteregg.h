@@ -15,7 +15,7 @@
 
 # include "minishell.h"
 
-typedef void		(*t_easter_func)(t_shell *shell);
+typedef void		(*t_easter_func)(char **args, t_shell *shell);
 
 typedef struct s_easter_egg
 {
@@ -25,9 +25,9 @@ typedef struct s_easter_egg
 
 /* ========== EASTER EGGS ========== */
 int					is_easter_egg(char *cmd);
-void				execute_easter_egg(char *cmd, t_shell *shell);
+void				execute_easter_egg(char **args, t_shell *shell);
 
-void				harici_pars(t_shell *shell);
-void				akivam_executer(t_shell *shell);
+void				harici_pars(char **args, t_shell *shell);
+void				akivam_executer(char **args, t_shell *shell);
 
 #endif

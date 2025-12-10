@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   harici_pars_cmd.c                                    :+:      :+:    :+:   */
+/*   harici_pars_cmd.c                                    :+:      :+:    :+: */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -13,13 +13,13 @@
 #include "easteregg.h"
 #include "libft.h"
 
-void harici_pars(t_shell *shell)
+void harici_pars(char **args, t_shell *shell)
 {
 	ft_putendl_fd("bro write parse plzz 🥺🥺🥺🥺🥺\n",1);
 	shell->exit_status = 0;
 }
 
-void akivam_executer(t_shell *shell)
+void akivam_executer(char **args, t_shell *shell)
 {
 	ft_putendl_fd("Please write it without going overboard 🥺\n",1);
 	shell->exit_status = 0;

@@ -44,20 +44,20 @@ int	is_easter_egg(char *cmd)
 
 /*exec easter func*/
 
-void	execute_easter_egg(char *cmd, t_shell *shell)
+void	execute_easter_egg(char **args, t_shell *shell)
 {
 	t_easter_egg	*easters;
 	int				i;
 
-	if (!cmd)
+	if (!args || !args[0])
 		return ;
 	easters = get_easter_egg();
 	i = 0;
 	while (easters[i].name)
 	{
-		if (ft_strcmp(cmd, easters[i].name) == 0)
+		if (ft_strcmp(args[0], easters[i].name) == 0)
 		{
-			easters[i].func(shell);
+			easters[i].func(args, shell);
 			return ;
 		}
 		i++;

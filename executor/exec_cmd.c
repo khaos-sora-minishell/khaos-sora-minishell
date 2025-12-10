@@ -81,7 +81,7 @@ void	execute_command(t_cmd *cmd, t_shell *shell)
 		return ;
 	if (is_easter_egg(cmd->args[0]))
 	{
-		execute_easter_egg(cmd->args[0], shell);
+		execute_easter_egg(cmd->args, shell);
 		return ;
 	}
 	if (is_builtin(cmd->args[0]))
