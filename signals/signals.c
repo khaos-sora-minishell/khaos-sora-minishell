@@ -5,23 +5,15 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: harici <harici@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/12 00:50:00 by harici            #+#    #+#             */
-/*   Updated: 2025/12/12 00:50:01 by harici           ###   ########.fr       */
+/*   Created: 2025/12/12 01:12:11 by harici            #+#    #+#             */
+/*   Updated: 2025/12/12 01:12:55 by harici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*
-** Global signal variable definition
-** (extern declaration is in minishell.h)
-*/
 volatile sig_atomic_t	g_signal = 0;
 
-/*
-** Signal handler for interactive mode
-** SIGINT (Ctrl+C): Display new prompt on new line
-*/
 void	signal_handler(int signum)
 {
 	if (signum == SIGINT)
@@ -34,11 +26,6 @@ void	signal_handler(int signum)
 	}
 }
 
-/*
-** Setup signals for interactive mode
-** SIGINT (Ctrl+C): Handle with custom handler
-** SIGQUIT (Ctrl+\): Ignore in interactive mode
-*/
 void	setup_signals(void)
 {
 	struct sigaction	sa_int;
@@ -54,11 +41,6 @@ void	setup_signals(void)
 	sigaction(SIGQUIT, &sa_quit, NULL);
 }
 
-/*
-** Restore default signal handlers for child processes
-** SIGINT (Ctrl+C): Default behavior (terminate)
-** SIGQUIT (Ctrl+\): Default behavior (quit with core dump)
-*/
 void	setup_child_signals(void)
 {
 	struct sigaction	sa;
@@ -70,10 +52,6 @@ void	setup_child_signals(void)
 	sigaction(SIGQUIT, &sa, NULL);
 }
 
-/*
-** Ignore both SIGINT and SIGQUIT
-** Used during heredoc input and other special cases
-*/
 void	ignore_signals(void)
 {
 	struct sigaction	sa;
