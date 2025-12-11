@@ -1,6 +1,18 @@
-#ifndef UTILS_H
-#define UTILS_H
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: harici <harici@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/12 00:01:24 by harici            #+#    #+#             */
+/*   Updated: 2025/12/12 00:01:49 by harici           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#include "../libs/libft/libft.h"
+#ifndef UTILS_H
+# define UTILS_H
+
+# include "../libs/libft/libft.h"
 
 #endif

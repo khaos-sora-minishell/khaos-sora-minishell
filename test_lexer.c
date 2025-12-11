@@ -42,7 +42,16 @@ void	test_lexer(void)
 		"echo hello world",
 		"grep test file1 file2",
 		"ls    -la     /tmp",
-		"cat filex.txt | cat -e | wc -l",
+		"cat file.txt | cat -e | wc -l",
+		"cat < input.txt > output.txt",
+		"echo test >> output.txt",
+		"cat << EOF",
+		"ls && echo success",
+		"ls || echo failed",
+		"(cat file.txt | grep test) && echo done",
+		"echo 'single quotes'",
+		"echo \"double quotes\"",
+		"echo \"hello 'world'\"",
 		NULL
 	};
 	t_shell		shell;

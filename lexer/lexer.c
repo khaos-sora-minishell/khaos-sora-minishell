@@ -1,13 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexer.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: harici <harici@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/12 00:00:21 by harici            #+#    #+#             */
+/*   Updated: 2025/12/12 00:00:25 by harici           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-/*
- * create_token - Creates a new token with given type and value
- * @type: Token type (WORD, PIPE, etc.)
- * @value: String value of the token
- * @arena: GC arena for memory allocation
- *
- * Return: Pointer to newly created token
- */
 t_token	*create_token(t_token_type type, char *value, void *arena)
 {
 	t_token	*token;
@@ -21,13 +25,6 @@ t_token	*create_token(t_token_type type, char *value, void *arena)
 	return (token);
 }
 
-/*
- * add_token - Adds a token to the end of token list
- * @head: Pointer to the head of token list
- * @new_token: Token to be added
- *
- * Appends new_token to the end of the linked list
- */
 void	add_token(t_token **head, t_token *new_token)
 {
 	t_token	*current;
@@ -43,15 +40,61 @@ void	add_token(t_token **head, t_token *new_token)
 	current->next = new_token;
 }
 
-/*
- * extract_word - Extracts a word from input string
- * @input: Input string
- * @i: Current position pointer
- * @shell: Shell structure containing GC arena
- *
- * Reads characters until whitespace or special character is found
- * Return: Extracted word as a string
- */
+static t_token_type	handle_operator(char *input, int *i)
+{
+	char	c;
+	char	next;
+
+	c = input[*i];
+	next = input[*i + 1];
+	if (c == '|' && next == '|')
+	{
+		(*i) += 2;
+		return (TOKEN_OR);
+	}
+	else if (c == '|')
+	{
+		(*i)++;
+		return (TOKEN_PIPE);
+	}
+	else if (c == '&' && next == '&')
+	{
+		(*i) += 2;
+		return (TOKEN_AND);
+	}
+	else if (c == '<' && next == '<')
+	{
+		(*i) += 2;
+		return (TOKEN_HEREDOC);
+	}
+	else if (c == '<')
+	{
+		(*i)++;
+		return (TOKEN_REDIR_IN);
+	}
+	else if (c == '>' && next == '>')
+	{
+		(*i) += 2;
+		return (TOKEN_REDIR_APPEND);
+	}
+	else if (c == '>')
+	{
+		(*i)++;
+		return (TOKEN_REDIR_OUT);
+	}
+	else if (c == '(')
+	{
+		(*i)++;
+		return (TOKEN_LPAREN);
+	}
+	else if (c == ')')
+	{
+		(*i)++;
+		return (TOKEN_RPAREN);
+	}
+	return (TOKEN_WORD);
+}
+
 static char	*extract_word(char *input, int *i, t_shell *shell)
 {
 	int		start;
@@ -62,7 +105,21 @@ static char	*extract_word(char *input, int *i, t_shell *shell)
 	start = *i;
 	while (input[*i] && !is_whitespace(input[*i])
 		&& !is_special_char(input[*i]))
-		(*i)++;
+	{
+		if (input[*i] == '\'' || input[*i] == '\"')
+		{
+			char	quote;
+
+			quote = input[*i];
+			(*i)++;
+			while (input[*i] && input[*i] != quote)
+				(*i)++;
+			if (input[*i] == quote)
+				(*i)++;
+		}
+		else
+			(*i)++;
+	}
 	len = *i - start;
 	word = gc_malloc(shell->cmd_arena, len + 1);
 	if (!word)
@@ -77,19 +134,35 @@ static char	*extract_word(char *input, int *i, t_shell *shell)
 	return (word);
 }
 
-/*
- * lexer - Tokenizes input string into linked list of tokens
- * @input: Raw string from readline
- * @shell: Shell structure containing GC arena
- *
- * Basic tokenization: splits input by whitespace into WORD tokens
- * Return: Head of token linked list, NULL on error
- */
+static char	*get_operator_value(t_token_type type)
+{
+	if (type == TOKEN_PIPE)
+		return ("|");
+	else if (type == TOKEN_REDIR_IN)
+		return ("<");
+	else if (type == TOKEN_REDIR_OUT)
+		return (">");
+	else if (type == TOKEN_REDIR_APPEND)
+		return (">>");
+	else if (type == TOKEN_HEREDOC)
+		return ("<<");
+	else if (type == TOKEN_AND)
+		return ("&&");
+	else if (type == TOKEN_OR)
+		return ("||");
+	else if (type == TOKEN_LPAREN)
+		return ("(");
+	else if (type == TOKEN_RPAREN)
+		return (")");
+	return ("");
+}
+
 t_token	*lexer(char *input, t_shell *shell)
 {
-	t_token	*tokens;
-	char	*word;
-	int		i;
+	t_token			*tokens;
+	char			*word;
+	int				i;
+	t_token_type	op_type;
 
 	if (!input || !shell)
 		return (NULL);
@@ -97,21 +170,23 @@ t_token	*lexer(char *input, t_shell *shell)
 	i = 0;
 	while (input[i])
 	{
-		// Skip whitespace
 		while (input[i] && is_whitespace(input[i]))
 			i++;
 		if (!input[i])
 			break ;
-		// Extract word and create token
-		if (!is_special_char(input[i]))
+		if (is_special_char(input[i]))
+		{
+			op_type = handle_operator(input, &i);
+			add_token(&tokens, create_token(op_type,
+					get_operator_value(op_type), shell->cmd_arena));
+		}
+		else
 		{
 			word = extract_word(input, &i, shell);
 			if (word)
 				add_token(&tokens, create_token(TOKEN_WORD, word,
-					shell->cmd_arena));
+						shell->cmd_arena));
 		}
-		else
-			i++; // Skip special chars for now (TODO: handle operators)
 	}
 	return (tokens);
 }
