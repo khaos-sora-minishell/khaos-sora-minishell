@@ -6,13 +6,13 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 19:19:58 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/09 16:49:59 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/11 17:34:34 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "garbage_collector.h"
 #include "minishell.h"
 #include "printf.h"
-#include "garbage_collector.h"
 
 /*
 ** builtin_pwd - Print Working Directory
@@ -28,10 +28,15 @@ int	builtin_pwd(char **args, t_shell *shell)
 	current_path = getcwd(NULL, 0);
 	if (!current_path)
 	{
-		perror("minishell: pwd");
-		return (1);
+		current_path = get_env_value(shell->env_list, "PWD");
+		if (!current_path)
+		{
+			perror("minishell: pwd");
+			return (1);
+		}
 	}
-	gc_track(contex, current_path);
+	else
+		gc_track(contex, current_path);
 	printf("%s\n", current_path);
 	return (0);
 }

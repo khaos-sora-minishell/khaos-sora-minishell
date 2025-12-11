@@ -6,7 +6,7 @@
 #    By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/19 00:00:00 by akivam            #+#    #+#              #
-#    Updated: 2025/12/10 22:24:47 by akivam           ###   ########.fr        #
+#    Updated: 2025/12/11 18:38:59 by akivam           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ BUILTINS_SRC	= builtin_cd.c builtin_clear.c builtin_echo_utils.c builtin_echo.c 
 
 ENV_SRC			= env_list.c env_utils.c env_array.c
 
-UTILS_SRC		= ft_strcmp.c is_special_char.c is_whitespace.c file_utils.c
+UTILS_SRC		= ft_strcmp.c is_special_char.c is_whitespace.c file_utils.c ft_atoll.c
 
 EASTER_SRC		= easter_egg.c pars_vs_executer.c set_terminal_name.c
 

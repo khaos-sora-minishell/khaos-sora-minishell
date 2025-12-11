@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 19:19:57 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/09 19:43:12 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/11 16:44:57 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 #include "libft.h"
 #include "minishell.h"
 #include "printf.h"
-#include <errno.h>
 #include "utils.h"
+#include <errno.h>
 
 static void	update_pwd_env(t_shell *shell, char *old_path)
 {
@@ -78,6 +78,8 @@ int	builtin_cd(char **args, t_shell *shell)
 		perror("minishell: cd: getcwd");
 		return (1);
 	}
+	if (args[1] && args[2])
+		return (ft_putendl_fd("minishell: cd: too many arguments", 2), 1);
 	target_path = resolve_path(args, shell);
 	if (!target_path)
 		return (1);
