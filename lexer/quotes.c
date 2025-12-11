@@ -30,12 +30,27 @@ int	handle_quotes(char *str, int *i)
 	return (0);
 }
 
+static void	copy_quoted_content(char *str, char *result, int *i, int *j)
+{
+	char	quote;
+
+	quote = str[*i];
+	(*i)++;
+	while (str[*i] && str[*i] != quote)
+	{
+		result[*j] = str[*i];
+		(*j)++;
+		(*i)++;
+	}
+	if (str[*i] == quote)
+		(*i)++;
+}
+
 char	*remove_quotes(char *str, void *arena)
 {
 	int		i;
 	int		j;
 	char	*result;
-	char	quote;
 
 	if (!str)
 		return (NULL);
@@ -47,14 +62,7 @@ char	*remove_quotes(char *str, void *arena)
 	while (str[i])
 	{
 		if (str[i] == '\'' || str[i] == '\"')
-		{
-			quote = str[i];
-			i++;
-			while (str[i] && str[i] != quote)
-				result[j++] = str[i++];
-			if (str[i] == quote)
-				i++;
-		}
+			copy_quoted_content(str, result, &i, &j);
 		else
 			result[j++] = str[i++];
 	}

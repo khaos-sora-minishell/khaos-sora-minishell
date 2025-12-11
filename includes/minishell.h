@@ -17,117 +17,171 @@
 /*                               INCLUDES                                     */
 /* ========================================================================== */
 
-# include "garbage_collector.h"
-# include <dirent.h>
-# include <errno.h>
-# include <fcntl.h>
-# include <readline/history.h>
-# include <readline/readline.h>
-# include <signal.h>
+# include <stdio.h>
 # include <stdlib.h>
-# include <string.h>
-# include <sys/stat.h>
-# include <sys/wait.h>
 # include <unistd.h>
+# include <stdbool.h>
+# include <signal.h>
+# include <sys/wait.h>
+# include <sys/stat.h>
+# include <fcntl.h>
+# include <dirent.h>
+# include <string.h>
+# include <errno.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include "garbage_collector.h"
 
 /* ========================================================================== */
 /*                          GLOBAL SIGNAL VARIABLE                            */
 /* ========================================================================== */
 
+/*
+** TEK İZİN VERİLEN GLOBAL DEĞİŞKEN (Subject şartı)
+** - SADECE signal numarasını tutar
+** - sig_atomic_t: Signal handler'da güvenli erişim için
+** - volatile: Compiler optimization'ı engeller
+** - Başka hiçbir global değişken kullanılmamalı!
+*/
 extern volatile sig_atomic_t	g_signal;
 
 /* ========================================================================== */
 /*                            ENUMERATIONS                                    */
 /* ========================================================================== */
 
+/*
+** Lexer'ın üreteceği token tipleri
+** Her metakarakter ve kelime tipi burada tanımlanır
+*/
 typedef enum e_token_type
 {
-	TOKEN_WORD,
-	TOKEN_PIPE,
-	TOKEN_REDIR_IN,
-	TOKEN_REDIR_OUT,
-	TOKEN_REDIR_APPEND,
-	TOKEN_HEREDOC,
-	TOKEN_AND,
-	TOKEN_OR,
-	TOKEN_LPAREN,
-	TOKEN_RPAREN,
+	TOKEN_WORD,         // Normal kelime, argüman, dosya adı
+	TOKEN_PIPE,         // |  (pipe)
+	TOKEN_REDIR_IN,     // <  (input redirection)
+	TOKEN_REDIR_OUT,    // >  (output redirection)
+	TOKEN_REDIR_APPEND, // >> (append mode output)
+	TOKEN_HEREDOC,      // << (here document)
+	/* --- BONUS TOKENS --- */
+	TOKEN_AND,    // && (logical AND)
+	TOKEN_OR,     // || (logical OR)
+	TOKEN_LPAREN, // (  (left parenthesis)
+	TOKEN_RPAREN, // )  (right parenthesis)
 }								t_token_type;
 
+/*
+** AST düğüm tipleri
+** Her düğüm, komutlar arasındaki ilişkiyi tanımlar
+*/
 typedef enum e_node_type
 {
-	NODE_CMD,
-	NODE_PIPE,
-	NODE_AND,
-	NODE_OR,
-	NODE_SUBSHELL,
+	NODE_CMD,  // Yaprak düğüm: Tek bir komut
+	NODE_PIPE, // Dal düğüm: Pipe ile bağlı iki komut
+	/* --- BONUS NODE TYPES --- */
+	NODE_AND,     // Dal düğüm: && operatörü
+	NODE_OR,      // Dal düğüm: || operatörü
+	NODE_SUBSHELL, // Dal düğüm: () ile gruplanmış komutlar
 }								t_node_type;
 
 /* ========================================================================== */
 /*                           DATA STRUCTURES                                  */
 /* ========================================================================== */
 
+/*
+** Token yapısı (Lexer'ın çıktısı)
+** Lexer, input string'i bu yapılardan oluşan linked list'e çevirir
+*/
 typedef struct s_token
 {
-	t_token_type				type;
-	char						*value;
-	struct s_token				*next;
+	t_token_type type;    // Token'ın tipi (WORD, PIPE, vb.)
+	char *value;          // Token'ın string değeri
+	struct s_token *next; // Sonraki token (linked list)
 }								t_token;
 
+/*
+** Yönlendirme yapısı
+** Her komutun yönlendirme bilgilerini tutar (<, >, >>, <<)
+*/
 typedef struct s_redir
 {
-	t_token_type				type;
-	char						*file;
-	char						*delimiter;
-	char						*heredoc_tmpfile;
-	struct s_redir				*next;
+	t_token_type type;     // Yönlendirme tipi
+	char *file;            // Hedef dosya adı
+	char *delimiter;       // SADECE heredoc için (<<)
+	char *heredoc_tmpfile; // Heredoc için temp dosya yolu
+	struct s_redir *next;  // Sonraki yönlendirme
 }								t_redir;
 
+/*
+** Basit komut yapısı
+** Tek bir komutu (argümanları ve yönlendirmeleriyle) temsil eder
+** Parser tarafından doldurulur, Executor tarafından çalıştırılır
+*/
 typedef struct s_cmd
 {
-	char						**args;
-	t_redir						*redirs;
+	char **args;     // execve'ye uygun argüman dizisi (NULL-terminated)
+	t_redir *redirs; // Bu komuta ait yönlendirmeler (linked list)
 }								t_cmd;
 
+/*
+** Ortam değişkeni yapısı
+** Shell'in environment variable'larını tutar (export, unset için)
+*/
 typedef struct s_env
 {
-	char						*key;
-	char						*value;
-	struct s_env				*next;
+	char *key;          // Değişken ismi (örn: "PATH")
+	char *value;        // Değişken değeri
+	struct s_env *next; // Sonraki env değişkeni
 }								t_env;
 
+/*
+** AST (Abstract Syntax Tree) düğüm yapısı
+** Komutların hiyerarşik yapısını recursive olarak temsil eder
+*/
 typedef struct s_ast_node
 {
-	t_node_type					type;
+	t_node_type type; // Düğüm tipi (CMD, PIPE, AND, OR, SUBSHELL)
 
-	struct s_ast_node			*left;
-	struct s_ast_node			*right;
+	/* Operatör düğümleri için (PIPE, AND, OR) */
+	struct s_ast_node *left;  // Sol alt ağaç
+	struct s_ast_node *right; // Sağ alt ağaç
 
-	struct s_ast_node			*subshell_node;
+	/* Subshell düğümleri için (SUBSHELL) */
+	struct s_ast_node *subshell_node; // İçerideki ağaç
 
-	t_cmd						*cmd;
+	/* Komut düğümleri için (CMD) */
+	t_cmd *cmd; // Komut bilgileri
 }								t_ast_node;
 
+/*
+** Ana shell yapısı
+** Shell'in tüm durumunu ve global bilgilerini tutar
+** Fonksiyonlara pointer olarak geçirilir (global değişken yerine)
+*/
 typedef struct s_shell
 {
-	char						*terminal_name;
-	char						*terminal_text_color;
-	char						*terminal_bg_color;
+	/* Terminal Customization */
+	char *terminal_name;       // Terminal prompt name
+	char *terminal_text_color; // Terminal text color
+	char *terminal_bg_color;   // Terminal background color
 
-	void						*global_arena;
-	void						*cmd_arena;
+	/* Garbage Collector Arenaları */
+	void *global_arena; // Shell lifetime boyunca kalır
+	void *cmd_arena;    // Her komut için yeniden oluşturulur
 
-	t_env						*env_list;
-	char						**env_array;
-	t_env						*alias_list;
+	/* Ortam Değişkenleri */
+	t_env *env_list;   // Linked list formatında
+	char **env_array;  // execve için char** formatında
+	t_env *alias_list; // Alias list (bonus)
 
-	char						**path_dirs;
+	/* PATH Yönetimi */
+	char **path_dirs; // PATH'ten split edilmiş dizinler
 
-	int							exit_status;
-	t_ast_node					*ast_root;
+	/* Shell Durumu */
+	int exit_status;      // Son komutun çıkış kodu ($? için)
+	t_ast_node *ast_root; // Parser'ın oluşturduğu AST'nin kökü
 
-	int							stdin_backup;
-	int							stdout_backup;
+	/* File Descriptor Yedekleri */
+	int stdin_backup;  // stdin'i restore etmek için
+	int stdout_backup; // stdout'u restore etmek için
 }								t_shell;
 
 /* ========================================================================== */
