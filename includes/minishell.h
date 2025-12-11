@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 19:20:48 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/09 22:44:56 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/10 21:45:53 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,6 +165,10 @@ typedef struct s_ast_node
 */
 typedef struct s_shell
 {
+	char *terminal_name;
+	char *terminal_text_color;
+	char *terminal_bg_color;
+	
 	/* Garbage Collector Arenaları */
 	void *global_arena; // Shell lifetime boyunca kalır
 	void *cmd_arena;    // Her komut için yeniden oluşturulur
