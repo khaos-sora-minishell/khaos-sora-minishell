@@ -190,6 +190,7 @@ int main(int ac, char **av, char **envp)
     (void)av;
 
     init_shell(&shell, envp);
+    setup_signals();
 
     shell_loop(&shell);
 

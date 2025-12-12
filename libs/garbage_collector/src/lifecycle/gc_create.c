@@ -13,14 +13,14 @@
 #include "internal_collector.h"
 #include <stdlib.h>
 
-static void	gc_set_defaults(t_gc_context *ctx)
+static void	gc_set_defaults(t_gc_context *contex)
 {
-	ctx->mode = GC_MODE_HYBRID;
-	ctx->debug_mode = GC_FALSE;
-	ctx->auto_collect = GC_FALSE;
-	ctx->collect_threshold = 10485760;
-	ctx->collect_interval = 1000;
-	ctx->last_collect_count = 0;
+	contex->mode = GC_MODE_HYBRID;
+	contex->debug_mode = GC_FALSE;
+	contex->auto_collect = GC_FALSE;
+	contex->collect_threshold = 10485760;
+	contex->collect_interval = 1000;
+	contex->last_collect_count = 0;
 }
 
 /*
@@ -30,17 +30,17 @@ static void	gc_set_defaults(t_gc_context *ctx)
 */
 t_gc_context	*gc_create(void)
 {
-	t_gc_context	*ctx;
+	t_gc_context	*contex;
 
-	ctx = (t_gc_context *)malloc(sizeof(t_gc_context));
-	if (!ctx)
+	contex = (t_gc_context *)malloc(sizeof(t_gc_context));
+	if (!contex)
 		return (NULL);
-	gc_memset(ctx, 0, sizeof(t_gc_context));
-	gc_set_defaults(ctx);
-	if (!gc_scope_push(ctx))
+	gc_memset(contex, 0, sizeof(t_gc_context));
+	gc_set_defaults(contex);
+	if (!gc_scope_push(contex))
 	{
-		free(ctx);
+		free(contex);
 		return (NULL);
 	}
-	return (ctx);
+	return (contex);
 }

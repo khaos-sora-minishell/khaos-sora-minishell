@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 19:20:37 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/11 17:30:32 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/12 10:29:49 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ static void	exec_child_process(t_cmd *cmd, t_shell *shell)
 {
 	char	*cmd_path;
 
+	setup_child_signals();
 	if (setup_redirections(cmd->redirs, shell) == -1)
 		exit(1);
 	if (cmd->args[0] && ft_strcmp(cmd->args[0], ".") == 0)
@@ -134,7 +135,9 @@ void	execute_command(t_cmd *cmd, t_shell *shell)
 	}
 	if (pid == 0)
 		exec_child_process(cmd, shell);
+	ignore_signals();
 	waitpid(pid, &status, 0);
+	setup_signals();
 	if (WIFEXITED(status))
 		shell->exit_status = WEXITSTATUS(status);
 }

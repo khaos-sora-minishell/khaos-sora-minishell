@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 19:20:48 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/10 15:56:00 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/12 14:22:33 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ typedef struct s_echo_op
     t_transform_fn  func;
 }                   t_echo_op;
 
-typedef struct s_echo_ctx
+typedef struct s_echo_contex
 {
     int             n;
     int             e;
