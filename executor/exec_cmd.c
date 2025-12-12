@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 19:20:37 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/12 10:29:49 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/12 17:37:49 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 #include "executor.h"
 #include "libft.h"
 #include "minishell.h"
-#include <sys/stat.h>
 #include "utils.h"
+#include <sys/stat.h>
 
 /*
  * Find executable path for command
@@ -135,9 +135,17 @@ void	execute_command(t_cmd *cmd, t_shell *shell)
 	}
 	if (pid == 0)
 		exec_child_process(cmd, shell);
-	ignore_signals();
+	ignore_signals(); 
 	waitpid(pid, &status, 0);
 	setup_signals();
 	if (WIFEXITED(status))
 		shell->exit_status = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+	{
+		shell->exit_status = 128 + WTERMSIG(status);
+		if (WTERMSIG(status) == SIGINT)
+			write(1, "\n", 1);
+		else if (WTERMSIG(status) == SIGQUIT)
+			ft_putendl_fd("Quit (core dumped)", 2);
+	}
 }
