@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 22:21:32 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/10 17:21:31 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/12 17:14:52 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ static t_builtin	*get_builtins(void)
 	{"unset", builtin_unset},
 	{"type", builtin_type},
 	{"tty", builtin_tty},
-	{"clear", builtin_clear},
 	{"true", builtin_true},
 	{"false", builtin_false},
 	{NULL, NULL}};

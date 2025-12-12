@@ -6,7 +6,7 @@
 #    By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/19 00:00:00 by akivam            #+#    #+#              #
-#    Updated: 2025/12/12 10:09:55 by akivam           ###   ########.fr        #
+#    Updated: 2025/12/12 17:15:14 by akivam           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ EASTER_DIR	= executor/easter_egg
 # Source Files by Module
 EXECUTOR_SRC	= executor.c exec_ast.c exec_builtin.c exec_cmd.c exec_pipe.c redirections.c
 
-BUILTINS_SRC	= builtin_cd.c builtin_clear.c builtin_echo_utils.c builtin_echo.c builtin_env.c builtin_exit.c \
+BUILTINS_SRC	= builtin_cd.c builtin_echo_utils.c builtin_echo.c builtin_env.c builtin_exit.c \
 				  builtin_export.c builtin_help.c builtin_pwd.c builtin_true_false.c \
 				  builtin_tty.c builtin_type.c builtin_unset.c
 
