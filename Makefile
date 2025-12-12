@@ -33,11 +33,14 @@ UTILS_SRC		= ft_strcmp.c is_special_char.c is_whitespace.c file_utils.c ft_atoll
 
 EASTER_SRC		= easter_egg.c pars_vs_executer.c set_terminal_name.c
 
+SIGNALS_SRC		= signals.c
+
 # Main sources
 SRCS = $(addprefix executor/, $(EXECUTOR_SRC)) \
        $(addprefix executor/easter_egg/, $(EASTER_SRC)) \
        $(addprefix builtins/, $(BUILTINS_SRC)) \
        $(addprefix env/, $(ENV_SRC)) \
+       $(addprefix signals/, $(SIGNALS_SRC)) \
        $(addprefix executor_utils/, $(UTILS_SRC)) \
 	   main.c
 
