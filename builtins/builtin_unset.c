@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 19:19:58 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/10 17:26:56 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/15 21:07:34 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,9 @@ int	builtin_unset(char **args, t_shell *shell)
 	contex = (t_gc_context *)shell->global_arena;
 	while (args[i])
 	{
-		unset_env_value(&shell->env_list, args[i]);
+		env_unset(shell->env_table, args[i]);
 		i++;
-	}
-	// Update env_array and path_dirs after unset
-	shell->env_array = env_list_to_array(shell->env_list, contex);
-	shell->path_dirs = parse_path(shell->env_list, contex);
+	}	shell->env_array = env_table_to_array(shell->env_table, contex);
+	shell->path_dirs = parse_path(shell);
 	return (0);
 }

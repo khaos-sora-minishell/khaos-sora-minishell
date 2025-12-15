@@ -6,7 +6,7 @@
 #    By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/19 00:00:00 by akivam            #+#    #+#              #
-#    Updated: 2025/12/14 21:53:06 by akivam           ###   ########.fr        #
+#    Updated: 2025/12/15 21:24:19 by akivam           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ BUILTINS_SRC	= builtin_cd.c builtin_echo_utils.c builtin_echo.c builtin_env.c bu
 				  builtin_export.c builtin_help.c builtin_pwd.c builtin_true_false.c \
 				  builtin_tty.c builtin_type.c builtin_unset.c
 
-ENV_SRC			= env_list.c env_utils.c env_array.c
+ENV_SRC			= env_manager.c env_crypto.c
 
 UTILS_SRC		= ft_strcmp.c is_special_char.c is_whitespace.c file_utils.c ft_atoll.c
 

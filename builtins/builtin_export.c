@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 19:19:57 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/15 20:43:47 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/15 21:09:09 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,12 @@ static int	is_valid_identifier(char *str)
 	return (1);
 }
 
-static void	bubble_sort_env(t_env **arr, int len)
+/* Basit Bubble Sort (Diziyi sıralar) */
+static void	sort_env_array(char **arr, int len)
 {
 	int		i;
 	int		j;
-	t_env	*swap;
+	char	*swap;
 
 	i = 0;
 	while (i < len - 1)
@@ -46,7 +47,7 @@ static void	bubble_sort_env(t_env **arr, int len)
 		j = 0;
 		while (j < len - i - 1)
 		{
-			if (ft_strcmp(arr[j]->key, arr[j + 1]->key) > 0)
+			if (ft_strcmp(arr[j], arr[j + 1]) > 0)
 			{
 				swap = arr[j];
 				arr[j] = arr[j + 1];
@@ -58,38 +59,42 @@ static void	bubble_sort_env(t_env **arr, int len)
 	}
 }
 
-static void	print_sorted_env_list(t_shell *shell)
+/* Sıralı şekilde 'declare -x' formatında yazdır */
+static void	print_sorted_env(t_shell *shell)
 {
-	t_env	**arr;
-	t_env	*tmp;
+	char	**arr;
 	int		len;
 	int		i;
+	char	*eq_pos;
+
+	// Hash Table'ı diziye çevir (env_manager.c'deki fonksiyon)
+	arr = env_table_to_array(shell->env_table, shell->cmd_arena);
+	if (!arr) return;
 
 	len = 0;
-	tmp = shell->env_list;
-	while (tmp && ++len)
-		tmp = tmp->next;
-	arr = gc_malloc(shell->cmd_arena, sizeof(t_env *) * (len + 1));
-	if (!arr)
-		return ;
-	tmp = shell->env_list;
+	while (arr[len])
+		len++;
+	
+	sort_env_array(arr, len);
+
 	i = 0;
-	while (tmp)
+	while (i < len)
 	{
-		arr[i++] = tmp;
-		tmp = tmp->next;
-	}
-	bubble_sort_env(arr, len);
-	i = -1;
-	while (++i < len)
-	{
-		if (ft_strcmp(arr[i]->key, "_") != 0)
+		// _ değişkenini yazdırma (bash davranışı)
+		if (ft_strncmp(arr[i], "_=", 2) != 0)
 		{
-			if (arr[i]->value)
-				printf("declare -x %s=\"%s\"\n", arr[i]->key, arr[i]->value);
+			// KEY=VALUE formatından ayırıp tırnak içine alarak yazdır
+			eq_pos = ft_strchr(arr[i], '=');
+			if (eq_pos)
+			{
+				*eq_pos = '\0'; // Eşittiri geçici olarak null yap
+				printf("declare -x %s=\"%s\"\n", arr[i], eq_pos + 1);
+				*eq_pos = '='; // Geri düzelt (gerçi cmd_arena'da olduğu için şart değil)
+			}
 			else
-				printf("declare -x %s\n", arr[i]->key);
+				printf("declare -x %s\n", arr[i]);
 		}
+		i++;
 	}
 }
 
@@ -105,6 +110,7 @@ static int	export_arg(char *arg, t_shell *shell)
 		key = gc_strndup(contex, arg, eq - arg);
 	else
 		key = gc_strdup(contex, arg);
+
 	if (!is_valid_identifier(key))
 	{
 		ft_putstr_fd("minishell: export: `", 2);
@@ -112,14 +118,13 @@ static int	export_arg(char *arg, t_shell *shell)
 		ft_putendl_fd("': not a valid identifier", 2);
 		return (1);
 	}
+	
+	// YENİ: env_set kullanıyoruz
 	if (eq)
-	{
-		set_env_value(&shell->env_list, key, gc_strdup(contex, eq + 1), contex);
-	}
-	else if (!env_get(shell->env_list, key))
-	{
-		set_env_value(&shell->env_list, key, NULL, contex);
-	}
+		env_set(shell->env_table, key, eq + 1, contex);
+	else if (!env_get(shell->env_table, key, contex))
+		env_set(shell->env_table, key, NULL, contex); // Değersiz değişken
+		
 	return (0);
 }
 
@@ -130,7 +135,7 @@ int	builtin_export(char **args, t_shell *shell)
 
 	if (!args[1])
 	{
-		print_sorted_env_list(shell);
+		print_sorted_env(shell);
 		return (0);
 	}
 	i = 1;
@@ -141,5 +146,7 @@ int	builtin_export(char **args, t_shell *shell)
 			ret = 1;
 		i++;
 	}
+	// Export yaptıktan sonra array'i güncellememiz şart
+	shell->env_array = env_table_to_array(shell->env_table, shell->global_arena);
 	return (ret);
 }

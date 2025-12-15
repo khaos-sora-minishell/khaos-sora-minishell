@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 19:19:57 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/09 18:25:56 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/15 21:09:09 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,7 @@ static int	execute_env_cmd(char **args, t_shell *shell)
 	path = find_command_path(args[1], shell);
 	if (!path)
 	{
-		ft_err_printf("minishell: env: ");
-		ft_err_printf("%s", args[1]);
-		ft_err_printf(": No such file or directory\n");
+		ft_err_printf("minishell: env: %s: No such file or directory\n", args[1]);
 		return (127);
 	}
 	pid = fork();
@@ -44,18 +42,35 @@ static int	execute_env_cmd(char **args, t_shell *shell)
 
 int	builtin_env(char **args, t_shell *shell)
 {
-	t_env	*current;
+	int				i;
+	t_env_bucket	*curr;
+	char			*val_decoded;
+	t_gc_context	*contex;
 
 	if (args[1])
 		return (execute_env_cmd(args, shell));
-	if (!shell || !shell->env_list)
+	if (!shell || !shell->env_table)
 		return (1);
-	current = shell->env_list;
-	while (current)
+	
+	contex = (t_gc_context *)shell->global_arena;
+	i = 0;
+	// Tüm Hash Table bucketlarını gez
+	while (i < ENV_TABLE_SIZE)
 	{
-		if (current->value)
-			ft_printf("%s=%s\n", current->key, current->value);
-		current = current->next;
+		curr = shell->env_table->buckets[i];
+		while (curr)
+		{
+			// Değer varsa ve boş değilse yazdır
+			if (curr->value)
+			{
+				// Şifreyi çözüp yazdır
+				val_decoded = gc_strdup(contex, curr->value);
+				xor_cipher(val_decoded);
+				ft_printf("%s=%s\n", curr->key, val_decoded);
+			}
+			curr = curr->next;
+		}
+		i++;
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 19:20:23 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/15 20:43:47 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/15 21:09:09 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,18 +48,18 @@ static void	process_env_str(t_env **head, char *env_str, void *arena)
 	char			*key;
 	char			*value;
 	t_env			*node;
-	t_gc_context	*gc;
+	t_gc_context	*garbage_collector_contex;
 
-	gc = (t_gc_context *)arena;
+	garbage_collector_contex = (t_gc_context *)arena;
 	eq_pos = ft_strchr(env_str, '=');
 	if (eq_pos)
 	{
-		key = gc_strndup(gc, env_str, eq_pos - env_str);
-		value = gc_strdup(gc, eq_pos + 1);
+		key = gc_strndup(garbage_collector_contex, env_str, eq_pos - env_str);
+		value = gc_strdup(garbage_collector_contex, eq_pos + 1);
 	}
 	else
 	{
-		key = gc_strdup(gc, env_str);
+		key = gc_strdup(garbage_collector_contex, env_str);
 		value = NULL;
 	}
 	node = create_env_node(key, value, arena);
@@ -67,7 +67,7 @@ static void	process_env_str(t_env **head, char *env_str, void *arena)
 		env_add_back(head, node);
 }
 
-static void	setup_min_env(t_env **head, t_gc_context *gc)
+static void	setup_min_env(t_env **head, t_gc_context *garbage_collector_contex)
 {
 	char	*cwd;
 
@@ -76,14 +76,14 @@ static void	setup_min_env(t_env **head, t_gc_context *gc)
 		cwd = getcwd(NULL, 0);
 		if (cwd)
 		{
-			set_env_value(head, "PWD", cwd, gc);
+			set_env_value(head, "PWD", cwd, garbage_collector_contex);
 			free(cwd);
 		}
 	}
 	if (!env_get(*head, "SHLVL"))
-		set_env_value(head, "SHLVL", "1", gc);
+		set_env_value(head, "SHLVL", "1", garbage_collector_contex);
 	if (!env_get(*head, "_"))
-		set_env_value(head, "_", "/usr/bin/env", gc);
+		set_env_value(head, "_", "/usr/bin/env", garbage_collector_contex);
 }
 
 t_env	*init_env(char **envp, void *arena)
