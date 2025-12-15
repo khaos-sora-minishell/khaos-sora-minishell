@@ -14,40 +14,40 @@
 
 void	*__wrap_malloc(size_t size)
 {
-	t_gc_context	*ctx;
+	t_gc_context	*contex;
 
-	ctx = gc_get_current();
-	if (!ctx)
+	contex = gc_get_current();
+	if (!contex)
 		return (__real_malloc(size));
-	return (gc_malloc(ctx, size));
+	return (gc_malloc(contex, size));
 }
 
 void	*__wrap_calloc(size_t nmemb, size_t size)
 {
-	t_gc_context	*ctx;
+	t_gc_context	*contex;
 
-	ctx = gc_get_current();
-	if (!ctx)
+	contex = gc_get_current();
+	if (!contex)
 		return (__real_calloc(nmemb, size));
-	return (gc_calloc(ctx, nmemb, size));
+	return (gc_calloc(contex, nmemb, size));
 }
 
 void	*__wrap_realloc(void *ptr, size_t size)
 {
-	t_gc_context	*ctx;
+	t_gc_context	*contex;
 
-	ctx = gc_get_current();
-	if (!ctx)
+	contex = gc_get_current();
+	if (!contex)
 		return (__real_realloc(ptr, size));
-	return (gc_realloc(ctx, ptr, size));
+	return (gc_realloc(contex, ptr, size));
 }
 
 void	__wrap_free(void *ptr)
 {
-	t_gc_context	*ctx;
+	t_gc_context	*contex;
 
-	ctx = gc_get_current();
-	if (!ctx)
+	contex = gc_get_current();
+	if (!contex)
 		__real_free(ptr);
 }
 

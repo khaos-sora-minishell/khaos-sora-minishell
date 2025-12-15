@@ -95,25 +95,25 @@ Destroys context and frees all managed memory.
 
 ### Memory Allocation
 
-#### `void *gc_malloc(t_gc_context *ctx, size_t size)`
+#### `void *gc_malloc(t_gc_context *contex, size_t size)`
 Allocates memory tracked by the garbage collector.
 
-#### `void *gc_calloc(t_gc_context *ctx, size_t nmemb, size_t size)`
+#### `void *gc_calloc(t_gc_context *contex, size_t nmemb, size_t size)`
 Allocates and zero-initializes memory.
 
-#### `void *gc_realloc(t_gc_context *ctx, void *ptr, size_t size)`
+#### `void *gc_realloc(t_gc_context *contex, void *ptr, size_t size)`
 Reallocates memory block to new size.
 
 ### String Utilities
 ```c
 // String duplication with GC tracking
-char *gc_strdup(t_gc_context *ctx, const char *s);
-char *gc_strndup(t_gc_context *ctx, const char *s, size_t n);
+char *gc_strdup(t_gc_context *contex, const char *s);
+char *gc_strndup(t_gc_context *contex, const char *s, size_t n);
 
 // String manipulation
-char *gc_strjoin(t_gc_context *ctx, const char *s1, const char *s2);
-char *gc_substr(t_gc_context *ctx, const char *s, size_t start, size_t len);
-char *gc_strtrim(t_gc_context *ctx, const char *s1, const char *set);
+char *gc_strjoin(t_gc_context *contex, const char *s1, const char *s2);
+char *gc_substr(t_gc_context *contex, const char *s, size_t start, size_t len);
+char *gc_strtrim(t_gc_context *contex, const char *s1, const char *set);
 
 // Non-allocating utilities
 size_t gc_strlen(const char *s);
@@ -123,8 +123,8 @@ char *gc_strchr(const char *s, int c);
 char *gc_strrchr(const char *s, int c);
 
 // Conversion functions
-char *gc_itoa(t_gc_context *ctx, int n);
-char *gc_uitoa(t_gc_context *ctx, size_t n);
+char *gc_itoa(t_gc_context *contex, int n);
+char *gc_uitoa(t_gc_context *contex, size_t n);
 int gc_atoi(const char *str);
 ```
 
