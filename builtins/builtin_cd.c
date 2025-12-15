@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 19:19:57 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/12 15:41:58 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/15 20:43:47 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static char	*resolve_path(char **args, t_shell *shell)
 
 	if (!args[1])
 	{
-		path = get_env_value(shell->env_list, "HOME");
+		path = env_get(shell->env_list, "HOME");
 		if (!path)
 		{
 			ft_err_printf("minishell: cd: HOME not set\n");
@@ -49,7 +49,7 @@ static char	*resolve_path(char **args, t_shell *shell)
 	}
 	else if (ft_strcmp(args[1], "-") == 0)
 	{
-		path = get_env_value(shell->env_list, "OLDPWD");
+		path = env_get(shell->env_list, "OLDPWD");
 		if (!path)
 		{
 			ft_putendl_fd("minishell: cd: OLDPWD not set", 2);
@@ -73,7 +73,7 @@ int	builtin_cd(char **args, t_shell *shell)
 	if (old_path)
 		gc_track(contex, old_path);
 	else
-		old_path = get_env_value(shell->env_list, "PWD");
+		old_path = env_get(shell->env_list, "PWD");
 	if (args[1] && args[2])
 		return (ft_putendl_fd("minishell: cd: too many arguments", 2), 1);
 	target_path = resolve_path(args, shell);

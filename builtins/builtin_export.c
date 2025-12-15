@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 19:19:57 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/12 14:22:13 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/15 20:43:47 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ static int	export_arg(char *arg, t_shell *shell)
 	{
 		set_env_value(&shell->env_list, key, gc_strdup(contex, eq + 1), contex);
 	}
-	else if (!get_env_value(shell->env_list, key))
+	else if (!env_get(shell->env_list, key))
 	{
 		set_env_value(&shell->env_list, key, NULL, contex);
 	}

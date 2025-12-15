@@ -6,13 +6,14 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 19:20:37 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/12 17:37:49 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/14 21:53:05 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 #include "easteregg.h"
 #include "executor.h"
+#include "executor_error.h"
 #include "libft.h"
 #include "minishell.h"
 #include "utils.h"
@@ -54,25 +55,13 @@ static void	check_file_status(char *cmd_path)
 
 	if (stat(cmd_path, &path_stat) == -1)
 	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(cmd_path, 2);
-		ft_putendl_fd(": No such file or directory", 2);
-		exit(127);
+		print_execution_error(cmd_path, ERR_NO_FILE);
+		exit(EXIT_CMD_NOT_FOUND);
 	}
 	if (S_ISDIR(path_stat.st_mode))
-	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(cmd_path, 2);
-		ft_putendl_fd(": Is a directory", 2);
-		exit(126);
-	}
+		handle_is_directory(cmd_path);
 	if (access(cmd_path, X_OK) == -1)
-	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(cmd_path, 2);
-		ft_putendl_fd(": Permission denied", 2);
-		exit(126);
-	}
+		handle_permission_denied(cmd_path);
 }
 
 /*
@@ -91,18 +80,10 @@ static void	exec_child_process(t_cmd *cmd, t_shell *shell)
 		exit(2);
 	}
 	if (cmd->args[0] && ft_strcmp(cmd->args[0], "..") == 0)
-	{
-		ft_putendl_fd("minishell: ..: command not found", 2);
-		exit(127);
-	}
+		handle_cmd_not_found("..");
 	cmd_path = find_command_path(cmd->args[0], shell);
 	if (!cmd_path)
-	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(cmd->args[0], 2);
-		ft_putendl_fd(": command not found", 2);
-		exit(127);
-	}
+		handle_cmd_not_found(cmd->args[0]);
 	check_file_status(cmd_path);
 	execve(cmd_path, cmd->args, shell->env_array);
 	perror("minishell: execve");

@@ -995,7 +995,7 @@ void    builtin_export(char **args, t_shell *shell)
 // ❌ YAVAŞ - Her aramada PATH'i yeniden parse:
 char *find_command(char *cmd, t_env *env)
 {
-    char *path = get_env_value(env, "PATH");
+    char *path = env_get(env, "PATH");
     char **dirs = ft_split(path, ':');  // Her seferinde!
     // ...
 }

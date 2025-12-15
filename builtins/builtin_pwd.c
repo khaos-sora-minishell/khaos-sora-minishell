@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 19:19:58 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/11 17:34:34 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/15 20:43:47 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	builtin_pwd(char **args, t_shell *shell)
 	current_path = getcwd(NULL, 0);
 	if (!current_path)
 	{
-		current_path = get_env_value(shell->env_list, "PWD");
+		current_path = env_get(shell->env_list, "PWD");
 		if (!current_path)
 		{
 			perror("minishell: pwd");

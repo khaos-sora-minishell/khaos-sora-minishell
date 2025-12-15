@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 19:20:48 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/12 14:16:04 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/15 20:43:47 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,21 +24,44 @@
 /*                               INCLUDES                                     */
 /* ========================================================================== */
 
+# include "garbage_collector.h"
+# include <dirent.h>
+# include <errno.h>
+# include <fcntl.h>
+# include <readline/history.h>
+# include <readline/readline.h>
+# include <signal.h>
+# include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <unistd.h>
-# include <stdbool.h>
-# include <signal.h>
-# include <sys/wait.h>
-# include <sys/stat.h>
-# include <fcntl.h>
-# include <dirent.h>
 # include <string.h>
-# include <errno.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include "garbage_collector.h"
+# include <sys/stat.h>
+# include <sys/wait.h>
+# include <unistd.h>
 
+/* --- BASH SETTINGS & MACROS --- */
+# define DEFAULT_PATH_VALUE "/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:."
+
+/* --- HASH TABLE & CRYPTO SETTINGS --- */
+# define ENV_TABLE_SIZE 131             // Asal sayı
+# define FNV_PRIME_64 1099511628211UL
+# define FNV_OFFSET 14695981039346656037UL
+# define XOR_KEY 0x5A                   // Şifreleme anahtarı
+
+/* --- VERİ YAPILARI --- */
+
+typedef struct s_env_bucket
+{
+    char                    *key;
+    char                    *value;     // XOR ile şifrelenmiş veri
+    struct s_env_bucket     *next;      // Collision zinciri
+}   t_env_bucket;
+
+typedef struct s_env_table
+{
+    t_env_bucket    **buckets;          // Bucket dizisi
+    int             count;              // Toplam eleman sayısı
+}   t_env_table;
 /* ========================================================================== */
 /*                          GLOBAL SIGNAL VARIABLE                            */
 /* ========================================================================== */
@@ -84,8 +107,8 @@ typedef enum e_node_type
 	NODE_CMD,  // Yaprak düğüm: Tek bir komut
 	NODE_PIPE, // Dal düğüm: Pipe ile bağlı iki komut
 	/* --- BONUS NODE TYPES --- */
-	NODE_AND,     // Dal düğüm: && operatörü
-	NODE_OR,      // Dal düğüm: || operatörü
+	NODE_AND,      // Dal düğüm: && operatörü
+	NODE_OR,       // Dal düğüm: || operatörü
 	NODE_SUBSHELL, // Dal düğüm: () ile gruplanmış komutlar
 }								t_node_type;
 
@@ -165,17 +188,13 @@ typedef struct s_ast_node
 */
 typedef struct s_shell
 {
-	char *terminal_name;
-	char *terminal_name_colo;
-	char *terminal_text_color;
-	char *terminal_bg_color;
-	
-	/* Garbage Collector Arenaları */
-	void *global_arena; // Shell lifetime boyunca kalır
-	void *cmd_arena;    // Her komut için yeniden oluşturulur
+    // ... renk değişkenleri ...
+    char			*terminal_name;
+	char			*terminal_name_colo;
+	char			*terminal_text_color;
+	char			*terminal_bg_color;
 
 	/* Ortam Değişkenleri */
-	t_env *env_list;  // Linked list formatında
 	char **env_array; // execve için char** formatında
 	t_env *alias_list; // alias için linked list formatında
 
@@ -191,12 +210,24 @@ typedef struct s_shell
 	int stdout_backup; // stdout'u restore etmek için
 
 	/* History Yönetimi (Opsiyonel) */
-	// char		*history_file;  // ~/.minishell_history
-}								t_shell;
+	char		*history_file;  // ~/.minishell_history
+}   t_shell;
+
 
 /* ========================================================================== */
 /*                        FUNCTION PROTOTYPES                                 */
 /* ========================================================================== */
+
+/* --- PROTOCOLS: ENV MANAGER (env_manager.c) --- */
+t_env_table     *initilaze_env_table(char **envp, void *arena);
+char            *env_get(t_env_table *table, char *key, void *arena);
+void            env_set(t_env_table *table, char *key, char *value, void *arena);
+void            env_unset(t_env_table *table, char *key);
+char            **env_table_to_array(t_env_table *table, void *arena);
+
+/* --- PROTOCOLS: CRYPTO (env_crypto.c) --- */
+unsigned long   fnv1a_hash(char *str);
+void            xor_cipher(char *str);
 
 /* ========== MAIN ========== */
 int								main(int ac, char **av, char **envp);
@@ -205,7 +236,7 @@ void							cleanup_shell(t_shell *shell);
 
 /* ========== ENVIRONMENT ========== */
 t_env							*init_env(char **envp, void *arena);
-char							*get_env_value(t_env *env, char *key);
+char							*env_get(t_env *env, char *key);
 void							set_env_value(t_env **env, char *key,
 									char *value, void *arena);
 void							unset_env_value(t_env **env, char *key);
@@ -250,7 +281,6 @@ void							expand_variables(t_ast_node *ast,
 char							**expand_wildcard(char *pattern,
 									t_shell *shell);
 char							*expand_env_var(char *str, t_shell *shell);
-
 
 /* ========== UTILS ========== */
 int								is_whitespace(char c);

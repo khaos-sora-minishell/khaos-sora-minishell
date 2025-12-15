@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 19:20:23 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/07 21:05:58 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/15 20:43:47 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 /*
  * Get environment variable value
  */
-char	*get_env_value(t_env *env, char *key)
+char	*env_get(t_env *env, char *key)
 {
 	while (env)
 	{

@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 19:20:23 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/09 18:35:01 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/15 20:43:47 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static void	setup_min_env(t_env **head, t_gc_context *gc)
 {
 	char	*cwd;
 
-	if (!get_env_value(*head, "PWD"))
+	if (!env_get(*head, "PWD"))
 	{
 		cwd = getcwd(NULL, 0);
 		if (cwd)
@@ -80,9 +80,9 @@ static void	setup_min_env(t_env **head, t_gc_context *gc)
 			free(cwd);
 		}
 	}
-	if (!get_env_value(*head, "SHLVL"))
+	if (!env_get(*head, "SHLVL"))
 		set_env_value(head, "SHLVL", "1", gc);
-	if (!get_env_value(*head, "_"))
+	if (!env_get(*head, "_"))
 		set_env_value(head, "_", "/usr/bin/env", gc);
 }
 

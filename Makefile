@@ -6,7 +6,7 @@
 #    By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/19 00:00:00 by akivam            #+#    #+#              #
-#    Updated: 2025/12/12 17:15:14 by akivam           ###   ########.fr        #
+#    Updated: 2025/12/14 21:53:06 by akivam           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,8 @@ EASTER_DIR	= executor/easter_egg
 # Source Files by Module
 EXECUTOR_SRC	= executor.c exec_ast.c exec_builtin.c exec_cmd.c exec_pipe.c redirections.c
 
+EXEC_ERROR_SRC	= executor_error.c
+
 BUILTINS_SRC	= builtin_cd.c builtin_echo_utils.c builtin_echo.c builtin_env.c builtin_exit.c \
 				  builtin_export.c builtin_help.c builtin_pwd.c builtin_true_false.c \
 				  builtin_tty.c builtin_type.c builtin_unset.c
@@ -38,6 +40,7 @@ SIGNALS_SRC		= signals.c
 # Main sources
 SRCS = $(addprefix executor/, $(EXECUTOR_SRC)) \
        $(addprefix executor/easter_egg/, $(EASTER_SRC)) \
+       $(addprefix executor_error/, $(EXEC_ERROR_SRC)) \
        $(addprefix builtins/, $(BUILTINS_SRC)) \
        $(addprefix env/, $(ENV_SRC)) \
        $(addprefix signals/, $(SIGNALS_SRC)) \

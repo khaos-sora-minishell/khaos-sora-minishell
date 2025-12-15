@@ -25,23 +25,15 @@ char *replace_alias(char *line, t_shell *shell);
 /*
  * Parse PATH environment variable into array
  */
-char    **parse_path(t_env *env, void *arena)
+char **parse_path(t_shell *shell) // Argüman değişti
 {
-    char            *path_value;
-    char            **dirs;
-    t_gc_context    *gc;
-
-    gc = (t_gc_context *)arena;
+    char *path_value;
     
-    // Get PATH value from env
-    path_value = get_env_value(env, "PATH");
+    // env_get otomatik deşifre edip verir
+    path_value = env_get(shell->env_table, "PATH", shell->global_arena);
     if (!path_value)
         return (NULL);
-    
-    // Split by ':' using GC
-    dirs = gc_split(gc, path_value, ':');
-    
-    return (dirs);
+    return (gc_split((t_gc_context *)shell->global_arena, path_value, ':'));
 }
 
 /*
@@ -70,7 +62,7 @@ void    init_shell(t_shell *shell, char **envp)
     // --------------------------
 
     // Initialize environment
-    shell->env_list = init_env(envp, gc);
+    shell->env_list = initilaze_env_table(envp, gc);
     if (!shell->env_list)
     {
         ft_putendl_fd("Error: Environment initialization failed", 2);

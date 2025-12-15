@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 19:20:48 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/12 14:22:33 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/15 13:06:57 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int					builtin_exit(char **args, t_shell *shell);
 void				op_upper(char *str);
 void				op_reverse(char *str);
 void				print_with_escape(char *str);
+
 /*exstras*/
 int					builtin_type(char **args, t_shell *shell);
 int					builtin_tty(char **args, t_shell *shell);
