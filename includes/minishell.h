@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 19:20:48 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/15 21:21:51 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/15 21:38:01 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,7 +204,7 @@ void			ignore_signals(void);
 
 /* ========== ERROR HANDLING ========== */
 void			error_exit(char *msg, t_shell *shell);
-void			print_error(char *cmd, char *msg);
+void			print_error(const char *cmd, const char *arg, const char *msg);
 void			syntax_error(char *token);
 int				command_not_found(char *cmd);
 

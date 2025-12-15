@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 19:20:23 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/15 21:09:09 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/15 21:36:13 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static void	setup_min_env(t_env **head, t_gc_context *garbage_collector_contex)
 {
 	char	*cwd;
 
-	if (!env_get(*head, "PWD"))
+	if (!get_env_value(*head, "PWD"))
 	{
 		cwd = getcwd(NULL, 0);
 		if (cwd)
@@ -80,9 +80,9 @@ static void	setup_min_env(t_env **head, t_gc_context *garbage_collector_contex)
 			free(cwd);
 		}
 	}
-	if (!env_get(*head, "SHLVL"))
+	if (!get_env_value(*head, "SHLVL"))
 		set_env_value(head, "SHLVL", "1", garbage_collector_contex);
-	if (!env_get(*head, "_"))
+	if (!get_env_value(*head, "_"))
 		set_env_value(head, "_", "/usr/bin/env", garbage_collector_contex);
 }
 
