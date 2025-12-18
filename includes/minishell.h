@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 19:20:48 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/15 21:38:01 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/18 21:48:34 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@
 # define ENV_TABLE_SIZE 131             // Asal sayı
 # define FNV_PRIME_64 1099511628211UL
 # define FNV_OFFSET 14695981039346656037UL
-# define XOR_KEY 0x5A                   // Şifreleme anahtarı
+# define XOR_KEY 0xFF                   // Şifreleme anahtarı
 
 /* ========================================================================== */
 /* GLOBAL SIGNAL VARIABLE                            */

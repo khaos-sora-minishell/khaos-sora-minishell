@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 19:20:37 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/14 21:53:05 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/18 21:40:37 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,33 @@ static void	exec_child_process(t_cmd *cmd, t_shell *shell)
 	exit(1);
 }
 
+static void execute_builtin_with_redir(t_cmd *cmd, t_shell *shell)
+{
+    int saved_stdin;
+    int saved_stdout;
+
+    // 1. Mevcut FD'leri yedekle
+    saved_stdin = dup(STDIN_FILENO);
+    saved_stdout = dup(STDOUT_FILENO);
+
+    // 2. Yönlendirmeleri uygula
+    if (setup_redirections(cmd->redirs, shell) == 0)
+    {
+        // 3. Başarılıysa builtin'i çalıştır
+        shell->exit_status = execute_builtin(cmd->args, shell);
+    }
+    else
+    {
+        shell->exit_status = 1;
+    }
+
+    // 4. FD'leri eski haline getir
+    dup2(saved_stdin, STDIN_FILENO);
+    dup2(saved_stdout, STDOUT_FILENO);
+    close(saved_stdin);
+    close(saved_stdout);
+}
+
 void	execute_command(t_cmd *cmd, t_shell *shell)
 {
 	pid_t	pid;
@@ -104,7 +131,7 @@ void	execute_command(t_cmd *cmd, t_shell *shell)
 	}
 	if (is_builtin(cmd->args[0]))
 	{
-		shell->exit_status = execute_builtin(cmd->args, shell);
+		execute_builtin_with_redir(cmd,shell);
 		return ;
 	}
 	pid = fork();

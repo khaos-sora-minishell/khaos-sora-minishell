@@ -6,7 +6,7 @@
 #    By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/15 00:00:00 by akivam            #+#    #+#              #
-#    Updated: 2025/12/15 21:41:39 by akivam           ###   ########.fr        #
+#    Updated: 2025/12/18 22:16:48 by akivam           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ BUILTINS_SRC = builtin_cd.c builtin_echo_utils.c builtin_echo.c builtin_env.c bu
 				builtin_export.c builtin_help.c builtin_pwd.c builtin_true_false.c \
 				builtin_tty.c builtin_type.c builtin_unset.c
 
-ENV_SRC		= env_manager.c env_crypto.c env_array.c
+ENV_SRC		= env_manager.c env_crypto.c env_array.c parse_path.c
 
 EASTER_SRC	= easter_egg.c pars_vs_executer.c set_terminal_name.c
 
