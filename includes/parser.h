@@ -24,4 +24,12 @@ t_ast_node	*create_ast_node(t_node_type type, void *arena);
 /* Command parsing */
 t_cmd		*parse_simple_command(t_token **tokens, t_shell *shell);
 
+/* Helper functions for command parsing */
+int			is_redirection_token(t_token_type type);
+int			is_operator_token(t_token_type type);
+t_cmd		*create_cmd(void *arena);
+void		add_arg_to_cmd(t_cmd *cmd, char *arg, void *arena);
+t_redir		*create_redir(t_token_type type, char *file, void *arena);
+void		add_redir(t_redir **list, t_redir *new_redir);
+
 #endif

@@ -185,7 +185,9 @@ unsigned long   fnv1a_hash(char *str);
 void            xor_cipher(char *str);
 
 /* ========== MAIN ========== */
+#ifndef TEST_MODE
 int				main(int ac, char **av, char **envp);
+#endif
 void			init_shell(t_shell *shell, char **envp);
 void			cleanup_shell(t_shell *shell);
 char            **parse_path(t_shell *shell); // Argüman güncellendi
