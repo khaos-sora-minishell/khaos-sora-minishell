@@ -54,16 +54,13 @@ int	builtin_env(char **args, t_shell *shell)
 	
 	contex = (t_gc_context *)shell->global_arena;
 	i = 0;
-	// Tüm Hash Table bucketlarını gez
 	while (i < ENV_TABLE_SIZE)
 	{
 		curr = shell->env_table->buckets[i];
 		while (curr)
 		{
-			// Değer varsa ve boş değilse yazdır
-			if (curr->value)
+			if (curr->_has_value == 1)
 			{
-				// Şifreyi çözüp yazdır
 				val_decoded = gc_strdup(contex, curr->value);
 				xor_cipher(val_decoded);
 				ft_printf("%s=%s\n", curr->key, val_decoded);

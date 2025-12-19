@@ -15,8 +15,7 @@
 #include "utils.h"
 
 /*
- * tabloyu başlatır ve envp (char **) dizisinden verileri çeker
- * linked-list tem hash table a geçiş burada yapılır
+ * tabloyu başlatır ve envp dizisinden verileri çeker
  */
 t_env_table	*initilaze_env_table(char **envp, void *arena)
 {
@@ -48,7 +47,6 @@ t_env_table	*initilaze_env_table(char **envp, void *arena)
 
 /*
 ** Değer Getir (Decryption ile)
-** Şifreli veriyi çözer, temiz bir kopyasını döner.
 */
 char	*env_get(t_env_table *table, char *key, void *arena)
 {
@@ -64,6 +62,8 @@ char	*env_get(t_env_table *table, char *key, void *arena)
 	{
 		if (ft_strcmp(current->key, key) == 0)
 		{
+            if (current->_has_value == 0)
+                return (NULL);
 			decrypted_val = gc_strdup((t_gc_context *)arena, current->value);
 			xor_cipher(decrypted_val);
 			return (decrypted_val);
@@ -74,8 +74,7 @@ char	*env_get(t_env_table *table, char *key, void *arena)
 }
 
 /*
-** Değer Ata/Güncelle (Encryption ile)
-** Veriyi tabloya kaydederken otomatik şifreler.
+** Değer Ata/Güncelle (Encryption + _has_value yönetimi)
 */
 void	env_set(t_env_table *table, char *key, char *value, void *arena)
 {
@@ -89,22 +88,35 @@ void	env_set(t_env_table *table, char *key, char *value, void *arena)
 	contex = (t_gc_context *)arena;
 	idx = fnv1a_hash(key);
 	current = table->buckets[idx];
+
 	while (current)
 	{
 		if (ft_strcmp(current->key, key) == 0)
 		{
-			current->value = gc_strdup(contex, value);
-			xor_cipher(current->value);
+            if (value)
+            {
+			    current->value = gc_strdup(contex, value);
+			    xor_cipher(current->value);
+                current->_has_value = 1;
+            }
 			return ;
 		}
 		current = current->next;
 	}
+
+    // 2. Yeni Ekleme Durumu
 	new_node = gc_malloc(contex, sizeof(t_env_bucket));
 	new_node->key = gc_strdup(contex, key);
 	if (value)
+    {
 		new_node->value = gc_strdup(contex, value);
+        new_node->_has_value = 1; // [YENİ]
+    }
 	else
+    {
 		new_node->value = gc_strdup(contex, "");
+        new_node->_has_value = 0;
+    }
 	xor_cipher(new_node->value);
 	new_node->next = table->buckets[idx];
 	table->buckets[idx] = new_node;
@@ -112,7 +124,7 @@ void	env_set(t_env_table *table, char *key, char *value, void *arena)
 }
 
 /*
-** Değişken Silme (Unset için GEREKLİ)
+** Değişken Silme (Linked List Bağlantı Hatası Giderildi)
 */
 void	env_unset(t_env_table *table, char *key)
 {
@@ -141,6 +153,9 @@ void	env_unset(t_env_table *table, char *key)
 	}
 }
 
+/*
+** Tabloyu env dizisine çevir (Sadece _has_value == 1 olanlar)
+*/
 char	**env_table_to_array(t_env_table *table, void *arena)
 {
 	char			**arr;
@@ -160,11 +175,13 @@ char	**env_table_to_array(t_env_table *table, void *arena)
 		curr = table->buckets[i];
 		while (curr)
 		{
-			// Geçici kopya al ve çöz
-			tmp_val = gc_strdup(contex, curr->value);
-			xor_cipher(tmp_val);
-			tmp_join = gc_strjoin(contex, curr->key, "=");
-			arr[k++] = gc_strjoin(contex, tmp_join, tmp_val);
+            if (curr->_has_value == 1)
+            {
+			    tmp_val = gc_strdup(contex, curr->value);
+			    xor_cipher(tmp_val);
+			    tmp_join = gc_strjoin(contex, curr->key, "=");
+			    arr[k++] = gc_strjoin(contex, tmp_join, tmp_val);
+            }
 			curr = curr->next;
 		}
 		i++;

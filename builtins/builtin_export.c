@@ -16,6 +16,9 @@
 #include "printf.h"
 #include "utils.h"
 
+/* ** Identifier Kontrolü 
+** (Sayı ile başlayamaz, alfanümerik veya _ olmalı)
+*/
 static int	is_valid_identifier(char *str)
 {
 	int	i;
@@ -34,24 +37,25 @@ static int	is_valid_identifier(char *str)
 	return (1);
 }
 
-/* Basit Bubble Sort (Diziyi sıralar) */
-static void	sort_env_array(char **arr, int len)
+/* ** Bucket Dizisini Sırala (Bubble Sort)
+*/
+static void	sort_buckets(t_env_bucket **arr, int count)
 {
-	int		i;
-	int		j;
-	char	*swap;
+	int				i;
+	int				j;
+	t_env_bucket	*temp;
 
 	i = 0;
-	while (i < len - 1)
+	while (i < count - 1)
 	{
 		j = 0;
-		while (j < len - i - 1)
+		while (j < count - i - 1)
 		{
-			if (ft_strcmp(arr[j], arr[j + 1]) > 0)
+			if (ft_strcmp(arr[j]->key, arr[j + 1]->key) > 0)
 			{
-				swap = arr[j];
+				temp = arr[j];
 				arr[j] = arr[j + 1];
-				arr[j + 1] = swap;
+				arr[j + 1] = temp;
 			}
 			j++;
 		}
@@ -59,57 +63,102 @@ static void	sort_env_array(char **arr, int len)
 	}
 }
 
-/* Sıralı şekilde 'declare -x' formatında yazdır */
+/*
+** Tek bir değişkeni bash formatında yazdırır
+** - Değer varsa: declare -x KEY="VALUE" (Value içindeki " ve \ kaçışlı)
+** - Değer yoksa: declare -x KEY
+*/
+static void	print_export_item(t_env_bucket *item, t_shell *shell)
+{
+	char	*decrypted;
+	int		i;
+
+	if (ft_strncmp(item->key, "_", 2) == 0) // '_' değişkeni gizlenmeli
+		return ;
+	ft_printf("declare -x %s", item->key);
+	if (item->_has_value)
+	{
+		ft_printf("=\"");
+		// Değeri şifreden çöz
+		decrypted = gc_strdup((t_gc_context *)shell->cmd_arena, item->value);
+		xor_cipher(decrypted);
+		
+		// Özel karakterleri escape et (\ ve ")
+		i = 0;
+		while (decrypted[i])
+		{
+			if (decrypted[i] == '\"' || decrypted[i] == '\\')
+				ft_putchar_fd('\\', 1);
+			ft_putchar_fd(decrypted[i], 1);
+			i++;
+		}
+		ft_printf("\"");
+	}
+	ft_printf("\n");
+}
+
+/*
+** Tüm tabloyu gez, diziye topla, sırala ve yazdır
+*/
 static void	print_sorted_env(t_shell *shell)
 {
-	char	**arr;
-	int		len;
-	int		i;
-	char	*eq_pos;
+	t_env_bucket	**arr;
+	t_env_bucket	*curr;
+	int				count;
+	int				i;
+	int				j;
 
-	// Hash Table'ı diziye çevir (env_manager.c'deki fonksiyon)
-	arr = env_table_to_array(shell->env_table, shell->cmd_arena);
-	if (!arr) return;
-
-	len = 0;
-	while (arr[len])
-		len++;
+	if (!shell->env_table || shell->env_table->count == 0)
+		return ;
 	
-	sort_env_array(arr, len);
-
+	// Tablo boyutunda (veya count kadar) yer ayır
+	arr = gc_malloc((t_gc_context *)shell->cmd_arena, 
+			sizeof(t_env_bucket *) * (shell->env_table->count + 1));
+	
+	// Hash table'ı düz diziye dök
+	count = 0;
 	i = 0;
-	while (i < len)
+	while (i < ENV_TABLE_SIZE)
 	{
-		// _ değişkenini yazdırma (bash davranışı)
-		if (ft_strncmp(arr[i], "_=", 2) != 0)
+		curr = shell->env_table->buckets[i];
+		while (curr)
 		{
-			// KEY=VALUE formatından ayırıp tırnak içine alarak yazdır
-			eq_pos = ft_strchr(arr[i], '=');
-			if (eq_pos)
-			{
-				*eq_pos = '\0'; // Eşittiri geçici olarak null yap
-				printf("declare -x %s=\"%s\"\n", arr[i], eq_pos + 1);
-				*eq_pos = '='; // Geri düzelt (gerçi cmd_arena'da olduğu için şart değil)
-			}
-			else
-				printf("declare -x %s\n", arr[i]);
+			arr[count++] = curr;
+			curr = curr->next;
 		}
 		i++;
 	}
+
+	sort_buckets(arr, count);
+
+	// Yazdır
+	j = 0;
+	while (j < count)
+	{
+		print_export_item(arr[j], shell);
+		j++;
+	}
 }
 
+/*
+** Argümanı işle ve env_set'i çağır
+** - export VAR   -> has_value=0
+** - export VAR=  -> has_value=1, value=""
+** - export VAR=X -> has_value=1, value="X"
+*/
 static int	export_arg(char *arg, t_shell *shell)
 {
-	char			*eq;
+	char			*eq_pos;
 	char			*key;
-	t_gc_context	*contex;
+	t_gc_context	*ctx;
 
-	contex = (t_gc_context *)shell->global_arena;
-	eq = ft_strchr(arg, '=');
-	if (eq)
-		key = gc_strndup(contex, arg, eq - arg);
+	ctx = (t_gc_context *)shell->global_arena;
+	eq_pos = ft_strchr(arg, '=');
+	
+	if (eq_pos)
+		key = gc_strndup(ctx, arg, eq_pos - arg);
 	else
-		key = gc_strdup(contex, arg);
+		key = gc_strdup(ctx, arg);
 
 	if (!is_valid_identifier(key))
 	{
@@ -118,20 +167,25 @@ static int	export_arg(char *arg, t_shell *shell)
 		ft_putendl_fd("': not a valid identifier", 2);
 		return (1);
 	}
-	
-	// YENİ: env_set kullanıyoruz
-	if (eq)
-		env_set(shell->env_table, key, eq + 1, contex);
-	else if (!env_get(shell->env_table, key, contex))
-		env_set(shell->env_table, key, NULL, contex); // Değersiz değişken
-		
+
+	if (eq_pos)
+	{
+		// Eşittir var: Değer ata (boş string bile olsa değerlidir)
+		env_set(shell->env_table, key, eq_pos + 1, ctx);
+	}
+	else
+	{
+		// Eşittir yok: Sadece değeri yoksa ekle, varsa dokunma
+		if (!env_get(shell->env_table, key, ctx))
+			env_set(shell->env_table, key, NULL, ctx);
+	}
 	return (0);
 }
 
 int	builtin_export(char **args, t_shell *shell)
 {
-	int i;
-	int ret;
+	int	i;
+	int	ret;
 
 	if (!args[1])
 	{
@@ -146,7 +200,7 @@ int	builtin_export(char **args, t_shell *shell)
 			ret = 1;
 		i++;
 	}
-	// Export yaptıktan sonra array'i güncellememiz şart
+	// Export sonrası env array'i güncellemek kritik (child processler için)
 	shell->env_array = env_table_to_array(shell->env_table, shell->global_arena);
 	return (ret);
 }

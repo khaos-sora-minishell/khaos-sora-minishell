@@ -16,9 +16,13 @@
 /*
  * Print error message
  */
-void	print_error(char *cmd, char *msg)
+void	print_error(const char *cmd, const char *arg, const char *msg)
 {
-	fprintf(stderr, "minishell: %s: %s\n", cmd, msg);
+	/*! bizim printflere geçilecek*/
+	fprintf(stderr, "minishell: %s", cmd);
+	if (arg)
+		fprintf(stderr, ": %s", arg);
+	fprintf(stderr, ": %s\n", msg);
 }
 
 /*

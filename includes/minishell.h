@@ -87,6 +87,7 @@ typedef struct s_env_bucket
 {
     char                    *key;
     char                    *value;     // XOR ile şifrelenmiş veri
+	int 					_has_value;
     struct s_env_bucket     *next;      // Collision zinciri
 }   t_env_bucket;
 
