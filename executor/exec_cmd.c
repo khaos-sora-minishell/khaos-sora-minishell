@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 19:20:37 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/20 22:05:11 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/20 22:14:39 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 #include "libft.h"
 #include "minishell.h"
 #include "utils.h"
-#include <readline/readline.h>
 #include <sys/stat.h>
 
 int	process_cmd_heredoc(t_cmd *cmd, t_shell *shell)
@@ -26,17 +25,16 @@ int	process_cmd_heredoc(t_cmd *cmd, t_shell *shell)
 	char	*line;
 	char	*tmp_file;
 	char	*heredoc_prompt;
-	int		*fd;
 	int		counter;
 
+	int fd; // [DÜZELTİLDİ] int *fd değil, int fd olmalı
 	current = cmd->redirs;
 	counter = 0;
 	while (current)
 	{
 		if (current->type == TOKEN_HEREDOC)
 		{
-			heredoc_prompt = env_get(shell->alias_table, "PS2",
-					shell->cmd_arena);
+			heredoc_prompt = env_get(shell->env_table, "PS2", shell->cmd_arena);
 			if (!heredoc_prompt)
 				heredoc_prompt = "> ";
 			tmp_file = gc_strjoin(shell->cmd_arena, "/tmp/.heredoc_",
@@ -73,10 +71,6 @@ void	expand_cmd_args(t_cmd *cmd, t_shell *shell)
 		cmd->args = expand_args(cmd->args, shell);
 }
 
-/*
- * Find executable path for command
- * Returns command path or NULL if not found
- */
 char	*find_command_path(char *cmd, t_shell *shell)
 {
 	int				i;
@@ -118,9 +112,6 @@ static void	check_file_status(char *cmd_path)
 		handle_permission_denied(cmd_path);
 }
 
-/*
- * Child process - setup redirections and execute command
- */
 static void	exec_child_process(t_cmd *cmd, t_shell *shell)
 {
 	char	*cmd_path;
@@ -128,6 +119,8 @@ static void	exec_child_process(t_cmd *cmd, t_shell *shell)
 	setup_child_signals();
 	if (setup_redirections(cmd->redirs, shell) == -1)
 		exit(1);
+	if (!cmd->args[0])
+		exit(0);
 	if (cmd->args[0] && ft_strcmp(cmd->args[0], ".") == 0)
 	{
 		ft_putendl_fd("minishell: .: filename argument required", 2);
@@ -149,32 +142,35 @@ static void	execute_builtin_with_redir(t_cmd *cmd, t_shell *shell)
 	int	saved_stdin;
 	int	saved_stdout;
 
-	// 1. Mevcut FD'leri yedekle
 	saved_stdin = dup(STDIN_FILENO);
 	saved_stdout = dup(STDOUT_FILENO);
-	// 2. Yönlendirmeleri uygula
 	if (setup_redirections(cmd->redirs, shell) == 0)
-	{
-		// 3. Başarılıysa builtin'i çalıştır
 		shell->exit_status = execute_builtin(cmd->args, shell);
-	}
 	else
-	{
 		shell->exit_status = 1;
-	}
-	// 4. FD'leri eski haline getir
 	dup2(saved_stdin, STDIN_FILENO);
 	dup2(saved_stdout, STDOUT_FILENO);
 	close(saved_stdin);
 	close(saved_stdout);
 }
 
+/*
+ * ANA YÜRÜTME FONKSİYONU
+ */
 void	execute_command(t_cmd *cmd, t_shell *shell)
 {
 	pid_t	pid;
 	int		status;
 
-	if (!cmd || !cmd->args || !cmd->args[0])
+	if (!cmd)
+		return ;
+	if (process_cmd_heredoc(cmd, shell) == -1)
+	{
+		shell->exit_status = 1;
+		return ;
+	}
+	expand_cmd_args(cmd, shell);
+	if (!cmd->args || !cmd->args[0])
 		return ;
 	if (is_easter_egg(cmd->args[0]))
 	{
