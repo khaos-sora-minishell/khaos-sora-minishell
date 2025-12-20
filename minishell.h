@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 19:20:48 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/20 22:04:42 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/20 22:52:26 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,7 +177,7 @@ typedef struct s_shell
 /* ========================================================================== */
 
 /* --- ENV MANAGER (env_manager.c) - SENİN İSTEDİĞİN İSİMLERLE --- */
-t_env_table						*initilaze_env_table(char **envp, void *arena);
+t_env_table						*initialize_env_table(char **envp, void *arena);
 char							*env_get(t_env_table *table, char *key,
 									void *arena);
 void							env_set(t_env_table *table, char *key,

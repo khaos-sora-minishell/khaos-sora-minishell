@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 12:33:24 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/20 20:48:18 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/20 22:52:26 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	set_default_shell_vars(t_env_table *table, void *arena)
 /*
  * tabloyu başlatır ve envp dizisinden verileri çeker
  */
-t_env_table	*initilaze_env_table(char **envp, void *arena)
+t_env_table	*initialize_env_table(char **envp, void *arena)
 {
 	t_env_table		*table;
 	t_gc_context	*contex;

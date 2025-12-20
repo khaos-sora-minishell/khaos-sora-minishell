@@ -6,7 +6,7 @@
 #    By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/15 00:00:00 by akivam            #+#    #+#              #
-#    Updated: 2025/12/18 22:16:48 by akivam           ###   ########.fr        #
+#    Updated: 2025/12/20 22:45:49 by akivam           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,11 +64,10 @@ GC_LIB			= $(GC_DIR)/garbage_collecter.a
 # Compiler and Flags
 CC				= cc
 CFLAGS			= -Wall -Wextra -Werror
-INCLUDE_FLAGS	= -I./includes -I./libs/libft -I./libs/ft_printf \
+INCLUDE_FLAGS	= -I. -I./libs/libft -I./libs/ft_printf \
 				  -I./libs/garbage_collector -I./libs/garbage_collector/include \
 				  -I./lexer -I./parser -I./expander -I./executor -I./builtins \
 				  -I./env -I./signals -I./utils
-CFLAGS			+= -g -g3
 CFLAGS			+= $(INCLUDE_FLAGS)
 LDFLAGS			= -lreadline -lncurses
 

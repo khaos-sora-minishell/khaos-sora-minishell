@@ -6,14 +6,14 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 19:20:48 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/20 22:30:55 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/20 22:44:08 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILTINS_H
 # define BUILTINS_H
 
-# include "../minishell.h"
+# include "minishell.h"
 
 typedef int         (*t_builtin_func)(char **args, t_shell *shell);
 typedef void        (*t_transform_fn)(char *);

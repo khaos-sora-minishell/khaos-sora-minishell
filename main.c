@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/20 16:59:22 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/20 20:51:48 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/20 22:52:53 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	init_shell(t_shell *shell, char **envp)
 		exit(1);
 	// Env ve Array
 	// ARTIK BURADA OTOMATİK OLARAK PS1 ve PS2 YÜKLENİYOR!
-	shell->env_table = initilaze_env_table(envp, shell->global_arena);
+	shell->env_table = initialize_env_table(envp, shell->global_arena);
 	shell->env_array = env_table_to_array(shell->env_table,
 			shell->global_arena);
 	// Alias Tablosu
@@ -121,7 +121,6 @@ int	main(int argc, char const *argv[], char **envp)
 		{
 			printf("exit\n");
 			break ;
-			;
 		}
 		if (*input)
 			add_history(input);
@@ -132,6 +131,7 @@ int	main(int argc, char const *argv[], char **envp)
 			shell.ast_root = parser(tokens, &shell);
 			if (shell.ast_root)
 			{
+				expand_args(shell.ast_root, &shell);
 				executor_run(&shell);
 			}
 		}
