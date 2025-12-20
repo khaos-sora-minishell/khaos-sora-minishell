@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 19:20:37 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/20 21:38:25 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/20 22:05:11 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	process_cmd_heredoc(t_cmd *cmd, t_shell *shell)
 					free(line);
 					break ;
 				}
-				ft_putendl_fd(line,fd);
+				ft_putendl_fd(line, fd);
 				free(line);
 			}
 			close(fd);
@@ -62,15 +62,15 @@ int	process_cmd_heredoc(t_cmd *cmd, t_shell *shell)
 			current->file = tmp_file;
 		}
 		current = current->next;
-		counter++;	
+		counter++;
 	}
-	return(0);
+	return (0);
 }
 
-void expand_cmd_args(t_cmd *cmd, t_shell *shell)
+void	expand_cmd_args(t_cmd *cmd, t_shell *shell)
 {
-	if(cmd->args)
-		// cmd->args = expa
+	if (cmd->args)
+		cmd->args = expand_args(cmd->args, shell);
 }
 
 /*

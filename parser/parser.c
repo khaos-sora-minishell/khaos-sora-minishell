@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 22:29:47 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/20 16:35:57 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/20 21:52:03 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ t_ast_node	*parser(t_token *tokens, t_shell *shell)
 {
 	if (check_syntax(tokens))
 	{
-		shell->exit_status = 2558;
+		shell->exit_status = 258;
 		return (NULL);
 	}
 	return (build_ast(tokens, shell));

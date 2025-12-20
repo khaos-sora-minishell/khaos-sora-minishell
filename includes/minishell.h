@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 19:20:48 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/20 21:41:06 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/20 22:04:42 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,6 +239,7 @@ void							expand_variables(t_ast_node *ast,
 									t_shell *shell);
 char							**expand_wildcard(char *pattern,
 									t_shell *shell);
+char							**expand_args(char **args, t_shell *shell);
 
 /* ========== UTILS ========== */
 void							free_tokens(t_token *tokens);
