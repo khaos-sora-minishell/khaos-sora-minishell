@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 19:20:37 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/18 21:40:37 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/20 21:38:25 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,61 @@
 #include "libft.h"
 #include "minishell.h"
 #include "utils.h"
+#include <readline/readline.h>
 #include <sys/stat.h>
+
+int	process_cmd_heredoc(t_cmd *cmd, t_shell *shell)
+{
+	t_redir	*current;
+	char	*line;
+	char	*tmp_file;
+	char	*heredoc_prompt;
+	int		*fd;
+	int		counter;
+
+	current = cmd->redirs;
+	counter = 0;
+	while (current)
+	{
+		if (current->type == TOKEN_HEREDOC)
+		{
+			heredoc_prompt = env_get(shell->alias_table, "PS2",
+					shell->cmd_arena);
+			if (!heredoc_prompt)
+				heredoc_prompt = "> ";
+			tmp_file = gc_strjoin(shell->cmd_arena, "/tmp/.heredoc_",
+					gc_itoa(shell->cmd_arena, counter));
+			fd = open(tmp_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			if (fd == -1)
+				return (perror("heredoc open"), -1);
+			while (1)
+			{
+				line = readline(heredoc_prompt);
+				if (!line)
+					break ;
+				if (ft_strcmp(line, current->delimiter) == 0)
+				{
+					free(line);
+					break ;
+				}
+				ft_putendl_fd(line,fd);
+				free(line);
+			}
+			close(fd);
+			current->type = TOKEN_REDIR_IN;
+			current->file = tmp_file;
+		}
+		current = current->next;
+		counter++;	
+	}
+	return(0);
+}
+
+void expand_cmd_args(t_cmd *cmd, t_shell *shell)
+{
+	if(cmd->args)
+		// cmd->args = expa
+}
 
 /*
  * Find executable path for command
@@ -90,31 +144,29 @@ static void	exec_child_process(t_cmd *cmd, t_shell *shell)
 	exit(1);
 }
 
-static void execute_builtin_with_redir(t_cmd *cmd, t_shell *shell)
+static void	execute_builtin_with_redir(t_cmd *cmd, t_shell *shell)
 {
-    int saved_stdin;
-    int saved_stdout;
+	int	saved_stdin;
+	int	saved_stdout;
 
-    // 1. Mevcut FD'leri yedekle
-    saved_stdin = dup(STDIN_FILENO);
-    saved_stdout = dup(STDOUT_FILENO);
-
-    // 2. Yönlendirmeleri uygula
-    if (setup_redirections(cmd->redirs, shell) == 0)
-    {
-        // 3. Başarılıysa builtin'i çalıştır
-        shell->exit_status = execute_builtin(cmd->args, shell);
-    }
-    else
-    {
-        shell->exit_status = 1;
-    }
-
-    // 4. FD'leri eski haline getir
-    dup2(saved_stdin, STDIN_FILENO);
-    dup2(saved_stdout, STDOUT_FILENO);
-    close(saved_stdin);
-    close(saved_stdout);
+	// 1. Mevcut FD'leri yedekle
+	saved_stdin = dup(STDIN_FILENO);
+	saved_stdout = dup(STDOUT_FILENO);
+	// 2. Yönlendirmeleri uygula
+	if (setup_redirections(cmd->redirs, shell) == 0)
+	{
+		// 3. Başarılıysa builtin'i çalıştır
+		shell->exit_status = execute_builtin(cmd->args, shell);
+	}
+	else
+	{
+		shell->exit_status = 1;
+	}
+	// 4. FD'leri eski haline getir
+	dup2(saved_stdin, STDIN_FILENO);
+	dup2(saved_stdout, STDOUT_FILENO);
+	close(saved_stdin);
+	close(saved_stdout);
 }
 
 void	execute_command(t_cmd *cmd, t_shell *shell)
@@ -131,7 +183,7 @@ void	execute_command(t_cmd *cmd, t_shell *shell)
 	}
 	if (is_builtin(cmd->args[0]))
 	{
-		execute_builtin_with_redir(cmd,shell);
+		execute_builtin_with_redir(cmd, shell);
 		return ;
 	}
 	pid = fork();
@@ -143,7 +195,7 @@ void	execute_command(t_cmd *cmd, t_shell *shell)
 	}
 	if (pid == 0)
 		exec_child_process(cmd, shell);
-	ignore_signals(); 
+	ignore_signals();
 	waitpid(pid, &status, 0);
 	setup_signals();
 	if (WIFEXITED(status))

@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/20 16:59:22 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/20 18:34:16 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/20 20:51:48 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,9 @@ void	init_shell(t_shell *shell, char **envp)
 	shell->global_arena = gc_create();
 	shell->cmd_arena = gc_create();
 	if (!shell->global_arena || !shell->cmd_arena)
-		exit(1); // Error msg eklenebilir
+		exit(1);
 	// Env ve Array
+	// ARTIK BURADA OTOMATİK OLARAK PS1 ve PS2 YÜKLENİYOR!
 	shell->env_table = initilaze_env_table(envp, shell->global_arena);
 	shell->env_array = env_table_to_array(shell->env_table,
 			shell->global_arena);
@@ -73,12 +74,13 @@ void	init_shell(t_shell *shell, char **envp)
 	shell->alias_table = gc_calloc(shell->global_arena, 1, sizeof(t_env_table));
 	shell->alias_table->buckets = gc_calloc(shell->global_arena, ENV_TABLE_SIZE,
 			sizeof(t_env_bucket *));
-	// Görünüm (Varsayılan)
+	// Görünüm (Struct içi varsayılanlar)
 	shell->terminal_name = "minishell";
 	shell->terminal_name_color = NULL;
 	shell->terminal_bg_color = NULL;
+	// Pencere adını değiştir (Easter Egg)
 	set_terminal_name(shell->terminal_name);
-	// --- [YENİ] KALICI GEÇMİŞİ BAŞLAT ---
+	// History Başlat
 	init_history(shell);
 	shell->exit_status = 0;
 }

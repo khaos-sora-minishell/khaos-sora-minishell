@@ -6,13 +6,24 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 12:33:24 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/15 20:56:55 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/20 20:48:18 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "minishell.h"
 #include "utils.h"
+
+void	set_default_shell_vars(t_env_table *table, void *arena)
+{
+	/* PS1 (Ana Prompt) Yoksa ekle */
+	if (!env_get(table, "PS1", arena))
+		env_set(table, "PS1", "minishell$ ", arena);
+	/* PS2 (Heredoc Prompt) Yoksa ekle */
+	if (!env_get(table, "PS2", arena))
+		env_set(table, "PS2", "> ", arena);
+	/* İstersen PWD, SHLVL gibi diğer varsayılanları da buraya ekleyebilirsin */
+}
 
 /*
  * tabloyu başlatır ve envp dizisinden verileri çeker
@@ -42,6 +53,7 @@ t_env_table	*initilaze_env_table(char **envp, void *arena)
 		}
 		i++;
 	}
+	set_default_shell_vars(table, arena);
 	return (table);
 }
 
@@ -62,8 +74,8 @@ char	*env_get(t_env_table *table, char *key, void *arena)
 	{
 		if (ft_strcmp(current->key, key) == 0)
 		{
-            if (current->_has_value == 0)
-                return (NULL);
+			if (current->_has_value == 0)
+				return (NULL);
 			decrypted_val = gc_strdup((t_gc_context *)arena, current->value);
 			xor_cipher(decrypted_val);
 			return (decrypted_val);
@@ -88,17 +100,16 @@ void	env_set(t_env_table *table, char *key, char *value, void *arena)
 	contex = (t_gc_context *)arena;
 	idx = fnv1a_hash(key);
 	current = table->buckets[idx];
-
 	while (current)
 	{
 		if (ft_strcmp(current->key, key) == 0)
 		{
-            if (value)
-            {
-			    current->value = gc_strdup(contex, value);
-			    xor_cipher(current->value);
-                current->_has_value = 1;
-            }
+			if (value)
+			{
+				current->value = gc_strdup(contex, value);
+				xor_cipher(current->value);
+				current->_has_value = 1;
+			}
 			return ;
 		}
 		current = current->next;
@@ -106,15 +117,15 @@ void	env_set(t_env_table *table, char *key, char *value, void *arena)
 	new_node = gc_malloc(contex, sizeof(t_env_bucket));
 	new_node->key = gc_strdup(contex, key);
 	if (value)
-    {
+	{
 		new_node->value = gc_strdup(contex, value);
-        new_node->_has_value = 1;
-    }
+		new_node->_has_value = 1;
+	}
 	else
-    {
+	{
 		new_node->value = gc_strdup(contex, "");
-        new_node->_has_value = 0;
-    }
+		new_node->_has_value = 0;
+	}
 	xor_cipher(new_node->value);
 	new_node->next = table->buckets[idx];
 	table->buckets[idx] = new_node;
@@ -173,13 +184,13 @@ char	**env_table_to_array(t_env_table *table, void *arena)
 		curr = table->buckets[i];
 		while (curr)
 		{
-            if (curr->_has_value == 1)
-            {
-			    tmp_val = gc_strdup(contex, curr->value);
-			    xor_cipher(tmp_val);
-			    tmp_join = gc_strjoin(contex, curr->key, "=");
-			    arr[k++] = gc_strjoin(contex, tmp_join, tmp_val);
-            }
+			if (curr->_has_value == 1)
+			{
+				tmp_val = gc_strdup(contex, curr->value);
+				xor_cipher(tmp_val);
+				tmp_join = gc_strjoin(contex, curr->key, "=");
+				arr[k++] = gc_strjoin(contex, tmp_join, tmp_val);
+			}
 			curr = curr->next;
 		}
 		i++;
