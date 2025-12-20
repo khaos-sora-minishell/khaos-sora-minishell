@@ -103,14 +103,12 @@ void	env_set(t_env_table *table, char *key, char *value, void *arena)
 		}
 		current = current->next;
 	}
-
-    // 2. Yeni Ekleme Durumu
 	new_node = gc_malloc(contex, sizeof(t_env_bucket));
 	new_node->key = gc_strdup(contex, key);
 	if (value)
     {
 		new_node->value = gc_strdup(contex, value);
-        new_node->_has_value = 1; // [YENİ]
+        new_node->_has_value = 1;
     }
 	else
     {
