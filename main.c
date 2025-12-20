@@ -1,162 +1,140 @@
 /* ************************************************************************** */
-/* */
-/* :::      ::::::::   */
-/* main.c                                             :+:      :+:    :+:   */
-/* +:+ +:+         +:+     */
-/* By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
-/* +#+#+#+#+#+   +#+           */
-/* Created: 2025/12/07 00:00:00 by akivam            #+#    #+#             */
-/* Updated: 2025/12/15 21:15:00 by akivam           ###   ########.fr       */
-/* */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/20 16:59:22 by akivam            #+#    #+#             */
+/*   Updated: 2025/12/20 18:34:16 by akivam           ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 #include "executor.h"
+#include "garbage_collector.h"
+#include "libft.h"
 #include "minishell.h"
 #include <readline/history.h>
 #include <readline/readline.h>
 #include <stdio.h>
-#include "libft.h"
-#include "garbage_collector.h"
+
+volatile sig_atomic_t	g_signal = 0;
 
 /*
- * Parse PATH environment variable into array
- * Hash Table'dan (env_table) şifresi çözülmüş PATH'i çeker.
+ * Prompt Oluşturucu
+ * Renk ve Terminal ismine göre dinamik prompt döndürür.
+ * Örn: (YEŞİL)minishell$ (RESET)
  */
-char	**parse_path(t_shell *shell)
+/*
+ * Prompt Oluşturucu (Tam Özelleştirilebilir)
+ * Yapı: [ARKA_PLAN] + [YAZI_RENGİ] + [İSİM] + [RESET] + "$ "
+ */
+static char	*get_prompt(t_shell *shell)
 {
-	char	*path_value;
+	char	*prompt;
+	char	*reset;
 
-	// env_get otomatik deşifre edip verir
-	path_value = env_get(shell->env_table, "PATH", shell->global_arena);
-	if (!path_value)
-		return (NULL);
-	return (gc_split((t_gc_context *)shell->global_arena, path_value, ':'));
+	reset = "\033[0m";
+	// 1. Arkaplan Rengi (Easter egg ile değişebilir, varsayılan NULL)
+	if (shell->terminal_bg_color)
+		prompt = gc_strdup(shell->cmd_arena, shell->terminal_bg_color);
+	else
+		prompt = gc_strdup(shell->cmd_arena, "");
+	// 2. İsim Rengi
+	if (shell->terminal_name_color)
+		prompt = gc_strjoin(shell->cmd_arena, prompt,
+				shell->terminal_name_color);
+	// 3. Terminal İsmi (Easter egg ile "Matrix" vs. olabilir)
+	if (shell->terminal_name)
+		prompt = gc_strjoin(shell->cmd_arena, prompt, shell->terminal_name);
+	else
+		prompt = gc_strjoin(shell->cmd_arena, prompt, "minishell");
+	// 4. Reset ve "$ "
+	prompt = gc_strjoin(shell->cmd_arena, prompt, reset);
+	prompt = gc_strjoin(shell->cmd_arena, prompt, "$ ");
+	return (prompt);
 }
 
-/*
- * Initialize shell structure
- */
+/* initilaze shell setup env and global arena*/
+
 void	init_shell(t_shell *shell, char **envp)
 {
-	t_gc_context	*gc;
-
-	gc = gc_create();
-	if (!gc)
-	{
-		ft_putendl_fd("Error: GC initialization failed", 2);
-		exit(1);
-	}
-	shell->global_arena = gc;
-	// Komut bazlı arena henüz ayrılmadı, loop içinde yönetilebilir
-	shell->cmd_arena = gc; 
-
-	// --- TERMİNAL AYARLARI ---
-	shell->terminal_name = gc_strdup(gc, "minishell");
-	shell->terminal_text_color = gc_strdup(gc, "");
-	shell->terminal_bg_color = gc_strdup(gc, "");
-	shell->alias_list = NULL;
-
-	// --- ORTAM DEĞİŞKENLERİ (HASH TABLE) ---
-	// Senin istediğin fonksiyon ismiyle başlatma:
-	shell->env_table = initilaze_env_table(envp, gc);
-	if (!shell->env_table)
-	{
-		ft_putendl_fd("Error: Environment table init failed", 2);
-		exit(1);
-	}
-
-	// Execve için array oluştur ve PATH'i parse et
-	shell->env_array = env_table_to_array(shell->env_table, gc);
-	shell->path_dirs = parse_path(shell);
-
+	ft_bzero(shell, sizeof(t_shell));
+	// Arenalar
+	shell->global_arena = gc_create();
+	shell->cmd_arena = gc_create();
+	if (!shell->global_arena || !shell->cmd_arena)
+		exit(1); // Error msg eklenebilir
+	// Env ve Array
+	shell->env_table = initilaze_env_table(envp, shell->global_arena);
+	shell->env_array = env_table_to_array(shell->env_table,
+			shell->global_arena);
+	// Alias Tablosu
+	shell->alias_table = gc_calloc(shell->global_arena, 1, sizeof(t_env_table));
+	shell->alias_table->buckets = gc_calloc(shell->global_arena, ENV_TABLE_SIZE,
+			sizeof(t_env_bucket *));
+	// Görünüm (Varsayılan)
+	shell->terminal_name = "minishell";
+	shell->terminal_name_color = NULL;
+	shell->terminal_bg_color = NULL;
+	set_terminal_name(shell->terminal_name);
+	// --- [YENİ] KALICI GEÇMİŞİ BAŞLAT ---
+	init_history(shell);
 	shell->exit_status = 0;
-	shell->ast_root = NULL;
-	shell->stdin_backup = -1;
-	shell->stdout_backup = -1;
 }
 
-/*
- * Cleanup shell resources
- */
+/*her komut satırı sonraso yapılan temizlik*/
+static void	clean_loop(t_shell *shell)
+{
+	gc_scope_pop_all(shell->cmd_arena);
+	g_signal = 0;
+	shell->ast_root = NULL;
+}
+
+/*program çıkışında yapılan tam temizlik*/
 void	cleanup_shell(t_shell *shell)
 {
+	save_history_to_file(shell);
+	rl_clear_history();
 	if (shell->global_arena)
 		gc_destroy(shell->global_arena);
-	// Readline geçmişini temizle (opsiyonel)
-	rl_clear_history();
+	if (shell->cmd_arena)
+		gc_destroy(shell->cmd_arena);
 }
 
-/*
- * Main shell loop
- */
-static void	shell_loop(t_shell *shell)
+int	main(int argc, char const *argv[], char **envp)
 {
-	char		*line;
-	char		*prompt;
-	t_token		*tokens;
-	t_gc_context	*gc;
+	t_shell	shell;
+	char	*input;
+	t_token	*tokens;
 
-	gc = (t_gc_context *)shell->global_arena;
+	(void)argc;
+	(void)argv;
+	init_shell(&shell, (char **)envp);
+	setup_signals();
 	while (1)
 	{
-		// Prompt oluştur (Renkler ve isim dinamik olabilir)
-		prompt = gc_strjoin(gc, shell->terminal_name, " > ");
-		line = readline(prompt);
-
-		if (!line) // Ctrl+D (EOF)
+		input = readline(get_prompt(&shell));
+		if (!input)
 		{
 			printf("exit\n");
 			break ;
+			;
 		}
-		if (*line)
-			add_history(line); // Boş satırları kaydetme
-		
-		// 1. LEXER: Girdiyi tokenlara ayır
-		tokens = lexer(line, shell);
-		if (!tokens)
+		if (*input)
+			add_history(input);
+		tokens = lexer(input, &shell);
+		free(input);
+		if (tokens)
 		{
-			free(line); // Readline malloc'unu manuel free et (veya gc_track)
-			continue ;
+			shell.ast_root = parser(tokens, &shell);
+			if (shell.ast_root)
+			{
+				executor_run(&shell);
+			}
 		}
-
-		// 2. PARSER: Tokenları AST'ye çevir
-		// Not: Parser hata durumunda NULL dönebilir ve hata mesajı basmalıdır.
-		shell->ast_root = parser(tokens, shell);
-
-		// 3. EXECUTOR: AST'yi çalıştır
-		if (shell->ast_root)
-		{
-			// Executor.c dosyasındaki ana çalıştırma fonksiyonu
-			// Bu fonksiyon AST üzerinde gezinerek komutları işletir
-			executor_run(shell);
-		}
-
-		// Döngü sonu temizliği (Satır ve cmd_arena temizliği burada yapılabilir)
-		free(line);
+		clean_loop(&shell);
 	}
-}
-
-/*
- * Main entry point
- */
-int	main(int ac, char **av, char **envp)
-{
-	t_shell	shell;
-
-	(void)ac;
-	(void)av;
-
-	// 1. Başlatma (Hash Table & GC)
-	init_shell(&shell, envp);
-
-	// 2. Sinyal Kurulumu
-	setup_signals();
-
-	// 3. Ana Döngü (Oku-Ayrıştır-Çalıştır)
-	shell_loop(&shell);
-
-	// 4. Çıkış ve Temizlik
-	cleanup_shell(&shell);
-
+	clean_loop(&shell);
 	return (shell.exit_status);
 }
