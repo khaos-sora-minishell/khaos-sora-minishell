@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/21 20:50:44 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/21 21:14:58 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/21 22:18:32 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include <readline/readline.h>
 #include <stdio.h>
 #include <sys/stat.h>
+#include "utils.h"
 
 void	expand_cmd_args(t_cmd *cmd, t_shell *shell)
 {

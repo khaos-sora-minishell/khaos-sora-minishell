@@ -9,17 +9,22 @@ LEXER_SRC	= lexer.c lexer_operator.c lexer_word.c lexer_token.c quotes.c
 
 PARSER_SRC	= parser.c parse_cmd.c parse_cmd_utils.c build_ast.c
 
-# EXPANDER_SRC = expander.c wildcard.c expand_args.c
+EXPANDER_SRC = expander.c wildcard.c expand_args.c
 
 EXECUTOR_SRC = executor.c exec_ast.c exec_builtin.c exec_cmd.c \
 			   exec_cmd_utils.c exec_pipe.c redirections.c
 
 EXEC_ERROR_SRC = executor_error.c
 
-BUILTINS_SRC = builtin_cd.c builtin_echo_utils.c builtin_echo.c builtin_env.c \
-				builtin_exit.c builtin_export.c builtin_expot_utils.c \
-				builtin_help.c builtin_pwd.c builtin_true_false.c \
-				builtin_tty.c builtin_type.c builtin_unset.c
+BUILTINS_SRC = cd/builtin_cd.c \
+			   echo/builtin_echo.c echo/builtin_echo_utils.c \
+			   env/builtin_env.c \
+			   exit/builtin_exit.c \
+			   export/builtin_export.c export/builtin_expot_utils.c \
+			   pwd/builtin_pwd.c \
+			   unset/builtin_unset.c \
+			   extras/builtin_help.c extras/builtin_true_false.c \
+			   extras/builtin_tty.c extras/builtin_type.c
 
 ENV_SRC		= env_manager.c env_manager_utils.c env_crypto.c env_array.c parse_path.c
 
@@ -43,15 +48,13 @@ SRCS = main.c history_manager.c config_loader.c \
 
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
 
-# Library Files
 LIBFT_LIB		= $(LIBFT_DIR)/libft.a
 PRINTF_LIB		= $(PRINTF_DIR)/libftprintf.a
 GC_LIB			= $(GC_DIR)/garbage_collecter.a
 
-# Compiler and Flags
 CC				= cc
 CFLAGS			= -Wall -Wextra -Werror
-# Include pathleri guncellendi
+
 INCLUDE_FLAGS	= -I. \
 				  -I./libs/libft -I./libs/ft_printf \
 				  -I./libs/garbage_collector -I./libs/garbage_collector/include \
