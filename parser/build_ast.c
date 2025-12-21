@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/20 16:36:35 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/20 16:47:00 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/21 22:13:25 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,20 +29,23 @@ static t_ast_node	*create_cmd_node(t_token **tokens, t_shell *shell)
 	t_cmd		*cmd;
 
 	cmd = parse_simple_command(tokens, shell);
+	if (!cmd)
+		return (NULL);
+	node = new_ast_node(NODE_CMD, shell);
+	if (!node)
+		return (NULL);
 	node->cmd = cmd;
 	return (node);
 }
 
-/*
- * AST oluşturma - t_cmd'leri kullanarak ağaç kurar
- * Pipe, AND, OR operatörlerini ekler
- */
 t_ast_node	*build_ast(t_token *tokens, t_shell *shell)
 {
-	t_ast_node *root;      // en üst düğüm
-	t_ast_node *right;     // sağ taraf
-	t_ast_node *pipe_node; // pipe bağlantısı
-	t_token *current;      // tokende gezen parça
+	t_ast_node	*root;
+	t_ast_node	*right;
+	t_ast_node	*pipe_node;
+	t_token		*current;
+
+	current = tokens;
 	root = create_cmd_node(&current, shell);
 	if (!root)
 		return (NULL);
@@ -53,6 +56,8 @@ t_ast_node	*build_ast(t_token *tokens, t_shell *shell)
 		if (!right)
 			return (NULL);
 		pipe_node = new_ast_node(NODE_PIPE, shell);
+		if (!pipe_node)
+			return (NULL);
 		pipe_node->left = root;
 		pipe_node->right = right;
 		root = pipe_node;

@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 20:30:17 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/11 18:14:23 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/21 21:37:43 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int			ft_strcmp(const char *s1, const char *s2);
 int			is_whitespace(char c);
 int			is_special_char(char c);
 
-/* File utilities */
 int			open_file(const char *file_name);
 int			open_file_write(const char *file_name);
 int			open_file_append(const char *file_name);

@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 19:19:58 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/15 21:07:34 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/21 19:42:57 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ int	builtin_unset(char **args, t_shell *shell)
 	{
 		env_unset(shell->env_table, args[i]);
 		i++;
-	}	shell->env_array = env_table_to_array(shell->env_table, contex);
+	}
+	shell->env_array = env_table_to_array(shell->env_table, contex);
 	shell->path_dirs = parse_path(shell);
 	return (0);
 }

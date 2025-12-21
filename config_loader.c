@@ -6,14 +6,13 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/20 17:22:21 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/20 17:47:23 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/21 21:39:32 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include "minishell.h"
 
-/*tek bir satırı işleyip çalıştırır (mini main loopu)*/
 static void	process_config_line(t_shell *shell, char *line)
 {
 	t_token	*tokens;
@@ -39,16 +38,15 @@ static void	process_config_line(t_shell *shell, char *line)
 
 void	load_shellrc(t_shell *shell)
 {
-	int fd;
-	char *path;
-	char *line;
-	char *home_dir;
+	int		fd;
+	char	*path;
+	char	*line;
+	char	*home_dir;
 
 	home_dir = env_get(shell->env_table, "HOME", shell->global_arena);
 	if (!home_dir)
 		return ;
 	path = gc_strjoin(shell->global_arena, home_dir, "/.shellrc");
-
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
 		return ;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: harici <harici@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 00:38:36 by harici            #+#    #+#             */
-/*   Updated: 2025/12/12 00:38:41 by harici           ###   ########.fr       */
+/*   Updated: 2025/12/21 21:35:06 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,11 @@
 
 # include "minishell.h"
 
-/* ========== PARSER INTERNAL FUNCTIONS ========== */
-
-/* AST building functions */
 t_ast_node	*build_ast(t_token *tokens, t_shell *shell);
 t_ast_node	*create_ast_node(t_node_type type, void *arena);
 
-/* Command parsing */
 t_cmd		*parse_simple_command(t_token **tokens, t_shell *shell);
 
-/* Helper functions for command parsing */
 int			is_redirection_token(t_token_type type);
 int			is_operator_token(t_token_type type);
 t_cmd		*create_cmd(void *arena);

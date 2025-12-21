@@ -1,48 +1,35 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/12/15 00:00:00 by akivam            #+#    #+#              #
-#    Updated: 2025/12/20 22:45:49 by akivam           ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 NAME		= minishell
 OBJ_DIR		= obj
 
-# Library Directories
 LIBFT_DIR	= libs/libft
 PRINTF_DIR	= libs/ft_printf
 GC_DIR		= libs/garbage_collector
 
-# Source Files by Module
 LEXER_SRC	= lexer.c lexer_operator.c lexer_word.c lexer_token.c quotes.c
 
-PARSER_SRC	= parser.c parse_cmd.c build_ast.c
+PARSER_SRC	= parser.c parse_cmd.c parse_cmd_utils.c build_ast.c
 
-EXPANDER_SRC = expander.c wildcard.c
+# EXPANDER_SRC = expander.c wildcard.c expand_args.c
 
-EXECUTOR_SRC = executor.c exec_ast.c exec_builtin.c exec_cmd.c exec_pipe.c redirections.c
+EXECUTOR_SRC = executor.c exec_ast.c exec_builtin.c exec_cmd.c \
+			   exec_cmd_utils.c exec_pipe.c redirections.c
 
 EXEC_ERROR_SRC = executor_error.c
 
-BUILTINS_SRC = builtin_cd.c builtin_echo_utils.c builtin_echo.c builtin_env.c builtin_exit.c \
-				builtin_export.c builtin_help.c builtin_pwd.c builtin_true_false.c \
+BUILTINS_SRC = builtin_cd.c builtin_echo_utils.c builtin_echo.c builtin_env.c \
+				builtin_exit.c builtin_export.c builtin_expot_utils.c \
+				builtin_help.c builtin_pwd.c builtin_true_false.c \
 				builtin_tty.c builtin_type.c builtin_unset.c
 
-ENV_SRC		= env_manager.c env_crypto.c env_array.c parse_path.c
+ENV_SRC		= env_manager.c env_manager_utils.c env_crypto.c env_array.c parse_path.c
 
 EASTER_SRC	= easter_egg.c pars_vs_executer.c set_terminal_name.c
 
 SIGNALS_SRC	= signals.c
 
-UTILS_SRC	= error.c free.c strings.c
+UTILS_SRC	= error.c free.c strings.c strings_utils.c
 
-# Main sources
-SRCS = main.c \
+SRCS = main.c history_manager.c config_loader.c \
        $(addprefix lexer/, $(LEXER_SRC)) \
        $(addprefix parser/, $(PARSER_SRC)) \
        $(addprefix expander/, $(EXPANDER_SRC)) \
@@ -64,10 +51,15 @@ GC_LIB			= $(GC_DIR)/garbage_collecter.a
 # Compiler and Flags
 CC				= cc
 CFLAGS			= -Wall -Wextra -Werror
-INCLUDE_FLAGS	= -I. -I./libs/libft -I./libs/ft_printf \
+# Include pathleri guncellendi
+INCLUDE_FLAGS	= -I. \
+				  -I./libs/libft -I./libs/ft_printf \
 				  -I./libs/garbage_collector -I./libs/garbage_collector/include \
-				  -I./lexer -I./parser -I./expander -I./executor -I./builtins \
-				  -I./env -I./signals -I./utils
+				  -I./libs/get-next-line \
+				  -I./lexer -I./parser -I./expander -I./executor \
+				  -I./executor/easter_egg -I./executor_error \
+				  -I./builtins -I./env -I./signals -I./utils
+
 CFLAGS			+= $(INCLUDE_FLAGS)
 LDFLAGS			= -lreadline -lncurses
 
@@ -128,6 +120,7 @@ valgrind: $(NAME)
 
 norm:
 	@echo "$(YELLOW)Checking norminette...$(RESET)"
-	@norminette main.c lexer parser expander executor builtins env signals executor_utils utils includes 2>&1 | grep -v "OK!" || echo "$(GREEN)✓ Norminette OK!$(RESET)"
+	@norminette main.c history_manager.c config_loader.c lexer parser expander executor \
+		builtins env signals executor_utils utils includes 2>&1 | grep -v "OK!" || echo "$(GREEN)✓ Norminette OK!$(RESET)"
 
 .PHONY: all clean fclean re debug valgrind norm

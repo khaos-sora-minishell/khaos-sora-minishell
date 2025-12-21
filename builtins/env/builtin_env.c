@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 19:19:57 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/15 21:09:09 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/21 19:06:24 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ static int	execute_env_cmd(char **args, t_shell *shell)
 	path = find_command_path(args[1], shell);
 	if (!path)
 	{
-		ft_err_printf("minishell: env: %s: No such file or directory\n", args[1]);
+		ft_err_printf("minishell: env: %s: No such file or directory\n",
+			args[1]);
 		return (127);
 	}
 	pid = fork();
@@ -40,34 +41,37 @@ static int	execute_env_cmd(char **args, t_shell *shell)
 	return (1);
 }
 
+static void	print_env_bucket(t_env_bucket *current, t_shell *shell)
+{
+	char			*decoded_value;
+	t_gc_context	*contex;
+
+	contex = (t_gc_context *)shell->global_arena;
+	while (current)
+	{
+		if (current->_has_value == 1)
+		{
+			decoded_value = gc_strdup(contex, current->value);
+			xor_cipher(decoded_value);
+			ft_printf("%s=%s\n", current->key, decoded_value);
+		}
+		current = current->next;
+	}
+}
+
 int	builtin_env(char **args, t_shell *shell)
 {
-	int				i;
-	t_env_bucket	*curr;
-	char			*val_decoded;
-	t_gc_context	*contex;
+	int	i;
 
 	if (args[1])
 		return (execute_env_cmd(args, shell));
 	if (!shell || !shell->env_table)
 		return (1);
-	
-	contex = (t_gc_context *)shell->global_arena;
-	i = 0;
-	while (i < ENV_TABLE_SIZE)
+	i = -1;
+	while (++i < ENV_TABLE_SIZE)
 	{
-		curr = shell->env_table->buckets[i];
-		while (curr)
-		{
-			if (curr->_has_value == 1)
-			{
-				val_decoded = gc_strdup(contex, curr->value);
-				xor_cipher(val_decoded);
-				ft_printf("%s=%s\n", curr->key, val_decoded);
-			}
-			curr = curr->next;
-		}
-		i++;
+		if (shell->env_table->buckets[i])
+			print_env_bucket(shell->env_table->buckets[i], shell);
 	}
 	return (0);
 }

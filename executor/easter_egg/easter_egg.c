@@ -6,14 +6,13 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 20:52:24 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/10 22:07:53 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/21 20:35:41 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "easteregg.h"
 #include "utils.h"
 
-/*function pointer*/
 static t_easter_egg	*get_easter_egg(void)
 {
 	static t_easter_egg	easter[] = {
@@ -42,8 +41,6 @@ int	is_easter_egg(char *cmd)
 	}
 	return (0);
 }
-
-/*exec easter func*/
 
 void	execute_easter_egg(char **args, t_shell *shell)
 {

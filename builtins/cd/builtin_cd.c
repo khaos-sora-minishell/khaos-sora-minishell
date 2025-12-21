@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 19:19:57 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/15 21:09:08 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/21 18:47:42 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,28 +25,22 @@ static void	update_pwd_env(t_shell *shell, char *old_path)
 	contex = (t_gc_context *)shell->global_arena;
 	current_path = getcwd(NULL, 0);
 	if (!current_path)
-		return ; // getcwd fail ederse (örn: silinen klasör)
-		
+		return ;
 	gc_track(contex, current_path);
-	
-	// YENİ: env_set kullanımı
 	if (old_path)
 		env_set(shell->env_table, "OLDPWD", old_path, contex);
 	env_set(shell->env_table, "PWD", current_path, contex);
-	
-	// Array güncelleme (Opsiyonel ama iyi olur)
 	shell->env_array = env_table_to_array(shell->env_table, contex);
 }
 
 static char	*resolve_path(char **args, t_shell *shell)
 {
-	char	*path;
-	t_gc_context *contex;
+	char			*path;
+	t_gc_context	*contex;
 
 	contex = (t_gc_context *)shell->global_arena;
 	if (!args[1])
 	{
-		// YENİ: env_get kullanımı (gc gerekli)
 		path = env_get(shell->env_table, "HOME", contex);
 		if (!path)
 		{
@@ -59,8 +53,7 @@ static char	*resolve_path(char **args, t_shell *shell)
 		path = env_get(shell->env_table, "OLDPWD", contex);
 		if (!path)
 		{
-			ft_putendl_fd("minishell: cd: OLDPWD not set", 2);
-			return (NULL);
+			return (ft_putendl_fd("minishell: cd: OLDPWD not set", 2), NULL);
 		}
 		ft_printf("%s\n", path);
 	}
@@ -80,16 +73,12 @@ int	builtin_cd(char **args, t_shell *shell)
 	if (old_path)
 		gc_track(contex, old_path);
 	else
-		// YENİ: env_get kullanımı
 		old_path = env_get(shell->env_table, "PWD", contex);
-		
 	if (args[1] && args[2])
 		return (ft_putendl_fd("minishell: cd: too many arguments", 2), 1);
-		
 	target_path = resolve_path(args, shell);
 	if (!target_path)
 		return (1);
-		
 	if (chdir(target_path) == -1)
 	{
 		ft_err_printf("minishell: cd: %s: %s\n", args[1], strerror(errno));

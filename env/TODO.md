@@ -1,2 +1,0 @@
-env bastırılacak
-buitinler ekleneceke

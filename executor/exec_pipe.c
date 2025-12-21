@@ -6,15 +6,12 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 19:20:38 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/07 20:37:07 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/21 21:15:54 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executor.h"
 
-/*
- * Sol pipe child process
- */
 static void	exec_left_pipe(t_ast_node *left, t_shell *shell, int *pipefd)
 {
 	close(pipefd[0]);
@@ -24,9 +21,6 @@ static void	exec_left_pipe(t_ast_node *left, t_shell *shell, int *pipefd)
 	exit(shell->exit_status);
 }
 
-/*
- * Sağ pipe child process
- */
 static void	exec_right_pipe(t_ast_node *right, t_shell *shell, int *pipefd)
 {
 	close(pipefd[1]);
@@ -36,9 +30,6 @@ static void	exec_right_pipe(t_ast_node *right, t_shell *shell, int *pipefd)
 	exit(shell->exit_status);
 }
 
-/*
- * Pipe yönetimi - pipe(), fork(), dup2()
- */
 void	execute_pipe(t_ast_node *left, t_ast_node *right, t_shell *shell)
 {
 	pid_t	left_pid;

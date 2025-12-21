@@ -3,89 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: harici <harici@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 16:51:29 by harici            #+#    #+#             */
-/*   Updated: 2025/12/19 16:51:31 by harici           ###   ########.fr       */
+/*   Updated: 2025/12/21 21:32:50 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "parser.h"
 
-/*
- * Token'ın redirection olup olmadığını kontrol eder
- */
-int	is_redirection_token(t_token_type type)
-{
-	return (type == TOKEN_REDIR_IN || type == TOKEN_REDIR_OUT
-		|| type == TOKEN_REDIR_APPEND || type == TOKEN_HEREDOC);
-}
-
-/*
- * Token'ın operator olup olmadığını kontrol eder (pipe, &&, ||)
- */
-int	is_operator_token(t_token_type type)
-{
-	return (type == TOKEN_PIPE || type == TOKEN_AND || type == TOKEN_OR);
-}
-
-/*
- * Yeni bir t_cmd oluşturur
- */
-t_cmd	*create_cmd(void *arena)
-{
-	t_cmd	*cmd;
-
-	cmd = gc_malloc(arena, sizeof(t_cmd));
-	if (!cmd)
-		return (NULL);
-	cmd->args = NULL;
-	cmd->redirs = NULL;
-	return (cmd);
-}
-
-/*
- * Yeni bir t_redir oluşturur
- */
-t_redir	*create_redir(t_token_type type, char *file, void *arena)
-{
-	t_redir	*redir;
-
-	redir = gc_malloc(arena, sizeof(t_redir));
-	if (!redir)
-		return (NULL);
-	redir->type = type;
-	redir->file = gc_strdup(arena, file);
-	redir->delimiter = NULL;
-	redir->heredoc_tmpfile = NULL;
-	redir->next = NULL;
-	return (redir);
-}
-
-/*
- * Redirection'ı listeye ekler
- */
-void	add_redir(t_redir **list, t_redir *new_redir)
-{
-	t_redir	*current;
-
-	if (!new_redir)
-		return ;
-	if (!*list)
-	{
-		*list = new_redir;
-		return ;
-	}
-	current = *list;
-	while (current->next)
-		current = current->next;
-	current->next = new_redir;
-}
-
-/*
- * Komutun args dizisine yeni argüman ekler
- */
 void	add_arg_to_cmd(t_cmd *cmd, char *arg, void *arena)
 {
 	int		count;
@@ -109,10 +36,6 @@ void	add_arg_to_cmd(t_cmd *cmd, char *arg, void *arena)
 	cmd->args = new_args;
 }
 
-/*
- * Redirection parse eder ve token pointer'ını ilerletir
- * Örnek: < file.txt veya > output.txt
- */
 static int	parse_redirection(t_token **tokens, t_cmd *cmd, t_shell *shell)
 {
 	t_token_type	redir_type;
@@ -135,18 +58,26 @@ static int	parse_redirection(t_token **tokens, t_cmd *cmd, t_shell *shell)
 	return (1);
 }
 
-/*
- * Basit komut parse - Token'lardan t_cmd oluşturur
- * Args ve redirectionları ayıklar
- *
- * Örnek: ls -la > file.txt
- * Token'lar: [WORD:ls] [WORD:-la] [REDIR_OUT:>] [WORD:file.txt]
- * Çıktı: t_cmd {args: ["ls", "-la", NULL], redirs: [OUT:file.txt]}
- */
+static int	process_current_token(t_token **tokens, t_cmd *cmd, t_shell *shell)
+{
+	if (is_redirection_token((*tokens)->type))
+	{
+		if (parse_redirection(tokens, cmd, shell) <= 0)
+			return (-1);
+	}
+	else if ((*tokens)->type == TOKEN_WORD)
+	{
+		add_arg_to_cmd(cmd, (*tokens)->value, shell->cmd_arena);
+		*tokens = (*tokens)->next;
+	}
+	else
+		*tokens = (*tokens)->next;
+	return (0);
+}
+
 t_cmd	*parse_simple_command(t_token **tokens, t_shell *shell)
 {
 	t_cmd	*cmd;
-	int		ret;
 
 	if (!tokens || !*tokens)
 		return (NULL);
@@ -157,19 +88,8 @@ t_cmd	*parse_simple_command(t_token **tokens, t_shell *shell)
 	{
 		if (is_operator_token((*tokens)->type))
 			break ;
-		if (is_redirection_token((*tokens)->type))
-		{
-			ret = parse_redirection(tokens, cmd, shell);
-			if (ret <= 0)
-				return (NULL);
-		}
-		else if ((*tokens)->type == TOKEN_WORD)
-		{
-			add_arg_to_cmd(cmd, (*tokens)->value, shell->cmd_arena);
-			*tokens = (*tokens)->next;
-		}
-		else
-			*tokens = (*tokens)->next;
+		if (process_current_token(tokens, cmd, shell) == -1)
+			return (NULL);
 	}
 	return (cmd);
 }
