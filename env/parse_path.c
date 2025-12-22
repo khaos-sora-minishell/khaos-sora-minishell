@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 22:10:55 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/21 20:34:41 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/22 19:55:00 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ char	**parse_path(t_shell *shell)
 		return (NULL);
 	path = env_get(shell->env_table, "PATH", shell->global_arena);
 	if (!path)
-		return (NULL);
+		path = DEFAULT_PATH_VALUE;
 	return (gc_split(shell->global_arena, path, ':'));
 }
+
