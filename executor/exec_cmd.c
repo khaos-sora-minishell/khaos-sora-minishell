@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 19:20:37 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/21 21:14:43 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/22 11:53:47 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ static void	execute_builtin_with_redir(t_cmd *cmd, t_shell *shell)
 	dup2(saved_stdout, STDOUT_FILENO);
 	close(saved_stdin);
 	close(saved_stdout);
+	clean_heredoc(cmd);
 }
 
 static void	handle_exit_status(t_shell *shell, int status)
@@ -83,11 +84,15 @@ static int	prepare_cmd_execution(t_cmd *cmd, t_shell *shell)
 	if (process_cmd_heredoc(cmd, shell) == -1)
 	{
 		shell->exit_status = 1;
+		clean_heredoc(cmd);
 		return (0);
 	}
 	expand_cmd_args(cmd, shell);
 	if (!cmd->args || !cmd->args[0])
+	{
+		clean_heredoc(cmd);
 		return (0);
+	}
 	return (1);
 }
 
@@ -99,16 +104,18 @@ void	execute_command(t_cmd *cmd, t_shell *shell)
 	if (!prepare_cmd_execution(cmd, shell))
 		return ;
 	if (is_easter_egg(cmd->args[0]))
-		return (execute_easter_egg(cmd->args, shell));
+		return (execute_easter_egg(cmd->args, shell), clean_heredoc(cmd));
 	if (is_builtin(cmd->args[0]))
 		return (execute_builtin_with_redir(cmd, shell));
 	pid = fork();
 	if (pid == -1)
-		return (perror("fork"), (void)(shell->exit_status = 1));
+		return (perror("fork"), (void)(shell->exit_status = 1),
+			clean_heredoc(cmd));
 	if (pid == 0)
 		exec_child_process(cmd, shell);
 	ignore_signals();
 	waitpid(pid, &status, 0);
 	setup_signals();
 	handle_exit_status(shell, status);
+	clean_heredoc(cmd);
 }
