@@ -6,11 +6,13 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/21 20:32:41 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/21 20:34:12 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/22 12:34:04 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "minishell.h"
+#include "garbage_collector.h"
 
 static void	set_default_shell_vars(t_env_table *table, void *arena)
 {

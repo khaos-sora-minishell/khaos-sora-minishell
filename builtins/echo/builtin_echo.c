@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 19:19:57 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/21 18:59:42 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/22 12:33:27 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static void	accept_echo_ops(char **str, t_echo_contex *contex)
 	while (operations[i].func)
 	{
 		if (contex->ops[i] == 1)
-			operations[i].func(str);
+			operations[i].func(*str);
 		i++;
 	}
 }
@@ -65,7 +65,7 @@ static void	echo_print_arg(char **args, int i, t_echo_contex *contex)
 	while (args[i])
 	{
 		temp = gc_strdup(contex->garbage_collector_contex, args[i]);
-		accept_echo_ops(temp, contex);
+		accept_echo_ops(&temp, contex);
 		if (contex->e)
 			print_with_escape(temp);
 		else

@@ -33,7 +33,7 @@ EASTER_SRC	= easter_egg.c pars_vs_executer.c set_terminal_name.c
 
 SIGNALS_SRC	= signals.c
 
-UTILS_SRC	= error.c free.c strings.c strings_utils.c
+UTILS_SRC	= error.c strings.c strings_utils.c
 
 SRCS = main.c history_manager.c config_loader.c \
        $(addprefix lexer/, $(LEXER_SRC)) \
