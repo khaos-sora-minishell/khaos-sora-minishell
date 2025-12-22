@@ -14,38 +14,32 @@
  * \001 ve \002 karakterleri, aradaki kodların (renklerin) görünmez olduğunu 
  * readline'a bildirir. Bu sayede imleç kayması ve satır taşma hataları düzelir.
  */
+/* main.c dosyasındaki get_prompt fonksiyonunun güncel hali */
+
 static char	*get_prompt(t_shell *shell)
 {
 	char	*prompt;
-	char	*reset;
-	char	*temp;
-
-	reset = "\001\033[0m\002";
+	char	*reset = "\001\033[0m\002";
 	
-	if (shell->terminal_bg_color)
+	prompt = gc_strdup(shell->cmd_arena, "");
+	if (shell->terminal_name_bg_color)
 	{
-		temp = gc_strjoin(shell->cmd_arena, "\001", shell->terminal_bg_color);
-		temp = gc_strjoin(shell->cmd_arena, temp, "\002");
-		prompt = temp;
+		prompt = gc_strjoin(shell->cmd_arena, prompt, "\001");
+		prompt = gc_strjoin(shell->cmd_arena, prompt, shell->terminal_name_bg_color);
+		prompt = gc_strjoin(shell->cmd_arena, prompt, "\002");
 	}
-	else
-		prompt = gc_strdup(shell->cmd_arena, "");
-
 	if (shell->terminal_name_color)
 	{
-		temp = gc_strjoin(shell->cmd_arena, "\001", shell->terminal_name_color);
-		temp = gc_strjoin(shell->cmd_arena, temp, "\002");
-		prompt = gc_strjoin(shell->cmd_arena, prompt, temp);
+		prompt = gc_strjoin(shell->cmd_arena, prompt, "\001");
+		prompt = gc_strjoin(shell->cmd_arena, prompt, shell->terminal_name_color);
+		prompt = gc_strjoin(shell->cmd_arena, prompt, "\002");
 	}
-
 	if (shell->terminal_name)
 		prompt = gc_strjoin(shell->cmd_arena, prompt, shell->terminal_name);
 	else
 		prompt = gc_strjoin(shell->cmd_arena, prompt, "minishell");
-
 	prompt = gc_strjoin(shell->cmd_arena, prompt, reset);
 	prompt = gc_strjoin(shell->cmd_arena, prompt, "$ ");
-	
 	return (prompt);
 }
 
