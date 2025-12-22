@@ -43,6 +43,7 @@ Proje, temel olarak bir "Oku-Ayrıştır-Genişlet-Yürüt" döngüsüne dayanı
 ## Subject Kuralları ⚠️
 
 ### **Kritik Gereksinimler:**
+
 - ✅ **Tek Global Değişken**: Sadece `g_signal` - signal numarası için
 - ✅ **Signal Safety**: `sig_atomic_t` kullanımı zorunlu
 - ✅ **Global Yasağı**: Struct, pointer, arena gibi hiçbir data structure global olamaz
@@ -149,16 +150,16 @@ typedef struct s_shell
     // GC Arenaları (GLOBAL DEĞİL - Struct member!)
     void        *global_arena;  // Shell lifetime için arena
     void        *cmd_arena;     // Her komut için yeni arena
-    
+
     // Ortam Değişkenleri
     t_env       *env_list;      // Linked list formatında
     char        **env_array;    // execve için char** formatında
     char        **path_dirs;    // PATH'ten split edilmiş dizinler
-    
+
     // Durum Bilgileri
     int         exit_status;    // Son komutun çıkış kodu ($? için)
     t_ast_node  *ast_root;      // Parser'ın oluşturduğu AST
-    
+
     // File Descriptor Yedekleri
     int         stdin_backup;   // stdin restore için
     int         stdout_backup;  // stdout restore için
@@ -186,19 +187,19 @@ void    signal_handler(int signum)
 {
     // ✅ İZİN VERİLEN - Sadece g_signal'e yazma:
     g_signal = signum;
-    
+
     // ✅ İZİN VERİLEN - Signal-safe fonksiyonlar:
     write(STDOUT_FILENO, "\n", 1);
     rl_on_new_line();
     rl_replace_line("", 0);
     rl_redisplay();
-    
+
     // ❌ YASAK - Shell struct'ına erişim:
     // shell->exit_status = 130;  // Compile bile olmaz!
-    
+
     // ❌ YASAK - GC fonksiyonları:
     // gc_malloc(arena, size);  // Signal-unsafe!
-    
+
     // ❌ YASAK - printf, malloc, free vb.:
     // printf("Signal received\n");  // Undefined behavior!
 }
@@ -214,7 +215,7 @@ while (1)
         shell.exit_status = 130;  // ✅ Main'de shell'e erişim OK
         g_signal = 0;             // Reset
     }
-    
+
     char *line = readline("minishell> ");
     // ...
 }
@@ -227,44 +228,110 @@ while (1)
 ```
 minishell/
 ├── Makefile
-├── includes/
-│   └── minishell.h         # Ana header, tüm struct'lar ve prototipler
-├── src/
-│   ├── main/
-│   │   ├── main.c          # Ana döngü, shell init
-│   │   └── signals.c       # Signal handler setup
-│   ├── lexer/
-│   │   ├── lexer.c         # Tokenizer
-│   │   └── quotes.c        # Quote handling
-│   ├── parser/
-│   │   ├── parser.c        # Ana parser
-│   │   ├── parse_cmd.c     # Basit komut parse
-│   │   └── build_ast.c     # AST oluşturma
-│   ├── expander/
-│   │   ├── expander.c      # $VAR, $? genişletme
-│   │   └── wildcard.c      # * genişletme (bonus)
-│   ├── executor/
-│   │   ├── executor.c      # Ana executor
-│   │   ├── exec_cmd.c      # Komut çalıştırma
-│   │   ├── exec_pipe.c     # Pipe yönetimi
-│   │   └── redirections.c  # Yönlendirme setup
-│   ├── builtins/
-│   │   ├── builtin_cd.c
+├── minishell.h                 # Ana header, tüm struct'lar ve prototipler
+├── main.c                      # Ana döngü, shell init
+├── history_manager.c           # History yönetimi
+├── config_loader.c             # Konfigürasyon yükleme
+│
+├── lexer/
+│   ├── lexer.h                 # Lexer header
+│   ├── lexer.c                 # Ana tokenizer
+│   ├── lexer_operator.c        # Operatör işleme (|, <, >, vb.)
+│   ├── lexer_word.c            # Word token işleme
+│   ├── lexer_token.c           # Token oluşturma
+│   └── quotes.c                # Quote handling
+│
+├── parser/
+│   ├── parser.h                # Parser header
+│   ├── parser.c                # Ana parser
+│   ├── parse_cmd.c             # Basit komut parse
+│   ├── parse_cmd_utils.c       # Parse yardımcı fonksiyonlar
+│   └── build_ast.c             # AST oluşturma
+│
+├── expander/
+│   ├── expander.c              # $VAR, $? genişletme
+│   ├── expander_utils.c        # Expander yardımcılar
+│   ├── expand_args.c           # Argüman genişletme
+│   ├── expand_helpers.c        # Genişletme yardımcıları
+│   ├── wildcard.c              # * genişletme (bonus)
+│   └── wildcard_utils.c        # Wildcard yardımcıları
+│
+├── executor/
+│   ├── executor.h              # Executor header
+│   ├── executor.c              # Ana executor
+│   ├── exec_ast.c              # AST traverse
+│   ├── exec_cmd.c              # Komut çalıştırma
+│   ├── exec_cmd_utils.c        # Komut yardımcıları
+│   ├── exec_builtin.c          # Built-in çalıştırma
+│   ├── exec_pipe.c             # Pipe yönetimi
+│   ├── redirections.c          # Yönlendirme setup
+│   ├── redirections.h          # Yönlendirme header
+│   ├── here_doc_manager.c      # Heredoc yönetimi
+│   ├── here_doc_utils.c        # Heredoc yardımcıları
+│   └── easter_egg/             # Easter egg özellikleri (EASTEREGG flag)
+│       ├── easteregg.h
+│       ├── easter_egg.c
+│       ├── harici_matrix.c     # Matrix rain efekti
+│       ├── pars_vs_executer.c  # Şaka mesajları
+│       └── set_terminal_name.c # Terminal adı değiştirme
+│
+├── builtins/
+│   ├── builtins.h              # Built-in header
+│   ├── cd/
+│   │   └── builtin_cd.c
+│   ├── echo/
 │   │   ├── builtin_echo.c
-│   │   ├── builtin_env.c
-│   │   ├── builtin_exit.c
-│   │   ├── builtin_export.c
-│   │   ├── builtin_pwd.c
-│   │   └── builtin_unset.c
+│   │   └── builtin_echo_utils.c
 │   ├── env/
-│   │   ├── env_list.c      # Env linked list ops
-│   │   └── env_utils.c     # get/set/unset
-│   └── utils/
-│       ├── error.c         # Hata mesajları
-│       ├── free.c          # Cleanup fonksiyonları
-│       └── strings.c       # String helpers
-├── garbage_collector/      # GC kütüphaneniz
-└── libft/                  # Libft kütüphaneniz
+│   │   └── builtin_env.c
+│   ├── exit/
+│   │   └── builtin_exit.c
+│   ├── export/
+│   │   ├── builtin_export.c
+│   │   └── builtin_expot_utils.c
+│   ├── pwd/
+│   │   └── builtin_pwd.c
+│   ├── unset/
+│   │   └── builtin_unset.c
+│   └── extras/                 # Ekstra built-in'ler
+│       ├── builtin_help.c
+│       ├── builtin_true_false.c
+│       ├── builtin_tty.c
+│       └── builtin_type.c
+│
+├── env/
+│   ├── env_manager.c           # Env hash table yönetimi
+│   ├── env_manager_utils.c     # Env yardımcıları
+│   ├── env_array.c             # Env array dönüşümü
+│   ├── env_crypto.c            # XOR cipher (bonus)
+│   └── parse_path.c            # PATH parsing
+│
+├── signals/
+│   ├── signals.c               # Signal handler setup
+│   └── signal_state.c          # g_signal yönetimi
+│
+├── utils/
+│   ├── utils.h                 # Utils header
+│   ├── error.c                 # Hata mesajları
+│   ├── strings.c               # String helpers
+│   └── strings_utils.c         # String yardımcıları
+│
+├── executor_utils/
+│   ├── file_utils.c            # Dosya yardımcıları
+│   ├── ft_atoll.c              # atoll implementasyonu
+│   ├── ft_strcmp.c             # strcmp implementasyonu
+│   ├── is_special_char.c       # Özel karakter kontrolü
+│   └── is_whitespace.c         # Whitespace kontrolü
+│
+├── executor_error/
+│   ├── executor_error.h        # Hata header
+│   └── executor_error.c        # Executor hata mesajları
+│
+└── libs/
+    ├── libft/                  # Libft kütüphanesi
+    ├── ft_printf/              # ft_printf kütüphanesi
+    ├── garbage_collector/      # GC kütüphanesi
+    └── get-next-line/          # GNL kütüphanesi
 ```
 
 ---
@@ -273,17 +340,20 @@ minishell/
 
 ### **`harici`'nin Görevleri (Hazırlık ve Kontrol)**
 
-1.  **Lexer (Tamamı):** 
+1.  **Lexer (Tamamı):**
+
     - Girdiyi token'lara ayırma
     - Quote handling (`'` ve `"`)
     - Özel karakterleri tanıma (`|`, `<`, `>`, vb.)
 
 2.  **Parser (Basit Komut Seviyesi):**
+
     - Token listesinden `t_cmd` yapıları oluşturma
     - Argümanları ve yönlendirmeleri ayıklama
     - AST'nin "yaprak" düğümlerini hazırlama
 
 3.  **Expander (Tamamı):**
+
     - `$VAR` genişletmesi
     - `$?` (exit status) genişletmesi
     - `*` wildcard genişletmesi (bonus)
@@ -297,6 +367,7 @@ minishell/
 ### **`Akivam`'ın Görevleri (İcra ve Yapılandırma)**
 
 1.  **Executor (Tamamı):**
+
     - AST'yi traverse etme
     - `fork`, `pipe`, `dup2` yönetimi
     - Yönlendirmeleri setup etme
@@ -304,12 +375,14 @@ minishell/
     - Built-in vs external command ayrımı
 
 2.  **Parser (Ağaç Kurulumu):**
+
     - `harici`'nin oluşturduğu `t_cmd`'leri kullanarak AST'yi kurma
     - Pipe, AND, OR operatörlerini ağaca ekleme
     - Operator precedence yönetimi
     - Subshell handling (bonus)
 
 3.  **Built-ins (Tamamı):**
+
     - `cd`: Directory değiştirme
     - `echo`: `-n` flag desteği
     - `env`: Ortam değişkenlerini listeleme
@@ -328,6 +401,7 @@ minishell/
 ## 6. Modül Detayları ve Sorumluluklar
 
 ### 6.1 MAIN Module
+
 - `readline()` ile input alma
 - History yönetimi (`add_history()`)
 - Shell struct initialization
@@ -335,26 +409,31 @@ minishell/
 - Ana döngü kontrol
 
 ### 6.2 LEXER Module
+
 **Girdi:** Raw string (readline'dan gelen)
 **Çıktı:** `t_token` linked list
 
 **Sorumluluklar:**
+
 - Whitespace'lere göre ayırma
 - Quote içi boşlukları koruma
 - Özel karakterleri tanıma (`|`, `<`, `>`, `>>`, `<<`)
 - Bonus: `&&`, `||`, `(`, `)` tanıma
 
 **Örnek:**
+
 ```
 Input:  echo "hello   world" | grep hello > out.txt
 Output: [WORD:echo] [WORD:hello   world] [PIPE] [WORD:grep] [WORD:hello] [REDIR_OUT] [WORD:out.txt]
 ```
 
 ### 6.3 PARSER Module
+
 **Girdi:** `t_token` linked list
 **Çıktı:** `t_ast_node` (AST root)
 
 **Sorumluluklar:**
+
 - Syntax error kontrolü
 - Recursive descent parsing
 - Operator precedence (`|` < `&&` < `||`)
@@ -362,9 +441,10 @@ Output: [WORD:echo] [WORD:hello   world] [PIPE] [WORD:grep] [WORD:hello] [REDIR_
 - AST ağacını kurma
 
 **Örnek AST:**
+
 ```
 cat file | grep hello
-        
+
         PIPE
        /    \
      CMD    CMD
@@ -372,10 +452,12 @@ cat file | grep hello
 ```
 
 ### 6.4 EXPANDER Module
+
 **Girdi:** AST (parse edilmiş)
 **Çıktı:** AST (genişletilmiş)
 
 **Sorumluluklar:**
+
 - `$VAR` → value
 - `$?` → exit_status
 - `*` → dosya listesi (bonus)
@@ -385,10 +467,12 @@ cat file | grep hello
   - Tırnak dışı: Her şey genişletilir
 
 ### 6.5 EXECUTOR Module
+
 **Girdi:** AST (genişletilmiş)
 **Çıktı:** Komutların çalıştırılması
 
 **Sorumluluklar:**
+
 - AST traverse (post-order)
 - `NODE_CMD`: `execve()` veya built-in çalıştırma
 - `NODE_PIPE`: `pipe()`, `fork()`, `dup2()` yönetimi
@@ -398,9 +482,11 @@ cat file | grep hello
 - Wait ve exit status toplama
 
 ### 6.6 BUILT-INS Module
+
 **Fork gerektirmez** - Ana shell prosesinde çalışır
 
 **Liste:**
+
 - `cd [path]`: `chdir()` ile directory değiştirme
 - `echo [-n] [args...]`: Çıktı yazdırma
 - `env`: Ortam değişkenlerini listele
@@ -419,35 +505,35 @@ cat file | grep hello
 int main(int ac, char **av, char **envp)
 {
     t_shell shell;
-    
+
     // Global arena - shell lifetime boyunca kalır
     shell.global_arena = gc_create_arena();
     shell.env_list = init_env(envp, shell.global_arena);
     shell.path_dirs = parse_path(shell.env_list, shell.global_arena);
-    
+
     setup_signals();
-    
+
     while (1)
     {
         // Her komut için yeni arena
         shell.cmd_arena = gc_create_arena();
-        
+
         char *line = readline("minishell> ");
         if (!line)
             break;
-        
+
         if (*line)
             add_history(line);
-        
+
         // Tüm işlemler cmd_arena kullanır
         process_command(line, &shell);
-        
+
         // Komut bitti - arena'yı yok et (automatic cleanup!)
         gc_destroy_arena(shell.cmd_arena);
-        
+
         free(line);  // readline'ın malloc'u - manuel free
     }
-    
+
     gc_destroy_arena(shell.global_arena);
     return (shell.exit_status);
 }
@@ -474,7 +560,7 @@ if (pid == 0)
     // CHILD process
     // Parent'ın arena'sını kullanma!
     // GC'yi yeniden init et veya minimal kullan
-    
+
     execute_external_command(cmd, shell);
     exit(shell->exit_status);
 }
@@ -505,13 +591,15 @@ free(line);  // Manuel free - GC dışı
 ### **Faz 1: İskelet Kurulumu (1 hafta)**
 
 **Ortak Görevler:**
+
 - ✅ `Makefile` oluşturma (libft, GC entegrasyonu)
 - ✅ `minishell.h` - tüm struct'ları tanımlama
 - ✅ `main.c` - readline döngüsü
 - ✅ GC initialization
 - ✅ Signal handler setup (basit versiyon)
 
-**Hedef:** 
+**Hedef:**
+
 ```bash
 minishell> ls
 # ls çalışmalı (PATH'ten bulup execve)
@@ -522,17 +610,20 @@ minishell> ls
 ### **Faz 2: Basit Komutlar ve Argümanlar (1-1.5 hafta)**
 
 **harici:**
+
 - Lexer'ın temelini yazma (whitespace split)
 - Quote handling (`'` ve `"`)
 - TOKEN_WORD üretme
 
 **Akivam:**
+
 - Basit executor (tek komut, fork, execve)
 - PATH parsing ve komut bulma
 - Built-ins: `echo`, `pwd`
 - Exit status yönetimi
 
 **Hedef:**
+
 ```bash
 minishell> ls -la /tmp
 minishell> echo "hello   world"
@@ -544,11 +635,13 @@ minishell> pwd
 ### **Faz 3: Pipe ve Yönlendirmeler (2 hafta)**
 
 **harici:**
+
 - Lexer'a özel karakter tanıma (`|`, `<`, `>`, `>>`, `<<`)
 - Parser - basit komut parse (args + redirs → t_cmd)
 - Expander - `$VAR` ve `$?` genişletme
 
 **Akivam:**
+
 - Parser - AST kurma (pipe için)
 - Executor - pipe yönetimi (`pipe()`, `fork()`, `dup2()`)
 - Redirections setup (`<`, `>`, `>>`)
@@ -556,6 +649,7 @@ minishell> pwd
 - Built-ins: `cd`, `env`, `export`, `unset`
 
 **Hedef:**
+
 ```bash
 minishell> cat file | grep hello | wc -l
 minishell> cat < input.txt > output.txt
@@ -570,6 +664,7 @@ minishell> cd /tmp && pwd
 ### **Faz 4: Sağlamlaştırma (1 hafta)**
 
 **Ortak:**
+
 - Tüm edge case'leri test etme
 - Memory leak kontrolü (valgrind)
 - Syntax error mesajları
@@ -577,6 +672,7 @@ minishell> cd /tmp && pwd
 - Norm kontrolü
 
 **Hedef:**
+
 ```bash
 # Tüm zorunlu testler geçmeli
 # Memory leak olmamalı (readline hariç)
@@ -588,15 +684,18 @@ minishell> cd /tmp && pwd
 ### **Faz 5: Bonuslar (İsteğe bağlı - 1-2 hafta)**
 
 **harici:**
+
 - Wildcard `*` genişletme
 - Lexer'a `&&`, `||`, `()` desteği
 
 **Akivam:**
+
 - Parser - AND, OR, SUBSHELL node'ları
 - Executor - conditional execution
 - Operator precedence yönetimi
 
 **Hedef:**
+
 ```bash
 minishell> ls *.c
 minishell> make && ./minishell
@@ -609,6 +708,7 @@ minishell> (cd /tmp && ls) && pwd
 ## 9. Önemli Dikkat Noktaları
 
 ### 9.1 Memory Management
+
 - ✅ Tüm allocation'lar GC üzerinden
 - ✅ `readline()` sonucu manuel `free()`
 - ✅ Her komut sonrası `cmd_arena` destroy
@@ -616,6 +716,7 @@ minishell> (cd /tmp && ls) && pwd
 - ❌ Memory leak yasak (readline hariç)
 
 ### 9.2 File Descriptor Management
+
 ```c
 // Yönlendirme öncesi:
 shell->stdin_backup = dup(STDIN_FILENO);
@@ -632,6 +733,7 @@ close(shell->stdout_backup);
 ```
 
 ### 9.3 Signal Handling Rules
+
 - ✅ Sadece `g_signal` kullanımı
 - ✅ Handler'da sadece signal-safe fonksiyonlar
 - ✅ Main loop'ta `g_signal` kontrolü
@@ -639,6 +741,7 @@ close(shell->stdout_backup);
 - ❌ Handler'da shell struct'ına erişim yasak
 
 ### 9.4 Heredoc Implementation
+
 ```c
 // Heredoc için pipe oluştur
 int pipefd[2];
@@ -662,6 +765,7 @@ close(pipefd[0]);
 ```
 
 ### 9.5 Fork Strategy
+
 ```c
 // Built-in mı?
 if (is_builtin(cmd->args[0]))
@@ -685,10 +789,10 @@ else
 
 ### 9.6 Quote Handling
 
-| Context | `$VAR` | `*` | Whitespace |
-|---------|--------|-----|------------|
-| `'...'` | ❌ Literal | ❌ Literal | ✅ Korunur |
-| `"..."` | ✅ Genişler | ❌ Literal | ✅ Korunur |
+| Context     | `$VAR`      | `*`         | Whitespace |
+| ----------- | ----------- | ----------- | ---------- |
+| `'...'`     | ❌ Literal  | ❌ Literal  | ✅ Korunur |
+| `"..."`     | ✅ Genişler | ❌ Literal  | ✅ Korunur |
 | Tırnak dışı | ✅ Genişler | ✅ Genişler | ❌ Ayırıcı |
 
 ---
@@ -696,6 +800,7 @@ else
 ## 10. Test Senaryoları
 
 ### 10.1 Basit Komutlar
+
 ```bash
 ls
 ls -la /tmp
@@ -706,6 +811,7 @@ echo 'hello $USER'
 ```
 
 ### 10.2 Pipe'lar
+
 ```bash
 cat Makefile | grep src
 ls | wc -l
@@ -713,6 +819,7 @@ cat file1 | grep test | sort | uniq
 ```
 
 ### 10.3 Yönlendirmeler
+
 ```bash
 cat < input.txt
 echo hello > output.txt
@@ -724,6 +831,7 @@ cat < in.txt | grep test > out.txt
 ```
 
 ### 10.4 Ortam Değişkenleri
+
 ```bash
 echo $USER
 echo $PATH
@@ -737,6 +845,7 @@ echo $?
 ```
 
 ### 10.5 Built-ins
+
 ```bash
 pwd
 cd /tmp
@@ -750,6 +859,7 @@ exit 42
 ```
 
 ### 10.6 Edge Cases
+
 ```bash
 echo ""
 echo ''
@@ -763,6 +873,7 @@ cat < nonexistent
 ```
 
 ### 10.7 Bonuslar (İsteğe bağlı)
+
 ```bash
 ls *.c
 echo *.txt
@@ -777,11 +888,13 @@ make && ./minishell || echo "build failed"
 ## 11. Kaynaklar
 
 ### 11.1 Resmi Dokümantasyon
+
 - **Bash Manual**: https://www.gnu.org/software/bash/manual/
 - **POSIX Shell**: https://pubs.opengroup.org/onlinepubs/9699919799/
 - **GNU Readline**: https://tiswww.case.edu/php/chet/readline/rltop.html
 
 ### 11.2 Sistem Çağrıları (man pages)
+
 ```bash
 man fork
 man execve
@@ -798,10 +911,12 @@ man write
 ```
 
 ### 11.3 42 Kaynakları
+
 - **Minishell Tester**: https://github.com/LucasKuhn/minishell_tester
 - **42 Docs**: https://harm-smits.github.io/42docs/projects/minishell
 
 ### 11.4 Faydalı Kavramlar
+
 - Process creation and management
 - File descriptors and redirection
 - Signal handling (POSIX)
@@ -814,6 +929,7 @@ man write
 ## 📝 Son Notlar
 
 ### Başarı Kriterleri
+
 - ✅ Tüm zorunlu özellikler çalışıyor
 - ✅ Memory leak yok (readline hariç)
 - ✅ Norm hatası yok
@@ -825,6 +941,7 @@ man write
 ### Takım İş Akışı Önerileri
 
 1. **Git Workflow:**
+
    ```bash
    main (stable)
    ├── dev-harici (lexer, parser-cmd, expander)
@@ -832,23 +949,26 @@ man write
    ```
 
 2. **Daily Standup (Opsiyonel):**
+
    - Ne yaptım?
    - Ne yapacağım?
    - Blocker var mı?
 
 3. **Code Review:**
+
    - Her modül tamamlandığında karşılıklı review
    - Merge öncesi test koşulması
    - Norm kontrolü
 
 4. **Testing Strategy:**
+
    ```bash
    # Her commit sonrası:
    make re && valgrind ./minishell
-   
+
    # Haftalık:
    bash minishell_tester.sh
-   
+
    # Final:
    - Peer evaluation hazırlığı
    - Defense senaryoları
@@ -872,6 +992,7 @@ valgrind --leak-check=full --suppressions=readline.supp ./minishell
 ```
 
 **readline.supp örneği:**
+
 ```
 {
    readline_leak
@@ -910,6 +1031,7 @@ gdb ./minishell
 ### 12.3 Sık Karşılaşılan Hatalar
 
 #### ❌ Hata: "command not found" ama komut var
+
 ```c
 // Sorun: PATH parsing yanlış
 // Çözüm: PATH'i ':' ile split et ve her dizinde ara
@@ -924,6 +1046,7 @@ for (int i = 0; path_dirs[i]; i++)
 ```
 
 #### ❌ Hata: Pipe sonrası çıktı kayboldu
+
 ```c
 // Sorun: FD'ler kapatılmadı
 // Çözüm: Parent'ta kullanılmayan pipe end'leri kapat
@@ -940,6 +1063,7 @@ close(pipefd[1]);  // ✅ Parent'ta write end'i kapat
 ```
 
 #### ❌ Hata: Heredoc sonsuza kadar bekliyor
+
 ```c
 // Sorun: Delimiter comparison yanlış
 // Çözüm: strcmp + newline handling
@@ -958,6 +1082,7 @@ while (1)
 ```
 
 #### ❌ Hata: Signal sonrası prompt çalışmıyor
+
 ```c
 // Sorun: readline state bozuldu
 // Çözüm: Signal handler'da readline'ı reset et
@@ -973,6 +1098,7 @@ void    signal_handler(int signum)
 ```
 
 #### ❌ Hata: Export edilen değişken görünmüyor
+
 ```c
 // Sorun: env_array güncellenmedi
 // Çözüm: Her export sonrası env_array'i rebuild et
@@ -981,7 +1107,7 @@ void    builtin_export(char **args, t_shell *shell)
 {
     // ... key=value parse ...
     set_env_value(&shell->env_list, key, value);
-    
+
     // ✅ Array'i güncelle
     if (shell->env_array)
         free_split(shell->env_array);
@@ -1023,20 +1149,23 @@ char *find_command(char *cmd, t_shell *shell)
 ### 13.1 Temel Sorular (Mutlaka hazırlıklı olun!)
 
 **Q: AST nedir ve neden kullanıyorsunuz?**
+
 ```
 A: Abstract Syntax Tree - Komutların hiyerarşik yapısını temsil eder.
-   Pipe'lar, operatörler ve subshell'leri doğru sırada yürütmek için 
+   Pipe'lar, operatörler ve subshell'leri doğru sırada yürütmek için
    gereklidir. Örneğin: "cat | grep" → PIPE node ile iki CMD node'u bağlar.
 ```
 
 **Q: fork() ne zaman kullanılır?**
+
 ```
-A: External komutlar için. Built-in'ler fork gerektirmez çünkü 
+A: External komutlar için. Built-in'ler fork gerektirmez çünkü
    shell'in kendi state'ini değiştirirler (cd, export, exit).
    Pipe'larda her komut için ayrı child process gerekir.
 ```
 
 **Q: Heredoc nasıl implement ettiniz?**
+
 ```
 A: pipe() ile geçici bir kanal oluşturulur. Delimiter'a kadar okunan
    satırlar pipe'a yazılır, sonra pipe'ın read end'i STDIN'e dup2 ile
@@ -1044,6 +1173,7 @@ A: pipe() ile geçici bir kanal oluşturulur. Delimiter'a kadar okunan
 ```
 
 **Q: Signal handling nasıl çalışıyor?**
+
 ```
 A: sig_atomic_t tipinde global bir değişken (g_signal) kullanıyoruz.
    Signal handler sadece bu değişkene signal numarasını yazar.
@@ -1052,6 +1182,7 @@ A: sig_atomic_t tipinde global bir değişken (g_signal) kullanıyoruz.
 ```
 
 **Q: Memory leak'leri nasıl yönettiniz?**
+
 ```
 A: Garbage collector kullanıyoruz. Her komut için yeni bir arena
    oluşturuluyor, komut bittiğinde arena destroy ediliyor.
@@ -1118,6 +1249,7 @@ minishell> cat Makefile | grep src | sort | uniq | wc -l
 Evaluator şöyle bir şey isteyebilir:
 
 **Örnek 1: "echo'ya yeni bir flag ekle (-e)"**
+
 ```c
 // builtins/builtin_echo.c içinde:
 
@@ -1126,7 +1258,7 @@ int builtin_echo(char **args)
     bool    newline = true;
     bool    escape = false;  // ✅ Yeni flag
     int     i = 1;
-    
+
     // Flag parsing
     while (args[i] && args[i][0] == '-')
     {
@@ -1138,7 +1270,7 @@ int builtin_echo(char **args)
             break;
         i++;
     }
-    
+
     // Output
     while (args[i])
     {
@@ -1152,6 +1284,7 @@ int builtin_echo(char **args)
 ```
 
 **Örnek 2: "History'i dosyaya kaydet"**
+
 ```c
 // main.c içinde:
 
@@ -1160,7 +1293,7 @@ void    save_history(void)
     int fd = open(".minishell_history", O_WRONLY | O_CREAT | O_TRUNC, 0644);
     if (fd < 0)
         return;
-    
+
     // readline'ın history API'sini kullan
     HIST_ENTRY **list = history_list();
     for (int i = 0; list && list[i]; i++)
@@ -1204,6 +1337,7 @@ save_history();  // ✅ Çağrıldı
 Projenin ötesine geçmek istiyorsanız:
 
 ### 14.1 Auto-completion
+
 ```c
 // readline'ın completion API'si ile:
 char **command_completion(const char *text, int start, int end)
@@ -1218,6 +1352,7 @@ void    setup_readline(void)
 ```
 
 ### 14.2 Colored Prompt
+
 ```c
 #define COLOR_GREEN "\033[0;32m"
 #define COLOR_BLUE  "\033[0;34m"
@@ -1227,19 +1362,20 @@ char *get_prompt(t_shell *shell)
 {
     char *cwd = getcwd(NULL, 0);
     char *prompt;
-    
+
     prompt = ft_strjoin4(
         COLOR_GREEN, getenv("USER"),
         COLOR_BLUE, "@minishell:",
         cwd, "$ " COLOR_RESET
     );
-    
+
     free(cwd);
     return (prompt);
 }
 ```
 
 ### 14.3 Command History Search
+
 ```c
 // Ctrl+R için reverse-i-search:
 void    setup_readline(void)
@@ -1249,6 +1385,7 @@ void    setup_readline(void)
 ```
 
 ### 14.4 Job Control (Advanced)
+
 ```bash
 # Background jobs (&), fg, bg, jobs commands
 minishell> sleep 10 &
@@ -1274,20 +1411,24 @@ Bu üçünü iyi anladıysanız, proje %80 hallolmuş demektir.
 ### 💪 Başarı İçin Altın Kurallar
 
 1. **KISS Prensibi**: Keep It Simple, Stupid
+
    - Karmaşık çözümler yerine basit ve çalışan kod
    - Over-engineering yapmayın
 
 2. **Test Driven Development**:
+
    - Önce test senaryosu yaz
    - Sonra kodu yaz
    - Her değişiklik sonrası test et
 
 3. **Incremental Development**:
+
    - Büyük modülleri küçük parçalara böl
    - Her parça çalışır halde commit et
    - "Çalışan kod > Elegant kod"
 
 4. **Pair Programming**:
+
    - Zor kısımlarda birlikte kod yazın
    - Birbirinizin kodunu review edin
    - Bilgi paylaşımı yapın
@@ -1323,6 +1464,7 @@ Bu projeyi tamamladığınızda:
 Minishell, 42'nin en keyifli projelerinden biridir çünkü **somut ve kullanışlı** bir şey yapıyorsunuz. Kendi shell'inizi yazmak, bir sistem programcısı olarak büyük bir adımdır.
 
 **Unutmayın:**
+
 > "Bir shell yazabiliyorsanız, her şeyi yazabilirsiniz!"
 
 İyi çalışmalar! 🚀
@@ -1331,16 +1473,19 @@ Minishell, 42'nin en keyifli projelerinden biridir çünkü **somut ve kullanı�
 
 ## 📞 İletişim ve Destek
 
-**Git Repository:** 
+**Git Repository:**
+
 - Akivam: https://github.com/suatkvam/minishell
 - Harici: https://github.com/hudayiarici/minishell
 
 **Takım İletişimi:**
+
 - Günlük sync: Slack/Discord
 - Code review: GitHub PR
 - Pair programming: VS Code Live Share
 
 **Yardım Kaynakları:**
+
 - 42 Slack: #minishell-help
 - Peers: Evaluationlardan sonra feedback
 - Staff: Eğer gerçekten takıldıysanız
@@ -1349,7 +1494,7 @@ Minishell, 42'nin en keyifli projelerinden biridir çünkü **somut ve kullanı�
 
 **Son Güncelleme:** Kasım 2025  
 **Versiyon:** 2.0  
-**Hazırlayanlar:** harici (suatkvam) & Akivam (hudayiarici)  
+**Hazırlayanlar:** harici (suatkvam) & Akivam (hudayiarici)
 
 ---
 
