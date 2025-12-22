@@ -18,6 +18,8 @@
 #include <stdlib.h>
 #include <sys/stat.h>
 #include "utils.h"
+#include "get_next_line.h"
+
 
 static int	heredoc_signal_checker(void)
 {
@@ -49,19 +51,39 @@ static int	process_heredoc_line(char *line, char *delim, int fd)
 void	read_heredoc_loop(int fd, char *delim, t_shell *shell)
 {
 	char	*prompt;
+	char	*line;
+	char	*tmp;
+	int		interactive;
 
 	prompt = env_get(shell->env_table, "PS2", shell->cmd_arena);
 	if (!prompt)
 		prompt = "> ";
+	interactive = isatty(STDIN_FILENO);
 	set_signal(0);
-	rl_event_hook = heredoc_signal_checker;
+	if (interactive)
+		rl_event_hook = heredoc_signal_checker;
 	while (1)
 	{
-		if (process_heredoc_line(readline(prompt), delim, fd))
+		if (interactive)
+			line = readline(prompt);
+		else
+		{
+			tmp = get_next_line(STDIN_FILENO);
+			if (!tmp)
+				line = NULL;
+			else
+			{
+				line = ft_strtrim(tmp, "\n");
+				free(tmp);
+			}
+		}
+		if (process_heredoc_line(line, delim, fd))
 			break ;
 	}
-	rl_event_hook = NULL;
+	if (interactive)
+		rl_event_hook = NULL;
 }
+
 
 char	*get_heredoc_filename(int counter, t_shell *shell)
 {

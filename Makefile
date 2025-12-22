@@ -133,7 +133,7 @@ norm:
 		builtins env signals executor_utils utils includes 2>&1 | grep -v "OK!" || echo "$(GREEN)✓ Norminette OK!$(RESET)"
 
 easteregg: CFLAGS += -DEASTEREGG
-easteregg: re
+easteregg: fclean $(NAME)
 	@echo "$(GREEN)✓ Built with easter egg features!$(RESET)"
 
 .PHONY: all clean fclean re debug valgrind norm easteregg
