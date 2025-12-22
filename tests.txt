@@ -1,0 +1,62 @@
+# Minishell Test Komutları
+# Her satır bir test - boş satırlar ve # ile başlayanlar yorum
+
+# === BASIC COMMANDS ===
+echo hello
+echo hello world test
+echo -n test
+pwd
+env | head -3
+
+# === PIPES ===
+echo test | cat
+echo test | cat | cat
+echo hello | grep hello
+ls *.c | wc -l
+
+# === REDIRECTIONS ===
+echo test > /tmp/minitest.txt && cat /tmp/minitest.txt
+echo line1 > /tmp/minitest.txt && echo line2 >> /tmp/minitest.txt && cat /tmp/minitest.txt
+
+# === ENVIRONMENT VARIABLES ===
+echo $HOME
+echo $PATH | head -c 20
+echo $?
+
+# === QUOTES ===
+echo "hello world"
+echo 'hello world'
+echo "hello"'world'
+echo ""
+echo "* | ; < >"
+
+# === LOGICAL OPERATORS ===
+true && echo success
+false && echo fail
+true || echo fail
+false || echo success
+
+# === WILDCARDS ===
+ls *.md
+echo *.c
+
+# === EXIT STATUS ===
+true
+false
+ls /nonexistent 2>/dev/null
+
+# === CUSTOM EXPORT (KNOWN ISSUE) ===
+export TESTVAR=hello && echo $TESTVAR
+
+# === CD TESTS ===
+cd /tmp && pwd
+cd / && pwd
+
+# === BUILT-INS ===
+export PATH=/usr/bin:/bin
+unset PATH
+
+# === COMPLEX ===
+echo test | cat | cat | cat
+(echo subshell)
+true && false || echo success

@@ -24,6 +24,7 @@
 # define XOR_KEY 0xFF
 
 # include "garbage_collector.h"
+# include "libft.h"
 # include <dirent.h>
 # include <errno.h>
 # include <fcntl.h>

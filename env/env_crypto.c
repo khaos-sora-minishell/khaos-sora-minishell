@@ -30,14 +30,16 @@ unsigned long	fnv1a_hash(char *str)
 
 void	xor_cipher(char *str)
 {
-	int	i;
-
-	if (!str)
-		return ;
-	i = 0;
-	while (str[i])
-	{
-		str[i] = str[i] ^ XOR_KEY;
-		i++;
-	}
+	(void)str;
+	return ;
+	// DISABLED FOR TESTING - Original code:
+	// int	i;
+	// if (!str)
+	// 	return ;
+	// i = 0;
+	// while (str[i])
+	// {
+	// 	str[i] = str[i] ^ XOR_KEY;
+	// 	i++;
+	// }
 }

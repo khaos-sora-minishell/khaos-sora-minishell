@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(wsl -d Ubuntu -- bash -c \"cd /mnt/c/Users/sora/Desktop/minishell-merge && make easteregg 2>&1\":*)"
+    ]
+  }
+}

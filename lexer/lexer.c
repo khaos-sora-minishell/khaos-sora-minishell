@@ -6,12 +6,39 @@
 /*   By: harici <harici@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 00:00:21 by harici            #+#    #+#             */
-/*   Updated: 2025/12/12 00:00:25 by harici           ###   ########.fr       */
+/*   Updated: 2025/12/22 20:50:00 by harici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "lexer.h"
+
+static int	check_unclosed_quotes(char *input, t_shell *shell)
+{
+	int		i;
+	char	quote;
+
+	i = 0;
+	quote = 0;
+	while (input[i])
+	{
+		if (!quote && (input[i] == '\'' || input[i] == '"'))
+			quote = input[i];
+		else if (quote && input[i] == quote)
+			quote = 0;
+		i++;
+	}
+	if (quote)
+	{
+		ft_putstr_fd("minishell: unexpected EOF while looking for matching `",
+			2);
+		ft_putchar_fd(quote, 2);
+		ft_putendl_fd("'", 2);
+		shell->exit_status = 2;
+		return (1);
+	}
+	return (0);
+}
 
 static void	process_operator(char *input, int *i, t_token **tokens, t_shell *sh)
 {
@@ -38,6 +65,8 @@ t_token	*lexer(char *input, t_shell *shell)
 
 	if (!input || !shell)
 		return (NULL);
+	if (check_unclosed_quotes(input, shell))
+		return (NULL);
 	tokens = NULL;
 	i = 0;
 	while (input[i])
@@ -53,3 +82,4 @@ t_token	*lexer(char *input, t_shell *shell)
 	}
 	return (tokens);
 }
+

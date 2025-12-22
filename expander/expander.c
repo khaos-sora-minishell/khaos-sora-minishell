@@ -81,7 +81,7 @@ char	*expand_string(char *str, t_shell *shell)
 	if (!str)
 		return (NULL);
 	needed = get_expanded_length(str, shell);
-	result = gc_malloc(shell->cmd_arena, needed + 1);
+	result = gc_calloc(shell->cmd_arena, needed + 1, 1);
 	contex.i = 0;
 	contex.j = 0;
 	contex.quote = 0;

@@ -1,3 +1,0 @@
-minishell[0m$ (echo sub1 && echo sub2) | wc -l
-2
-minishell[0m$ exit
