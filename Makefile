@@ -108,7 +108,7 @@ clean:
 	@if [ -d "$(LIBFT_DIR)" ]; then make -s -C $(LIBFT_DIR) clean; fi
 	@if [ -d "$(PRINTF_DIR)" ]; then make -s -C $(PRINTF_DIR) clean; fi
 	@if [ -d "$(GC_DIR)" ]; then make -s -C $(GC_DIR) clean; fi
-	@$(RM) -r $(OBJ_DIR)
+	@$(RM) -r $(OBJ_DIR) obj_bonus obj_easter
 	@echo "$(RED)Cleaned object files.$(RESET)"
 
 fclean: clean
