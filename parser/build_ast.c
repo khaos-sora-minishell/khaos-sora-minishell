@@ -13,6 +13,9 @@
 #include "minishell.h"
 #include "parser.h"
 
+static t_ast_node	*parse_pipe(t_token **current, t_shell *shell);
+static t_ast_node	*parse_primary(t_token **current, t_shell *shell);
+
 static t_ast_node	*new_ast_node(t_node_type type, t_shell *shell)
 {
 	t_ast_node	*node;
