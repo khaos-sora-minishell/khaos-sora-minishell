@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
+/*   By: harici <harici@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 19:20:48 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/22 09:50:37 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/22 12:17:57 by harici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,9 +195,9 @@ void							expand_variables(t_ast_node *ast,
 char							**expand_wildcard(char *pattern,
 									t_shell *shell);
 char							**expand_args(char **args, t_shell *shell);
+char							*process_dollar(char *str, int *i,
+									t_shell *shell);
 
-void							free_tokens(t_token *tokens);
-void							free_ast(t_ast_node *ast);
 char							**split_args(char *str, void *arena);
 
 #endif
