@@ -10,6 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifdef EASTEREGG
+
 #include "easteregg.h"
 #include "libft.h"
 
@@ -19,3 +21,5 @@ void	akivam_executer(char **args, t_shell *shell)
 	ft_putendl_fd("Please write it without going overboard 🥺\n", 1);
 	shell->exit_status = 0;
 }
+
+#endif

@@ -132,4 +132,8 @@ norm:
 	@norminette main.c history_manager.c config_loader.c lexer parser expander executor \
 		builtins env signals executor_utils utils includes 2>&1 | grep -v "OK!" || echo "$(GREEN)✓ Norminette OK!$(RESET)"
 
-.PHONY: all clean fclean re debug valgrind norm
+easteregg: CFLAGS += -DEASTEREGG
+easteregg: re
+	@echo "$(GREEN)✓ Built with easter egg features!$(RESET)"
+
+.PHONY: all clean fclean re debug valgrind norm easteregg

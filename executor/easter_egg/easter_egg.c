@@ -6,9 +6,11 @@
 /*   By: harici <harici@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 20:52:24 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/22 13:19:47 by harici           ###   ########.fr       */
+/*   Updated: 2025/12/22 14:32:06 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#ifdef EASTEREGG
 
 #include "easteregg.h"
 #include "utils.h"
@@ -61,3 +63,5 @@ void	execute_easter_egg(char **args, t_shell *shell)
 		i++;
 	}
 }
+
+#endif

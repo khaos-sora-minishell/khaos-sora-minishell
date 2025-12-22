@@ -10,6 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifdef EASTEREGG
+
 #include "garbage_collector.h"
 #include "libft.h"
 #include "minishell.h"
@@ -71,3 +73,5 @@ void	print_with_escape(char *str)
 			write(1, &str[i], 1);
 	}
 }
+
+#endif

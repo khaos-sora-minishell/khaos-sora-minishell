@@ -24,11 +24,13 @@ typedef struct s_builtin
 	t_builtin_func	func;
 }					t_builtin;
 
+#ifdef EASTEREGG
 typedef struct s_echo_op
 {
 	char			flag;
 	t_transform_fn	func;
 }					t_echo_op;
+#endif
 
 typedef struct s_echo_contex
 {
@@ -54,10 +56,12 @@ int					builtin_unset(char **args, t_shell *shell);
 int					builtin_env(char **args, t_shell *shell);
 int					builtin_exit(char **args, t_shell *shell);
 
-// echo utils
+#ifdef EASTEREGG
+// echo utils (easter egg only)
 void				op_upper(char *str);
 void				op_reverse(char *str);
 void				print_with_escape(char *str);
+#endif
 
 /*exstras*/
 int					builtin_type(char **args, t_shell *shell);

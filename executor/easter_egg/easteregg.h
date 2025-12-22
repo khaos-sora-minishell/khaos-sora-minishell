@@ -13,6 +13,8 @@
 #ifndef EASTEREGG_H
 # define EASTEREGG_H
 
+#ifdef EASTEREGG
+
 # define MATRIX_WIDTH 80
 # define MATRIX_HEIGHT 24
 
@@ -33,4 +35,7 @@ void				execute_easter_egg(char **args, t_shell *shell);
 void				harici_matrix(char **args, t_shell *shell);
 void				akivam_executer(char **args, t_shell *shell);
 void				set_terminal_name(char **args, t_shell *shell);
+
+#endif /* EASTEREGG */
+
 #endif

@@ -10,6 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifdef EASTEREGG
+
 #include "easteregg.h"
 #include "garbage_collector.h"
 #include "libft.h"
@@ -28,3 +30,5 @@ void	set_terminal_name(char **args, t_shell *shell)
 	}
 	shell->terminal_name = gc_strdup(contex, args[1]);
 }
+
+#endif

@@ -10,6 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifdef EASTEREGG
+
 #include "easteregg.h"
 #include "libft.h"
 #include <readline/readline.h> /* rl_clear_history için */
@@ -142,3 +144,5 @@ void	harici_matrix(char **args, t_shell *shell)
 			shell->exit_status = 128 + WTERMSIG(status);
 	}
 }
+
+#endif

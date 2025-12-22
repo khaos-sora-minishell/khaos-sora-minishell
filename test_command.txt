@@ -159,3 +159,44 @@ echo test && echo success || echo failure
 ls *.c
 echo *.h
 ls *
+
+# ================================
+# SECTION 15: Subshell Tests (Bonus)
+# ================================
+(echo hello)
+(echo a && echo b)
+(echo x || echo y)
+(ls /nonexistent || echo fallback)
+(echo inside) && echo outside
+(false) || echo "subshell failed"
+(true) && echo "subshell success"
+
+# ================================
+# SECTION 16: Heredoc Tests
+# ================================
+cat << EOF
+hello world
+EOF
+wc -l << END
+line1
+line2
+line3
+END
+
+# ================================
+# SECTION 17: Append Redirection Tests
+# ================================
+echo first > append_test.txt
+echo second >> append_test.txt
+echo third >> append_test.txt
+cat append_test.txt
+rm -f append_test.txt
+
+# ================================
+# SECTION 18: Combined Operator Tests
+# ================================
+echo a | cat && echo b
+echo test | wc -c || echo failed
+(echo nested) | cat
+true && false || echo "chain works"
+(echo sub1 && echo sub2) | wc -l
