@@ -1,3 +1,0 @@
-minishell[0m$ true && false || echo success
-success
-minishell[0m$ exit

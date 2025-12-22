@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 19:20:48 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/22 19:13:14 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/22 22:33:38 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # define ENV_TABLE_SIZE 131
 # define FNV_PRIME_64 1099511628211UL
 # define FNV_OFFSET 14695981039346656037UL
-# define XOR_KEY 0xFF
+# define XOR_KEY 0x1F
 
 # include "garbage_collector.h"
 # include "libft.h"

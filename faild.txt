@@ -1,7 +1,0 @@
-akivam@k1m05s03 /sgoinfre/akivam/minishell-merge
- % echo $PATH| head -c 20 
-/home/akivam/.local/%                                                                                                                                                                                                           
-akivam@k1m05s03 /sgoinfre/akivam/minishell-merge
- % ./minishell 
-minishell$ echo $PATH| head -c 20
-/home/akivam/.local/minishell$ 
