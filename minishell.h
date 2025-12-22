@@ -6,7 +6,7 @@
 /*   By: harici <harici@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 19:20:48 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/22 12:17:57 by harici           ###   ########.fr       */
+/*   Updated: 2025/12/22 12:32:12 by harici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 # define MINISHELL_H
 
 # ifndef DEFAULT_PATH_VALUE
-#  define DEFAULT_PATH_VALUE "/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:."
+#  define DEFAULT_PATH_VALUE \
+	"/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:."
 # endif
 
 # define ENV_TABLE_SIZE 131
@@ -188,8 +189,18 @@ int								is_whitespace(char c);
 int								is_special_char(char c);
 t_ast_node						*build_ast(t_token *tokens, t_shell *shell);
 
-void							executor_run(t_shell *shell);
+int								match_pattern(char *pattern, char *str);
+int								count_matches(DIR *directory, char *pattern);
+void							add_matches(DIR *directory, char *pattern,
+									char **result, t_shell *shell);
+void							sort_strings(char **strings, int count);
 
+int								has_quotes(char *str);
+char							*expand_string(char *str, t_shell *shell);
+void							executor_run(t_shell *shell);
+int								add_expanded_results(char ***result, int *idx,
+									char **wildcard_res);
+int								count_args(char **args);
 void							expand_variables(t_ast_node *ast,
 									t_shell *shell);
 char							**expand_wildcard(char *pattern,

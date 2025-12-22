@@ -6,12 +6,12 @@
 /*   By: harici <harici@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 04:00:26 by harici            #+#    #+#             */
-/*   Updated: 2025/12/22 04:32:31 by harici           ###   ########.fr       */
+/*   Updated: 2025/12/22 12:31:31 by harici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "libft.h"
+#include "minishell.h"
 #include "utils.h"
 
 int	match_pattern(char *pattern, char *str)
@@ -31,7 +31,7 @@ int	match_pattern(char *pattern, char *str)
 	return (0);
 }
 
-int	count_matches(DIR *dir, char *pattern)
+int	count_matches(DIR *directory, char *pattern)
 {
 	struct dirent	*entry;
 	int				count;
@@ -39,7 +39,7 @@ int	count_matches(DIR *dir, char *pattern)
 	count = 0;
 	while (1)
 	{
-		entry = readdir(dir);
+		entry = readdir(directory);
 		if (!entry)
 			break ;
 		if (entry->d_name[0] == '.')
@@ -47,11 +47,12 @@ int	count_matches(DIR *dir, char *pattern)
 		if (match_pattern(pattern, entry->d_name))
 			count++;
 	}
-	rewinddir(dir);
+	rewinddir(directory);
 	return (count);
 }
 
-void	add_matches(DIR *dir, char *pattern, char **result, t_shell *shell)
+void	add_matches(DIR *directory, char *pattern, char **result,
+		t_shell *shell)
 {
 	struct dirent	*entry;
 	int				i;
@@ -59,7 +60,7 @@ void	add_matches(DIR *dir, char *pattern, char **result, t_shell *shell)
 	i = 0;
 	while (1)
 	{
-		entry = readdir(dir);
+		entry = readdir(directory);
 		if (!entry)
 			break ;
 		if (entry->d_name[0] == '.')
