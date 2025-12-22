@@ -33,7 +33,7 @@ ENV_SRC		= env_manager.c env_manager_utils.c env_crypto.c env_array.c parse_path
 
 EASTER_SRC	= easter_egg.c pars_vs_executer.c set_terminal_name.c
 
-SIGNALS_SRC	= signals.c
+SIGNALS_SRC	= signals.c signal_state.c
 
 UTILS_SRC	= error.c strings.c strings_utils.c
 
