@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 19:20:37 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/22 11:53:47 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/22 14:32:06 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,19 @@ static void	exec_child_process(t_cmd *cmd, t_shell *shell)
 
 	setup_child_signals();
 	if (setup_redirections(cmd->redirs, shell) == -1)
+	{
+		cleanup_shell(shell);
 		exit(1);
+	}
 	if (!cmd->args[0])
+	{
+		cleanup_shell(shell);
 		exit(0);
+	}
 	if (cmd->args[0] && ft_strcmp(cmd->args[0], ".") == 0)
 	{
 		ft_putendl_fd("minishell: .: filename argument required", 2);
+		cleanup_shell(shell);
 		exit(2);
 	}
 	if (cmd->args[0] && ft_strcmp(cmd->args[0], "..") == 0)
@@ -41,6 +48,7 @@ static void	exec_child_process(t_cmd *cmd, t_shell *shell)
 	check_file_status(cmd_path);
 	execve(cmd_path, cmd->args, shell->env_array);
 	perror("minishell: execve");
+	cleanup_shell(shell);
 	exit(1);
 }
 

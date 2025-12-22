@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 19:20:38 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/21 21:15:54 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/22 14:26:22 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static void	exec_left_pipe(t_ast_node *left, t_shell *shell, int *pipefd)
 	dup2(pipefd[1], STDOUT_FILENO);
 	close(pipefd[1]);
 	execute_ast(left, shell);
+	cleanup_shell(shell);
 	exit(shell->exit_status);
 }
 
@@ -27,6 +28,7 @@ static void	exec_right_pipe(t_ast_node *right, t_shell *shell, int *pipefd)
 	dup2(pipefd[0], STDIN_FILENO);
 	close(pipefd[0]);
 	execute_ast(right, shell);
+	cleanup_shell(shell);
 	exit(shell->exit_status);
 }
 
