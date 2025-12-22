@@ -20,21 +20,25 @@ Bu doküman, Minishell projesinin genel mimarisini, güncellenmiş veri yapılar
 
 ## 1. Genel Mimari
 
-Proje, temel olarak bir "Oku-Ayrıştır-Genişlet-Yürüt" döngüsüne dayanır. Her aşama, projenin yönetimini kolaylaştırmak için ayrı modüller olarak tasarlanmıştır.
+Proje, temel olarak bir "Oku-Ayrıştır-Yürüt" döngüsüne dayanır. Expander, Executor içinde JIT (Just-In-Time) olarak çalışır.
 
 ```
 ┌─────────────────────────────────────────────────────────┐
 │                    MINISHELL                             │
 ├─────────────────────────────────────────────────────────┤
-│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌─────────┐ │
-│  │  LEXER   │→ │  PARSER  │→ │ EXPANDER │→ │ EXECUTOR│ │
-│  └──────────┘  └──────────┘  └──────────┘  └─────────┘ │
-│       ↓              ↓              ↓            ↓      │
-│  ┌─────────────────────────────────────────────────┐   │
-│  │         GARBAGE COLLECTOR (Entegre Edilmiş)     │   │
-│  └─────────────────────────────────────────────────┘   │
-│                                                         │
-│  Global: g_signal (sig_atomic_t) - SADECE signal için  │
+│  ┌──────────┐  ┌──────────┐      ┌───────────────────┐  │
+│  │  LEXER   │→ │  PARSER  │ →    │     EXECUTOR      │  │
+│  └──────────┘  └──────────┘      │ ┌───────────────┐ │  │
+│       ↓              ↓           │ │   EXPANDER    │ │  │
+│                                  │ │ (JIT Çalışır) │ │  │
+│                                  │ └───────────────┘ │  │
+│                                  └───────────────────┘  │
+│       ↓              ↓                     ↓            │
+│  ┌─────────────────────────────────────────────────┐    │
+│  │         GARBAGE COLLECTOR (Entegre Edilmiş)     │    │
+│  └─────────────────────────────────────────────────┘    │
+│                                                          │
+│  Global: g_signal (Sinyal Yönetimi)                      │
 └─────────────────────────────────────────────────────────┘
 ```
 
@@ -130,15 +134,34 @@ typedef struct s_ast_node
 }   t_ast_node;
 ```
 
-### 2.3 Ortam Değişkenleri
+### 2.3 Ortam Değişkenleri (Hash Table)
 
 ```c
-typedef struct s_env
+// Sabitler
+# define ENV_TABLE_SIZE 131      // Hash table boyutu (asal sayı)
+# define FNV_PRIME_64 1099511628211UL
+# define FNV_OFFSET 14695981039346656037UL
+
+// Hash table bucket yapısı (collision için linked list)
+typedef struct s_env_bucket
 {
-    char            *key;       // Değişken ismi (örn: "PATH")
-    char            *value;     // Değişken değeri
-    struct s_env    *next;      // Sonraki env değişkeni
-}   t_env;
+    char                    *key;       // Değişken ismi (örn: "PATH")
+    char                    *value;     // Değişken değeri
+    int                     _has_value; // export VAR vs export VAR=val ayrımı
+    struct s_env_bucket     *next;      // Collision durumunda sonraki bucket
+}   t_env_bucket;
+
+// Ana hash table yapısı
+typedef struct s_env_table
+{
+    t_env_bucket            **buckets;  // Bucket dizisi (ENV_TABLE_SIZE boyutunda)
+    int                     count;      // Toplam değişken sayısı
+}   t_env_table;
+
+// Kullanım örneği:
+// env_get(table, "PATH", arena)   -> O(1) ortalama
+// env_set(table, "MY_VAR", "val", arena)
+// env_unset(table, "MY_VAR")
 ```
 
 ### 2.4 Ana Shell Yapısı
@@ -148,21 +171,34 @@ typedef struct s_env
 typedef struct s_shell
 {
     // GC Arenaları (GLOBAL DEĞİL - Struct member!)
-    void        *global_arena;  // Shell lifetime için arena
-    void        *cmd_arena;     // Her komut için yeni arena
+    void            *global_arena;      // Shell lifetime için arena
+    void            *cmd_arena;         // Her komut için yeni arena
 
-    // Ortam Değişkenleri
-    t_env       *env_list;      // Linked list formatında
-    char        **env_array;    // execve için char** formatında
-    char        **path_dirs;    // PATH'ten split edilmiş dizinler
+    // Terminal Özelleştirme (EASTEREGG)
+    char            *terminal_name;     // Prompt'ta gösterilen isim
+    char            *terminal_name_color;   // Prompt rengi
+    char            *terminal_text_color;   // Text rengi
+    char            *terminal_bg_color;     // Arka plan rengi
+
+    // Ortam Değişkenleri (Hash Table)
+    t_env_table     *env_table;         // Ana env hash table
+    char            **env_array;        // execve için char** formatında
+    t_env_table     *alias_table;       // Alias hash table (BONUS)
+
+    // PATH yönetimi
+    char            **path_dirs;        // PATH'ten split edilmiş dizinler
 
     // Durum Bilgileri
-    int         exit_status;    // Son komutun çıkış kodu ($? için)
-    t_ast_node  *ast_root;      // Parser'ın oluşturduğu AST
+    int             exit_status;        // Son komutun çıkış kodu ($? için)
+    t_ast_node      *ast_root;          // Parser'ın oluşturduğu AST
 
     // File Descriptor Yedekleri
-    int         stdin_backup;   // stdin restore için
-    int         stdout_backup;  // stdout restore için
+    int             stdin_backup;       // stdin restore için
+    int             stdout_backup;      // stdout restore için
+
+    // History Yönetimi
+    int             history_fd;         // History dosya descriptor
+    char            *history_file;      // History dosya yolu
 }   t_shell;
 ```
 
@@ -392,8 +428,8 @@ minishell/
     - `unset`: Değişken silme
 
 4.  **Ortam Değişkeni Yönetimi:**
-    - `t_env` linked list operasyonları
-    - `env_list` ↔ `env_array` dönüşümü
+    - `t_env_table` hash table operasyonları (O(1) erişim)
+    - `env_table` ↔ `env_array` dönüşümü
     - PATH parsing
 
 ---
@@ -451,16 +487,18 @@ cat file | grep hello
    (cat)  (grep)
 ```
 
-### 6.4 EXPANDER Module
+### 6.4 EXPANDER Module (JIT - Just In Time)
 
-**Girdi:** AST (parse edilmiş)
-**Çıktı:** AST (genişletilmiş)
+**Konum:** Executor içinde, komut çalıştırılmadan hemen önce çağrılır.
+**Amaç:** Bash uyumluluğunu artırmak ve wildcard/boş değişken sorunlarını çözmek.
 
 **Sorumluluklar:**
 
-- `$VAR` → value
-- `$?` → exit_status
-- `*` → dosya listesi (bonus)
+- **Variable Expansion:** `$VAR` ifadelerini değerleriyle değiştirir
+- **Exit Status:** `$?` → son komutun exit_status değeri
+- **Wildcard Expansion:** `*.c` gibi ifadeleri dosya listesine çevirir (bonus)
+- **Quote Removal:** Argümanların etrafındaki gereksiz tırnakları temizler
+- **Argument Splitting:** Genişletme sonrası `cmd->args` dizisini yeniden oluşturur
 - Quote içi/dışı kuralları:
   - `'...'`: Hiç genişletme yok
   - `"..."`: Sadece `$` genişletilir
@@ -468,16 +506,17 @@ cat file | grep hello
 
 ### 6.5 EXECUTOR Module
 
-**Girdi:** AST (genişletilmiş)
+**Girdi:** AST (parse edilmiş, henüz genişletilmemiş)
 **Çıktı:** Komutların çalıştırılması
 
 **Sorumluluklar:**
 
 - AST traverse (post-order)
+- **Expander'ı çağırma** (JIT - her komut için ayrı ayrı)
 - `NODE_CMD`: `execve()` veya built-in çalıştırma
 - `NODE_PIPE`: `pipe()`, `fork()`, `dup2()` yönetimi
 - `NODE_AND/OR`: Conditional execution (bonus)
-- Yönlendirmeleri setup etme
+- Yönlendirmeleri setup etme (heredoc dahil)
 - FD management (open, close, dup2)
 - Wait ve exit status toplama
 
@@ -505,36 +544,43 @@ cat file | grep hello
 int main(int ac, char **av, char **envp)
 {
     t_shell shell;
+    char    *input;
+    t_token *tokens;
 
-    // Global arena - shell lifetime boyunca kalır
-    shell.global_arena = gc_create_arena();
-    shell.env_list = init_env(envp, shell.global_arena);
-    shell.path_dirs = parse_path(shell.env_list, shell.global_arena);
-
+    // Shell başlatma (global_arena ve cmd_arena oluşturulur)
+    init_shell(&shell, envp);
+    shell.path_dirs = parse_path(&shell);
     setup_signals();
 
     while (1)
     {
-        // Her komut için yeni arena
-        shell.cmd_arena = gc_create_arena();
-
-        char *line = readline("minishell> ");
-        if (!line)
+        input = readline(get_prompt(&shell));
+        if (!input)
+        {
+            printf("exit\n");
             break;
+        }
+        if (*input)
+            add_history(input);
 
-        if (*line)
-            add_history(line);
+        // Lexer & Parser
+        tokens = lexer(input, &shell);
+        free(input);  // readline'ın malloc'u - manuel free
 
-        // Tüm işlemler cmd_arena kullanır
-        process_command(line, &shell);
+        if (tokens)
+        {
+            shell.ast_root = parser(tokens, &shell);
+            if (shell.ast_root)
+                executor_run(&shell);  // Expander burada JIT çalışır
+        }
 
-        // Komut bitti - arena'yı yok et (automatic cleanup!)
-        gc_destroy_arena(shell.cmd_arena);
-
-        free(line);  // readline'ın malloc'u - manuel free
+        // Döngü sonu temizliği (cmd_arena scope reset)
+        clean_loop(&shell);
     }
 
-    gc_destroy_arena(shell.global_arena);
+    // Program çıkışı temizliği (tüm arena'lar destroy)
+    clean_loop(&shell);
+    cleanup_shell(&shell);
     return (shell.exit_status);
 }
 ```
@@ -544,7 +590,7 @@ int main(int ac, char **av, char **envp)
 ```c
 // Global arena kullanımı (shell lifetime):
 char *path_copy = gc_strdup(shell->global_arena, path);
-shell->env_list = gc_malloc(shell->global_arena, sizeof(t_env));
+shell->env_table = gc_malloc(shell->global_arena, sizeof(t_env_table));
 
 // Command arena kullanımı (tek komut):
 t_token *token = gc_malloc(shell->cmd_arena, sizeof(t_token));
