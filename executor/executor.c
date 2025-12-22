@@ -6,13 +6,12 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 19:20:38 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/07 20:41:59 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/22 16:37:10 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executor.h"
 
-// ! bu fonksiyon mainde direkt çağrılacak asty execute ediyor
 void	executor_run(t_shell *shell)
 {
 	if (!shell || !shell->ast_root)
