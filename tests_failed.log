@@ -1,275 +1,249 @@
-Test #5: /bin/date
---- Beklenen (Bash - Temizlenmiş) ---
-Pzt 22 Ara 2025 17:10:17 +03
---- Alınan (Minishell - Temizlenmiş) ---
-Pzt 22 Ara 2025 17:10:18 +03
---- Minishell Ham Çıktı ---
-minishell[0m$ /bin/date
-Pzt 22 Ara 2025 17:10:18 +03
-minishell[0m$ exit
---- Valgrind ---
-==365675== Memcheck, a memory error detector
-==365675== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==365675== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
-==365675== Command: ./minishell
-==365675== Parent PID: 365674
-==365675== 
-==365675== 
-==365675== HEAP SUMMARY:
-==365675==     in use at exit: 211,787 bytes in 222 blocks
-==365675==   total heap usage: 4,483 allocs, 4,261 frees, 447,350 bytes allocated
-==365675== 
-==365675== LEAK SUMMARY:
-==365675==    definitely lost: 0 bytes in 0 blocks
-==365675==    indirectly lost: 0 bytes in 0 blocks
-==365675==      possibly lost: 0 bytes in 0 blocks
-==365675==    still reachable: 0 bytes in 0 blocks
-==365675==         suppressed: 211,787 bytes in 222 blocks
-==365675== 
-==365675== For lists of detected and suppressed errors, rerun with: -s
-==365675== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
-========================================
 Test #7: /bin/ls -la
 --- Beklenen (Bash - Temizlenmiş) ---
-total 280
-drwxr-xr-x 16 akivam 2025_istanbul  4096 Ara 22 17:10 .
-drwx------ 13 akivam 2025_istanbul   307 Ara 22 12:09 ..
-drwxr-xr-x 10 akivam 2025_istanbul   161 Ara 22 12:10 builtins
--rw-r--r--  1 akivam 2025_istanbul  1781 Ara 22 12:10 config_loader.c
-drwxr-xr-x  2 akivam 2025_istanbul   137 Ara 22 12:10 env
-drwxr-xr-x  3 akivam 2025_istanbul   307 Ara 22 16:39 executor
-drwxr-xr-x  2 akivam 2025_istanbul    54 Ara 22 15:37 executor_error
-drwxr-xr-x  2 akivam 2025_istanbul   111 Ara 22 12:10 executor_utils
-drwxr-xr-x  2 akivam 2025_istanbul   163 Ara 22 12:33 expander
-drwxr-xr-x  8 akivam 2025_istanbul   280 Ara 22 16:53 .git
--rw-r--r--  1 akivam 2025_istanbul   472 Ara 22 13:12 .gitignore
--rw-r--r--  1 akivam 2025_istanbul  1392 Ara 22 12:10 history_manager.c
-drwxr-xr-x  2 akivam 2025_istanbul   145 Ara 22 12:10 lexer
-drwxr-xr-x  6 akivam 2025_istanbul    82 Ara 22 12:10 libs
--rw-r--r--  1 akivam 2025_istanbul  3153 Ara 22 13:52 main.c
--rw-r--r--  1 akivam 2025_istanbul  4168 Ara 22 13:52 Makefile
-drwxr-xr-x 12 akivam 2025_istanbul   272 Ara 22 17:10 obj
--rw-r--r--  1 akivam 2025_istanbul    98 Ara 22 12:10 package-lock.json
-drwxr-xr-x  2 akivam 2025_istanbul   125 Ara 22 16:53 parser
--rw-r--r--  1 akivam 2025_istanbul   259 Ara 22 12:10 readline.supp
--rw-r--r--  1 akivam 2025_istanbul  4399 Ara 22 12:10 README.md
-drwxr-xr-x  2 akivam 2025_istanbul   103 Ara 22 12:10 resources
-drwxr-xr-x  2 akivam 2025_istanbul    57 Ara 22 13:16 signals
--rw-r--r--  1 akivam 2025_istanbul  4262 Ara 22 15:47 test_command.txt
--rwxr-xr-x  1 akivam 2025_istanbul  5703 Ara 22 15:58 tester.sh
--rw-r--r--  1 akivam 2025_istanbul  1229 Ara 22 17:10 tests_failed.log
-drwxr-xr-x  2 akivam 2025_istanbul    76 Ara 22 12:10 utils
--rw-r--r--  1 akivam 2025_istanbul   907 Ara 22 17:10 .valgrind_output
+total 1764
+drwxr-xr-x 16 akivam 2025_istanbul    4096 Ara 22 17:36 .
+drwx------ 13 akivam 2025_istanbul     307 Ara 22 12:09 ..
+drwxr-xr-x 10 akivam 2025_istanbul     161 Ara 22 17:35 builtins
+-rw-r--r--  1 akivam 2025_istanbul    1781 Ara 22 12:10 config_loader.c
+drwxr-xr-x  2 akivam 2025_istanbul     137 Ara 22 12:10 env
+drwxr-xr-x  3 akivam 2025_istanbul     307 Ara 22 17:35 executor
+drwxr-xr-x  2 akivam 2025_istanbul      54 Ara 22 15:37 executor_error
+drwxr-xr-x  2 akivam 2025_istanbul     111 Ara 22 12:10 executor_utils
+drwxr-xr-x  2 akivam 2025_istanbul     163 Ara 22 12:33 expander
+drwxr-xr-x  8 akivam 2025_istanbul     280 Ara 22 17:36 .git
+-rw-r--r--  1 akivam 2025_istanbul     472 Ara 22 13:12 .gitignore
+-rw-r--r--  1 akivam 2025_istanbul    1392 Ara 22 12:10 history_manager.c
+drwxr-xr-x  2 akivam 2025_istanbul     145 Ara 22 12:10 lexer
+drwxr-xr-x  6 akivam 2025_istanbul      82 Ara 22 12:10 libs
+-rw-r--r--  1 akivam 2025_istanbul    3153 Ara 22 13:52 main.c
+-rw-r--r--  1 akivam 2025_istanbul    4287 Ara 22 17:35 Makefile
+drwxr-xr-x 12 akivam 2025_istanbul     272 Ara 22 17:36 obj
+-rw-r--r--  1 akivam 2025_istanbul      98 Ara 22 12:10 package-lock.json
+drwxr-xr-x  2 akivam 2025_istanbul     125 Ara 22 16:53 parser
+-rw-r--r--  1 akivam 2025_istanbul     259 Ara 22 12:10 readline.supp
+-rw-r--r--  1 akivam 2025_istanbul    4399 Ara 22 12:10 README.md
+drwxr-xr-x  2 akivam 2025_istanbul     103 Ara 22 12:10 resources
+drwxr-xr-x  2 akivam 2025_istanbul      57 Ara 22 13:16 signals
+-rw-r--r--  1 akivam 2025_istanbul    5211 Ara 22 17:36 test_command.txt
+-rwxr-xr-x  1 akivam 2025_istanbul    5703 Ara 22 15:58 tester.sh
+-rw-r--r--  1 akivam 2025_istanbul     987 Ara 22 17:35 TODO.md
+drwxr-xr-x  2 akivam 2025_istanbul      76 Ara 22 12:10 utils
+-rw-r--r--  1 akivam 2025_istanbul     907 Ara 22 17:36 .valgrind_output
 --- Alınan (Minishell - Temizlenmiş) ---
-total 284
-drwxr-xr-x 16 akivam 2025_istanbul  4096 Ara 22 17:10 .
-drwx------ 13 akivam 2025_istanbul   307 Ara 22 12:09 ..
-drwxr-xr-x 10 akivam 2025_istanbul   161 Ara 22 12:10 builtins
--rw-r--r--  1 akivam 2025_istanbul  1781 Ara 22 12:10 config_loader.c
-drwxr-xr-x  2 akivam 2025_istanbul   137 Ara 22 12:10 env
-drwxr-xr-x  3 akivam 2025_istanbul   307 Ara 22 16:39 executor
-drwxr-xr-x  2 akivam 2025_istanbul    54 Ara 22 15:37 executor_error
-drwxr-xr-x  2 akivam 2025_istanbul   111 Ara 22 12:10 executor_utils
-drwxr-xr-x  2 akivam 2025_istanbul   163 Ara 22 12:33 expander
-drwxr-xr-x  8 akivam 2025_istanbul   280 Ara 22 16:53 .git
--rw-r--r--  1 akivam 2025_istanbul   472 Ara 22 13:12 .gitignore
--rw-r--r--  1 akivam 2025_istanbul  1392 Ara 22 12:10 history_manager.c
-drwxr-xr-x  2 akivam 2025_istanbul   145 Ara 22 12:10 lexer
-drwxr-xr-x  6 akivam 2025_istanbul    82 Ara 22 12:10 libs
--rw-r--r--  1 akivam 2025_istanbul  3153 Ara 22 13:52 main.c
--rw-r--r--  1 akivam 2025_istanbul  4168 Ara 22 13:52 Makefile
-drwxr-xr-x 12 akivam 2025_istanbul   272 Ara 22 17:10 obj
--rw-r--r--  1 akivam 2025_istanbul    98 Ara 22 12:10 package-lock.json
-drwxr-xr-x  2 akivam 2025_istanbul   125 Ara 22 16:53 parser
--rw-r--r--  1 akivam 2025_istanbul   259 Ara 22 12:10 readline.supp
--rw-r--r--  1 akivam 2025_istanbul  4399 Ara 22 12:10 README.md
-drwxr-xr-x  2 akivam 2025_istanbul   103 Ara 22 12:10 resources
-drwxr-xr-x  2 akivam 2025_istanbul    57 Ara 22 13:16 signals
--rw-r--r--  1 akivam 2025_istanbul  4262 Ara 22 15:47 test_command.txt
--rwxr-xr-x  1 akivam 2025_istanbul  5703 Ara 22 15:58 tester.sh
--rw-r--r--  1 akivam 2025_istanbul  1229 Ara 22 17:10 tests_failed.log
-drwxr-xr-x  2 akivam 2025_istanbul    76 Ara 22 12:10 utils
--rw-r--r--  1 akivam 2025_istanbul   272 Ara 22 17:10 .valgrind_output
+total 1768
+drwxr-xr-x 16 akivam 2025_istanbul    4096 Ara 22 17:36 .
+drwx------ 13 akivam 2025_istanbul     307 Ara 22 12:09 ..
+drwxr-xr-x 10 akivam 2025_istanbul     161 Ara 22 17:35 builtins
+-rw-r--r--  1 akivam 2025_istanbul    1781 Ara 22 12:10 config_loader.c
+drwxr-xr-x  2 akivam 2025_istanbul     137 Ara 22 12:10 env
+drwxr-xr-x  3 akivam 2025_istanbul     307 Ara 22 17:35 executor
+drwxr-xr-x  2 akivam 2025_istanbul      54 Ara 22 15:37 executor_error
+drwxr-xr-x  2 akivam 2025_istanbul     111 Ara 22 12:10 executor_utils
+drwxr-xr-x  2 akivam 2025_istanbul     163 Ara 22 12:33 expander
+drwxr-xr-x  8 akivam 2025_istanbul     280 Ara 22 17:36 .git
+-rw-r--r--  1 akivam 2025_istanbul     472 Ara 22 13:12 .gitignore
+-rw-r--r--  1 akivam 2025_istanbul    1392 Ara 22 12:10 history_manager.c
+drwxr-xr-x  2 akivam 2025_istanbul     145 Ara 22 12:10 lexer
+drwxr-xr-x  6 akivam 2025_istanbul      82 Ara 22 12:10 libs
+-rw-r--r--  1 akivam 2025_istanbul    3153 Ara 22 13:52 main.c
+-rw-r--r--  1 akivam 2025_istanbul    4287 Ara 22 17:35 Makefile
+drwxr-xr-x 12 akivam 2025_istanbul     272 Ara 22 17:36 obj
+-rw-r--r--  1 akivam 2025_istanbul      98 Ara 22 12:10 package-lock.json
+drwxr-xr-x  2 akivam 2025_istanbul     125 Ara 22 16:53 parser
+-rw-r--r--  1 akivam 2025_istanbul     259 Ara 22 12:10 readline.supp
+-rw-r--r--  1 akivam 2025_istanbul    4399 Ara 22 12:10 README.md
+drwxr-xr-x  2 akivam 2025_istanbul     103 Ara 22 12:10 resources
+drwxr-xr-x  2 akivam 2025_istanbul      57 Ara 22 13:16 signals
+-rw-r--r--  1 akivam 2025_istanbul    5211 Ara 22 17:36 test_command.txt
+-rwxr-xr-x  1 akivam 2025_istanbul    5703 Ara 22 15:58 tester.sh
+-rw-r--r--  1 akivam 2025_istanbul     987 Ara 22 17:35 TODO.md
+drwxr-xr-x  2 akivam 2025_istanbul      76 Ara 22 12:10 utils
+-rw-r--r--  1 akivam 2025_istanbul     272 Ara 22 17:36 .valgrind_output
 --- Minishell Ham Çıktı ---
 minishell[0m$ /bin/ls -la
-total 284
-drwxr-xr-x 16 akivam 2025_istanbul  4096 Ara 22 17:10 .
-drwx------ 13 akivam 2025_istanbul   307 Ara 22 12:09 ..
--rw-r--r--  1 akivam 2025_istanbul  1495 Ara 22 17:10 .bash_clean
--rw-r--r--  1 akivam 2025_istanbul  2209 Ara 22 17:10 .bash_output
-drwxr-xr-x 10 akivam 2025_istanbul   161 Ara 22 12:10 builtins
--rw-r--r--  1 akivam 2025_istanbul  1781 Ara 22 12:10 config_loader.c
-drwxr-xr-x  2 akivam 2025_istanbul   137 Ara 22 12:10 env
-drwxr-xr-x  3 akivam 2025_istanbul   307 Ara 22 16:39 executor
-drwxr-xr-x  2 akivam 2025_istanbul    54 Ara 22 15:37 executor_error
-drwxr-xr-x  2 akivam 2025_istanbul   111 Ara 22 12:10 executor_utils
-drwxr-xr-x  2 akivam 2025_istanbul   163 Ara 22 12:33 expander
-drwxr-xr-x  8 akivam 2025_istanbul   280 Ara 22 16:53 .git
--rw-r--r--  1 akivam 2025_istanbul   472 Ara 22 13:12 .gitignore
--rw-r--r--  1 akivam 2025_istanbul  1392 Ara 22 12:10 history_manager.c
-drwxr-xr-x  2 akivam 2025_istanbul   145 Ara 22 12:10 lexer
-drwxr-xr-x  6 akivam 2025_istanbul    82 Ara 22 12:10 libs
--rw-r--r--  1 akivam 2025_istanbul  3153 Ara 22 13:52 main.c
--rw-r--r--  1 akivam 2025_istanbul  4168 Ara 22 13:52 Makefile
--rwxr-xr-x  1 akivam 2025_istanbul 94184 Ara 22 17:10 minishell
--rw-r--r--  1 akivam 2025_istanbul  1495 Ara 22 17:10 .minishell_clean
--rw-r--r--  1 akivam 2025_istanbul  5738 Ara 22 13:12 minishell.h
--rw-r--r--  1 akivam 2025_istanbul    27 Ara 22 17:10 .minishell_output
-drwxr-xr-x 12 akivam 2025_istanbul   272 Ara 22 17:10 obj
--rw-r--r--  1 akivam 2025_istanbul    98 Ara 22 12:10 package-lock.json
-drwxr-xr-x  2 akivam 2025_istanbul   125 Ara 22 16:53 parser
--rw-r--r--  1 akivam 2025_istanbul   259 Ara 22 12:10 readline.supp
--rw-r--r--  1 akivam 2025_istanbul  4399 Ara 22 12:10 README.md
-drwxr-xr-x  2 akivam 2025_istanbul   103 Ara 22 12:10 resources
-drwxr-xr-x  2 akivam 2025_istanbul    57 Ara 22 13:16 signals
--rw-r--r--  1 akivam 2025_istanbul  4262 Ara 22 15:47 test_command.txt
--rwxr-xr-x  1 akivam 2025_istanbul  5703 Ara 22 15:58 tester.sh
--rw-r--r--  1 akivam 2025_istanbul  1229 Ara 22 17:10 tests_failed.log
-drwxr-xr-x  2 akivam 2025_istanbul    76 Ara 22 12:10 utils
--rw-r--r--  1 akivam 2025_istanbul   272 Ara 22 17:10 .valgrind_output
+total 1768
+drwxr-xr-x 16 akivam 2025_istanbul    4096 Ara 22 17:36 .
+drwx------ 13 akivam 2025_istanbul     307 Ara 22 12:09 ..
+-rw-r--r--  1 akivam 2025_istanbul    1533 Ara 22 17:36 .bash_clean
+-rw-r--r--  1 akivam 2025_istanbul    2347 Ara 22 17:36 .bash_output
+drwxr-xr-x 10 akivam 2025_istanbul     161 Ara 22 17:35 builtins
+-rw-r--r--  1 akivam 2025_istanbul    1781 Ara 22 12:10 config_loader.c
+drwxr-xr-x  2 akivam 2025_istanbul     137 Ara 22 12:10 env
+drwxr-xr-x  3 akivam 2025_istanbul     307 Ara 22 17:35 executor
+drwxr-xr-x  2 akivam 2025_istanbul      54 Ara 22 15:37 executor_error
+drwxr-xr-x  2 akivam 2025_istanbul     111 Ara 22 12:10 executor_utils
+drwxr-xr-x  2 akivam 2025_istanbul     163 Ara 22 12:33 expander
+drwxr-xr-x  8 akivam 2025_istanbul     280 Ara 22 17:36 .git
+-rw-r--r--  1 akivam 2025_istanbul     472 Ara 22 13:12 .gitignore
+-rw-r--r--  1 akivam 2025_istanbul    1392 Ara 22 12:10 history_manager.c
+drwxr-xr-x  2 akivam 2025_istanbul     145 Ara 22 12:10 lexer
+drwxr-xr-x  6 akivam 2025_istanbul      82 Ara 22 12:10 libs
+-rw-r--r--  1 akivam 2025_istanbul    3153 Ara 22 13:52 main.c
+-rw-r--r--  1 akivam 2025_istanbul    4287 Ara 22 17:35 Makefile
+-rwxr-xr-x  1 akivam 2025_istanbul   85192 Ara 22 17:36 minishell
+-rw-r--r--  1 akivam 2025_istanbul    1533 Ara 22 17:36 .minishell_clean
+-rw-r--r--  1 akivam 2025_istanbul    5738 Ara 22 13:12 minishell.h
+-rw-r--r--  1 akivam 2025_istanbul      27 Ara 22 17:36 .minishell_output
+-rw-r--r--  1 akivam 2025_istanbul 1582893 Ara 22 17:35 minishell_subject.pdf
+drwxr-xr-x 12 akivam 2025_istanbul     272 Ara 22 17:36 obj
+-rw-r--r--  1 akivam 2025_istanbul      98 Ara 22 12:10 package-lock.json
+drwxr-xr-x  2 akivam 2025_istanbul     125 Ara 22 16:53 parser
+-rw-r--r--  1 akivam 2025_istanbul     259 Ara 22 12:10 readline.supp
+-rw-r--r--  1 akivam 2025_istanbul    4399 Ara 22 12:10 README.md
+drwxr-xr-x  2 akivam 2025_istanbul     103 Ara 22 12:10 resources
+drwxr-xr-x  2 akivam 2025_istanbul      57 Ara 22 13:16 signals
+-rw-r--r--  1 akivam 2025_istanbul    5211 Ara 22 17:36 test_command.txt
+-rwxr-xr-x  1 akivam 2025_istanbul    5703 Ara 22 15:58 tester.sh
+-rw-r--r--  1 akivam 2025_istanbul     987 Ara 22 17:35 TODO.md
+drwxr-xr-x  2 akivam 2025_istanbul      76 Ara 22 12:10 utils
+-rw-r--r--  1 akivam 2025_istanbul     272 Ara 22 17:36 .valgrind_output
 minishell[0m$ exit
 --- Valgrind ---
-==365757== Memcheck, a memory error detector
-==365757== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==365757== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
-==365757== Command: ./minishell
-==365757== Parent PID: 365756
-==365757== 
-==365757== 
-==365757== HEAP SUMMARY:
-==365757==     in use at exit: 211,787 bytes in 222 blocks
-==365757==   total heap usage: 4,511 allocs, 4,289 frees, 448,209 bytes allocated
-==365757== 
-==365757== LEAK SUMMARY:
-==365757==    definitely lost: 0 bytes in 0 blocks
-==365757==    indirectly lost: 0 bytes in 0 blocks
-==365757==      possibly lost: 0 bytes in 0 blocks
-==365757==    still reachable: 0 bytes in 0 blocks
-==365757==         suppressed: 211,787 bytes in 222 blocks
-==365757== 
-==365757== For lists of detected and suppressed errors, rerun with: -s
-==365757== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==372551== Memcheck, a memory error detector
+==372551== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==372551== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==372551== Command: ./minishell
+==372551== Parent PID: 372550
+==372551== 
+==372551== 
+==372551== HEAP SUMMARY:
+==372551==     in use at exit: 212,587 bytes in 222 blocks
+==372551==   total heap usage: 4,828 allocs, 4,606 frees, 477,010 bytes allocated
+==372551== 
+==372551== LEAK SUMMARY:
+==372551==    definitely lost: 0 bytes in 0 blocks
+==372551==    indirectly lost: 0 bytes in 0 blocks
+==372551==      possibly lost: 0 bytes in 0 blocks
+==372551==    still reachable: 0 bytes in 0 blocks
+==372551==         suppressed: 212,587 bytes in 222 blocks
+==372551== 
+==372551== For lists of detected and suppressed errors, rerun with: -s
+==372551== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
 ========================================
 Test #14: /bin/ls -l -a
 --- Beklenen (Bash - Temizlenmiş) ---
-total 284
-drwxr-xr-x 16 akivam 2025_istanbul  4096 Ara 22 17:10 .
-drwx------ 13 akivam 2025_istanbul   307 Ara 22 12:09 ..
-drwxr-xr-x 10 akivam 2025_istanbul   161 Ara 22 12:10 builtins
--rw-r--r--  1 akivam 2025_istanbul  1781 Ara 22 12:10 config_loader.c
-drwxr-xr-x  2 akivam 2025_istanbul   137 Ara 22 12:10 env
-drwxr-xr-x  3 akivam 2025_istanbul   307 Ara 22 16:39 executor
-drwxr-xr-x  2 akivam 2025_istanbul    54 Ara 22 15:37 executor_error
-drwxr-xr-x  2 akivam 2025_istanbul   111 Ara 22 12:10 executor_utils
-drwxr-xr-x  2 akivam 2025_istanbul   163 Ara 22 12:33 expander
-drwxr-xr-x  8 akivam 2025_istanbul   280 Ara 22 16:53 .git
--rw-r--r--  1 akivam 2025_istanbul   472 Ara 22 13:12 .gitignore
--rw-r--r--  1 akivam 2025_istanbul  1392 Ara 22 12:10 history_manager.c
-drwxr-xr-x  2 akivam 2025_istanbul   145 Ara 22 12:10 lexer
-drwxr-xr-x  6 akivam 2025_istanbul    82 Ara 22 12:10 libs
--rw-r--r--  1 akivam 2025_istanbul  3153 Ara 22 13:52 main.c
--rw-r--r--  1 akivam 2025_istanbul  4168 Ara 22 13:52 Makefile
-drwxr-xr-x 12 akivam 2025_istanbul   272 Ara 22 17:10 obj
--rw-r--r--  1 akivam 2025_istanbul    98 Ara 22 12:10 package-lock.json
-drwxr-xr-x  2 akivam 2025_istanbul   125 Ara 22 16:53 parser
--rw-r--r--  1 akivam 2025_istanbul   259 Ara 22 12:10 readline.supp
--rw-r--r--  1 akivam 2025_istanbul  4399 Ara 22 12:10 README.md
-drwxr-xr-x  2 akivam 2025_istanbul   103 Ara 22 12:10 resources
-drwxr-xr-x  2 akivam 2025_istanbul    57 Ara 22 13:16 signals
--rw-r--r--  1 akivam 2025_istanbul  4262 Ara 22 15:47 test_command.txt
--rwxr-xr-x  1 akivam 2025_istanbul  5703 Ara 22 15:58 tester.sh
--rw-r--r--  1 akivam 2025_istanbul  8190 Ara 22 17:10 tests_failed.log
-drwxr-xr-x  2 akivam 2025_istanbul    76 Ara 22 12:10 utils
--rw-r--r--  1 akivam 2025_istanbul   907 Ara 22 17:10 .valgrind_output
+total 1772
+drwxr-xr-x 16 akivam 2025_istanbul    4096 Ara 22 17:36 .
+drwx------ 13 akivam 2025_istanbul     307 Ara 22 12:09 ..
+drwxr-xr-x 10 akivam 2025_istanbul     161 Ara 22 17:35 builtins
+-rw-r--r--  1 akivam 2025_istanbul    1781 Ara 22 12:10 config_loader.c
+drwxr-xr-x  2 akivam 2025_istanbul     137 Ara 22 12:10 env
+drwxr-xr-x  3 akivam 2025_istanbul     307 Ara 22 17:35 executor
+drwxr-xr-x  2 akivam 2025_istanbul      54 Ara 22 15:37 executor_error
+drwxr-xr-x  2 akivam 2025_istanbul     111 Ara 22 12:10 executor_utils
+drwxr-xr-x  2 akivam 2025_istanbul     163 Ara 22 12:33 expander
+drwxr-xr-x  8 akivam 2025_istanbul     280 Ara 22 17:36 .git
+-rw-r--r--  1 akivam 2025_istanbul     472 Ara 22 13:12 .gitignore
+-rw-r--r--  1 akivam 2025_istanbul    1392 Ara 22 12:10 history_manager.c
+drwxr-xr-x  2 akivam 2025_istanbul     145 Ara 22 12:10 lexer
+drwxr-xr-x  6 akivam 2025_istanbul      82 Ara 22 12:10 libs
+-rw-r--r--  1 akivam 2025_istanbul    3153 Ara 22 13:52 main.c
+-rw-r--r--  1 akivam 2025_istanbul    4287 Ara 22 17:35 Makefile
+drwxr-xr-x 12 akivam 2025_istanbul     272 Ara 22 17:36 obj
+-rw-r--r--  1 akivam 2025_istanbul      98 Ara 22 12:10 package-lock.json
+drwxr-xr-x  2 akivam 2025_istanbul     125 Ara 22 16:53 parser
+-rw-r--r--  1 akivam 2025_istanbul     259 Ara 22 12:10 readline.supp
+-rw-r--r--  1 akivam 2025_istanbul    4399 Ara 22 12:10 README.md
+drwxr-xr-x  2 akivam 2025_istanbul     103 Ara 22 12:10 resources
+drwxr-xr-x  2 akivam 2025_istanbul      57 Ara 22 13:16 signals
+-rw-r--r--  1 akivam 2025_istanbul    5211 Ara 22 17:36 test_command.txt
+-rwxr-xr-x  1 akivam 2025_istanbul    5703 Ara 22 15:58 tester.sh
+-rw-r--r--  1 akivam 2025_istanbul    7195 Ara 22 17:36 tests_failed.log
+-rw-r--r--  1 akivam 2025_istanbul     987 Ara 22 17:35 TODO.md
+drwxr-xr-x  2 akivam 2025_istanbul      76 Ara 22 12:10 utils
+-rw-r--r--  1 akivam 2025_istanbul     907 Ara 22 17:36 .valgrind_output
 --- Alınan (Minishell - Temizlenmiş) ---
-total 288
-drwxr-xr-x 16 akivam 2025_istanbul  4096 Ara 22 17:10 .
-drwx------ 13 akivam 2025_istanbul   307 Ara 22 12:09 ..
-drwxr-xr-x 10 akivam 2025_istanbul   161 Ara 22 12:10 builtins
--rw-r--r--  1 akivam 2025_istanbul  1781 Ara 22 12:10 config_loader.c
-drwxr-xr-x  2 akivam 2025_istanbul   137 Ara 22 12:10 env
-drwxr-xr-x  3 akivam 2025_istanbul   307 Ara 22 16:39 executor
-drwxr-xr-x  2 akivam 2025_istanbul    54 Ara 22 15:37 executor_error
-drwxr-xr-x  2 akivam 2025_istanbul   111 Ara 22 12:10 executor_utils
-drwxr-xr-x  2 akivam 2025_istanbul   163 Ara 22 12:33 expander
-drwxr-xr-x  8 akivam 2025_istanbul   280 Ara 22 16:53 .git
--rw-r--r--  1 akivam 2025_istanbul   472 Ara 22 13:12 .gitignore
--rw-r--r--  1 akivam 2025_istanbul  1392 Ara 22 12:10 history_manager.c
-drwxr-xr-x  2 akivam 2025_istanbul   145 Ara 22 12:10 lexer
-drwxr-xr-x  6 akivam 2025_istanbul    82 Ara 22 12:10 libs
--rw-r--r--  1 akivam 2025_istanbul  3153 Ara 22 13:52 main.c
--rw-r--r--  1 akivam 2025_istanbul  4168 Ara 22 13:52 Makefile
-drwxr-xr-x 12 akivam 2025_istanbul   272 Ara 22 17:10 obj
--rw-r--r--  1 akivam 2025_istanbul    98 Ara 22 12:10 package-lock.json
-drwxr-xr-x  2 akivam 2025_istanbul   125 Ara 22 16:53 parser
--rw-r--r--  1 akivam 2025_istanbul   259 Ara 22 12:10 readline.supp
--rw-r--r--  1 akivam 2025_istanbul  4399 Ara 22 12:10 README.md
-drwxr-xr-x  2 akivam 2025_istanbul   103 Ara 22 12:10 resources
-drwxr-xr-x  2 akivam 2025_istanbul    57 Ara 22 13:16 signals
--rw-r--r--  1 akivam 2025_istanbul  4262 Ara 22 15:47 test_command.txt
--rwxr-xr-x  1 akivam 2025_istanbul  5703 Ara 22 15:58 tester.sh
--rw-r--r--  1 akivam 2025_istanbul  8190 Ara 22 17:10 tests_failed.log
-drwxr-xr-x  2 akivam 2025_istanbul    76 Ara 22 12:10 utils
--rw-r--r--  1 akivam 2025_istanbul   272 Ara 22 17:10 .valgrind_output
+total 1776
+drwxr-xr-x 16 akivam 2025_istanbul    4096 Ara 22 17:36 .
+drwx------ 13 akivam 2025_istanbul     307 Ara 22 12:09 ..
+drwxr-xr-x 10 akivam 2025_istanbul     161 Ara 22 17:35 builtins
+-rw-r--r--  1 akivam 2025_istanbul    1781 Ara 22 12:10 config_loader.c
+drwxr-xr-x  2 akivam 2025_istanbul     137 Ara 22 12:10 env
+drwxr-xr-x  3 akivam 2025_istanbul     307 Ara 22 17:35 executor
+drwxr-xr-x  2 akivam 2025_istanbul      54 Ara 22 15:37 executor_error
+drwxr-xr-x  2 akivam 2025_istanbul     111 Ara 22 12:10 executor_utils
+drwxr-xr-x  2 akivam 2025_istanbul     163 Ara 22 12:33 expander
+drwxr-xr-x  8 akivam 2025_istanbul     280 Ara 22 17:36 .git
+-rw-r--r--  1 akivam 2025_istanbul     472 Ara 22 13:12 .gitignore
+-rw-r--r--  1 akivam 2025_istanbul    1392 Ara 22 12:10 history_manager.c
+drwxr-xr-x  2 akivam 2025_istanbul     145 Ara 22 12:10 lexer
+drwxr-xr-x  6 akivam 2025_istanbul      82 Ara 22 12:10 libs
+-rw-r--r--  1 akivam 2025_istanbul    3153 Ara 22 13:52 main.c
+-rw-r--r--  1 akivam 2025_istanbul    4287 Ara 22 17:35 Makefile
+drwxr-xr-x 12 akivam 2025_istanbul     272 Ara 22 17:36 obj
+-rw-r--r--  1 akivam 2025_istanbul      98 Ara 22 12:10 package-lock.json
+drwxr-xr-x  2 akivam 2025_istanbul     125 Ara 22 16:53 parser
+-rw-r--r--  1 akivam 2025_istanbul     259 Ara 22 12:10 readline.supp
+-rw-r--r--  1 akivam 2025_istanbul    4399 Ara 22 12:10 README.md
+drwxr-xr-x  2 akivam 2025_istanbul     103 Ara 22 12:10 resources
+drwxr-xr-x  2 akivam 2025_istanbul      57 Ara 22 13:16 signals
+-rw-r--r--  1 akivam 2025_istanbul    5211 Ara 22 17:36 test_command.txt
+-rwxr-xr-x  1 akivam 2025_istanbul    5703 Ara 22 15:58 tester.sh
+-rw-r--r--  1 akivam 2025_istanbul    7195 Ara 22 17:36 tests_failed.log
+-rw-r--r--  1 akivam 2025_istanbul     987 Ara 22 17:35 TODO.md
+drwxr-xr-x  2 akivam 2025_istanbul      76 Ara 22 12:10 utils
+-rw-r--r--  1 akivam 2025_istanbul     272 Ara 22 17:36 .valgrind_output
 --- Minishell Ham Çıktı ---
 minishell[0m$ /bin/ls -l -a
-total 288
-drwxr-xr-x 16 akivam 2025_istanbul  4096 Ara 22 17:10 .
-drwx------ 13 akivam 2025_istanbul   307 Ara 22 12:09 ..
--rw-r--r--  1 akivam 2025_istanbul   236 Ara 22 17:10 .bash_clean
--rw-r--r--  1 akivam 2025_istanbul  2209 Ara 22 17:10 .bash_output
-drwxr-xr-x 10 akivam 2025_istanbul   161 Ara 22 12:10 builtins
--rw-r--r--  1 akivam 2025_istanbul  1781 Ara 22 12:10 config_loader.c
-drwxr-xr-x  2 akivam 2025_istanbul   137 Ara 22 12:10 env
-drwxr-xr-x  3 akivam 2025_istanbul   307 Ara 22 16:39 executor
-drwxr-xr-x  2 akivam 2025_istanbul    54 Ara 22 15:37 executor_error
-drwxr-xr-x  2 akivam 2025_istanbul   111 Ara 22 12:10 executor_utils
-drwxr-xr-x  2 akivam 2025_istanbul   163 Ara 22 12:33 expander
-drwxr-xr-x  8 akivam 2025_istanbul   280 Ara 22 16:53 .git
--rw-r--r--  1 akivam 2025_istanbul   472 Ara 22 13:12 .gitignore
--rw-r--r--  1 akivam 2025_istanbul  1392 Ara 22 12:10 history_manager.c
-drwxr-xr-x  2 akivam 2025_istanbul   145 Ara 22 12:10 lexer
-drwxr-xr-x  6 akivam 2025_istanbul    82 Ara 22 12:10 libs
--rw-r--r--  1 akivam 2025_istanbul  3153 Ara 22 13:52 main.c
--rw-r--r--  1 akivam 2025_istanbul  4168 Ara 22 13:52 Makefile
--rwxr-xr-x  1 akivam 2025_istanbul 94184 Ara 22 17:10 minishell
--rw-r--r--  1 akivam 2025_istanbul   236 Ara 22 17:10 .minishell_clean
--rw-r--r--  1 akivam 2025_istanbul  5738 Ara 22 13:12 minishell.h
--rw-r--r--  1 akivam 2025_istanbul    29 Ara 22 17:10 .minishell_output
-drwxr-xr-x 12 akivam 2025_istanbul   272 Ara 22 17:10 obj
--rw-r--r--  1 akivam 2025_istanbul    98 Ara 22 12:10 package-lock.json
-drwxr-xr-x  2 akivam 2025_istanbul   125 Ara 22 16:53 parser
--rw-r--r--  1 akivam 2025_istanbul   259 Ara 22 12:10 readline.supp
--rw-r--r--  1 akivam 2025_istanbul  4399 Ara 22 12:10 README.md
-drwxr-xr-x  2 akivam 2025_istanbul   103 Ara 22 12:10 resources
-drwxr-xr-x  2 akivam 2025_istanbul    57 Ara 22 13:16 signals
--rw-r--r--  1 akivam 2025_istanbul  4262 Ara 22 15:47 test_command.txt
--rwxr-xr-x  1 akivam 2025_istanbul  5703 Ara 22 15:58 tester.sh
--rw-r--r--  1 akivam 2025_istanbul  8190 Ara 22 17:10 tests_failed.log
-drwxr-xr-x  2 akivam 2025_istanbul    76 Ara 22 12:10 utils
--rw-r--r--  1 akivam 2025_istanbul   272 Ara 22 17:10 .valgrind_output
+total 1776
+drwxr-xr-x 16 akivam 2025_istanbul    4096 Ara 22 17:36 .
+drwx------ 13 akivam 2025_istanbul     307 Ara 22 12:09 ..
+-rw-r--r--  1 akivam 2025_istanbul     236 Ara 22 17:36 .bash_clean
+-rw-r--r--  1 akivam 2025_istanbul    2420 Ara 22 17:36 .bash_output
+drwxr-xr-x 10 akivam 2025_istanbul     161 Ara 22 17:35 builtins
+-rw-r--r--  1 akivam 2025_istanbul    1781 Ara 22 12:10 config_loader.c
+drwxr-xr-x  2 akivam 2025_istanbul     137 Ara 22 12:10 env
+drwxr-xr-x  3 akivam 2025_istanbul     307 Ara 22 17:35 executor
+drwxr-xr-x  2 akivam 2025_istanbul      54 Ara 22 15:37 executor_error
+drwxr-xr-x  2 akivam 2025_istanbul     111 Ara 22 12:10 executor_utils
+drwxr-xr-x  2 akivam 2025_istanbul     163 Ara 22 12:33 expander
+drwxr-xr-x  8 akivam 2025_istanbul     280 Ara 22 17:36 .git
+-rw-r--r--  1 akivam 2025_istanbul     472 Ara 22 13:12 .gitignore
+-rw-r--r--  1 akivam 2025_istanbul    1392 Ara 22 12:10 history_manager.c
+drwxr-xr-x  2 akivam 2025_istanbul     145 Ara 22 12:10 lexer
+drwxr-xr-x  6 akivam 2025_istanbul      82 Ara 22 12:10 libs
+-rw-r--r--  1 akivam 2025_istanbul    3153 Ara 22 13:52 main.c
+-rw-r--r--  1 akivam 2025_istanbul    4287 Ara 22 17:35 Makefile
+-rwxr-xr-x  1 akivam 2025_istanbul   85192 Ara 22 17:36 minishell
+-rw-r--r--  1 akivam 2025_istanbul     236 Ara 22 17:36 .minishell_clean
+-rw-r--r--  1 akivam 2025_istanbul    5738 Ara 22 13:12 minishell.h
+-rw-r--r--  1 akivam 2025_istanbul      29 Ara 22 17:37 .minishell_output
+-rw-r--r--  1 akivam 2025_istanbul 1582893 Ara 22 17:35 minishell_subject.pdf
+drwxr-xr-x 12 akivam 2025_istanbul     272 Ara 22 17:36 obj
+-rw-r--r--  1 akivam 2025_istanbul      98 Ara 22 12:10 package-lock.json
+drwxr-xr-x  2 akivam 2025_istanbul     125 Ara 22 16:53 parser
+-rw-r--r--  1 akivam 2025_istanbul     259 Ara 22 12:10 readline.supp
+-rw-r--r--  1 akivam 2025_istanbul    4399 Ara 22 12:10 README.md
+drwxr-xr-x  2 akivam 2025_istanbul     103 Ara 22 12:10 resources
+drwxr-xr-x  2 akivam 2025_istanbul      57 Ara 22 13:16 signals
+-rw-r--r--  1 akivam 2025_istanbul    5211 Ara 22 17:36 test_command.txt
+-rwxr-xr-x  1 akivam 2025_istanbul    5703 Ara 22 15:58 tester.sh
+-rw-r--r--  1 akivam 2025_istanbul    7195 Ara 22 17:36 tests_failed.log
+-rw-r--r--  1 akivam 2025_istanbul     987 Ara 22 17:35 TODO.md
+drwxr-xr-x  2 akivam 2025_istanbul      76 Ara 22 12:10 utils
+-rw-r--r--  1 akivam 2025_istanbul     272 Ara 22 17:36 .valgrind_output
 minishell[0m$ exit
 --- Valgrind ---
-==366045== Memcheck, a memory error detector
-==366045== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==366045== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
-==366045== Command: ./minishell
-==366045== Parent PID: 366044
-==366045== 
-==366045== 
-==366045== HEAP SUMMARY:
-==366045==     in use at exit: 211,787 bytes in 222 blocks
-==366045==   total heap usage: 4,554 allocs, 4,332 frees, 449,682 bytes allocated
-==366045== 
-==366045== LEAK SUMMARY:
-==366045==    definitely lost: 0 bytes in 0 blocks
-==366045==    indirectly lost: 0 bytes in 0 blocks
-==366045==      possibly lost: 0 bytes in 0 blocks
-==366045==    still reachable: 0 bytes in 0 blocks
-==366045==         suppressed: 211,787 bytes in 222 blocks
-==366045== 
-==366045== For lists of detected and suppressed errors, rerun with: -s
-==366045== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==372845== Memcheck, a memory error detector
+==372845== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==372845== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==372845== Command: ./minishell
+==372845== Parent PID: 372844
+==372845== 
+==372845== 
+==372845== HEAP SUMMARY:
+==372845==     in use at exit: 212,587 bytes in 222 blocks
+==372845==   total heap usage: 4,871 allocs, 4,649 frees, 478,483 bytes allocated
+==372845== 
+==372845== LEAK SUMMARY:
+==372845==    definitely lost: 0 bytes in 0 blocks
+==372845==    indirectly lost: 0 bytes in 0 blocks
+==372845==      possibly lost: 0 bytes in 0 blocks
+==372845==    still reachable: 0 bytes in 0 blocks
+==372845==         suppressed: 212,587 bytes in 222 blocks
+==372845== 
+==372845== For lists of detected and suppressed errors, rerun with: -s
+==372845== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
 ========================================
 Test #19: echo -n hello
 --- Beklenen (Bash - Temizlenmiş) ---
@@ -279,26 +253,26 @@ hello
 minishell[0m$ echo -n hello
 hellominishell[0m$ exit
 --- Valgrind ---
-==366240== Memcheck, a memory error detector
-==366240== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==366240== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
-==366240== Command: ./minishell
-==366240== Parent PID: 366239
-==366240== 
-==366240== 
-==366240== HEAP SUMMARY:
-==366240==     in use at exit: 211,787 bytes in 222 blocks
-==366240==   total heap usage: 4,571 allocs, 4,349 frees, 450,164 bytes allocated
-==366240== 
-==366240== LEAK SUMMARY:
-==366240==    definitely lost: 0 bytes in 0 blocks
-==366240==    indirectly lost: 0 bytes in 0 blocks
-==366240==      possibly lost: 0 bytes in 0 blocks
-==366240==    still reachable: 0 bytes in 0 blocks
-==366240==         suppressed: 211,787 bytes in 222 blocks
-==366240== 
-==366240== For lists of detected and suppressed errors, rerun with: -s
-==366240== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==373094== Memcheck, a memory error detector
+==373094== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==373094== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==373094== Command: ./minishell
+==373094== Parent PID: 373093
+==373094== 
+==373094== 
+==373094== HEAP SUMMARY:
+==373094==     in use at exit: 212,587 bytes in 222 blocks
+==373094==   total heap usage: 4,888 allocs, 4,666 frees, 478,965 bytes allocated
+==373094== 
+==373094== LEAK SUMMARY:
+==373094==    definitely lost: 0 bytes in 0 blocks
+==373094==    indirectly lost: 0 bytes in 0 blocks
+==373094==      possibly lost: 0 bytes in 0 blocks
+==373094==    still reachable: 0 bytes in 0 blocks
+==373094==         suppressed: 212,587 bytes in 222 blocks
+==373094== 
+==373094== For lists of detected and suppressed errors, rerun with: -s
+==373094== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
 ========================================
 Test #20: echo -n hello world
 --- Beklenen (Bash - Temizlenmiş) ---
@@ -308,26 +282,26 @@ hello world
 minishell[0m$ echo -n hello world
 hello worldminishell[0m$ exit
 --- Valgrind ---
-==366273== Memcheck, a memory error detector
-==366273== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==366273== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
-==366273== Command: ./minishell
-==366273== Parent PID: 366272
-==366273== 
-==366273== 
-==366273== HEAP SUMMARY:
-==366273==     in use at exit: 211,787 bytes in 222 blocks
-==366273==   total heap usage: 4,598 allocs, 4,376 frees, 451,084 bytes allocated
-==366273== 
-==366273== LEAK SUMMARY:
-==366273==    definitely lost: 0 bytes in 0 blocks
-==366273==    indirectly lost: 0 bytes in 0 blocks
-==366273==      possibly lost: 0 bytes in 0 blocks
-==366273==    still reachable: 0 bytes in 0 blocks
-==366273==         suppressed: 211,787 bytes in 222 blocks
-==366273== 
-==366273== For lists of detected and suppressed errors, rerun with: -s
-==366273== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==373127== Memcheck, a memory error detector
+==373127== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==373127== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==373127== Command: ./minishell
+==373127== Parent PID: 373126
+==373127== 
+==373127== 
+==373127== HEAP SUMMARY:
+==373127==     in use at exit: 212,587 bytes in 222 blocks
+==373127==   total heap usage: 4,915 allocs, 4,693 frees, 479,885 bytes allocated
+==373127== 
+==373127== LEAK SUMMARY:
+==373127==    definitely lost: 0 bytes in 0 blocks
+==373127==    indirectly lost: 0 bytes in 0 blocks
+==373127==      possibly lost: 0 bytes in 0 blocks
+==373127==    still reachable: 0 bytes in 0 blocks
+==373127==         suppressed: 212,587 bytes in 222 blocks
+==373127== 
+==373127== For lists of detected and suppressed errors, rerun with: -s
+==373127== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
 ========================================
 Test #21: echo -nnnn -nnn -nnnnnnnn -nnnnnrnnnn -nnn -n -n kuzey nn
 --- Beklenen (Bash - Temizlenmiş) ---
@@ -335,26 +309,1791 @@ Test #21: echo -nnnn -nnn -nnnnnnnn -nnnnnrnnnn -nnn -n -n kuzey nn
 --- Alınan (Minishell - Temizlenmiş) ---
 --- Minishell Ham Çıktı ---
 minishell[0m$ echo -nnnn -nnn -nnnnnnnn -nnnnnrnnnn -nnn -n -n kuzey nn
-yezuk nnminishell[0m$ exit
+-nnnnnrnnnn -nnn -n -n kuzey nnminishell[0m$ exit
 --- Valgrind ---
-==366318== Memcheck, a memory error detector
-==366318== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==366318== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
-==366318== Command: ./minishell
-==366318== Parent PID: 366317
-==366318== 
-==366318== 
-==366318== HEAP SUMMARY:
-==366318==     in use at exit: 211,787 bytes in 222 blocks
-==366318==   total heap usage: 4,735 allocs, 4,513 frees, 456,109 bytes allocated
-==366318== 
-==366318== LEAK SUMMARY:
-==366318==    definitely lost: 0 bytes in 0 blocks
-==366318==    indirectly lost: 0 bytes in 0 blocks
-==366318==      possibly lost: 0 bytes in 0 blocks
-==366318==    still reachable: 0 bytes in 0 blocks
-==366318==         suppressed: 211,787 bytes in 222 blocks
-==366318== 
-==366318== For lists of detected and suppressed errors, rerun with: -s
-==366318== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==373160== Memcheck, a memory error detector
+==373160== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==373160== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==373160== Command: ./minishell
+==373160== Parent PID: 373159
+==373160== 
+==373160== 
+==373160== HEAP SUMMARY:
+==373160==     in use at exit: 212,587 bytes in 222 blocks
+==373160==   total heap usage: 5,060 allocs, 4,838 frees, 485,157 bytes allocated
+==373160== 
+==373160== LEAK SUMMARY:
+==373160==    definitely lost: 0 bytes in 0 blocks
+==373160==    indirectly lost: 0 bytes in 0 blocks
+==373160==      possibly lost: 0 bytes in 0 blocks
+==373160==    still reachable: 0 bytes in 0 blocks
+==373160==         suppressed: 212,587 bytes in 222 blocks
+==373160== 
+==373160== For lists of detected and suppressed errors, rerun with: -s
+==373160== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+========================================
+Test #113: cat << EOF
+--- Beklenen (Bash - Temizlenmiş) ---
+--- Alınan (Minishell - Temizlenmiş) ---
+>
+--- Minishell Ham Çıktı ---
+minishell[0m$ cat << EOF
+> --- Valgrind ---
+==377461== Memcheck, a memory error detector
+==377461== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==377461== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==377461== Command: ./minishell
+==377461== Parent PID: 377460
+==377461== 
+==377461== 
+==377461== Process terminating with default action of signal 15 (SIGTERM)
+==377461==    at 0x496475B: kill (syscall-template.S:120)
+==377461==    by 0x48A7F39: _rl_signal_handler (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==377461==    by 0x48A83A6: rl_read_key (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==377461==    by 0x488CC86: readline_internal_char (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==377461==    by 0x4895D14: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==377461==    by 0x406260: read_heredoc_loop (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40657E: handle_heredoc_entry (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4064B4: process_cmd_heredoc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4058D3: prepare_cmd_execution (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4057DC: execute_command (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40547F: execute_ast (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4053EE: executor_run (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== HEAP SUMMARY:
+==377461==     in use at exit: 353,495 bytes in 4,920 blocks
+==377461==   total heap usage: 5,121 allocs, 201 frees, 479,162 bytes allocated
+==377461== 
+==377461== 1 bytes in 1 blocks are still reachable in loss record 1 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40BD00: gc_strdup (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40270E: get_prompt (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40258D: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 2 bytes in 1 blocks are still reachable in loss record 2 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40C30C: gc_itoa (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4063AA: get_heredoc_filename (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40651E: handle_heredoc_entry (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4064B4: process_cmd_heredoc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4058D3: prepare_cmd_execution (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4057DC: execute_command (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40547F: execute_ast (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4053EE: executor_run (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40263E: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 3 bytes in 1 blocks are still reachable in loss record 3 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40BD00: gc_strdup (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x407F34: create_env_node (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x407E36: env_set (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x408253: set_default_shell_vars (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40813F: initialize_env_table (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402423: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 3 bytes in 1 blocks are still reachable in loss record 4 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40BD00: gc_strdup (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403202: create_token (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402C50: process_operator (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402BC0: lexer (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4025EF: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 3 bytes in 1 blocks are still reachable in loss record 5 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40BD00: gc_strdup (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x407D36: env_get (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x406221: read_heredoc_loop (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40657E: handle_heredoc_entry (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4064B4: process_cmd_heredoc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4058D3: prepare_cmd_execution (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4057DC: execute_command (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40547F: execute_ast (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4053EE: executor_run (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40263E: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 4 bytes in 1 blocks are still reachable in loss record 8 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40BD00: gc_strdup (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x407F12: create_env_node (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x407E36: env_set (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x408211: set_default_shell_vars (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40813F: initialize_env_table (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402423: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 4 bytes in 1 blocks are still reachable in loss record 9 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40BD00: gc_strdup (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x407F12: create_env_node (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x407E36: env_set (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x408253: set_default_shell_vars (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40813F: initialize_env_table (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402423: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 4 bytes in 1 blocks are still reachable in loss record 10 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40BD00: gc_strdup (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4039E4: add_arg_to_cmd (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403B71: process_current_token (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403ABE: parse_simple_command (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40423F: parse_primary (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40407C: parse_pipe (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403F8C: parse_logic (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403F5C: build_ast (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403756: parser (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402623: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 4 bytes in 1 blocks are still reachable in loss record 11 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40BD00: gc_strdup (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403E2C: create_redir (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403C66: parse_redirection (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403B2B: process_current_token (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403ABE: parse_simple_command (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40423F: parse_primary (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40407C: parse_pipe (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403F8C: parse_logic (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403F5C: build_ast (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403756: parser (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 8 bytes in 2 blocks are still reachable in loss record 14 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40312B: extract_word (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402C98: process_word (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402BDA: lexer (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4025EF: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 8 bytes in 2 blocks are still reachable in loss record 15 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40BD00: gc_strdup (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403202: create_token (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402CC2: process_word (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402BDA: lexer (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4025EF: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 10 bytes in 1 blocks are still reachable in loss record 17 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40BF30: gc_strjoin (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4027A4: get_prompt (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40258D: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 12 bytes in 1 blocks are still reachable in loss record 20 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40BD00: gc_strdup (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x407F34: create_env_node (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x407E36: env_set (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x408211: set_default_shell_vars (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40813F: initialize_env_table (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402423: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 16 bytes in 1 blocks are still reachable in loss record 28 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4080A5: initialize_env_table (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402423: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 16 bytes in 1 blocks are still reachable in loss record 29 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40B05F: gc_calloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402463: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 16 bytes in 1 blocks are still reachable in loss record 30 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40BF30: gc_strjoin (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4027E1: get_prompt (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40258D: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 16 bytes in 1 blocks are still reachable in loss record 32 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403D89: create_cmd (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403A62: parse_simple_command (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40423F: parse_primary (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40407C: parse_pipe (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403F8C: parse_logic (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403F5C: build_ast (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403756: parser (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402623: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 16 bytes in 1 blocks are still reachable in loss record 33 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403987: add_arg_to_cmd (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403B71: process_current_token (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403ABE: parse_simple_command (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40423F: parse_primary (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40407C: parse_pipe (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403F8C: parse_logic (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403F5C: build_ast (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403756: parser (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402623: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 18 bytes in 1 blocks are still reachable in loss record 34 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40BF30: gc_strjoin (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402800: get_prompt (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40258D: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 24 bytes in 1 blocks are still reachable in loss record 40 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4031D0: create_token (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402C50: process_operator (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402BC0: lexer (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4025EF: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 28 bytes in 1 blocks are still reachable in loss record 42 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40BF30: gc_strjoin (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4028F0: get_history_path (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402864: init_history (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4024C5: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 32 bytes in 1 blocks are still reachable in loss record 43 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x407F01: create_env_node (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x407E36: env_set (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x408211: set_default_shell_vars (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40813F: initialize_env_table (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402423: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 32 bytes in 1 blocks are still reachable in loss record 44 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x407F01: create_env_node (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x407E36: env_set (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x408253: set_default_shell_vars (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40813F: initialize_env_table (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402423: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 34 bytes in 1 blocks are still reachable in loss record 46 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40BF30: gc_strjoin (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4063C0: get_heredoc_filename (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40651E: handle_heredoc_entry (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4064B4: process_cmd_heredoc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4058D3: prepare_cmd_execution (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4057DC: execute_command (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40547F: execute_ast (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4053EE: executor_run (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40263E: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 40 bytes in 1 blocks are still reachable in loss record 47 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40BB3C: gc_scope_push (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40B98F: gc_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4023D2: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 40 bytes in 1 blocks are still reachable in loss record 48 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40BB3C: gc_scope_push (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40B98F: gc_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4023E1: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 40 bytes in 1 blocks are still reachable in loss record 49 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40B05F: gc_calloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x404145: new_ast_node (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40422E: parse_primary (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40407C: parse_pipe (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403F8C: parse_logic (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403F5C: build_ast (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403756: parser (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402623: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 40 bytes in 1 blocks are still reachable in loss record 50 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403DF0: create_redir (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403C66: parse_redirection (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403B2B: process_current_token (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403ABE: parse_simple_command (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40423F: parse_primary (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40407C: parse_pipe (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403F8C: parse_logic (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403F5C: build_ast (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403756: parser (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402623: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 48 bytes in 2 blocks are still reachable in loss record 54 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4031D0: create_token (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402CC2: process_word (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402BDA: lexer (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4025EF: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 56 bytes in 1 blocks are still reachable in loss record 55 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4080A5: initialize_env_table (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402423: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 56 bytes in 1 blocks are still reachable in loss record 56 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40B05F: gc_calloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4080BC: initialize_env_table (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402423: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 56 bytes in 1 blocks are still reachable in loss record 57 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x407F01: create_env_node (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x407E36: env_set (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x408211: set_default_shell_vars (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40813F: initialize_env_table (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402423: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 56 bytes in 1 blocks are still reachable in loss record 58 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40BD00: gc_strdup (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x407F12: create_env_node (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x407E36: env_set (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x408211: set_default_shell_vars (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40813F: initialize_env_table (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402423: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 56 bytes in 1 blocks are still reachable in loss record 59 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40BD00: gc_strdup (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x407F34: create_env_node (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x407E36: env_set (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x408211: set_default_shell_vars (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40813F: initialize_env_table (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402423: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 56 bytes in 1 blocks are still reachable in loss record 60 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x407F01: create_env_node (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x407E36: env_set (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x408253: set_default_shell_vars (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40813F: initialize_env_table (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402423: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 56 bytes in 1 blocks are still reachable in loss record 61 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40BD00: gc_strdup (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x407F12: create_env_node (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x407E36: env_set (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x408253: set_default_shell_vars (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40813F: initialize_env_table (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402423: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 56 bytes in 1 blocks are still reachable in loss record 62 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40BD00: gc_strdup (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x407F34: create_env_node (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x407E36: env_set (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x408253: set_default_shell_vars (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40813F: initialize_env_table (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402423: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 56 bytes in 1 blocks are still reachable in loss record 63 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x408289: env_table_to_array (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402442: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 56 bytes in 1 blocks are still reachable in loss record 64 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40B05F: gc_calloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402463: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 56 bytes in 1 blocks are still reachable in loss record 65 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40B05F: gc_calloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402484: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 56 bytes in 1 blocks are still reachable in loss record 66 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40BF30: gc_strjoin (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4028F0: get_history_path (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402864: init_history (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4024C5: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 56 bytes in 1 blocks are still reachable in loss record 67 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40BD00: gc_strdup (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x407D36: env_get (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x408650: parse_path (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402578: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 56 bytes in 1 blocks are still reachable in loss record 68 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40C042: gc_split (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x408681: parse_path (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402578: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 56 bytes in 1 blocks are still reachable in loss record 69 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40BD00: gc_strdup (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40270E: get_prompt (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40258D: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 56 bytes in 1 blocks are still reachable in loss record 70 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40BF30: gc_strjoin (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4027A4: get_prompt (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40258D: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 56 bytes in 1 blocks are still reachable in loss record 71 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40BF30: gc_strjoin (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4027E1: get_prompt (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40258D: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 56 bytes in 1 blocks are still reachable in loss record 72 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40BF30: gc_strjoin (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402800: get_prompt (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40258D: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 56 bytes in 1 blocks are still reachable in loss record 73 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4031D0: create_token (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402C50: process_operator (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402BC0: lexer (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4025EF: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 56 bytes in 1 blocks are still reachable in loss record 74 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40BD00: gc_strdup (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403202: create_token (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402C50: process_operator (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402BC0: lexer (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4025EF: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 56 bytes in 1 blocks are still reachable in loss record 75 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40B05F: gc_calloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x404145: new_ast_node (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40422E: parse_primary (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40407C: parse_pipe (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403F8C: parse_logic (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403F5C: build_ast (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403756: parser (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402623: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 56 bytes in 1 blocks are still reachable in loss record 76 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403D89: create_cmd (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403A62: parse_simple_command (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40423F: parse_primary (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40407C: parse_pipe (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403F8C: parse_logic (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403F5C: build_ast (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403756: parser (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402623: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 56 bytes in 1 blocks are still reachable in loss record 77 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403987: add_arg_to_cmd (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403B71: process_current_token (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403ABE: parse_simple_command (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40423F: parse_primary (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40407C: parse_pipe (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403F8C: parse_logic (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403F5C: build_ast (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403756: parser (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402623: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 56 bytes in 1 blocks are still reachable in loss record 78 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40BD00: gc_strdup (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4039E4: add_arg_to_cmd (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403B71: process_current_token (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403ABE: parse_simple_command (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40423F: parse_primary (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40407C: parse_pipe (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403F8C: parse_logic (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403F5C: build_ast (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403756: parser (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 56 bytes in 1 blocks are still reachable in loss record 79 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403DF0: create_redir (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403C66: parse_redirection (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403B2B: process_current_token (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403ABE: parse_simple_command (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40423F: parse_primary (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40407C: parse_pipe (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403F8C: parse_logic (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403F5C: build_ast (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403756: parser (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 56 bytes in 1 blocks are still reachable in loss record 80 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40BD00: gc_strdup (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403E2C: create_redir (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403C66: parse_redirection (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403B2B: process_current_token (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403ABE: parse_simple_command (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40423F: parse_primary (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40407C: parse_pipe (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403F8C: parse_logic (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403F5C: build_ast (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 56 bytes in 1 blocks are still reachable in loss record 81 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40C30C: gc_itoa (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4063AA: get_heredoc_filename (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40651E: handle_heredoc_entry (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4064B4: process_cmd_heredoc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4058D3: prepare_cmd_execution (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4057DC: execute_command (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40547F: execute_ast (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4053EE: executor_run (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40263E: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 56 bytes in 1 blocks are still reachable in loss record 82 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40BF30: gc_strjoin (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4063C0: get_heredoc_filename (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40651E: handle_heredoc_entry (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4064B4: process_cmd_heredoc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4058D3: prepare_cmd_execution (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4057DC: execute_command (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40547F: execute_ast (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4053EE: executor_run (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40263E: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 56 bytes in 1 blocks are still reachable in loss record 83 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40BD00: gc_strdup (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x407D36: env_get (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x406221: read_heredoc_loop (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40657E: handle_heredoc_entry (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4064B4: process_cmd_heredoc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4058D3: prepare_cmd_execution (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4057DC: execute_command (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40547F: execute_ast (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4053EE: executor_run (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 112 bytes in 2 blocks are still reachable in loss record 88 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40312B: extract_word (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402C98: process_word (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402BDA: lexer (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4025EF: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 112 bytes in 2 blocks are still reachable in loss record 89 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4031D0: create_token (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402CC2: process_word (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402BDA: lexer (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4025EF: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 112 bytes in 2 blocks are still reachable in loss record 90 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40BD00: gc_strdup (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x403202: create_token (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402CC2: process_word (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402BDA: lexer (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4025EF: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 120 bytes in 1 blocks are still reachable in loss record 91 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40B951: gc_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4023D2: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 120 bytes in 1 blocks are still reachable in loss record 92 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40B951: gc_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4023E1: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 136 bytes in 1 blocks are still reachable in loss record 94 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40C042: gc_split (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x408681: parse_path (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402578: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 380 bytes in 1 blocks are still reachable in loss record 101 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40BD00: gc_strdup (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x407D36: env_get (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x408650: parse_path (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402578: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 380 bytes in 16 blocks are still reachable in loss record 102 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40C228: fill_words (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40C075: gc_split (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x408681: parse_path (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402578: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 688 bytes in 1 blocks are still reachable in loss record 105 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x408289: env_table_to_array (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402442: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 896 bytes in 16 blocks are still reachable in loss record 108 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40C228: fill_words (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40C075: gc_split (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x408681: parse_path (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402578: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 1,048 bytes in 1 blocks are still reachable in loss record 118 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40B05F: gc_calloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4080BC: initialize_env_table (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402423: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 1,048 bytes in 1 blocks are still reachable in loss record 119 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40B05F: gc_calloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402484: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 1,133 bytes in 83 blocks are still reachable in loss record 120 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40BDD8: gc_strndup (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x408198: add_env_entry (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x408124: initialize_env_table (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402423: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 1,133 bytes in 83 blocks are still reachable in loss record 121 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40BD00: gc_strdup (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x407F12: create_env_node (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x407E36: env_set (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4081B5: add_env_entry (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x408124: initialize_env_table (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402423: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 1,226 bytes in 85 blocks are still reachable in loss record 122 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40BF30: gc_strjoin (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x408387: join_env_pair (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4082E1: env_table_to_array (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402442: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 2,656 bytes in 83 blocks are still reachable in loss record 127 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x407F01: create_env_node (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x407E36: env_set (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4081B5: add_env_entry (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x408124: initialize_env_table (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402423: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 3,581 bytes in 83 blocks are still reachable in loss record 128 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40BD00: gc_strdup (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x407F34: create_env_node (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x407E36: env_set (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4081B5: add_env_entry (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x408124: initialize_env_table (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402423: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 3,596 bytes in 85 blocks are still reachable in loss record 129 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40BD00: gc_strdup (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x408360: join_env_pair (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4082E1: env_table_to_array (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402442: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 4,648 bytes in 83 blocks are still reachable in loss record 141 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40BDD8: gc_strndup (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x408198: add_env_entry (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x408124: initialize_env_table (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402423: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 4,648 bytes in 83 blocks are still reachable in loss record 142 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x407F01: create_env_node (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x407E36: env_set (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4081B5: add_env_entry (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x408124: initialize_env_table (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402423: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 4,648 bytes in 83 blocks are still reachable in loss record 143 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40BD00: gc_strdup (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x407F12: create_env_node (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x407E36: env_set (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4081B5: add_env_entry (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x408124: initialize_env_table (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402423: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 4,648 bytes in 83 blocks are still reachable in loss record 144 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40BD00: gc_strdup (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x407F34: create_env_node (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x407E36: env_set (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4081B5: add_env_entry (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x408124: initialize_env_table (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402423: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 4,737 bytes in 85 blocks are still reachable in loss record 145 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40BF30: gc_strjoin (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40839C: join_env_pair (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4082E1: env_table_to_array (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402442: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 4,760 bytes in 85 blocks are still reachable in loss record 146 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40BD00: gc_strdup (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x408360: join_env_pair (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4082E1: env_table_to_array (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402442: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 4,760 bytes in 85 blocks are still reachable in loss record 147 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40BF30: gc_strjoin (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x408387: join_env_pair (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4082E1: env_table_to_array (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402442: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== 4,760 bytes in 85 blocks are still reachable in loss record 148 of 167
+==377461==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377461==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40BF30: gc_strjoin (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40839C: join_env_pair (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x4082E1: env_table_to_array (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x402442: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377461== 
+==377461== LEAK SUMMARY:
+==377461==    definitely lost: 0 bytes in 0 blocks
+==377461==    indirectly lost: 0 bytes in 0 blocks
+==377461==      possibly lost: 0 bytes in 0 blocks
+==377461==    still reachable: 58,232 bytes in 1,280 blocks
+==377461==         suppressed: 295,263 bytes in 3,640 blocks
+==377461== 
+==377461== For lists of detected and suppressed errors, rerun with: -s
+==377461== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+========================================
+Test #116: wc -l << END
+--- Beklenen (Bash - Temizlenmiş) ---
+0
+--- Alınan (Minishell - Temizlenmiş) ---
+>
+--- Minishell Ham Çıktı ---
+minishell[0m$ wc -l << END
+> --- Valgrind ---
+==377601== Memcheck, a memory error detector
+==377601== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==377601== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==377601== Command: ./minishell
+==377601== Parent PID: 377600
+==377601== 
+==377601== 
+==377601== Process terminating with default action of signal 15 (SIGTERM)
+==377601==    at 0x496475B: kill (syscall-template.S:120)
+==377601==    by 0x48A7F39: _rl_signal_handler (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==377601==    by 0x48A83A6: rl_read_key (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==377601==    by 0x488CC86: readline_internal_char (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==377601==    by 0x4895D14: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==377601==    by 0x406260: read_heredoc_loop (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40657E: handle_heredoc_entry (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4064B4: process_cmd_heredoc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4058D3: prepare_cmd_execution (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4057DC: execute_command (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40547F: execute_ast (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4053EE: executor_run (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== HEAP SUMMARY:
+==377601==     in use at exit: 353,919 bytes in 4,936 blocks
+==377601==   total heap usage: 5,137 allocs, 201 frees, 479,604 bytes allocated
+==377601== 
+==377601== 1 bytes in 1 blocks are still reachable in loss record 1 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40BD00: gc_strdup (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40270E: get_prompt (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40258D: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 2 bytes in 1 blocks are still reachable in loss record 2 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40C30C: gc_itoa (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4063AA: get_heredoc_filename (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40651E: handle_heredoc_entry (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4064B4: process_cmd_heredoc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4058D3: prepare_cmd_execution (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4057DC: execute_command (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40547F: execute_ast (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4053EE: executor_run (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40263E: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 3 bytes in 1 blocks are still reachable in loss record 3 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40BD00: gc_strdup (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x407F34: create_env_node (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x407E36: env_set (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x408253: set_default_shell_vars (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40813F: initialize_env_table (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402423: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 3 bytes in 1 blocks are still reachable in loss record 4 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40BD00: gc_strdup (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403202: create_token (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402C50: process_operator (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402BC0: lexer (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4025EF: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 3 bytes in 1 blocks are still reachable in loss record 5 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40BD00: gc_strdup (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x407D36: env_get (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x406221: read_heredoc_loop (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40657E: handle_heredoc_entry (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4064B4: process_cmd_heredoc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4058D3: prepare_cmd_execution (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4057DC: execute_command (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40547F: execute_ast (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4053EE: executor_run (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40263E: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 4 bytes in 1 blocks are still reachable in loss record 8 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40BD00: gc_strdup (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x407F12: create_env_node (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x407E36: env_set (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x408211: set_default_shell_vars (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40813F: initialize_env_table (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402423: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 4 bytes in 1 blocks are still reachable in loss record 9 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40BD00: gc_strdup (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x407F12: create_env_node (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x407E36: env_set (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x408253: set_default_shell_vars (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40813F: initialize_env_table (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402423: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 4 bytes in 1 blocks are still reachable in loss record 10 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40BD00: gc_strdup (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403E2C: create_redir (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403C66: parse_redirection (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403B2B: process_current_token (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403ABE: parse_simple_command (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40423F: parse_primary (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40407C: parse_pipe (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403F8C: parse_logic (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403F5C: build_ast (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403756: parser (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 6 bytes in 2 blocks are still reachable in loss record 11 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40BD00: gc_strdup (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4039E4: add_arg_to_cmd (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403B71: process_current_token (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403ABE: parse_simple_command (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40423F: parse_primary (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40407C: parse_pipe (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403F8C: parse_logic (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403F5C: build_ast (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403756: parser (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402623: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 10 bytes in 1 blocks are still reachable in loss record 15 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40BF30: gc_strjoin (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4027A4: get_prompt (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40258D: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 10 bytes in 3 blocks are still reachable in loss record 16 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40312B: extract_word (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402C98: process_word (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402BDA: lexer (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4025EF: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 10 bytes in 3 blocks are still reachable in loss record 17 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40BD00: gc_strdup (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403202: create_token (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402CC2: process_word (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402BDA: lexer (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4025EF: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 12 bytes in 1 blocks are still reachable in loss record 19 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40BD00: gc_strdup (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x407F34: create_env_node (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x407E36: env_set (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x408211: set_default_shell_vars (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40813F: initialize_env_table (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402423: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 16 bytes in 1 blocks are still reachable in loss record 28 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4080A5: initialize_env_table (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402423: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 16 bytes in 1 blocks are still reachable in loss record 29 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40B05F: gc_calloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402463: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 16 bytes in 1 blocks are still reachable in loss record 30 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40BF30: gc_strjoin (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4027E1: get_prompt (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40258D: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 16 bytes in 1 blocks are still reachable in loss record 32 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403D89: create_cmd (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403A62: parse_simple_command (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40423F: parse_primary (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40407C: parse_pipe (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403F8C: parse_logic (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403F5C: build_ast (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403756: parser (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402623: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 18 bytes in 1 blocks are still reachable in loss record 33 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40BF30: gc_strjoin (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402800: get_prompt (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40258D: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 24 bytes in 1 blocks are still reachable in loss record 39 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4031D0: create_token (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402C50: process_operator (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402BC0: lexer (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4025EF: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 28 bytes in 1 blocks are still reachable in loss record 41 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40BF30: gc_strjoin (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4028F0: get_history_path (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402864: init_history (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4024C5: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 32 bytes in 1 blocks are still reachable in loss record 42 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x407F01: create_env_node (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x407E36: env_set (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x408211: set_default_shell_vars (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40813F: initialize_env_table (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402423: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 32 bytes in 1 blocks are still reachable in loss record 43 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x407F01: create_env_node (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x407E36: env_set (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x408253: set_default_shell_vars (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40813F: initialize_env_table (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402423: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 34 bytes in 1 blocks are still reachable in loss record 45 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40BF30: gc_strjoin (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4063C0: get_heredoc_filename (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40651E: handle_heredoc_entry (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4064B4: process_cmd_heredoc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4058D3: prepare_cmd_execution (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4057DC: execute_command (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40547F: execute_ast (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4053EE: executor_run (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40263E: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 40 bytes in 1 blocks are still reachable in loss record 46 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40BB3C: gc_scope_push (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40B98F: gc_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4023D2: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 40 bytes in 1 blocks are still reachable in loss record 47 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40BB3C: gc_scope_push (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40B98F: gc_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4023E1: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 40 bytes in 1 blocks are still reachable in loss record 48 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40B05F: gc_calloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x404145: new_ast_node (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40422E: parse_primary (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40407C: parse_pipe (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403F8C: parse_logic (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403F5C: build_ast (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403756: parser (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402623: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 40 bytes in 1 blocks are still reachable in loss record 49 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403DF0: create_redir (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403C66: parse_redirection (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403B2B: process_current_token (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403ABE: parse_simple_command (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40423F: parse_primary (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40407C: parse_pipe (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403F8C: parse_logic (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403F5C: build_ast (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403756: parser (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402623: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 40 bytes in 2 blocks are still reachable in loss record 50 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403987: add_arg_to_cmd (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403B71: process_current_token (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403ABE: parse_simple_command (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40423F: parse_primary (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40407C: parse_pipe (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403F8C: parse_logic (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403F5C: build_ast (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403756: parser (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402623: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 56 bytes in 1 blocks are still reachable in loss record 54 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4080A5: initialize_env_table (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402423: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 56 bytes in 1 blocks are still reachable in loss record 55 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40B05F: gc_calloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4080BC: initialize_env_table (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402423: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 56 bytes in 1 blocks are still reachable in loss record 56 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x407F01: create_env_node (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x407E36: env_set (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x408211: set_default_shell_vars (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40813F: initialize_env_table (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402423: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 56 bytes in 1 blocks are still reachable in loss record 57 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40BD00: gc_strdup (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x407F12: create_env_node (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x407E36: env_set (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x408211: set_default_shell_vars (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40813F: initialize_env_table (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402423: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 56 bytes in 1 blocks are still reachable in loss record 58 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40BD00: gc_strdup (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x407F34: create_env_node (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x407E36: env_set (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x408211: set_default_shell_vars (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40813F: initialize_env_table (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402423: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 56 bytes in 1 blocks are still reachable in loss record 59 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x407F01: create_env_node (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x407E36: env_set (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x408253: set_default_shell_vars (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40813F: initialize_env_table (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402423: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 56 bytes in 1 blocks are still reachable in loss record 60 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40BD00: gc_strdup (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x407F12: create_env_node (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x407E36: env_set (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x408253: set_default_shell_vars (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40813F: initialize_env_table (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402423: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 56 bytes in 1 blocks are still reachable in loss record 61 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40BD00: gc_strdup (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x407F34: create_env_node (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x407E36: env_set (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x408253: set_default_shell_vars (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40813F: initialize_env_table (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402423: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 56 bytes in 1 blocks are still reachable in loss record 62 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x408289: env_table_to_array (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402442: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 56 bytes in 1 blocks are still reachable in loss record 63 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40B05F: gc_calloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402463: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 56 bytes in 1 blocks are still reachable in loss record 64 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40B05F: gc_calloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402484: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 56 bytes in 1 blocks are still reachable in loss record 65 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40BF30: gc_strjoin (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4028F0: get_history_path (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402864: init_history (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4024C5: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 56 bytes in 1 blocks are still reachable in loss record 66 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40BD00: gc_strdup (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x407D36: env_get (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x408650: parse_path (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402578: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 56 bytes in 1 blocks are still reachable in loss record 67 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40C042: gc_split (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x408681: parse_path (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402578: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 56 bytes in 1 blocks are still reachable in loss record 68 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40BD00: gc_strdup (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40270E: get_prompt (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40258D: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 56 bytes in 1 blocks are still reachable in loss record 69 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40BF30: gc_strjoin (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4027A4: get_prompt (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40258D: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 56 bytes in 1 blocks are still reachable in loss record 70 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40BF30: gc_strjoin (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4027E1: get_prompt (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40258D: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 56 bytes in 1 blocks are still reachable in loss record 71 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40BF30: gc_strjoin (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402800: get_prompt (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40258D: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 56 bytes in 1 blocks are still reachable in loss record 72 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4031D0: create_token (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402C50: process_operator (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402BC0: lexer (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4025EF: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 56 bytes in 1 blocks are still reachable in loss record 73 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40BD00: gc_strdup (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403202: create_token (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402C50: process_operator (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402BC0: lexer (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4025EF: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 56 bytes in 1 blocks are still reachable in loss record 74 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40B05F: gc_calloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x404145: new_ast_node (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40422E: parse_primary (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40407C: parse_pipe (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403F8C: parse_logic (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403F5C: build_ast (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403756: parser (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402623: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 56 bytes in 1 blocks are still reachable in loss record 75 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403D89: create_cmd (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403A62: parse_simple_command (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40423F: parse_primary (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40407C: parse_pipe (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403F8C: parse_logic (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403F5C: build_ast (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403756: parser (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402623: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 56 bytes in 1 blocks are still reachable in loss record 76 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403DF0: create_redir (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403C66: parse_redirection (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403B2B: process_current_token (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403ABE: parse_simple_command (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40423F: parse_primary (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40407C: parse_pipe (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403F8C: parse_logic (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403F5C: build_ast (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403756: parser (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 56 bytes in 1 blocks are still reachable in loss record 77 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40BD00: gc_strdup (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403E2C: create_redir (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403C66: parse_redirection (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403B2B: process_current_token (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403ABE: parse_simple_command (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40423F: parse_primary (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40407C: parse_pipe (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403F8C: parse_logic (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403F5C: build_ast (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 56 bytes in 1 blocks are still reachable in loss record 78 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40C30C: gc_itoa (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4063AA: get_heredoc_filename (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40651E: handle_heredoc_entry (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4064B4: process_cmd_heredoc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4058D3: prepare_cmd_execution (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4057DC: execute_command (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40547F: execute_ast (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4053EE: executor_run (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40263E: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 56 bytes in 1 blocks are still reachable in loss record 79 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40BF30: gc_strjoin (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4063C0: get_heredoc_filename (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40651E: handle_heredoc_entry (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4064B4: process_cmd_heredoc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4058D3: prepare_cmd_execution (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4057DC: execute_command (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40547F: execute_ast (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4053EE: executor_run (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40263E: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 56 bytes in 1 blocks are still reachable in loss record 80 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40BD00: gc_strdup (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x407D36: env_get (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x406221: read_heredoc_loop (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40657E: handle_heredoc_entry (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4064B4: process_cmd_heredoc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4058D3: prepare_cmd_execution (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4057DC: execute_command (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40547F: execute_ast (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4053EE: executor_run (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 72 bytes in 3 blocks are still reachable in loss record 81 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4031D0: create_token (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402CC2: process_word (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402BDA: lexer (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4025EF: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 112 bytes in 2 blocks are still reachable in loss record 86 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403987: add_arg_to_cmd (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403B71: process_current_token (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403ABE: parse_simple_command (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40423F: parse_primary (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40407C: parse_pipe (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403F8C: parse_logic (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403F5C: build_ast (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403756: parser (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402623: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 112 bytes in 2 blocks are still reachable in loss record 87 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40BD00: gc_strdup (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4039E4: add_arg_to_cmd (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403B71: process_current_token (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403ABE: parse_simple_command (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40423F: parse_primary (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40407C: parse_pipe (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403F8C: parse_logic (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403F5C: build_ast (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403756: parser (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 120 bytes in 1 blocks are still reachable in loss record 88 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40B951: gc_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4023D2: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 120 bytes in 1 blocks are still reachable in loss record 89 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40B951: gc_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4023E1: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 136 bytes in 1 blocks are still reachable in loss record 91 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40C042: gc_split (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x408681: parse_path (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402578: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 168 bytes in 3 blocks are still reachable in loss record 94 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40312B: extract_word (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402C98: process_word (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402BDA: lexer (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4025EF: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 168 bytes in 3 blocks are still reachable in loss record 95 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4031D0: create_token (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402CC2: process_word (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402BDA: lexer (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4025EF: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 168 bytes in 3 blocks are still reachable in loss record 96 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40BD00: gc_strdup (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x403202: create_token (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402CC2: process_word (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402BDA: lexer (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4025EF: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 380 bytes in 1 blocks are still reachable in loss record 101 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40BD00: gc_strdup (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x407D36: env_get (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x408650: parse_path (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402578: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 380 bytes in 16 blocks are still reachable in loss record 102 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40C228: fill_words (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40C075: gc_split (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x408681: parse_path (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402578: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 688 bytes in 1 blocks are still reachable in loss record 105 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x408289: env_table_to_array (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402442: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 896 bytes in 16 blocks are still reachable in loss record 108 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40C228: fill_words (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40C075: gc_split (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x408681: parse_path (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402578: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 1,048 bytes in 1 blocks are still reachable in loss record 118 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40B05F: gc_calloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4080BC: initialize_env_table (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402423: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 1,048 bytes in 1 blocks are still reachable in loss record 119 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40B05F: gc_calloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402484: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 1,133 bytes in 83 blocks are still reachable in loss record 120 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40BDD8: gc_strndup (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x408198: add_env_entry (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x408124: initialize_env_table (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402423: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 1,133 bytes in 83 blocks are still reachable in loss record 121 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40BD00: gc_strdup (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x407F12: create_env_node (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x407E36: env_set (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4081B5: add_env_entry (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x408124: initialize_env_table (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402423: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 1,226 bytes in 85 blocks are still reachable in loss record 122 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40BF30: gc_strjoin (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x408387: join_env_pair (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4082E1: env_table_to_array (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402442: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 2,656 bytes in 83 blocks are still reachable in loss record 127 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x407F01: create_env_node (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x407E36: env_set (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4081B5: add_env_entry (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x408124: initialize_env_table (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402423: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 3,581 bytes in 83 blocks are still reachable in loss record 128 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40BD00: gc_strdup (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x407F34: create_env_node (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x407E36: env_set (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4081B5: add_env_entry (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x408124: initialize_env_table (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402423: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 3,596 bytes in 85 blocks are still reachable in loss record 129 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40BD00: gc_strdup (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x408360: join_env_pair (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4082E1: env_table_to_array (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402442: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 4,648 bytes in 83 blocks are still reachable in loss record 141 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40BDD8: gc_strndup (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x408198: add_env_entry (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x408124: initialize_env_table (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402423: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 4,648 bytes in 83 blocks are still reachable in loss record 142 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x407F01: create_env_node (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x407E36: env_set (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4081B5: add_env_entry (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x408124: initialize_env_table (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402423: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 4,648 bytes in 83 blocks are still reachable in loss record 143 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40BD00: gc_strdup (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x407F12: create_env_node (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x407E36: env_set (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4081B5: add_env_entry (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x408124: initialize_env_table (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402423: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 4,648 bytes in 83 blocks are still reachable in loss record 144 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40BD00: gc_strdup (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x407F34: create_env_node (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x407E36: env_set (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4081B5: add_env_entry (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x408124: initialize_env_table (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402423: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 4,737 bytes in 85 blocks are still reachable in loss record 145 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40ACDB: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40BF30: gc_strjoin (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40839C: join_env_pair (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4082E1: env_table_to_array (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402442: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 4,760 bytes in 85 blocks are still reachable in loss record 146 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40BD00: gc_strdup (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x408360: join_env_pair (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4082E1: env_table_to_array (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402442: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 4,760 bytes in 85 blocks are still reachable in loss record 147 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40BF30: gc_strjoin (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x408387: join_env_pair (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4082E1: env_table_to_array (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402442: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== 4,760 bytes in 85 blocks are still reachable in loss record 148 of 167
+==377601==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==377601==    by 0x40AD9D: gc_meta_create (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40AD0C: gc_malloc (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40BF30: gc_strjoin (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40839C: join_env_pair (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x4082E1: env_table_to_array (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x402442: init_shell (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601==    by 0x40256C: main (in /sgoinfre/akivam/minishell-merge/minishell)
+==377601== 
+==377601== LEAK SUMMARY:
+==377601==    definitely lost: 0 bytes in 0 blocks
+==377601==    indirectly lost: 0 bytes in 0 blocks
+==377601==      possibly lost: 0 bytes in 0 blocks
+==377601==    still reachable: 58,566 bytes in 1,290 blocks
+==377601==         suppressed: 295,353 bytes in 3,646 blocks
+==377601== 
+==377601== For lists of detected and suppressed errors, rerun with: -s
+==377601== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
 ========================================
