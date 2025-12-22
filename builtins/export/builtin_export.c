@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 19:19:57 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/21 19:41:21 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/22 12:06:18 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,14 @@ static int	export_arg(char *arg, t_shell *shell)
 {
 	char			*eq_pos;
 	char			*key;
-	t_gc_context	*ctx;
+	t_gc_context	*contex;
 
-	ctx = (t_gc_context *)shell->global_arena;
+	contex = (t_gc_context *)shell->global_arena;
 	eq_pos = ft_strchr(arg, '=');
 	if (eq_pos)
-		key = gc_strndup(ctx, arg, eq_pos - arg);
+		key = gc_strndup(contex, arg, eq_pos - arg);
 	else
-		key = gc_strdup(ctx, arg);
+		key = gc_strdup(contex, arg);
 	if (!is_valid_identifier(key))
 	{
 		ft_putstr_fd("minishell: export: `", 2);
@@ -54,11 +54,11 @@ static int	export_arg(char *arg, t_shell *shell)
 		return (1);
 	}
 	if (eq_pos)
-		env_set(shell->env_table, key, eq_pos + 1, ctx);
+		env_set(shell->env_table, key, eq_pos + 1, contex);
 	else
 	{
-		if (!env_get(shell->env_table, key, ctx))
-			env_set(shell->env_table, key, NULL, ctx);
+		if (!env_get(shell->env_table, key, contex))
+			env_set(shell->env_table, key, NULL, contex);
 	}
 	return (0);
 }
