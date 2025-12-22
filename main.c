@@ -18,8 +18,6 @@
 #include <readline/readline.h>
 #include <stdio.h>
 
-volatile sig_atomic_t	g_signal = 0;
-
 static char	*get_prompt(t_shell *shell)
 {
 	char	*prompt;
@@ -68,7 +66,7 @@ void	init_shell(t_shell *shell, char **envp)
 static void	clean_loop(t_shell *shell)
 {
 	gc_scope_pop_all(shell->cmd_arena);
-	g_signal = 0;
+	reset_signal();
 	shell->ast_root = NULL;
 }
 

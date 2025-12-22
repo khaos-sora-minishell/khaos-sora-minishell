@@ -6,7 +6,7 @@
 /*   By: harici <harici@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 19:20:48 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/22 12:32:12 by harici           ###   ########.fr       */
+/*   Updated: 2025/12/22 13:12:02 by harici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,9 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
-extern volatile sig_atomic_t	g_signal;
+int								get_signal(void);
+void							set_signal(int value);
+void							reset_signal(void);
 
 typedef enum e_token_type
 {
