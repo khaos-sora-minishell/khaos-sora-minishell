@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
+/*   By: harici <harici@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 04:00:17 by harici            #+#    #+#             */
-/*   Updated: 2025/12/22 12:07:53 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/22 12:13:03 by harici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,79 +14,79 @@
 #include "minishell.h"
 
 static void	process_expansion(char *str, char *result, t_shell *shell,
-		t_expand_ctx *ctx)
+		t_expand_contex *contex)
 {
 	char	*expanded;
 
-	if (!ctx->quote && (str[ctx->i] == '\'' || str[ctx->i] == '"'))
-		ctx->quote = str[ctx->i++];
-	else if (ctx->quote && str[ctx->i] == ctx->quote)
+	if (!contex->quote && (str[contex->i] == '\'' || str[contex->i] == '"'))
+		contex->quote = str[contex->i++];
+	else if (contex->quote && str[contex->i] == contex->quote)
 	{
-		ctx->quote = 0;
-		ctx->i++;
+		contex->quote = 0;
+		contex->i++;
 	}
-	else if (str[ctx->i] == '$' && ctx->quote != '\'')
+	else if (str[contex->i] == '$' && contex->quote != '\'')
 	{
-		expanded = process_dollar(str, &ctx->i, shell);
-		ft_memcpy(result + ctx->j, expanded, gc_strlen(expanded));
-		ctx->j += gc_strlen(expanded);
+		expanded = process_dollar(str, &contex->i, shell);
+		ft_memcpy(result + contex->j, expanded, gc_strlen(expanded));
+		contex->j += gc_strlen(expanded);
 	}
 	else
-		result[ctx->j++] = str[ctx->i++];
+		result[contex->j++] = str[contex->i++];
 }
 
-static void	update_len(char *str, t_expand_ctx *ctx, size_t *len,
+static void	update_len(char *str, t_expand_contex *contex, size_t *len,
 		t_shell *shell)
 {
 	char	*expanded;
 
-	if (!ctx->quote && (str[ctx->i] == '\'' || str[ctx->i] == '"'))
-		ctx->quote = str[ctx->i++];
-	else if (ctx->quote && str[ctx->i] == ctx->quote)
+	if (!contex->quote && (str[contex->i] == '\'' || str[contex->i] == '"'))
+		contex->quote = str[contex->i++];
+	else if (contex->quote && str[contex->i] == contex->quote)
 	{
-		ctx->quote = 0;
-		ctx->i++;
+		contex->quote = 0;
+		contex->i++;
 	}
-	else if (str[ctx->i] == '$' && ctx->quote != '\'')
+	else if (str[contex->i] == '$' && contex->quote != '\'')
 	{
-		expanded = process_dollar(str, &ctx->i, shell);
+		expanded = process_dollar(str, &contex->i, shell);
 		*len += gc_strlen(expanded);
 	}
 	else
 	{
 		(*len)++;
-		ctx->i++;
+		contex->i++;
 	}
 }
 
 static size_t	get_expanded_length(char *str, t_shell *shell)
 {
-	t_expand_ctx	ctx;
+	t_expand_contex	contex;
 	size_t			len;
 
-	ctx.i = 0;
-	ctx.quote = 0;
+	contex.i = 0;
+	contex.quote = 0;
 	len = 0;
-	while (str[ctx.i])
-		update_len(str, &ctx, &len, shell);
+	while (str[contex.i])
+		update_len(str, &contex, &len, shell);
 	return (len);
 }
 
 char	*expand_string(char *str, t_shell *shell)
 {
 	char			*result;
-	t_expand_ctx	ctx;
+	t_expand_contex	contex;
 	size_t			needed;
 
 	if (!str)
 		return (NULL);
 	needed = get_expanded_length(str, shell);
 	result = gc_malloc(shell->cmd_arena, needed + 1);
-	ctx.i = 0;
-	ctx.j = 0;
-	ctx.quote = 0;
-	while (str[ctx.i])
-		process_expansion(str, result, shell, &ctx);
-	result[ctx.j] = '\0';
+	contex.i = 0;
+	contex.j = 0;
+	contex.quote = 0;
+	while (str[contex.i])
+		process_expansion(str, result, shell, &contex);
+	result[contex.j] = '\0';
 	return (result);
 }
