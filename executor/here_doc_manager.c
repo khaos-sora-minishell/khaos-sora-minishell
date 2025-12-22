@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 11:35:14 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/22 11:59:28 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/22 12:19:32 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include <stdio.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include "utils.h"
 
 static void	read_heredoc_loop(int fd, char *delim, t_shell *shell)
 {
