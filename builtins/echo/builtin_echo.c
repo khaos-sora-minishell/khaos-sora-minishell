@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 19:19:57 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/22 12:33:27 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/22 12:46:14 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static void	echo_print_arg(char **args, int i, t_echo_contex *contex)
 		if (contex->e)
 			print_with_escape(temp);
 		else
-			ft_putendl_fd(temp, 1);
+			ft_putstr_fd(temp, 1);
 		if (args[i + 1])
 			write(1, " ", 1);
 		i++;
