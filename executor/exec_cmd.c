@@ -18,10 +18,12 @@
 #include "minishell.h"
 #include "utils.h"
 #include <sys/wait.h>
+#include <sys/stat.h>
 
 static void	exec_child_process(t_cmd *cmd, t_shell *shell)
 {
-	char	*cmd_path;
+	char		*cmd_path;
+	struct stat	path_stat;
 
 	setup_child_signals();
 	if (setup_redirections(cmd->redirs, shell) == -1)
@@ -34,18 +36,19 @@ static void	exec_child_process(t_cmd *cmd, t_shell *shell)
 		cleanup_shell(shell);
 		exit(0);
 	}
-	if (cmd->args[0] && ft_strcmp(cmd->args[0], ".") == 0)
-	{
-		ft_putendl_fd("minishell: .: filename argument required", 2);
-		cleanup_shell(shell);
-		exit(2);
-	}
-	if (cmd->args[0] && ft_strcmp(cmd->args[0], "..") == 0)
-		handle_cmd_not_found("..");
+	if (ft_strcmp(cmd->args[0], ".") == 0)
+		exit_with_error(NULL, ".: filename argument required", 2, shell);
+	if (ft_strcmp(cmd->args[0], "..") == 0)
+		handle_cmd_not_found("..", shell);
 	cmd_path = find_command_path(cmd->args[0], shell);
 	if (!cmd_path)
-		handle_cmd_not_found(cmd->args[0]);
-	check_file_status(cmd_path);
+		handle_cmd_not_found(cmd->args[0], shell);
+	if (stat(cmd_path, &path_stat) == -1)
+		handle_no_such_file(cmd_path, shell);
+	if (S_ISDIR(path_stat.st_mode))
+		handle_is_directory(cmd_path, shell);
+	if (access(cmd_path, X_OK) == -1)
+		handle_permission_denied(cmd_path, shell);
 	execve(cmd_path, cmd->args, shell->env_array);
 	perror("minishell: execve");
 	cleanup_shell(shell);

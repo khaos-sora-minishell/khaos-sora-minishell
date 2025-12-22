@@ -46,7 +46,7 @@ static void	print_env_bucket(t_env_bucket *current, t_shell *shell)
 	char			*decoded_value;
 	t_gc_context	*contex;
 
-	contex = (t_gc_context *)shell->global_arena;
+	contex = (t_gc_context *)shell->cmd_arena;
 	while (current)
 	{
 		if (current->_has_value == 1)

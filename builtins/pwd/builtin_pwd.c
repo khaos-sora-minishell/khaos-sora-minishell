@@ -24,7 +24,7 @@ int	builtin_pwd(char **args, t_shell *shell)
 	t_gc_context	*contex;
 
 	(void)args;
-	contex = (t_gc_context *)shell->global_arena;
+	contex = (t_gc_context *)shell->cmd_arena;
 	current_path = getcwd(NULL, 0);
 	if (!current_path)
 	{

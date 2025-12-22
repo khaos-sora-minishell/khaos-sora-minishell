@@ -27,7 +27,6 @@ int		create_heredoc_dir(void);
 int		process_cmd_heredoc(t_cmd *cmd, t_shell *shell);
 void	clean_heredoc(t_cmd *cmd);
 
-void	check_file_status(char *cmd_path);
 void	expand_cmd_args(t_cmd *cmd, t_shell *shell);
 
 int		is_builtin(char *cmd);

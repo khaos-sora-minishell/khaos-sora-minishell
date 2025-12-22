@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/14 21:42:42 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/21 21:17:23 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/22 15:30:00 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,20 +27,31 @@ void	print_execution_error(char *cmd, char *msg)
 	ft_putendl_fd(msg, 2);
 }
 
-void	handle_cmd_not_found(char *cmd)
+void	exit_with_error(char *cmd, char *msg, int code, t_shell *shell)
 {
-	print_execution_error(cmd, ERR_CMD_NOT_FOUND);
-	exit(EXIT_CMD_NOT_FOUND);
+	print_execution_error(cmd, msg);
+	if (shell)
+		cleanup_shell(shell);
+	exit(code);
 }
 
-void	handle_permission_denied(char *cmd)
+void	handle_cmd_not_found(char *cmd, t_shell *shell)
 {
-	print_execution_error(cmd, ERR_PERM_DENIED);
-	exit(EXIT_CANNOT_EXEC);
+	exit_with_error(cmd, ERR_CMD_NOT_FOUND, EXIT_CMD_NOT_FOUND, shell);
 }
 
-void	handle_is_directory(char *cmd)
+void	handle_permission_denied(char *cmd, t_shell *shell)
 {
-	print_execution_error(cmd, ERR_IS_DIR);
-	exit(EXIT_CANNOT_EXEC);
+	exit_with_error(cmd, ERR_PERM_DENIED, EXIT_CANNOT_EXEC, shell);
 }
+
+void	handle_is_directory(char *cmd, t_shell *shell)
+{
+	exit_with_error(cmd, ERR_IS_DIR, EXIT_CANNOT_EXEC, shell);
+}
+
+void	handle_no_such_file(char *cmd, t_shell *shell)
+{
+	exit_with_error(cmd, ERR_NO_FILE, EXIT_CMD_NOT_FOUND, shell);
+}
+

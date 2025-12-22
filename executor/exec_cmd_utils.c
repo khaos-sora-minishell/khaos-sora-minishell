@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/21 20:50:44 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/22 11:35:32 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/22 15:30:00 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,7 @@
 #include "libft.h"
 #include "minishell.h"
 #include <fcntl.h>
-#include <readline/readline.h>
 #include <stdio.h>
-#include <sys/stat.h>
 #include "utils.h"
 
 void	expand_cmd_args(t_cmd *cmd, t_shell *shell)
@@ -35,7 +33,7 @@ char	*find_command_path(char *cmd, t_shell *shell)
 
 	if (!cmd || !shell)
 		return (NULL);
-	contex = (t_gc_context *)shell->global_arena;
+	contex = (t_gc_context *)shell->cmd_arena;
 	if (ft_strchr(cmd, '/'))
 		return (gc_strdup(contex, cmd));
 	if (!shell->path_dirs)
@@ -52,17 +50,3 @@ char	*find_command_path(char *cmd, t_shell *shell)
 	return (NULL);
 }
 
-void	check_file_status(char *cmd_path)
-{
-	struct stat	path_stat;
-
-	if (stat(cmd_path, &path_stat) == -1)
-	{
-		print_execution_error(cmd_path, ERR_NO_FILE);
-		exit(EXIT_CMD_NOT_FOUND);
-	}
-	if (S_ISDIR(path_stat.st_mode))
-		handle_is_directory(cmd_path);
-	if (access(cmd_path, X_OK) == -1)
-		handle_permission_denied(cmd_path);
-}

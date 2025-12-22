@@ -81,7 +81,7 @@ int	builtin_echo(char **args, t_shell *shell)
 	t_echo_contex	contex;
 	int				i;
 
-	contex.garbage_collector_contex = (t_gc_context *)shell->global_arena;
+	contex.garbage_collector_contex = (t_gc_context *)shell->cmd_arena;
 	contex.n = 0;
 	contex.e = 0;
 	contex.ops[0] = 0;
