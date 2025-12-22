@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 19:20:48 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/21 22:05:01 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/22 09:50:37 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 # define MINISHELL_H
 
 # ifndef DEFAULT_PATH_VALUE
-#  define DEFAULT_PATH_VALUE \
-	"/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:."
+#  define DEFAULT_PATH_VALUE "/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:."
 # endif
 
 # define ENV_TABLE_SIZE 131
@@ -114,6 +113,13 @@ typedef struct s_ast_node
 	struct s_ast_node			*subshell_node;
 	t_cmd						*cmd;
 }								t_ast_node;
+
+typedef struct s_expand_contex
+{
+	int							i;
+	int							j;
+	char						quote;
+}								t_expand_contex;
 
 typedef struct s_shell
 {
