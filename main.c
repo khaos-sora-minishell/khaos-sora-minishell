@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/20 16:59:22 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/21 22:12:00 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/22 12:42:38 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ int	main(int argc, char const *argv[], char **envp)
 	(void)argc;
 	(void)argv;
 	init_shell(&shell, (char **)envp);
+	shell.path_dirs = parse_path(&shell);
 	setup_signals();
 	while (1)
 	{

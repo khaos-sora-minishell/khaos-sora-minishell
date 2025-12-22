@@ -4,12 +4,14 @@ OBJ_DIR		= obj
 LIBFT_DIR	= libs/libft
 PRINTF_DIR	= libs/ft_printf
 GC_DIR		= libs/garbage_collector
+GNL_DIR		= libs/get-next-line
 
 LEXER_SRC	= lexer.c lexer_operator.c lexer_word.c lexer_token.c quotes.c
 
 PARSER_SRC	= parser.c parse_cmd.c parse_cmd_utils.c build_ast.c
 
-EXPANDER_SRC = expander.c wildcard.c expand_args.c
+EXPANDER_SRC = expander.c wildcard.c expand_args.c \
+			   expander_utils.c wildcard_utils.c expand_helpers.c
 
 EXECUTOR_SRC = executor.c exec_ast.c exec_builtin.c exec_cmd.c \
 			   exec_cmd_utils.c exec_pipe.c redirections.c \
@@ -35,17 +37,20 @@ SIGNALS_SRC	= signals.c
 
 UTILS_SRC	= error.c strings.c strings_utils.c
 
+GNL_SRC		= get_next_line.c get_next_line_utils.c
+
 SRCS = main.c history_manager.c config_loader.c \
-       $(addprefix lexer/, $(LEXER_SRC)) \
-       $(addprefix parser/, $(PARSER_SRC)) \
-       $(addprefix expander/, $(EXPANDER_SRC)) \
-       $(addprefix executor/, $(EXECUTOR_SRC)) \
-       $(addprefix executor/easter_egg/, $(EASTER_SRC)) \
-       $(addprefix executor_error/, $(EXEC_ERROR_SRC)) \
-       $(addprefix builtins/, $(BUILTINS_SRC)) \
-       $(addprefix env/, $(ENV_SRC)) \
-       $(addprefix signals/, $(SIGNALS_SRC)) \
-       $(addprefix utils/, $(UTILS_SRC))
+	   $(addprefix lexer/, $(LEXER_SRC)) \
+	   $(addprefix parser/, $(PARSER_SRC)) \
+	   $(addprefix expander/, $(EXPANDER_SRC)) \
+	   $(addprefix executor/, $(EXECUTOR_SRC)) \
+	   $(addprefix executor/easter_egg/, $(EASTER_SRC)) \
+	   $(addprefix executor_error/, $(EXEC_ERROR_SRC)) \
+	   $(addprefix builtins/, $(BUILTINS_SRC)) \
+	   $(addprefix env/, $(ENV_SRC)) \
+	   $(addprefix signals/, $(SIGNALS_SRC)) \
+	   $(addprefix utils/, $(UTILS_SRC)) \
+	   $(addprefix $(GNL_DIR)/, $(GNL_SRC))
 
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
 
