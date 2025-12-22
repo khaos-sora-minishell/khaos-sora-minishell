@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_args.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
+/*   By: harici <harici@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 04:06:13 by harici            #+#    #+#             */
-/*   Updated: 2025/12/22 10:01:31 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/22 07:33:25 by harici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	process_arg(char *arg, char ***result, int *idx, t_shell *shell)
 {
-	char	**wildcard_result;
+	char	**wildcard_res;
 	char	*var_expanded;
 
 	var_expanded = expand_string(arg, shell);
@@ -22,9 +22,9 @@ static void	process_arg(char *arg, char ***result, int *idx, t_shell *shell)
 		var_expanded = gc_strdup(shell->cmd_arena, arg);
 	if (!has_quotes(arg))
 	{
-		wildcard_result = expand_wildcard(var_expanded, shell);
-		if (wildcard_result)
-			add_expanded_results(result, idx, wildcard_result);
+		wildcard_res = expand_wildcard(var_expanded, shell);
+		if (wildcard_res)
+			add_expanded_results(result, idx, wildcard_res);
 		else
 			(*result)[(*idx)++] = var_expanded;
 	}
@@ -34,7 +34,7 @@ static void	process_arg(char *arg, char ***result, int *idx, t_shell *shell)
 
 static int	count_single_expanded(char *arg, t_shell *shell)
 {
-	char	**wildcard_result;
+	char	**wildcard_res;
 	char	*var_expanded;
 	int		count;
 
@@ -43,9 +43,9 @@ static int	count_single_expanded(char *arg, t_shell *shell)
 		var_expanded = arg;
 	if (!has_quotes(arg))
 	{
-		wildcard_result = expand_wildcard(var_expanded, shell);
-		if (wildcard_result)
-			count = count_args(wildcard_result);
+		wildcard_res = expand_wildcard(var_expanded, shell);
+		if (wildcard_res)
+			count = count_args(wildcard_res);
 		else
 			count = 1;
 	}

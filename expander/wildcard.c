@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
+/*   By: harici <harici@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 04:00:35 by harici            #+#    #+#             */
-/*   Updated: 2025/12/22 10:03:00 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/22 04:32:44 by harici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "minishell.h"
+#include "libft.h"
 #include "utils.h"
 
 static char	**create_single_result(char *pattern, t_shell *shell)
@@ -24,34 +24,34 @@ static char	**create_single_result(char *pattern, t_shell *shell)
 	return (result);
 }
 
-static char	**process_matches(DIR *directory, char *pattern, t_shell *shell)
+static char	**process_matches(DIR *dir, char *pattern, t_shell *shell)
 {
 	char	**result;
 	int		count;
 
-	count = count_matches(directory, pattern);
+	count = count_matches(dir, pattern);
 	if (count == 0)
 	{
-		closedir(directory);
+		closedir(dir);
 		return (create_single_result(pattern, shell));
 	}
 	result = gc_malloc(shell->cmd_arena, sizeof(char *) * (count + 1));
-	add_matches(directory, pattern, result, shell);
-	closedir(directory);
+	add_matches(dir, pattern, result, shell);
+	closedir(dir);
 	sort_strings(result, count);
 	return (result);
 }
 
 char	**expand_wildcard(char *pattern, t_shell *shell)
 {
-	DIR	*directory;
+	DIR		*dir;
 
 	if (!pattern || !shell)
 		return (NULL);
 	if (!ft_strchr(pattern, '*'))
 		return (create_single_result(pattern, shell));
-	directory = opendir(".");
-	if (!directory)
+	dir = opendir(".");
+	if (!dir)
 		return (NULL);
-	return (process_matches(directory, pattern, shell));
+	return (process_matches(dir, pattern, shell));
 }

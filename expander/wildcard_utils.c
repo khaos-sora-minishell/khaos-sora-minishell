@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   wildcar_utils.c                                    :+:      :+:    :+:   */
+/*   wildcard_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
+/*   By: harici <harici@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 04:00:26 by harici            #+#    #+#             */
-/*   Updated: 2025/12/22 10:02:46 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/22 04:32:31 by harici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "minishell.h"
+#include "libft.h"
 #include "utils.h"
 
 int	match_pattern(char *pattern, char *str)
@@ -31,7 +31,7 @@ int	match_pattern(char *pattern, char *str)
 	return (0);
 }
 
-int	count_matches(DIR *directory, char *pattern)
+int	count_matches(DIR *dir, char *pattern)
 {
 	struct dirent	*entry;
 	int				count;
@@ -39,7 +39,7 @@ int	count_matches(DIR *directory, char *pattern)
 	count = 0;
 	while (1)
 	{
-		entry = readdir(directory);
+		entry = readdir(dir);
 		if (!entry)
 			break ;
 		if (entry->d_name[0] == '.')
@@ -47,21 +47,19 @@ int	count_matches(DIR *directory, char *pattern)
 		if (match_pattern(pattern, entry->d_name))
 			count++;
 	}
-	rewinddir(directory);
+	rewinddir(dir);
 	return (count);
 }
 
-//! bu kontrol edilecek
-void	add_matches(DIR *directory, char *pattern, char **result,
-		t_shell *shell)
+void	add_matches(DIR *dir, char *pattern, char **result, t_shell *shell)
 {
-	int				i;
 	struct dirent	*entry;
+	int				i;
 
 	i = 0;
 	while (1)
 	{
-		entry = readdir(directory);
+		entry = readdir(dir);
 		if (!entry)
 			break ;
 		if (entry->d_name[0] == '.')

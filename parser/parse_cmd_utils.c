@@ -21,7 +21,8 @@ int	is_redirection_token(t_token_type type)
 
 int	is_operator_token(t_token_type type)
 {
-	return (type == TOKEN_PIPE || type == TOKEN_AND || type == TOKEN_OR);
+	return (type == TOKEN_PIPE || type == TOKEN_AND || type == TOKEN_OR
+		|| type == TOKEN_LPAREN || type == TOKEN_RPAREN);
 }
 
 t_cmd	*create_cmd(void *arena)
@@ -44,8 +45,16 @@ t_redir	*create_redir(t_token_type type, char *file, void *arena)
 	if (!redir)
 		return (NULL);
 	redir->type = type;
-	redir->file = gc_strdup(arena, file);
-	redir->delimiter = NULL;
+	if (type == TOKEN_HEREDOC)
+	{
+		redir->delimiter = gc_strdup(arena, file);
+		redir->file = NULL;
+	}
+	else
+	{
+		redir->file = gc_strdup(arena, file);
+		redir->delimiter = NULL;
+	}
 	redir->heredoc_tmpfile = NULL;
 	redir->next = NULL;
 	return (redir);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_helpers.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
+/*   By: harici <harici@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 07:30:00 by harici            #+#    #+#             */
-/*   Updated: 2025/12/22 10:02:01 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/22 07:38:47 by harici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,14 @@ int	has_quotes(char *str)
 	return (0);
 }
 
-int	add_expanded_results(char ***result, int *idx, char **wildcard_result)
+int	add_expanded_results(char ***result, int *idx, char **wildcard_res)
 {
 	int	j;
 
 	j = 0;
-	while (wildcard_result[j])
+	while (wildcard_res[j])
 	{
-		(*result)[*idx] = wildcard_result[j];
+		(*result)[*idx] = wildcard_res[j];
 		(*idx)++;
 		j++;
 	}
