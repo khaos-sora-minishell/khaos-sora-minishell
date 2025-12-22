@@ -1,13 +1,5 @@
 /* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/20 16:59:22 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/22 12:42:38 by akivam           ###   ########.fr       */
-/*                                                                            */
+/* main.c (Readline Fix & Safe Color)                                         */
 /* ************************************************************************** */
 
 #include "executor.h"
@@ -18,25 +10,42 @@
 #include <readline/readline.h>
 #include <stdio.h>
 
+/* * Readline Fix:
+ * \001 ve \002 karakterleri, aradaki kodların (renklerin) görünmez olduğunu 
+ * readline'a bildirir. Bu sayede imleç kayması ve satır taşma hataları düzelir.
+ */
 static char	*get_prompt(t_shell *shell)
 {
 	char	*prompt;
 	char	*reset;
+	char	*temp;
 
-	reset = "\033[0m";
+	reset = "\001\033[0m\002";
+	
 	if (shell->terminal_bg_color)
-		prompt = gc_strdup(shell->cmd_arena, shell->terminal_bg_color);
+	{
+		temp = gc_strjoin(shell->cmd_arena, "\001", shell->terminal_bg_color);
+		temp = gc_strjoin(shell->cmd_arena, temp, "\002");
+		prompt = temp;
+	}
 	else
 		prompt = gc_strdup(shell->cmd_arena, "");
+
 	if (shell->terminal_name_color)
-		prompt = gc_strjoin(shell->cmd_arena, prompt,
-				shell->terminal_name_color);
+	{
+		temp = gc_strjoin(shell->cmd_arena, "\001", shell->terminal_name_color);
+		temp = gc_strjoin(shell->cmd_arena, temp, "\002");
+		prompt = gc_strjoin(shell->cmd_arena, prompt, temp);
+	}
+
 	if (shell->terminal_name)
 		prompt = gc_strjoin(shell->cmd_arena, prompt, shell->terminal_name);
 	else
 		prompt = gc_strjoin(shell->cmd_arena, prompt, "minishell");
+
 	prompt = gc_strjoin(shell->cmd_arena, prompt, reset);
 	prompt = gc_strjoin(shell->cmd_arena, prompt, "$ ");
+	
 	return (prompt);
 }
 
@@ -53,12 +62,11 @@ void	init_shell(t_shell *shell, char **envp)
 	shell->alias_table = gc_calloc(shell->global_arena, 1, sizeof(t_env_table));
 	shell->alias_table->buckets = gc_calloc(shell->global_arena, ENV_TABLE_SIZE,
 			sizeof(t_env_bucket *));
-	// Varsayılan isim ataması (gc_strdup ile de yapılabilir ama literal güvenlidir)
+	
 	shell->terminal_name = "minishell";
 	shell->terminal_name_color = NULL;
 	shell->terminal_bg_color = NULL;
-	// HATA DÜZELTİLDİ: set_terminal_name(...) çağrısı kaldırıldı.
-	// Bu fonksiyon bir komut işleyicidir, burada kullanılmaz.
+	
 	init_history(shell);
 	shell->exit_status = 0;
 }
@@ -66,13 +74,12 @@ void	init_shell(t_shell *shell, char **envp)
 static void	clean_loop(t_shell *shell)
 {
 	gc_scope_pop_all(shell->cmd_arena);
-	reset_signal();
+	set_signal(0);
 	shell->ast_root = NULL;
 }
 
 void	cleanup_shell(t_shell *shell)
 {
-	// DÜZELTME: Header dosyasındaki isimlendirme 'save_history_to_file' idi.
 	save_history_file(shell);
 	rl_clear_history();
 	if (shell->global_arena)
@@ -115,5 +122,6 @@ int	main(int argc, char const *argv[], char **envp)
 		clean_loop(&shell);
 	}
 	clean_loop(&shell);
+	cleanup_shell(&shell);
 	return (shell.exit_status);
 }
