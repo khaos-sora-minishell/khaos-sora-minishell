@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   easter_egg.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
+/*   By: harici <harici@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 20:52:24 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/21 20:35:41 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/22 13:19:47 by harici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 static t_easter_egg	*get_easter_egg(void)
 {
 	static t_easter_egg	easter[] = {
-	{"harici_pars", harici_pars},
+	{"harici_matrix", harici_matrix},
 	{"akivam_executer", akivam_executer},
 	{"set-terminal", set_terminal_name},
 	{NULL, NULL}};

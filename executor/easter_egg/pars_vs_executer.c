@@ -3,22 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   pars_vs_executer.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
+/*   By: harici <harici@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 20:59:45 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/21 20:35:21 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/22 13:20:47 by harici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "easteregg.h"
 #include "libft.h"
-
-void	harici_pars(char **args, t_shell *shell)
-{
-	(void)args;
-	ft_putendl_fd("bro write parse plzz 🥺🥺🥺🥺🥺\n", 1);
-	shell->exit_status = 0;
-}
 
 void	akivam_executer(char **args, t_shell *shell)
 {

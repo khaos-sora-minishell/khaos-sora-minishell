@@ -31,7 +31,7 @@ BUILTINS_SRC = cd/builtin_cd.c \
 
 ENV_SRC		= env_manager.c env_manager_utils.c env_crypto.c env_array.c parse_path.c
 
-EASTER_SRC	= easter_egg.c pars_vs_executer.c set_terminal_name.c
+EASTER_SRC	= easter_egg.c pars_vs_executer.c set_terminal_name.c harici_matrix.c
 
 SIGNALS_SRC	= signals.c signal_state.c
 
