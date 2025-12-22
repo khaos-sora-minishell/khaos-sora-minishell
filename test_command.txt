@@ -3,7 +3,7 @@
 # ================================
 /bin/ls
 /bin/pwd
-/bin/echo
+/bin/echo a
 /bin/cat /etc/hosts
 /bin/date
 
@@ -24,7 +24,7 @@
 # ================================
 # SECTION 3: Echo with -n
 # ================================
-echo
+echo a
 echo hello
 echo hello world
 echo -n hello
