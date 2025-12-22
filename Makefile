@@ -132,8 +132,37 @@ norm:
 	@norminette main.c history_manager.c config_loader.c lexer parser expander executor \
 		builtins env signals executor_utils utils includes 2>&1 | grep -v "OK!" || echo "$(GREEN)✓ Norminette OK!$(RESET)"
 
-easteregg: CFLAGS += -DEASTEREGG
-easteregg: fclean $(NAME)
+# Bonus: mandatory + bonus features (uses separate obj directory)
+BONUS_OBJ_DIR = obj_bonus
+BONUS_OBJS = $(addprefix $(BONUS_OBJ_DIR)/, $(SRCS:.c=.o))
+
+$(BONUS_OBJ_DIR)/%.o: %.c
+	@mkdir -p $(@D)
+	@echo "$(YELLOW)Compiling $< (bonus)...$(RESET)"
+	@$(CC) $(CFLAGS) -DBONUS -c $< -o $@
+
+bonus: $(BONUS_OBJS) $(LIBFT_LIB) $(PRINTF_LIB) $(GC_LIB)
+	@echo "$(YELLOW)Linking $(NAME) with bonus...$(RESET)"
+	@$(CC) $(BONUS_OBJS) $(LIBFT_LIB) $(PRINTF_LIB) $(GC_LIB) $(LDFLAGS) -o $(NAME)
+	@echo "$(GREEN)✓ Built with bonus features!$(RESET)"
+
+# Easteregg: mandatory + bonus + easteregg features (uses separate obj directory)
+EASTER_OBJ_DIR = obj_easter
+EASTER_OBJS = $(addprefix $(EASTER_OBJ_DIR)/, $(SRCS:.c=.o))
+
+$(EASTER_OBJ_DIR)/%.o: %.c
+	@mkdir -p $(@D)
+	@echo "$(YELLOW)Compiling $< (easteregg)...$(RESET)"
+	@$(CC) $(CFLAGS) -DBONUS -DEASTEREGG -c $< -o $@
+
+easteregg: $(EASTER_OBJS) $(LIBFT_LIB) $(PRINTF_LIB) $(GC_LIB)
+	@echo "$(YELLOW)Linking $(NAME) with easteregg...$(RESET)"
+	@$(CC) $(EASTER_OBJS) $(LIBFT_LIB) $(PRINTF_LIB) $(GC_LIB) $(LDFLAGS) -o $(NAME)
 	@echo "$(GREEN)✓ Built with easter egg features!$(RESET)"
 
-.PHONY: all clean fclean re debug valgrind norm easteregg
+# Clean also removes bonus and easteregg obj dirs
+cleanall: clean
+	@$(RM) -r $(BONUS_OBJ_DIR) $(EASTER_OBJ_DIR)
+	@echo "$(RED)Cleaned all object directories.$(RESET)"
+
+.PHONY: all clean fclean re debug valgrind norm bonus easteregg cleanall
