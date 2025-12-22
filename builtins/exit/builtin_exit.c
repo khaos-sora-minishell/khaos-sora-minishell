@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 19:19:57 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/21 19:13:59 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/22 13:21:15 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static int	is_really_neg_one(char *str)
 
 static void	quit_shell(t_shell *shell, int status)
 {
-	gc_destroy((t_gc_context *)shell->global_arena);
+	cleanup_shell(shell);
 	exit(status);
 }
 
