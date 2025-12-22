@@ -1,4 +1,7 @@
-Test #3: echo -n test
-Test #5: env | head -3
-Test #13: echo $PATH | head -c 20
-Test #28: ls /nonexistent 2>/dev/null
+akivam@k1m05s03 /sgoinfre/akivam/minishell-merge
+ % echo $PATH| head -c 20 
+/home/akivam/.local/%                                                                                                                                                                                                           
+akivam@k1m05s03 /sgoinfre/akivam/minishell-merge
+ % ./minishell 
+minishell$ echo $PATH| head -c 20
+/home/akivam/.local/minishell$ 
