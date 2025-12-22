@@ -1,0 +1,4 @@
+Test #3: echo -n test
+Test #5: env | head -3
+Test #13: echo $PATH | head -c 20
+Test #28: ls /nonexistent 2>/dev/null
