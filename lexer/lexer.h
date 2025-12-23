@@ -25,4 +25,6 @@ char			*extract_word(char *input, int *i, t_shell *shell);
 void			skip_quoted(char *input, int *i);
 void			find_word_end(char *input, int *i);
 
+char			check_unclosed_quotes_char(char *input);
+
 #endif

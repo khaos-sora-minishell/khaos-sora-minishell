@@ -66,31 +66,3 @@ char	*process_dollar(char *str, int *i, t_shell *shell)
 	value = expand_variable(var_name, shell);
 	return (value);
 }
-
-void	expand_variables(t_ast_node *ast, t_shell *shell)
-{
-	t_redir	*redir;
-
-	if (!ast || !shell)
-		return ;
-	if (ast->type == NODE_CMD && ast->cmd)
-	{
-		if (ast->cmd->args)
-			ast->cmd->args = expand_args(ast->cmd->args, shell);
-		redir = ast->cmd->redirs;
-		while (redir)
-		{
-			if (redir->file)
-				redir->file = expand_string(redir->file, shell);
-			redir = redir->next;
-		}
-	}
-	else if (ast->type == NODE_PIPE || ast->type == NODE_AND
-		|| ast->type == NODE_OR)
-	{
-		expand_variables(ast->left, shell);
-		expand_variables(ast->right, shell);
-	}
-	else if (ast->type == NODE_SUBSHELL)
-		expand_variables(ast->subshell_node, shell);
-}

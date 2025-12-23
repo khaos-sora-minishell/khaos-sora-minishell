@@ -6,14 +6,14 @@
 /*   By: harici <harici@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 00:00:21 by harici            #+#    #+#             */
-/*   Updated: 2025/12/22 20:50:00 by harici           ###   ########.fr       */
+/*   Updated: 2025/12/24 01:56:54 by harici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "lexer.h"
 
-static int	check_unclosed_quotes(char *input, t_shell *shell)
+char	check_unclosed_quotes_char(char *input)
 {
 	int		i;
 	char	quote;
@@ -28,6 +28,14 @@ static int	check_unclosed_quotes(char *input, t_shell *shell)
 			quote = 0;
 		i++;
 	}
+	return (quote);
+}
+
+static int	check_unclosed_quotes(char *input, t_shell *shell)
+{
+	char	quote;
+
+	quote = check_unclosed_quotes_char(input);
 	if (quote)
 	{
 		ft_putstr_fd("minishell: unexpected EOF while looking for matching `",
@@ -82,4 +90,3 @@ t_token	*lexer(char *input, t_shell *shell)
 	}
 	return (tokens);
 }
-

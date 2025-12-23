@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
+/*   By: harici <harici@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 19:20:48 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/22 22:33:38 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/24 02:08:11 by harici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 # define MINISHELL_H
 
 # ifndef DEFAULT_PATH_VALUE
-#  define DEFAULT_PATH_VALUE "/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:."
+#  define DEFAULT_PATH_VALUE \
+"/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:."
 # endif
 
 # define ENV_TABLE_SIZE 131
@@ -164,6 +165,9 @@ void					init_shell(t_shell *shell, char **envp);
 void					cleanup_shell(t_shell *shell);
 char					**parse_path(t_shell *shell);
 
+char					*get_prompt(t_shell *shell);
+char					*read_multiline(t_shell *shell);
+
 char					*find_command_path(char *cmd, t_shell *shell);
 
 void					setup_signals(void);
@@ -202,7 +206,6 @@ void					executor_run(t_shell *shell);
 int						add_expanded_results(char ***result, int *idx,
 							char **wildcard_res);
 int						count_args(char **args);
-void					expand_variables(t_ast_node *ast, t_shell *shell);
 char					**expand_wildcard(char *pattern, t_shell *shell);
 char					**expand_args(char **args, t_shell *shell);
 char					*process_dollar(char *str, int *i, t_shell *shell);

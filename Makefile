@@ -39,7 +39,7 @@ UTILS_SRC	= error.c strings.c strings_utils.c
 
 GNL_SRC		= get_next_line.c get_next_line_utils.c
 
-SRCS = main.c history_manager.c config_loader.c \
+SRCS = main.c prompt.c history_manager.c config_loader.c \
 	   $(addprefix lexer/, $(LEXER_SRC)) \
 	   $(addprefix parser/, $(PARSER_SRC)) \
 	   $(addprefix expander/, $(EXPANDER_SRC)) \

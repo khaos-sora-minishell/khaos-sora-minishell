@@ -1,47 +1,22 @@
 /* ************************************************************************** */
-/* main.c (Readline Fix & Safe Color)                                         */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: harici <harici@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/24 02:00:00 by harici            #+#    #+#             */
+/*   Updated: 2025/12/24 02:00:01 by harici           ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 #include "executor.h"
 #include "garbage_collector.h"
+#include "lexer.h"
 #include "libft.h"
 #include "minishell.h"
 #include <readline/history.h>
-#include <readline/readline.h>
 #include <stdio.h>
-
-/* * Readline Fix:
- * \001 ve \002 karakterleri, aradaki kodların (renklerin) görünmez olduğunu 
- * readline'a bildirir. Bu sayede imleç kayması ve satır taşma hataları düzelir.
- */
-/* main.c dosyasındaki get_prompt fonksiyonunun güncel hali */
-
-static char	*get_prompt(t_shell *shell)
-{
-	char	*prompt;
-	char	*reset = "\001\033[0m\002";
-	
-	prompt = gc_strdup(shell->cmd_arena, "");
-	if (shell->terminal_name_bg_color)
-	{
-		prompt = gc_strjoin(shell->cmd_arena, prompt, "\001");
-		prompt = gc_strjoin(shell->cmd_arena, prompt, shell->terminal_name_bg_color);
-		prompt = gc_strjoin(shell->cmd_arena, prompt, "\002");
-	}
-	if (shell->terminal_name_color)
-	{
-		prompt = gc_strjoin(shell->cmd_arena, prompt, "\001");
-		prompt = gc_strjoin(shell->cmd_arena, prompt, shell->terminal_name_color);
-		prompt = gc_strjoin(shell->cmd_arena, prompt, "\002");
-	}
-	if (shell->terminal_name)
-		prompt = gc_strjoin(shell->cmd_arena, prompt, shell->terminal_name);
-	else
-		prompt = gc_strjoin(shell->cmd_arena, prompt, "minishell");
-	prompt = gc_strjoin(shell->cmd_arena, prompt, reset);
-	prompt = gc_strjoin(shell->cmd_arena, prompt, "$ ");
-	return (prompt);
-}
 
 void	init_shell(t_shell *shell, char **envp)
 {
@@ -53,14 +28,13 @@ void	init_shell(t_shell *shell, char **envp)
 	shell->env_table = initialize_env_table(envp, shell->global_arena);
 	shell->env_array = env_table_to_array(shell->env_table,
 			shell->global_arena);
-	shell->alias_table = gc_calloc(shell->global_arena, 1, sizeof(t_env_table));
-	shell->alias_table->buckets = gc_calloc(shell->global_arena, ENV_TABLE_SIZE,
-			sizeof(t_env_bucket *));
-	
+	shell->alias_table = gc_calloc(shell->global_arena, 1,
+			sizeof(t_env_table));
+	shell->alias_table->buckets = gc_calloc(shell->global_arena,
+			ENV_TABLE_SIZE, sizeof(t_env_bucket *));
 	shell->terminal_name = "minishell";
 	shell->terminal_name_color = NULL;
 	shell->terminal_bg_color = NULL;
-	
 	init_history(shell);
 	shell->exit_status = 0;
 }
@@ -82,11 +56,25 @@ void	cleanup_shell(t_shell *shell)
 		gc_destroy(shell->cmd_arena);
 }
 
+static void	process_input(t_shell *shell, char *input)
+{
+	t_token	*tokens;
+
+	if (*input)
+		add_history(input);
+	tokens = lexer(input, shell);
+	if (tokens)
+	{
+		shell->ast_root = parser(tokens, shell);
+		if (shell->ast_root)
+			executor_run(shell);
+	}
+}
+
 int	main(int argc, char const *argv[], char **envp)
 {
 	t_shell	shell;
 	char	*input;
-	t_token	*tokens;
 
 	(void)argc;
 	(void)argv;
@@ -95,24 +83,14 @@ int	main(int argc, char const *argv[], char **envp)
 	setup_signals();
 	while (1)
 	{
-		input = readline(get_prompt(&shell));
+		input = read_multiline(&shell);
 		if (!input)
 		{
 			printf("exit\n");
 			break ;
 		}
-		if (*input)
-			add_history(input);
-		tokens = lexer(input, &shell);
+		process_input(&shell, input);
 		free(input);
-		if (tokens)
-		{
-			shell.ast_root = parser(tokens, &shell);
-			if (shell.ast_root)
-			{
-				executor_run(&shell);
-			}
-		}
 		clean_loop(&shell);
 	}
 	clean_loop(&shell);
