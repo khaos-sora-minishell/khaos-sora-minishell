@@ -17,16 +17,33 @@ int	builtin_help(char **args, t_shell *shell)
 	(void)args;
 	(void)shell;
 	printf("\n🐚 MINISHELL HELP 🐚\n");
-	printf("---------------------\n");
-	printf("Built-in Commands:\n");
-	printf("  cd [dir]       : Change directory\n");
-	printf("  echo [-n] [arg]: Write arguments to stdout\n");
-	printf("  env            : Print environment variables\n");
-	printf("  exit [status]  : Exit the shell\n");
-	printf("  export [var]   : Set environment variable\n");
-	printf("  pwd            : Print working directory\n");
-	printf("  unset [var]    : Unset environment variable\n");
-	printf("  type [name]    : Display information about command type\n");
-	printf("\nUse 'man bash' for more information about shell features.\n");
+	printf("========================\n\n");
+	printf("📋 Built-in Commands:\n");
+	printf("  cd [dir]         : Change directory\n");
+	printf("  echo [-n] [arg]  : Write arguments to stdout\n");
+	printf("  env              : Print environment variables\n");
+	printf("  exit [status]    : Exit the shell\n");
+	printf("  export [var]     : Set environment variable\n");
+	printf("  pwd              : Print working directory\n");
+	printf("  unset [var]      : Unset environment variable\n\n");
+	printf("🔧 Extra Commands:\n");
+	printf("  type [name]      : Display information about command type\n");
+	printf("  tty              : Print terminal device name\n");
+	printf("  clear            : Clear the terminal screen\n");
+	printf("  true             : Return success (exit code 0)\n");
+	printf("  false            : Return failure (exit code 1)\n");
+	printf("  help             : Display this help message\n");
+	printf("  alias [name=cmd] : Create command alias\n");
+	printf("  unalias [name]   : Remove command alias\n");
+#ifdef EASTEREGG
+	printf("\n🎉 Easter Eggs:\n");
+	printf("  harici_matrix      : Display matrix effect\n");
+	printf("  akivam_executer    : Show executor visualization\n");
+	printf("  set-terminal [name]: Set terminal title\n");
+#endif
+	printf("\n💡 Tips:\n");
+	printf("  - Use Ctrl+D (EOF) to exit\n");
+	printf("  - Aliases are loaded from ~/.shellrc\n");
+	printf("  - Use 'man bash' for more shell features\n\n");
 	return (0);
 }
