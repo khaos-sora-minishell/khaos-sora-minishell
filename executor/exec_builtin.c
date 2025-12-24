@@ -29,6 +29,7 @@ static t_builtin	*get_builtins(void)
 	{"pwd", builtin_pwd},
 	{"unset", builtin_unset},
 	{"alias", builtin_alias},
+	{"help", builtin_help},
 	{"unalias", builtin_unalias},
 	{"type", builtin_type},
 	{"tty", builtin_tty},

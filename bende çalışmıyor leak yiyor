@@ -1,0 +1,38 @@
+bende çalışmıyor leak yiyor
+akivam@k1m06s05 ~/sgoinfre/minishell-merge
+ % make valgrind                  
+==1951362== Memcheck, a memory error detector
+==1951362== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==1951362== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==1951362== Command: ./minishell
+==1951362== 
+minishell$ cat << eof << a << b > d | wc -l
+
+bashte olan
+akivam@k1m06s05 ~ % bash                            
+
+akivam@k1m06s05:~$ cat << eof << a << b > d | wc -l
+> asda
+> sfasdf
+> sda
+> fsd
+> afds
+> afd
+> as
+> feof
+> a
+> selam
+> b
+> kgıofdsjıgofds
+> d
+> eof
+> a
+> amaaaa
+> b
+0
+akivam@k1m06s05:~$ 
+
+env unset edildinde gelmiyecek kodlarda çalışmayacak
+sadece builtinler çalışacak
+
+env -i de aynı olucak
