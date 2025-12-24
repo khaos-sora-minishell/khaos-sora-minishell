@@ -178,6 +178,8 @@ void					ignore_signals(void);
 void					init_history(t_shell *shell);
 void					save_history_file(t_shell *shell);
 void					load_shellrc(t_shell *shell);
+void					create_shellrc(t_shell *shell);
+void					save_to_shellrc(t_shell *shell, char *line);
 
 void					error_exit(char *msg, t_shell *shell);
 void					print_error(const char *cmd, const char *arg,

@@ -27,7 +27,8 @@ BUILTINS_SRC = cd/builtin_cd.c \
 			   pwd/builtin_pwd.c \
 			   unset/builtin_unset.c \
 			   extras/builtin_help.c extras/builtin_true_false.c \
-			   extras/builtin_tty.c extras/builtin_type.c
+			   extras/builtin_tty.c extras/builtin_type.c \
+			   extras/builtin_alias.c extras/builtin_unalias.c
 
 ENV_SRC		= env_manager.c env_manager_utils.c env_crypto.c env_array.c parse_path.c
 
@@ -82,9 +83,13 @@ RESET			= \033[0m
 
 all: $(NAME)
 
-$(NAME): $(OBJS) $(LIBFT_LIB) $(PRINTF_LIB) $(GC_LIB)
+$(NAME): .mandatory
+
+.mandatory: $(OBJS) $(LIBFT_LIB) $(PRINTF_LIB) $(GC_LIB)
 	@echo "$(YELLOW)Linking $(NAME)...$(RESET)"
 	@$(CC) $(OBJS) $(LIBFT_LIB) $(PRINTF_LIB) $(GC_LIB) $(LDFLAGS) -o $(NAME)
+	@touch .mandatory
+	@rm -f .bonus .exstrass
 	@echo "$(GREEN)✓ Successfully built $(NAME)!$(RESET)"
 
 $(OBJ_DIR)/%.o: %.c
@@ -108,14 +113,15 @@ clean:
 	@if [ -d "$(LIBFT_DIR)" ]; then make -s -C $(LIBFT_DIR) clean; fi
 	@if [ -d "$(PRINTF_DIR)" ]; then make -s -C $(PRINTF_DIR) clean; fi
 	@if [ -d "$(GC_DIR)" ]; then make -s -C $(GC_DIR) clean; fi
-	@$(RM) -r $(OBJ_DIR) obj_bonus obj_easter
+	@$(RM) -r $(OBJ_DIR) obj_bonus obj_exstrass
+	@$(RM) .mandatory .bonus .exstrass
 	@echo "$(RED)Cleaned object files.$(RESET)"
 
 fclean: clean
 	@if [ -d "$(LIBFT_DIR)" ]; then make -s -C $(LIBFT_DIR) fclean; fi
 	@if [ -d "$(PRINTF_DIR)" ]; then make -s -C $(PRINTF_DIR) fclean; fi
 	@if [ -d "$(GC_DIR)" ]; then make -s -C $(GC_DIR) fclean; fi
-	@$(RM) $(NAME)
+	@$(RM) $(NAME) .mandatory .bonus .exstrass
 	@echo "$(RED)Removed binary: $(NAME).$(RESET)"
 
 re: fclean all
@@ -141,28 +147,36 @@ $(BONUS_OBJ_DIR)/%.o: %.c
 	@echo "$(YELLOW)Compiling $< (bonus)...$(RESET)"
 	@$(CC) $(CFLAGS) -DBONUS -c $< -o $@
 
-bonus: $(BONUS_OBJS) $(LIBFT_LIB) $(PRINTF_LIB) $(GC_LIB)
+bonus: .bonus
+
+.bonus: $(BONUS_OBJS) $(LIBFT_LIB) $(PRINTF_LIB) $(GC_LIB)
 	@echo "$(YELLOW)Linking $(NAME) with bonus...$(RESET)"
 	@$(CC) $(BONUS_OBJS) $(LIBFT_LIB) $(PRINTF_LIB) $(GC_LIB) $(LDFLAGS) -o $(NAME)
+	@touch .bonus
+	@rm -f .mandatory .exstrass
 	@echo "$(GREEN)✓ Built with bonus features!$(RESET)"
 
-# Easteregg: mandatory + bonus + easteregg features (uses separate obj directory)
-EASTER_OBJ_DIR = obj_easter
-EASTER_OBJS = $(addprefix $(EASTER_OBJ_DIR)/, $(SRCS:.c=.o))
+# Exstrass: mandatory + bonus + easteregg features (uses separate obj directory)
+EXSTRASS_OBJ_DIR = obj_exstrass
+EXSTRASS_OBJS = $(addprefix $(EXSTRASS_OBJ_DIR)/, $(SRCS:.c=.o))
 
-$(EASTER_OBJ_DIR)/%.o: %.c
+$(EXSTRASS_OBJ_DIR)/%.o: %.c
 	@mkdir -p $(@D)
-	@echo "$(YELLOW)Compiling $< (easteregg)...$(RESET)"
+	@echo "$(YELLOW)Compiling $< (exstrass)...$(RESET)"
 	@$(CC) $(CFLAGS) -DBONUS -DEASTEREGG -c $< -o $@
 
-easteregg: $(EASTER_OBJS) $(LIBFT_LIB) $(PRINTF_LIB) $(GC_LIB)
-	@echo "$(YELLOW)Linking $(NAME) with easteregg...$(RESET)"
-	@$(CC) $(EASTER_OBJS) $(LIBFT_LIB) $(PRINTF_LIB) $(GC_LIB) $(LDFLAGS) -o $(NAME)
+exstrass: .exstrass
+
+.exstrass: $(EXSTRASS_OBJS) $(LIBFT_LIB) $(PRINTF_LIB) $(GC_LIB)
+	@echo "$(YELLOW)Linking $(NAME) with exstrass...$(RESET)"
+	@$(CC) $(EXSTRASS_OBJS) $(LIBFT_LIB) $(PRINTF_LIB) $(GC_LIB) $(LDFLAGS) -o $(NAME)
+	@touch .exstrass
+	@rm -f .mandatory .bonus
 	@echo "$(GREEN)✓ Built with easter egg features!$(RESET)"
 
 # Clean also removes bonus and easteregg obj dirs
 cleanall: clean
-	@$(RM) -r $(BONUS_OBJ_DIR) $(EASTER_OBJ_DIR)
+	@$(RM) -r $(BONUS_OBJ_DIR) $(EXSTRASS_OBJ_DIR)
 	@echo "$(RED)Cleaned all object directories.$(RESET)"
 
-.PHONY: all clean fclean re debug valgrind norm bonus easteregg cleanall
+.PHONY: all clean fclean re debug valgrind norm bonus exstrass cleanall

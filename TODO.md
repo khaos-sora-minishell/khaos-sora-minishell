@@ -2,7 +2,7 @@
 
 ## Bonus Features (BONUS flag)
 
-- [ ] **alias** - Komut alias'ları oluşturma/silme
+- [x] **alias** - Komut alias'ları oluşturma/silme
   - `alias name='command'` - alias tanımlama
   - `alias` - tüm alias'ları listeleme
   - `unalias name` - alias silme
@@ -11,11 +11,11 @@
 
 ## Easter Egg Features (EASTEREGG flag)
 
-- [ ] **terminal_bg** - Terminal arka plan rengi değiştirme
+- [x] **terminal_bg** - Terminal arka plan rengi değiştirme
   - `set-bg red/green/blue/...`
-- [ ] **terminal_prompt** - Prompt rengi değiştirme
+- [x] **terminal_prompt** - Prompt rengi değiştirme
   - `set-prompt red/green/cyan/...`
-- [ ] **terminal_rengi** - Genel terminal renk teması
+- [x] **terminal_rengi** - Genel terminal renk teması
   - `set-theme dark/light/matrix/...`
 - [ ] **DnD Oyun** - Text-based Dungeons & Dragons tarzı macera oyunu
   - `dnd` veya `adventure` komutu ile başlat

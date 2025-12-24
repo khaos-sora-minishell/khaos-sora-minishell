@@ -36,6 +36,7 @@ void	init_shell(t_shell *shell, char **envp)
 	shell->terminal_name_color = NULL;
 	shell->terminal_bg_color = NULL;
 	init_history(shell);
+	create_shellrc(shell);
 	shell->exit_status = 0;
 }
 
@@ -80,6 +81,7 @@ int	main(int argc, char const *argv[], char **envp)
 	(void)argv;
 	init_shell(&shell, (char **)envp);
 	shell.path_dirs = parse_path(&shell);
+	load_shellrc(&shell);
 	setup_signals();
 	while (1)
 	{

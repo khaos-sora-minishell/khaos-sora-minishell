@@ -70,5 +70,7 @@ int					builtin_clear(char **args, t_shell *shell);
 int					builtin_true(char **args, t_shell *shell);
 int					builtin_false(char **args, t_shell *shell);
 int					builtin_help(char **args, t_shell *shell);
+int					builtin_alias(char **args, t_shell *shell);
+int					builtin_unalias(char **args, t_shell *shell);
 
 #endif
