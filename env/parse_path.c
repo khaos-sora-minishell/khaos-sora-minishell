@@ -21,7 +21,7 @@ char	**parse_path(t_shell *shell)
 		return (NULL);
 	path = env_get(shell->env_table, "PATH", shell->global_arena);
 	if (!path)
-		path = DEFAULT_PATH_VALUE;
+		return (NULL);
 	return (gc_split(shell->global_arena, path, ':'));
 }
 

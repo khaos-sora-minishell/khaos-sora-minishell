@@ -31,3 +31,4 @@
 - [x] `echo -e` - Escape karakterleri
 - [x] `echo -u` - Büyük harfe çevirme
 - [x] `echo -r` - Metni tersine çevirme
+
