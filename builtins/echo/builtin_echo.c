@@ -26,14 +26,6 @@ static int	parse_flags(char *arg, t_echo_contex *contex)
 	{
 		if (arg[i] == 'n')
 			contex->n = 1;
-#ifdef EASTEREGG
-		else if (arg[i] == 'e')
-			contex->e = 1;
-		else if (arg[i] == 'u')
-			contex->ops[0] = 1;
-		else if (arg[i] == 'r')
-			contex->ops[1] = 1;
-#endif
 		else
 			return (0);
 		i++;
@@ -43,25 +35,6 @@ static int	parse_flags(char *arg, t_echo_contex *contex)
 	return (1);
 }
 
-#ifdef EASTEREGG
-static void	accept_echo_ops(char **str, t_echo_contex *contex)
-{
-	static const t_echo_op	operations[] = {
-	{'u', op_upper},
-	{'r', op_reverse},
-	{0, NULL}};
-	int						i;
-
-	i = 0;
-	while (operations[i].func)
-	{
-		if (contex->ops[i] == 1)
-			operations[i].func(*str);
-		i++;
-	}
-}
-#endif
-
 static void	echo_print_arg(char **args, int i, t_echo_contex *contex)
 {
 	char	*temp;
@@ -69,16 +42,8 @@ static void	echo_print_arg(char **args, int i, t_echo_contex *contex)
 	while (args[i])
 	{
 		temp = gc_strdup(contex->garbage_collector_contex, args[i]);
-#ifdef EASTEREGG
-		accept_echo_ops(&temp, contex);
-		if (contex->e)
-			print_with_escape(temp);
-		else
-			ft_putstr_fd(temp, 1);
-#else
 		(void)contex;
 		ft_putstr_fd(temp, 1);
-#endif
 		if (args[i + 1])
 			write(1, " ", 1);
 		i++;
@@ -92,9 +57,6 @@ int	builtin_echo(char **args, t_shell *shell)
 
 	contex.garbage_collector_contex = (t_gc_context *)shell->cmd_arena;
 	contex.n = 0;
-	contex.e = 0;
-	contex.ops[0] = 0;
-	contex.ops[1] = 0;
 	i = 1;
 	while (args[i] && parse_flags(args[i], &contex))
 		i++;

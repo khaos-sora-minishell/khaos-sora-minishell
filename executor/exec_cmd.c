@@ -11,9 +11,6 @@
 /* ************************************************************************** */
 
 #include "builtins.h"
-#ifdef EASTEREGG
-# include "easteregg.h"
-#endif
 #include "executor.h"
 #include "executor_error.h"
 #include "libft.h"
@@ -125,10 +122,6 @@ void	execute_command(t_cmd *cmd, t_shell *shell)
 
 	if (!prepare_cmd_execution(cmd, shell))
 		return ;
-#ifdef EASTEREGG
-	if (is_easter_egg(cmd->args[0]))
-		return (execute_easter_egg(cmd->args, shell), clean_heredoc(cmd));
-#endif
 	if (is_builtin(cmd->args[0]))
 		return (execute_builtin_with_redir(cmd, shell));
 	pid = fork();

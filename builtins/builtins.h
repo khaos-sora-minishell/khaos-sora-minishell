@@ -16,7 +16,6 @@
 # include "minishell.h"
 
 typedef int			(*t_builtin_func)(char **args, t_shell *shell);
-typedef void		(*t_transform_fn)(char *);
 
 typedef struct s_builtin
 {
@@ -24,19 +23,9 @@ typedef struct s_builtin
 	t_builtin_func	func;
 }					t_builtin;
 
-#ifdef EASTEREGG
-typedef struct s_echo_op
-{
-	char			flag;
-	t_transform_fn	func;
-}					t_echo_op;
-#endif
-
 typedef struct s_echo_contex
 {
 	int				n;
-	int				e;
-	int				ops[2];
 	t_gc_context	*garbage_collector_contex;
 }					t_echo_contex;
 
@@ -56,20 +45,7 @@ int					builtin_unset(char **args, t_shell *shell);
 int					builtin_env(char **args, t_shell *shell);
 int					builtin_exit(char **args, t_shell *shell);
 
-#ifdef EASTEREGG
-// echo utils (easter egg only)
-void				op_upper(char *str);
-void				op_reverse(char *str);
-void				print_with_escape(char *str);
-#endif
-
-/*exstras*/
-int					builtin_type(char **args, t_shell *shell);
-int					builtin_tty(char **args, t_shell *shell);
-int					builtin_clear(char **args, t_shell *shell);
-int					builtin_true(char **args, t_shell *shell);
-int					builtin_false(char **args, t_shell *shell);
-int					builtin_help(char **args, t_shell *shell);
+/* extras */
 int					builtin_alias(char **args, t_shell *shell);
 int					builtin_unalias(char **args, t_shell *shell);
 

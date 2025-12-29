@@ -23,8 +23,8 @@
 # define FNV_OFFSET 14695981039346656037UL
 # define XOR_KEY 0x1F
 
-# include "garbage_collector.h"
-# include "libft.h"
+# include "libs/garbage_collector/garbage_collector.h"
+# include "libs/libft/libft.h"
 # include <dirent.h>
 # include <errno.h>
 # include <fcntl.h>
