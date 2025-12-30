@@ -45,8 +45,4 @@ int					builtin_unset(char **args, t_shell *shell);
 int					builtin_env(char **args, t_shell *shell);
 int					builtin_exit(char **args, t_shell *shell);
 
-/* extras */
-int					builtin_alias(char **args, t_shell *shell);
-int					builtin_unalias(char **args, t_shell *shell);
-
 #endif

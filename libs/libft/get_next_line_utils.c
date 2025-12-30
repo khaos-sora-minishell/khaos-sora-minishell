@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "libft.h"
 #include "libft.h"
 
 static char	*init_empty_stash(char **stash, int *should_free)

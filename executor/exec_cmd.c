@@ -115,13 +115,35 @@ static int	prepare_cmd_execution(t_cmd *cmd, t_shell *shell)
 	return (1);
 }
 
+static void	handle_redirection_only(t_cmd *cmd, t_shell *shell)
+{
+	int	saved_stdin;
+	int	saved_stdout;
+
+	saved_stdin = dup(STDIN_FILENO);
+	saved_stdout = dup(STDOUT_FILENO);
+	if (setup_redirections(cmd->redirs, shell) == -1)
+		shell->exit_status = 1;
+	else
+		shell->exit_status = 0;
+	dup2(saved_stdin, STDIN_FILENO);
+	dup2(saved_stdout, STDOUT_FILENO);
+	close(saved_stdin);
+	close(saved_stdout);
+	clean_heredoc(cmd);
+}
+
 void	execute_command(t_cmd *cmd, t_shell *shell)
 {
 	pid_t	pid;
 	int		status;
 
 	if (!prepare_cmd_execution(cmd, shell))
+	{
+		if (cmd && cmd->redirs)
+			handle_redirection_only(cmd, shell);
 		return ;
+	}
 	if (is_builtin(cmd->args[0]))
 		return (execute_builtin_with_redir(cmd, shell));
 	pid = fork();

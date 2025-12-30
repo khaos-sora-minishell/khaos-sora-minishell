@@ -21,8 +21,12 @@ int	is_redirection_token(t_token_type type)
 
 int	is_operator_token(t_token_type type)
 {
+#ifdef BONUS
 	return (type == TOKEN_PIPE || type == TOKEN_AND || type == TOKEN_OR
 		|| type == TOKEN_LPAREN || type == TOKEN_RPAREN);
+#else
+	return (type == TOKEN_PIPE);
+#endif
 }
 
 t_cmd	*create_cmd(void *arena)

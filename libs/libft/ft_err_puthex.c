@@ -1,32 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_unalias.c                                  :+:      :+:    :+:   */
+/*   ft_err_puthex.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
+/*   By: akivam <akivam@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/22 19:07:12 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/22 19:07:19 by akivam           ###   ########.fr       */
+/*   Created: 2025/10/16 18:43:19 by akivam            #+#    #+#             */
+/*   Updated: 2025/10/16 18:44:10 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "minishell.h"
 
-int	builtin_unalias(char **args, t_shell *shell)
+void	ft_err_puthex(unsigned int number, int *len, char *base)
 {
-	int	i;
-
-	if (!args[1])
+	if (number >= 16)
 	{
-		ft_putendl_fd("minishell: unalias: too few arguments", 2);
-		return (1);
+		ft_err_puthex(number / 16, len, base);
+		ft_err_putchar(base[number % 16], len);
 	}
-	i = 1;
-	while (args[i])
-	{
-		env_unset(shell->alias_table, args[i]);
-		i++;
-	}
-	return (0);
+	else
+		ft_err_putchar(base[number % 16], len);
 }

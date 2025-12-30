@@ -15,6 +15,14 @@
 
 # include <stdlib.h>
 # include <unistd.h>
+# include <stdarg.h>
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 10
+# endif
+
+# define HEX_B "0123456789ABCDEF"
+# define HEX_L "0123456789abcdef"
 
 typedef struct s_split_data
 {
@@ -75,5 +83,23 @@ t_list				*ft_lstlast(t_list *lst);
 void				ft_lstadd_back(t_list **lst, t_list *new);
 void				ft_lstdelone(t_list *lst, void (*del)(void *));
 void				ft_lstclear(t_list **lst, void (*del)(void *));
+
+int					ft_printf(const char *format, ...);
+void				ft_putchar(char c, int *len);
+void				ft_putnbr(int n, int *len);
+void				ft_putnbr_unsigned(unsigned int n, int *len);
+void				ft_putstr(char *s, int *len);
+void				ft_print_pointer_address(void *ptr, int *len);
+void				ft_puthex(unsigned int number, int *len, char *base);
+int					ft_err_printf(const char *format, ...);
+void				ft_err_putchar(char c, int *len);
+void				ft_err_putnbr(int n, int *len);
+void				ft_err_putnbr_unsigned(unsigned int n, int *len);
+void				ft_err_putstr(char *s, int *len);
+void				ft_err_print_pointer_address(void *ptr, int *len);
+void				ft_err_puthex(unsigned int number, int *len, char *base);
+
+char				*get_next_line(int fd);
+char				*gnl_ft_strjoin(char *stash, const char *buffer);
 
 #endif

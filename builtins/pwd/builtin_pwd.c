@@ -12,7 +12,6 @@
 
 #include "garbage_collector.h"
 #include "minishell.h"
-#include "printf.h"
 
 /*
 ** builtin_pwd - Print Working Directory
@@ -37,6 +36,6 @@ int	builtin_pwd(char **args, t_shell *shell)
 	}
 	else
 		gc_track(contex, current_path);
-	printf("%s\n", current_path);
+	ft_printf("%s\n", current_path);
 	return (0);
 }

@@ -51,19 +51,23 @@ typedef enum e_token_type
 	TOKEN_REDIR_OUT,
 	TOKEN_REDIR_APPEND,
 	TOKEN_HEREDOC,
+#ifdef BONUS
 	TOKEN_AND,
 	TOKEN_OR,
 	TOKEN_LPAREN,
 	TOKEN_RPAREN,
+#endif
 }						t_token_type;
 
 typedef enum e_node_type
 {
 	NODE_CMD,
 	NODE_PIPE,
+#ifdef BONUS
 	NODE_AND,
 	NODE_OR,
 	NODE_SUBSHELL,
+#endif
 }						t_node_type;
 
 typedef struct s_env_bucket

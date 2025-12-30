@@ -28,8 +28,6 @@ static t_builtin	*get_builtins(void)
 	{"export", builtin_export},
 	{"pwd", builtin_pwd},
 	{"unset", builtin_unset},
-	{"alias", builtin_alias},
-	{"unalias", builtin_unalias},
 	{NULL, NULL}};
 
 	return (builtins);

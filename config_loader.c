@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
 #include "minishell.h"
 
 static void	process_config_line(t_shell *shell, char *line)

@@ -2,9 +2,7 @@ NAME		= minishell
 OBJ_DIR		= obj
 
 LIBFT_DIR	= libs/libft
-PRINTF_DIR	= libs/ft_printf
 GC_DIR		= libs/garbage_collector
-GNL_DIR		= libs/get-next-line
 
 LEXER_SRC	= lexer.c lexer_operator.c lexer_word.c lexer_token.c quotes.c
 
@@ -25,16 +23,15 @@ BUILTINS_SRC = cd/builtin_cd.c \
 			   exit/builtin_exit.c \
 			   export/builtin_export.c export/builtin_expot_utils.c \
 			   pwd/builtin_pwd.c \
-			   unset/builtin_unset.c \
-			   extras/builtin_alias.c extras/builtin_unalias.c
+			   unset/builtin_unset.c
+
+BONUS_BUILTINS = builtin_alias_bonus.c builtin_unalias_bonus.c
 
 ENV_SRC		= env_manager.c env_manager_utils.c env_crypto.c env_array.c parse_path.c
 
 SIGNALS_SRC	= signals.c signal_state.c
 
 UTILS_SRC	= error.c strings.c strings_utils.c
-
-GNL_SRC		= get_next_line.c get_next_line_utils.c
 
 SRCS = main.c prompt.c history_manager.c config_loader.c \
 	   $(addprefix lexer/, $(LEXER_SRC)) \
@@ -45,22 +42,19 @@ SRCS = main.c prompt.c history_manager.c config_loader.c \
 	   $(addprefix builtins/, $(BUILTINS_SRC)) \
 	   $(addprefix env/, $(ENV_SRC)) \
 	   $(addprefix signals/, $(SIGNALS_SRC)) \
-	   $(addprefix utils/, $(UTILS_SRC)) \
-	   $(addprefix $(GNL_DIR)/, $(GNL_SRC))
+	   $(addprefix utils/, $(UTILS_SRC))
 
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
 
 LIBFT_LIB		= $(LIBFT_DIR)/libft.a
-PRINTF_LIB		= $(PRINTF_DIR)/libftprintf.a
 GC_LIB			= $(GC_DIR)/garbage_collecter.a
 
 CC				= cc
 CFLAGS			= -Wall -Wextra -Werror
 
 INCLUDE_FLAGS	= -I. \
-				  -I./libs/libft -I./libs/ft_printf \
+				  -I./libs/libft \
 				  -I./libs/garbage_collector -I./libs/garbage_collector/include \
-				  -I./libs/get-next-line \
 				  -I./lexer -I./parser -I./expander -I./executor \
 				  -I./executor_error \
 				  -I./builtins -I./env -I./signals -I./utils
@@ -80,9 +74,9 @@ all: $(NAME)
 
 $(NAME): .mandatory
 
-.mandatory: $(OBJS) $(LIBFT_LIB) $(PRINTF_LIB) $(GC_LIB)
+.mandatory: $(OBJS) $(LIBFT_LIB) $(GC_LIB)
 	@echo "$(YELLOW)Linking $(NAME)...$(RESET)"
-	@$(CC) $(OBJS) $(LIBFT_LIB) $(PRINTF_LIB) $(GC_LIB) $(LDFLAGS) -o $(NAME)
+	@$(CC) $(OBJS) $(LIBFT_LIB) $(GC_LIB) $(LDFLAGS) -o $(NAME)
 	@touch .mandatory
 	@rm -f .bonus
 	@echo "$(GREEN)✓ Successfully built $(NAME)!$(RESET)"
@@ -96,17 +90,12 @@ $(LIBFT_LIB):
 	@echo "$(YELLOW)Building Libft...$(RESET)"
 	@make -s -C $(LIBFT_DIR)
 
-$(PRINTF_LIB):
-	@echo "$(YELLOW)Building ft_printf...$(RESET)"
-	@make -s -C $(PRINTF_DIR)
-
 $(GC_LIB):
 	@echo "$(YELLOW)Building garbage collector...$(RESET)"
 	@make -s -C $(GC_DIR)
 
 clean:
 	@if [ -d "$(LIBFT_DIR)" ]; then make -s -C $(LIBFT_DIR) clean; fi
-	@if [ -d "$(PRINTF_DIR)" ]; then make -s -C $(PRINTF_DIR) clean; fi
 	@if [ -d "$(GC_DIR)" ]; then make -s -C $(GC_DIR) clean; fi
 	@$(RM) -r $(OBJ_DIR) obj_bonus
 	@$(RM) .mandatory .bonus
@@ -114,7 +103,6 @@ clean:
 
 fclean: clean
 	@if [ -d "$(LIBFT_DIR)" ]; then make -s -C $(LIBFT_DIR) fclean; fi
-	@if [ -d "$(PRINTF_DIR)" ]; then make -s -C $(PRINTF_DIR) fclean; fi
 	@if [ -d "$(GC_DIR)" ]; then make -s -C $(GC_DIR) fclean; fi
 	@$(RM) $(NAME) .mandatory .bonus
 	@echo "$(RED)Removed binary: $(NAME).$(RESET)"
@@ -144,9 +132,9 @@ $(BONUS_OBJ_DIR)/%.o: %.c
 
 bonus: .bonus
 
-.bonus: $(BONUS_OBJS) $(LIBFT_LIB) $(PRINTF_LIB) $(GC_LIB)
+.bonus: $(BONUS_OBJS) $(LIBFT_LIB) $(GC_LIB)
 	@echo "$(YELLOW)Linking $(NAME) with bonus...$(RESET)"
-	@$(CC) $(BONUS_OBJS) $(LIBFT_LIB) $(PRINTF_LIB) $(GC_LIB) $(LDFLAGS) -o $(NAME)
+	@$(CC) $(BONUS_OBJS) $(LIBFT_LIB) $(GC_LIB) $(LDFLAGS) -o $(NAME)
 	@touch .bonus
 	@rm -f .mandatory
 	@echo "$(GREEN)✓ Built with bonus features!$(RESET)"

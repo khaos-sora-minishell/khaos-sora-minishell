@@ -15,6 +15,7 @@
 
 t_token_type	handle_double_op(char c, char next, int *i)
 {
+#ifdef BONUS
 	if (c == '|' && next == '|')
 	{
 		(*i) += 2;
@@ -25,7 +26,9 @@ t_token_type	handle_double_op(char c, char next, int *i)
 		(*i) += 2;
 		return (TOKEN_AND);
 	}
-	else if (c == '<' && next == '<')
+	else
+#endif
+	if (c == '<' && next == '<')
 	{
 		(*i) += 2;
 		return (TOKEN_HEREDOC);
@@ -46,10 +49,12 @@ t_token_type	handle_single_op(char c, int *i)
 		return ((*i)++, TOKEN_REDIR_IN);
 	else if (c == '>')
 		return ((*i)++, TOKEN_REDIR_OUT);
+#ifdef BONUS
 	else if (c == '(')
 		return ((*i)++, TOKEN_LPAREN);
 	else if (c == ')')
 		return ((*i)++, TOKEN_RPAREN);
+#endif
 	return (TOKEN_WORD);
 }
 

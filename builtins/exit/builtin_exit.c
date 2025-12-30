@@ -13,7 +13,6 @@
 #include "garbage_collector.h"
 #include "libft.h"
 #include "minishell.h"
-#include "printf.h"
 #include "utils.h"
 #include <stdlib.h>
 

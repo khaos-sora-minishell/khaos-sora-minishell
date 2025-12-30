@@ -88,7 +88,7 @@ int	main(int argc, char const *argv[], char **envp)
 		input = read_multiline(&shell);
 		if (!input)
 		{
-			printf("exit\n");
+			ft_printf("exit\n");
 			break ;
 		}
 		process_input(&shell, input);

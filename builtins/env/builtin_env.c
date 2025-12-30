@@ -13,7 +13,6 @@
 #include "executor.h"
 #include "libft.h"
 #include "minishell.h"
-#include "printf.h"
 
 static int	execute_env_cmd(char **args, t_shell *shell)
 {

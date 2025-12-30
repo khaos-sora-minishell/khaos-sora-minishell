@@ -13,7 +13,6 @@
 #include "builtins.h"
 #include "libft.h"
 #include "minishell.h"
-#include "printf.h"
 #include "utils.h"
 
 void	sort_buckets(t_env_bucket **arr, int count)

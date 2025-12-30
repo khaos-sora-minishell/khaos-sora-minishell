@@ -1,32 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
+/*   builtin_unalias.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akivam <akivam@student.42.fr>              +#+  +:+       +#+        */
+/*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/29 12:19:11 by akivam            #+#    #+#             */
-/*   Updated: 2025/06/17 18:47:04 by akivam           ###   ########.fr       */
+/*   Created: 2025/12/22 19:07:12 by akivam            #+#    #+#             */
+/*   Updated: 2025/12/22 19:07:19 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "minishell.h"
 
-size_t	ft_strlcpy(char *dst, const char *src, size_t size)
+int	builtin_unalias(char **args, t_shell *shell)
 {
-	size_t	i;
+	int	i;
 
-	i = 0;
-	if (size > 0)
+	if (!args[1])
 	{
-		while (src[i] && i < (size - 1))
-		{
-			dst[i] = src[i];
-			i = i + 1;
-		}
-		dst[i] = '\0';
+		ft_putendl_fd("minishell: unalias: too few arguments", 2);
+		return (1);
 	}
-	while (src[i])
-		i = i + 1;
-	return (i);
+	i = 1;
+	while (args[i])
+	{
+		env_unset(shell->alias_table, args[i]);
+		i++;
+	}
+	return (0);
 }

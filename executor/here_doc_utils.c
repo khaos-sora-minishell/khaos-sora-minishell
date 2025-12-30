@@ -18,7 +18,6 @@
 #include <stdlib.h>
 #include <sys/stat.h>
 #include "utils.h"
-#include "get_next_line.h"
 
 
 static int	heredoc_signal_checker(void)

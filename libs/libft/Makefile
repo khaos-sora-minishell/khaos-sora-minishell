@@ -6,7 +6,15 @@ SRC = ft_atoi.c ft_bzero.c ft_calloc.c ft_isalnum.c ft_isalpha.c \
 	  ft_putendl_fd.c ft_putnbr_fd.c ft_putstr_fd.c ft_split.c ft_strchr.c \
 	  ft_strdup.c ft_striteri.c ft_strjoin.c ft_strlcat.c ft_strlcpy.c \
 	  ft_strlen.c ft_strmapi.c ft_strncmp.c ft_strnstr.c ft_strrchr.c \
-	  ft_strtrim.c ft_substr.c ft_tolower.c ft_toupper.c
+	  ft_strtrim.c ft_substr.c ft_tolower.c ft_toupper.c \
+	  ft_err_pointer_adress.c ft_err_printf.c \
+	  ft_err_putchar.c ft_err_puthex.c \
+	  ft_err_putnbr.c ft_err_putnbr_unsigned.c \
+	  ft_err_putstr.c ft_pointer_adress.c \
+	  ft_printf.c ft_putchar.c \
+	  ft_puthex.c ft_putnbr.c \
+	  ft_putnbr_unsigned.c ft_putstr.c \
+	  get_next_line.c get_next_line_utils.c
 
 
 BONUS_SRC = ft_lstadd_back_bonus.c ft_lstadd_front_bonus.c ft_lstclear_bonus.c \
@@ -19,7 +27,7 @@ OBJECT_FILE= $(SRC:.c=.o)
 BONUS_OBJECT_FİLE=$(BONUS_SRC:.c=.o)
 
 CC= cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -I.
 
 
 all: $(NAME)

@@ -53,6 +53,7 @@ char	*get_operator_value(t_token_type type)
 		return (">>");
 	else if (type == TOKEN_HEREDOC)
 		return ("<<");
+#ifdef BONUS
 	else if (type == TOKEN_AND)
 		return ("&&");
 	else if (type == TOKEN_OR)
@@ -61,5 +62,6 @@ char	*get_operator_value(t_token_type type)
 		return ("(");
 	else if (type == TOKEN_RPAREN)
 		return (")");
+#endif
 	return ("");
 }

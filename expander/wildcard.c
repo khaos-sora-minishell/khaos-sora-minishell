@@ -14,6 +14,7 @@
 #include "libft.h"
 #include "utils.h"
 
+#ifdef BONUS
 static char	**create_single_result(char *pattern, t_shell *shell)
 {
 	char	**result;
@@ -41,9 +42,11 @@ static char	**process_matches(DIR *directory, char *pattern, t_shell *shell)
 	sort_strings(result, count);
 	return (result);
 }
+#endif
 
 char	**expand_wildcard(char *pattern, t_shell *shell)
 {
+#ifdef BONUS
 	DIR		*directory;
 
 	if (!pattern || !shell)
@@ -54,4 +57,9 @@ char	**expand_wildcard(char *pattern, t_shell *shell)
 	if (!directory)
 		return (NULL);
 	return (process_matches(directory, pattern, shell));
+#else
+	(void)pattern;
+	(void)shell;
+	return (NULL);
+#endif
 }

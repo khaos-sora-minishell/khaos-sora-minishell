@@ -1,26 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr.c                                        :+:      :+:    :+:   */
+/*   ft_puthex.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akivam <akivam@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 18:43:19 by akivam            #+#    #+#             */
-/*   Updated: 2025/10/16 18:44:57 by akivam           ###   ########.fr       */
+/*   Updated: 2025/10/16 18:44:47 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "printf.h"
 #include "libft.h"
 
-void	ft_putstr(char *s, int *len)
+void	ft_puthex(unsigned int number, int *len, char *base)
 {
-	if (s == NULL)
+	if (number >= 16)
 	{
-		write(1, "(null)", 6);
-		*len += 6;
-		return ;
+		ft_puthex(number / 16, len, base);
+		ft_putchar(base[number % 16], len);
 	}
-	write(1, s, ft_strlen(s));
-	*len += ft_strlen(s);
+	else
+		ft_putchar(base[number % 16], len);
 }

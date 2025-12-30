@@ -1,23 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_err_putnbr_unsigned.c                           :+:      :+:    :+:   */
+/*   ft_err_putstr.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akivam <akivam@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 18:43:19 by akivam            #+#    #+#             */
-/*   Updated: 2025/10/16 18:44:14 by akivam           ###   ########.fr       */
+/*   Updated: 2025/10/16 18:44:28 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "printf.h"
+#include "../libft/libft.h"
+#include "libft.h"
 
-void	ft_err_putnbr_unsigned(unsigned int n, int *len)
+void	ft_err_putstr(char *s, int *len)
 {
-	unsigned int	number;
-
-	number = n;
-	if (number >= 10)
-		ft_err_putnbr_unsigned(number / 10, len);
-	ft_err_putchar((number % 10) + '0', len);
+	if (s == NULL)
+	{
+		write(2, "(null)", 6);
+		*len += 6;
+		return ;
+	}
+	write(2, s, ft_strlen(s));
+	*len += ft_strlen(s);
 }

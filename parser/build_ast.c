@@ -29,11 +29,14 @@ static t_ast_node	*new_ast_node(t_node_type type, t_shell *shell)
 static t_ast_node	*parse_logic(t_token **current, t_shell *shell)
 {
 	t_ast_node	*node;
+#ifdef BONUS
 	t_ast_node	*right;
 	t_ast_node	*parent;
 	t_node_type	type;
+#endif
 
 	node = parse_pipe(current, shell);
+#ifdef BONUS
 	while (*current && ((*current)->type == TOKEN_AND
 			|| (*current)->type == TOKEN_OR))
 	{
@@ -47,6 +50,7 @@ static t_ast_node	*parse_logic(t_token **current, t_shell *shell)
 		parent->right = right;
 		node = parent;
 	}
+#endif
 	return (node);
 }
 
@@ -75,6 +79,7 @@ static t_ast_node	*parse_primary(t_token **current, t_shell *shell)
 
 	if (!*current)
 		return (NULL);
+#ifdef BONUS
 	if ((*current)->type == TOKEN_LPAREN)
 	{
 		*current = (*current)->next;
@@ -84,6 +89,7 @@ static t_ast_node	*parse_primary(t_token **current, t_shell *shell)
 			*current = (*current)->next;
 		return (node);
 	}
+#endif
 	node = new_ast_node(NODE_CMD, shell);
 	node->cmd = parse_simple_command(current, shell);
 	return (node);
