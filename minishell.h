@@ -13,27 +13,6 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# define ENV_TABLE_SIZE 131
-# define FNV_PRIME_64 1099511628211UL
-# define FNV_OFFSET 14695981039346656037UL
-# define XOR_KEY 0x1F
-
-# include "libs/garbage_collector/garbage_collector.h"
-# include "libs/libft/libft.h"
-# include <dirent.h>
-# include <errno.h>
-# include <fcntl.h>
-# include <readline/history.h>
-# include <readline/readline.h>
-# include <signal.h>
-# include <stdbool.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <string.h>
-# include <sys/stat.h>
-# include <sys/wait.h>
-# include <unistd.h>
-
 #ifdef BONUS
 
 typedef enum e_token_type
@@ -78,6 +57,27 @@ typedef enum e_node_type
 }						t_node_type;
 
 #endif
+
+# define ENV_TABLE_SIZE 131
+# define FNV_PRIME_64 1099511628211UL
+# define FNV_OFFSET 14695981039346656037UL
+# define XOR_KEY 0x1F
+
+# include "libs/garbage_collector/garbage_collector.h"
+# include "libs/libft/libft.h"
+# include <dirent.h>
+# include <errno.h>
+# include <fcntl.h>
+# include <readline/history.h>
+# include <readline/readline.h>
+# include <signal.h>
+# include <stdbool.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <string.h>
+# include <sys/stat.h>
+# include <sys/wait.h>
+# include <unistd.h>
 
 typedef struct s_env_bucket
 {
