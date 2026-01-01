@@ -13,7 +13,7 @@ EXPANDER_SRC = expander.c wildcard.c expand_args.c \
 
 EXECUTOR_SRC = executor.c exec_ast.c exec_builtin.c exec_cmd.c \
 			   exec_cmd_utils.c exec_pipe.c redirections.c \
-			   here_doc_utils.c here_doc_manager.c
+			   here_doc_utils1.c here_doc_utils2.c here_doc_manager.c
 
 EXEC_ERROR_SRC = executor_error.c
 
