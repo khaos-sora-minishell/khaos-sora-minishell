@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/01 21:42:26 by akivam            #+#    #+#             */
-/*   Updated: 2026/01/01 21:46:05 by akivam           ###   ########.fr       */
+/*   Updated: 2026/01/01 21:47:21 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,4 +83,3 @@ int	create_heredoc_dir(void)
 	}
 	return (0);
 }
-

@@ -15,7 +15,7 @@ EXECUTOR_SRC = executor.c exec_ast.c exec_builtin.c exec_cmd.c \
 			   exec_cmd_utils.c exec_pipe.c redirections.c \
 			   here_doc_utils1.c here_doc_utils2.c here_doc_manager.c
 
-EXEC_ERROR_SRC = executor_error.c
+EXEC_ERROR_SRC = executor_error.c executor_error2.c
 
 BUILTINS_SRC = cd/builtin_cd.c \
 			   echo/builtin_echo.c \

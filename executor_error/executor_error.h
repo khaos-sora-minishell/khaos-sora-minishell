@@ -32,4 +32,3 @@ void	handle_is_directory(char *cmd, t_shell *shell);
 void	handle_no_such_file(char *cmd, t_shell *shell);
 
 #endif
-

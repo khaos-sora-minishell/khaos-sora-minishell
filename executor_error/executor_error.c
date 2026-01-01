@@ -49,9 +49,3 @@ void	handle_is_directory(char *cmd, t_shell *shell)
 {
 	exit_with_error(cmd, ERR_IS_DIR, EXIT_CANNOT_EXEC, shell);
 }
-
-void	handle_no_such_file(char *cmd, t_shell *shell)
-{
-	exit_with_error(cmd, ERR_NO_FILE, EXIT_CMD_NOT_FOUND, shell);
-}
-
