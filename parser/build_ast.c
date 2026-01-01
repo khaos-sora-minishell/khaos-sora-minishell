@@ -13,7 +13,7 @@
 #include "minishell.h"
 #include "parser.h"
 
-# ifdef BONUS
+#ifdef BONUS
 
 t_ast_node	*parse_primary(t_token **current, t_shell *shell)
 {

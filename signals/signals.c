@@ -12,18 +12,6 @@
 
 #include "minishell.h"
 
-/*
-** SIGINT (Ctrl+C) handler - Parent process icin
-**
-** set_signal(SIGINT) kullaniyoruz cunku:
-** 1. Encapsulation: g_signal'i extern yapmak zorunda kalmiyoruz
-** 2. 42 Norm: Modüler yapi korunuyor
-** 3. Guvenlik: set_signal() o kadar basit ki atomic gibi calisir
-** 4. Race condition yok: Shell single-threaded, child'lar kendi handler'ini kullanir
-**
-** Readline fonksiyonlari (rl_*) async-signal-safe DEGIL ama
-** minishell'de kabul edilebilir (readline dokumantasyonu bunu onerir)
-*/
 void	signal_handler(int signum)
 {
 	if (signum == SIGINT)
