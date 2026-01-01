@@ -24,4 +24,3 @@ char	**parse_path(t_shell *shell)
 		return (NULL);
 	return (gc_split(shell->global_arena, path, ':'));
 }
-
