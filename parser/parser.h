@@ -18,6 +18,9 @@
 t_ast_node	*build_ast(t_token *tokens, t_shell *shell);
 t_ast_node	*create_ast_node(t_node_type type, void *arena);
 
+t_ast_node	*parse_pipe(t_token **current, t_shell *shell);
+t_ast_node	*parse_primary(t_token **current, t_shell *shell);
+
 t_cmd		*parse_simple_command(t_token **tokens, t_shell *shell);
 
 int			is_redirection_token(t_token_type type);
