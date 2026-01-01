@@ -23,7 +23,7 @@ t_ast_node	*new_ast_node(t_node_type type, t_shell *shell)
 	return (node);
 }
 
-# ifdef BONUS
+#ifdef BONUS
 
 t_ast_node	*parse_logic(t_token **current, t_shell *shell)
 {
@@ -49,7 +49,7 @@ t_ast_node	*parse_logic(t_token **current, t_shell *shell)
 	return (node);
 }
 
-# else
+#else
 
 t_ast_node	*parse_logic(t_token **current, t_shell *shell)
 {
@@ -59,7 +59,7 @@ t_ast_node	*parse_logic(t_token **current, t_shell *shell)
 	return (node);
 }
 
-# endif
+#endif
 
 t_ast_node	*parse_pipe(t_token **current, t_shell *shell)
 {
