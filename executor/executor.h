@@ -29,6 +29,7 @@ int		process_cmd_heredoc(t_cmd *cmd, t_shell *shell);
 void	clean_heredoc(t_cmd *cmd);
 
 void	expand_cmd_args(t_cmd *cmd, t_shell *shell);
+void	handle_exit_status(t_shell *shell, int status);
 
 int		is_builtin(char *cmd);
 int		execute_builtin(char **args, t_shell *shell);
