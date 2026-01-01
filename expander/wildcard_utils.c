@@ -15,6 +15,7 @@
 #include "utils.h"
 
 #ifdef BONUS
+
 int	match_pattern(char *pattern, char *str)
 {
 	if (!*pattern && !*str)

@@ -31,7 +31,12 @@ int		process_cmd_heredoc(t_cmd *cmd, t_shell *shell);
 void	clean_heredoc(t_cmd *cmd);
 
 void	expand_cmd_args(t_cmd *cmd, t_shell *shell);
+
+void	validate_and_execute(char *cmd_path, t_cmd *cmd, t_shell *shell);
+void	exec_child_process(t_cmd *cmd, t_shell *shell);
+void	execute_builtin_with_redir(t_cmd *cmd, t_shell *shell);
 void	handle_exit_status(t_shell *shell, int status);
+int		prepare_cmd_execution(t_cmd *cmd, t_shell *shell);
 
 int		is_builtin(char *cmd);
 int		execute_builtin(char **args, t_shell *shell);
