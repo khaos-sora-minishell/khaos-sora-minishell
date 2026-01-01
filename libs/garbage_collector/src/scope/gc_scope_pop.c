@@ -5,22 +5,13 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/28 20:04:21 by akivam            #+#    #+#             */
-/*   Updated: 2025/11/28 20:04:21 by akivam           ###   ########.tr       */
+/*   Created: 2026/01/01 19:52:16 by akivam            #+#    #+#             */
+/*   Updated: 2026/01/01 19:52:16 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "internal_collector.h"
 #include <stdlib.h>
-
-/*free single allocation and its metadata*/
-static void	gc_free_allocation(t_gc_allocation *alloc)
-{
-	if (!alloc)
-		return ;
-	free(alloc->ptr);
-	free(alloc);
-}
 
 /*remove allocation from global doublt-linked list*/
 static void	gc_remove_global(t_gc_context *contex, t_gc_allocation *alloc)
@@ -55,7 +46,9 @@ static void	gc_free_scope_allocs(t_gc_context *contex, t_gc_scope *scope)
 		next = current->scope_next;
 		gc_remove_global(contex, current);
 		gc_update_free_stats(contex, current->size);
-		gc_free_allocation(current);
+		if (current->from_pool == 0)
+			free(current->ptr);
+		free(current);
 		current = next;
 	}
 }

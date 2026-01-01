@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 22:02:15 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/12 14:24:07 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/08 22:30:20 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ void	*gc_track(t_gc_context *contex, void *ptr)
 	gc_add_to_global(contex, meta);
 	if (contex->current_scope)
 		gc_add_to_scope(contex, meta);
+	gc_hash_add(contex, ptr, meta);
 	gc_update_stats(contex, size);
 	return (ptr);
 }
@@ -102,6 +103,7 @@ void	*gc_track_sized(t_gc_context *contex, void *ptr, size_t size)
 	gc_add_to_global(contex, meta);
 	if (contex->current_scope)
 		gc_add_to_scope(contex, meta);
+	gc_hash_add(contex, ptr, meta);
 	gc_update_stats(contex, size);
 	return (ptr);
 }
@@ -133,6 +135,7 @@ void	gc_untrack(t_gc_context *contex, void *ptr)
 		alloc->next->prev = alloc->prev;
 	else
 		contex->all_allocations_tail = alloc->prev;
+	gc_hash_remove(contex, ptr);
 	contex->total_freed += alloc->size;
 	contex->current_usage -= alloc->size;
 	contex->free_count++;

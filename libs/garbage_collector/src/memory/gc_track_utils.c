@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 22:10:00 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/12 14:23:36 by akivam           ###   ########.fr       */
+/*   Updated: 2025/12/31 20:56:44 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ t_gc_allocation	*gc_create_meta(void *ptr, size_t size, size_t level)
 	meta->size = size;
 	meta->scope_level = level;
 	meta->marked = 0;
+	meta->from_pool = 0;
 	meta->next = NULL;
 	meta->prev = NULL;
 	meta->scope_next = NULL;

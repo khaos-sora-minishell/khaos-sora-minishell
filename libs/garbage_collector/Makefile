@@ -15,12 +15,14 @@ RESET := \033[0m
 SRC_DIR = src
 OBJ_DIR = obj
 
-SRC = memory/gc_malloc.c \
+SRC = memory/gc_malloc_utils.c \
+      memory/gc_malloc.c \
       memory/gc_calloc.c \
       memory/gc_realloc.c \
       memory/gc_free.c \
-      memory/gc_track.c \
       memory/gc_track_utils.c \
+      memory/gc_track.c \
+      memory/gc_pool.c \
       collector/gc_collect.c \
       collector/gc_mark.c \
       collector/gc_sweep.c \
@@ -37,15 +39,16 @@ SRC = memory/gc_malloc.c \
       string/gc_strdup.c \
       string/gc_strndup.c \
       string/gc_strjoin.c \
-      string/gc_split.c \
       string/gc_atoi.c \
       string/gc_itoa.c \
       string/gc_uitoa.c \
       string/gc_substr.c \
       string/gc_strtrim.c \
+      string/gc_split.c \
       utils/gc_bzero.c \
       utils/memory_utils.c \
       utils/gc_find_allocation.c \
+      utils/gc_hash.c \
       config/gc_set_mode.c \
       config/gc_get_mode.c \
       config/gc_set_debug.c \
