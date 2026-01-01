@@ -13,6 +13,43 @@
 #include "minishell.h"
 #include "parser.h"
 
+# ifdef BONUS
+
+t_ast_node	*parse_primary(t_token **current, t_shell *shell)
+{
+	t_ast_node	*node;
+
+	if (!*current)
+		return (NULL);
+	if ((*current)->type == TOKEN_LPAREN)
+	{
+		*current = (*current)->next;
+		node = new_ast_node(NODE_SUBSHELL, shell);
+		node->subshell_node = parse_logic(current, shell);
+		if (*current && (*current)->type == TOKEN_RPAREN)
+			*current = (*current)->next;
+		return (node);
+	}
+	node = new_ast_node(NODE_CMD, shell);
+	node->cmd = parse_simple_command(current, shell);
+	return (node);
+}
+
+#else
+
+t_ast_node	*parse_primary(t_token **current, t_shell *shell)
+{
+	t_ast_node	*node;
+
+	if (!*current)
+		return (NULL);
+	node = new_ast_node(NODE_CMD, shell);
+	node->cmd = parse_simple_command(current, shell);
+	return (node);
+}
+
+#endif
+
 t_ast_node	*build_ast(t_token *tokens, t_shell *shell)
 {
 	t_token	*current;

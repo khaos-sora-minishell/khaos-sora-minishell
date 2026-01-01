@@ -18,6 +18,8 @@
 t_ast_node	*build_ast(t_token *tokens, t_shell *shell);
 t_ast_node	*create_ast_node(t_node_type type, void *arena);
 
+t_ast_node	*new_ast_node(t_node_type type, t_shell *shell);
+t_ast_node	*parse_logic(t_token **current, t_shell *shell);
 t_ast_node	*parse_pipe(t_token **current, t_shell *shell);
 t_ast_node	*parse_primary(t_token **current, t_shell *shell);
 

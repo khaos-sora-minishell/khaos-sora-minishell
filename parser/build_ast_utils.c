@@ -6,14 +6,14 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/01 21:57:48 by akivam            #+#    #+#             */
-/*   Updated: 2026/01/01 22:02:51 by akivam           ###   ########.fr       */
+/*   Updated: 2026/01/01 22:08:47 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "parser.h"
 
-static t_ast_node	*new_ast_node(t_node_type type, t_shell *shell)
+t_ast_node	*new_ast_node(t_node_type type, t_shell *shell)
 {
 	t_ast_node	*node;
 
@@ -25,7 +25,7 @@ static t_ast_node	*new_ast_node(t_node_type type, t_shell *shell)
 
 # ifdef BONUS
 
-static t_ast_node	*parse_logic(t_token **current, t_shell *shell)
+t_ast_node	*parse_logic(t_token **current, t_shell *shell)
 {
 	t_ast_node	*node;
 	t_ast_node	*right;
@@ -51,7 +51,7 @@ static t_ast_node	*parse_logic(t_token **current, t_shell *shell)
 
 # else
 
-static t_ast_node	*parse_logic(t_token **current, t_shell *shell)
+t_ast_node	*parse_logic(t_token **current, t_shell *shell)
 {
 	t_ast_node	*node;
 
@@ -79,40 +79,3 @@ t_ast_node	*parse_pipe(t_token **current, t_shell *shell)
 	}
 	return (node);
 }
-
-# ifdef BONUS
-
-t_ast_node	*parse_primary(t_token **current, t_shell *shell)
-{
-	t_ast_node	*node;
-
-	if (!*current)
-		return (NULL);
-	if ((*current)->type == TOKEN_LPAREN)
-	{
-		*current = (*current)->next;
-		node = new_ast_node(NODE_SUBSHELL, shell);
-		node->subshell_node = parse_logic(current, shell);
-		if (*current && (*current)->type == TOKEN_RPAREN)
-			*current = (*current)->next;
-		return (node);
-	}
-	node = new_ast_node(NODE_CMD, shell);
-	node->cmd = parse_simple_command(current, shell);
-	return (node);
-}
-
-# else
-
-t_ast_node	*parse_primary(t_token **current, t_shell *shell)
-{
-	t_ast_node	*node;
-
-	if (!*current)
-		return (NULL);
-	node = new_ast_node(NODE_CMD, shell);
-	node->cmd = parse_simple_command(current, shell);
-	return (node);
-}
-
-# endif
