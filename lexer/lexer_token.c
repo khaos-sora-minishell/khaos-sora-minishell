@@ -41,6 +41,8 @@ void	add_token(t_token **head, t_token *new_token)
 	current->next = new_token;
 }
 
+#ifdef BONUS
+
 char	*get_operator_value(t_token_type type)
 {
 	if (type == TOKEN_PIPE)
@@ -53,7 +55,6 @@ char	*get_operator_value(t_token_type type)
 		return (">>");
 	else if (type == TOKEN_HEREDOC)
 		return ("<<");
-#ifdef BONUS
 	else if (type == TOKEN_AND)
 		return ("&&");
 	else if (type == TOKEN_OR)
@@ -62,6 +63,24 @@ char	*get_operator_value(t_token_type type)
 		return ("(");
 	else if (type == TOKEN_RPAREN)
 		return (")");
-#endif
 	return ("");
 }
+
+#else
+
+char	*get_operator_value(t_token_type type)
+{
+	if (type == TOKEN_PIPE)
+		return ("|");
+	else if (type == TOKEN_REDIR_IN)
+		return ("<");
+	else if (type == TOKEN_REDIR_OUT)
+		return (">");
+	else if (type == TOKEN_REDIR_APPEND)
+		return (">>");
+	else if (type == TOKEN_HEREDOC)
+		return ("<<");
+	return ("");
+}
+
+#endif

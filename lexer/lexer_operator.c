@@ -13,9 +13,10 @@
 #include "minishell.h"
 #include "lexer.h"
 
+#ifdef BONUS
+
 t_token_type	handle_double_op(char c, char next, int *i)
 {
-#ifdef BONUS
 	if (c == '|' && next == '|')
 	{
 		(*i) += 2;
@@ -26,8 +27,38 @@ t_token_type	handle_double_op(char c, char next, int *i)
 		(*i) += 2;
 		return (TOKEN_AND);
 	}
-	else
-#endif
+	else if (c == '<' && next == '<')
+	{
+		(*i) += 2;
+		return (TOKEN_HEREDOC);
+	}
+	else if (c == '>' && next == '>')
+	{
+		(*i) += 2;
+		return (TOKEN_REDIR_APPEND);
+	}
+	return (TOKEN_WORD);
+}
+
+t_token_type	handle_single_op(char c, int *i)
+{
+	if (c == '|')
+		return ((*i)++, TOKEN_PIPE);
+	else if (c == '<')
+		return ((*i)++, TOKEN_REDIR_IN);
+	else if (c == '>')
+		return ((*i)++, TOKEN_REDIR_OUT);
+	else if (c == '(')
+		return ((*i)++, TOKEN_LPAREN);
+	else if (c == ')')
+		return ((*i)++, TOKEN_RPAREN);
+	return (TOKEN_WORD);
+}
+
+#else
+
+t_token_type	handle_double_op(char c, char next, int *i)
+{
 	if (c == '<' && next == '<')
 	{
 		(*i) += 2;
@@ -49,14 +80,10 @@ t_token_type	handle_single_op(char c, int *i)
 		return ((*i)++, TOKEN_REDIR_IN);
 	else if (c == '>')
 		return ((*i)++, TOKEN_REDIR_OUT);
-#ifdef BONUS
-	else if (c == '(')
-		return ((*i)++, TOKEN_LPAREN);
-	else if (c == ')')
-		return ((*i)++, TOKEN_RPAREN);
-#endif
 	return (TOKEN_WORD);
 }
+
+#endif
 
 t_token_type	handle_operator(char *input, int *i)
 {
