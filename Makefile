@@ -4,24 +4,24 @@ OBJ_DIR		= obj
 LIBFT_DIR	= libs/libft
 GC_DIR		= libs/garbage_collector
 
-LEXER_SRC	= lexer.c lexer_operator.c lexer_word.c lexer_token.c quotes.c
+LEXER_SRC	= lexer.c lexer_operator.c lexer_word.c lexer_token.c quotes.c lexer_utils.c
 
-PARSER_SRC	= parser.c parse_cmd.c parse_cmd_utils.c build_ast.c build_ast_utils.c
+PARSER_SRC	= parser.c parse_cmd.c parse_cmd_utils.c parse_cmd_utils2.c build_ast.c build_ast_utils.c
 
 EXPANDER_SRC = expander.c wildcard.c expand_args.c \
 			   expander_utils.c wildcard_utils.c expand_helpers.c
 
 EXECUTOR_SRC = executor.c exec_ast.c exec_builtin.c exec_cmd.c \
-			   exec_cmd_utils.c exec_pipe.c redirections.c \
+			   exec_cmd_utils1.c exec_cmd_utils2.c exec_pipe.c redirections.c \
 			   here_doc_utils1.c here_doc_utils2.c here_doc_manager.c
 
-EXEC_ERROR_SRC = executor_error.c executor_error2.c
+EXEC_ERROR_SRC = executor_error.c executer_error2.c
 
 BUILTINS_SRC = cd/builtin_cd.c \
 			   echo/builtin_echo.c \
 			   env/builtin_env.c \
 			   exit/builtin_exit.c \
-			   export/builtin_export.c export/builtin_export_utils.c \
+			   export/builtin_export.c export/builtin_expot_utils.c \
 			   pwd/builtin_pwd.c \
 			   unset/builtin_unset.c
 

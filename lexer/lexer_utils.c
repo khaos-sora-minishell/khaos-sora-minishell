@@ -70,7 +70,7 @@ static t_token	*append_tokens(t_token *alias_tokens, t_token *user_tokens)
 	return (alias_tokens);
 }
 
-static t_token	*expand_alias_if_needed(t_token *tokens, t_shell *shell)
+t_token	*expand_alias_if_needed(t_token *tokens, t_shell *shell)
 {
 	char	*alias_value;
 	t_token	*alias_tokens;

@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/01 22:26:18 by akivam            #+#    #+#             */
-/*   Updated: 2026/01/01 22:28:56 by akivam           ###   ########.fr       */
+/*   Updated: 2026/01/01 22:57:25 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,20 +76,6 @@ void	execute_builtin_with_redir(t_cmd *cmd, t_shell *shell)
 	close(saved_stdin);
 	close(saved_stdout);
 	clean_heredoc(cmd);
-}
-
-void	handle_exit_status(t_shell *shell, int status)
-{
-	if (WIFEXITED(status))
-		shell->exit_status = WEXITSTATUS(status);
-	else if (WIFSIGNALED(status))
-	{
-		shell->exit_status = 128 + WTERMSIG(status);
-		if (WTERMSIG(status) == SIGINT)
-			write(1, "\n", 1);
-		else if (WTERMSIG(status) == SIGQUIT)
-			ft_putendl_fd("Quit (core dumped)", 2);
-	}
 }
 
 int	prepare_cmd_execution(t_cmd *cmd, t_shell *shell)
