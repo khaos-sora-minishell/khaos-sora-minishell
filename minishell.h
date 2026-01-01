@@ -13,11 +13,6 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# ifndef DEFAULT_PATH_VALUE
-#  define DEFAULT_PATH_VALUE \
-"/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:."
-# endif
-
 # define ENV_TABLE_SIZE 131
 # define FNV_PRIME_64 1099511628211UL
 # define FNV_OFFSET 14695981039346656037UL
@@ -39,9 +34,7 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
-int						get_signal(void);
-void					set_signal(int value);
-void					reset_signal(void);
+#ifdef BONUS
 
 typedef enum e_token_type
 {
@@ -51,24 +44,40 @@ typedef enum e_token_type
 	TOKEN_REDIR_OUT,
 	TOKEN_REDIR_APPEND,
 	TOKEN_HEREDOC,
-#ifdef BONUS
 	TOKEN_AND,
 	TOKEN_OR,
 	TOKEN_LPAREN,
 	TOKEN_RPAREN,
-#endif
 }						t_token_type;
 
 typedef enum e_node_type
 {
 	NODE_CMD,
 	NODE_PIPE,
-#ifdef BONUS
 	NODE_AND,
 	NODE_OR,
 	NODE_SUBSHELL,
-#endif
 }						t_node_type;
+
+#else
+
+typedef enum e_token_type
+{
+	TOKEN_WORD,
+	TOKEN_PIPE,
+	TOKEN_REDIR_IN,
+	TOKEN_REDIR_OUT,
+	TOKEN_REDIR_APPEND,
+	TOKEN_HEREDOC,
+}						t_token_type;
+
+typedef enum e_node_type
+{
+	NODE_CMD,
+	NODE_PIPE,
+}						t_node_type;
+
+#endif
 
 typedef struct s_env_bucket
 {
@@ -178,6 +187,9 @@ void					setup_signals(void);
 void					signal_handler(int signum);
 void					setup_child_signals(void);
 void					ignore_signals(void);
+int						get_signal(void);
+void					set_signal(int value);
+void					reset_signal(void);
 
 void					init_history(t_shell *shell);
 void					save_history_file(t_shell *shell);
