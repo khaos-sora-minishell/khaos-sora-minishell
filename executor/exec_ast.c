@@ -16,6 +16,7 @@
 #include <unistd.h>
 
 #ifdef BONUS
+
 static void	exec_subshell(t_ast_node *ast, t_shell *shell)
 {
 	pid_t	pid;
@@ -39,7 +40,6 @@ static void	exec_subshell(t_ast_node *ast, t_shell *shell)
 	if (WIFEXITED(status))
 		shell->exit_status = WEXITSTATUS(status);
 }
-#endif
 
 int	execute_ast(t_ast_node *ast, t_shell *shell)
 {
@@ -49,7 +49,6 @@ int	execute_ast(t_ast_node *ast, t_shell *shell)
 		execute_command(ast->cmd, shell);
 	else if (ast->type == NODE_PIPE)
 		execute_pipe(ast->left, ast->right, shell);
-#ifdef BONUS
 	else if (ast->type == NODE_AND)
 	{
 		execute_ast(ast->left, shell);
@@ -64,6 +63,20 @@ int	execute_ast(t_ast_node *ast, t_shell *shell)
 	}
 	else if (ast->type == NODE_SUBSHELL)
 		exec_subshell(ast, shell);
-#endif
 	return (shell->exit_status);
 }
+
+#else
+
+int	execute_ast(t_ast_node *ast, t_shell *shell)
+{
+	if (!ast || !shell)
+		return (1);
+	if (ast->type == NODE_CMD)
+		execute_command(ast->cmd, shell);
+	else if (ast->type == NODE_PIPE)
+		execute_pipe(ast->left, ast->right, shell);
+	return (shell->exit_status);
+}
+
+#endif
