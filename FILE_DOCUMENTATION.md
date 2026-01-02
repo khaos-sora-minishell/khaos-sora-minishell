@@ -5,24 +5,25 @@ This document provides a description of each source file and its functions in th
 ## Main Files
 
 ### main.c
-Entry point of the minishell program. Initializes the shell, sets up signal handlers, and runs the main REPL loop.
+Entry point of the minishell program. Initializes the shell, sets up signal handlers, and runs the main REPL loop. Provides support for both interactive and non-interactive modes.
 
 **Functions:**
 - `init_shell` - Initializes the shell structure with garbage collectors, environment, and history
 - `clean_loop` - Cleans up command-specific resources and resets signal state between commands
 - `cleanup_shell` - Final cleanup when exiting the shell (saves history, destroys garbage collectors)
 - `process_input` - Processes user input through lexer, parser, and executor pipeline
-- `main` - Main entry point, initializes shell, loads config, runs main loop
+- `main` - Main entry point, initializes shell, loads config, runs main loop (manages exit message with terminal input control)
 
 ### prompt.c
-Handles prompt generation and display. Creates colorized prompts with terminal name and manages multiline input reading.
+Handles prompt generation and display. Creates colorized prompts with terminal name and manages multiline input reading. Provides input reading support for both interactive and non-interactive modes.
 
 **Functions:**
 - `build_prompt_colors` - Builds prompt string with terminal name colors and background colors
 - `get_prompt` - Constructs the full prompt string with colors and reset codes
 - `join_lines` - Joins two lines of input with a newline character
-- `read_continuation` - Reads continuation lines for unclosed quotes
-- `read_multiline` - Main function to read input supporting multi-line for unclosed quotes
+- `remove_trailing_newline` - Removes trailing newline character from line read in non-interactive mode
+- `read_continuation` - Reads continuation lines for unclosed quotes (supports terminal and non-interactive modes)
+- `read_multiline` - Main function to read input supporting multi-line for unclosed quotes (supports terminal and non-interactive modes)
 
 ### history_manager.c
 Manages command history using readline. Loads history from file on startup and saves it on exit.
@@ -345,13 +346,13 @@ Environment variable display builtin. Prints all environment variables in the cu
 - `builtin_env` - Implements the env builtin command
 
 ### exit/builtin_exit.c
-Exit builtin implementation. Terminates shell with optional exit status code.
+Exit builtin implementation. Terminates shell with optional exit status code. Conditionally prints exit message based on terminal input control.
 
 **Functions:**
 - `is_numeric` - Checks if string is a valid numeric argument
 - `is_really_neg_one` - Checks if argument is specifically -1
 - `quit_shell` - Cleans up and exits with given status
-- `builtin_exit` - Implements the exit builtin command
+- `builtin_exit` - Implements the exit builtin command (prints "exit" message with terminal input control)
 
 ### export/builtin_export.c
 Export builtin implementation. Sets environment variables and displays exported variables.

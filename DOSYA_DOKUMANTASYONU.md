@@ -5,24 +5,25 @@ Bu belge, projedeki her kaynak dosya ve içindeki fonksiyonların açıklamasın
 ## Ana Dosyalar
 
 ### main.c
-Minishell programının giriş noktası. Shell'i başlatır, sinyal yöneticilerini kurar ve ana REPL döngüsünü çalıştırır.
+Minishell programının giriş noktası. Shell'i başlatır, sinyal yöneticilerini kurar ve ana REPL döngüsünü çalıştırır. İnteraktif ve non-interactive mod desteği sağlar.
 
 **Fonksiyonlar:**
 - `init_shell` - Shell yapısını garbage collector'lar, ortam ve geçmişle başlatır
 - `clean_loop` - Komutlar arası kaynakları temizler ve sinyal durumunu sıfırlar
 - `cleanup_shell` - Shell çıkışında son temizlik (geçmişi kaydeder, GC'leri yok eder)
 - `process_input` - Kullanıcı girdisini lexer, parser ve executor üzerinden işler
-- `main` - Ana giriş noktası, shell'i başlatır, config yükler, ana döngüyü çalıştırır
+- `main` - Ana giriş noktası, shell'i başlatır, config yükler, ana döngüyü çalıştırır (terminal kontrolü ile exit mesajı yönetimi)
 
 ### prompt.c
-Prompt oluşturma ve görüntüleme işlemlerini yönetir. Terminal adı ile renklendirilmiş promptlar oluşturur ve çok satırlı girdi okumayı yönetir.
+Prompt oluşturma ve görüntüleme işlemlerini yönetir. Terminal adı ile renklendirilmiş promptlar oluşturur ve çok satırlı girdi okumayı yönetir. İnteraktif ve non-interactive modlar için girdi okuma desteği sağlar.
 
 **Fonksiyonlar:**
 - `build_prompt_colors` - Terminal adı renkleri ve arkaplan renkleriyle prompt dizesi oluşturur
 - `get_prompt` - Renkler ve sıfırlama kodlarıyla tam prompt dizesi oluşturur
 - `join_lines` - İki girdi satırını yeni satır karakteriyle birleştirir
-- `read_continuation` - Kapatılmamış tırnaklar için devam satırları okur
-- `read_multiline` - Kapatılmamış tırnaklar için çok satırlı girdiyi destekleyen ana okuma fonksiyonu
+- `remove_trailing_newline` - Non-interactive modda okunan satırdaki sonundaki yeni satır karakterini kaldırır
+- `read_continuation` - Kapatılmamış tırnaklar için devam satırları okur (terminal ve non-interactive mod desteği)
+- `read_multiline` - Kapatılmamış tırnaklar için çok satırlı girdiyi destekleyen ana okuma fonksiyonu (terminal ve non-interactive mod desteği)
 
 ### history_manager.c
 Readline kullanarak komut geçmişini yönetir. Başlangıçta geçmişi dosyadan yükler ve çıkışta kaydeder.
@@ -345,13 +346,13 @@ Ortam değişkeni görüntüleme builtin'i. Mevcut shell'deki tüm ortam değiş
 - `builtin_env` - env yerleşik komutunu uygular
 
 ### exit/builtin_exit.c
-Exit builtin uygulaması. İsteğe bağlı çıkış durum koduyla shell'i sonlandırır.
+Exit builtin uygulaması. İsteğe bağlı çıkış durum koduyla shell'i sonlandırır. Terminal input kontrolü ile exit mesajını koşullu olarak yazdırır.
 
 **Fonksiyonlar:**
 - `is_numeric` - Dizenin geçerli sayısal argüman olup olmadığını kontrol eder
 - `is_really_neg_one` - Argümanın özellikle -1 olup olmadığını kontrol eder
 - `quit_shell` - Temizler ve verilen durumla çıkar
-- `builtin_exit` - exit yerleşik komutunu uygular
+- `builtin_exit` - exit yerleşik komutunu uygular (terminal kontrolü ile "exit" mesajı yazdırır)
 
 ### export/builtin_export.c
 Export builtin uygulaması. Ortam değişkenlerini ayarlar ve dışa aktarılan değişkenleri görüntüler.
