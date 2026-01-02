@@ -28,9 +28,9 @@ static void	update_pwd_env(t_shell *shell, char *old_path)
 		perror("minishell: cd: error retrieving current directory");
 		return ;
 	}
-	gc_track(contex, current_path);	
+	gc_track(contex, current_path);
 	if (old_path)
-		env_set(shell->env_table, "OLDPWD", old_path, contex);	
+		env_set(shell->env_table, "OLDPWD", old_path, contex);
 	env_set(shell->env_table, "PWD", current_path, contex);
 	shell->env_array = env_table_to_array(shell->env_table, contex);
 }

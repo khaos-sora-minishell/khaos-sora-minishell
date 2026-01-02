@@ -14,12 +14,41 @@
 #include "minishell.h"
 #include "garbage_collector.h"
 
-static void	set_default_shell_vars(t_env_table *table, void *arena)
+static void	set_default_prompt_vars(t_env_table *table, void *arena)
 {
 	if (!env_get(table, "PS1", arena))
 		env_set(table, "PS1", "minishell$ ", arena);
 	if (!env_get(table, "PS2", arena))
 		env_set(table, "PS2", "> ", arena);
+}
+
+static void	set_default_env_vars(t_env_table *table, void *arena)
+{
+	char	*shlvl_str;
+	char	*new_shlvl;
+	int		lvl;
+	char	*cwd;
+
+	shlvl_str = env_get(table, "SHLVL", arena);
+	if (!shlvl_str)
+		lvl = 1;
+	else
+		lvl = ft_atoi(shlvl_str) + 1;
+	new_shlvl = ft_itoa(lvl);
+	if (new_shlvl)
+	{
+		gc_track((t_gc_context *)arena, new_shlvl);
+		env_set(table, "SHLVL", new_shlvl, arena);
+	}
+	if (!env_get(table, "PWD", arena))
+	{
+		cwd = getcwd(NULL, 0);
+		if (cwd)
+		{
+			gc_track((t_gc_context *)arena, cwd);
+			env_set(table, "PWD", cwd, arena);
+		}
+	}
 }
 
 static void	add_env_entry(t_env_table *table, char *env_str,
@@ -34,62 +63,4 @@ static void	add_env_entry(t_env_table *table, char *env_str,
 		key = gc_strndup(contex, env_str, eq_pos - env_str);
 		env_set(table, key, eq_pos + 1, contex);
 	}
-}
-
-t_env_table	*initialize_env_table(char **envp, void *arena)
-{
-	t_env_table		*table;
-	t_gc_context	*contex;
-	int				i;
-
-	contex = (t_gc_context *)arena;
-	table = gc_malloc(contex, sizeof(t_env_table));
-	table->buckets = gc_calloc(contex, ENV_TABLE_SIZE, sizeof(t_env_bucket *));
-	table->count = 0;
-	i = 0;
-	while (envp && envp[i])
-	{
-		add_env_entry(table, envp[i], contex);
-		i++;
-	}
-	set_default_shell_vars(table, arena);
-	return (table);
-}
-
-static char	*join_env_pair(t_env_bucket *node, t_gc_context *contex)
-{
-	char	*tmp_val;
-	char	*tmp_join;
-	char	*result;
-
-	tmp_val = gc_strdup(contex, node->value);
-	xor_cipher(tmp_val);
-	tmp_join = gc_strjoin(contex, node->key, "=");
-	result = gc_strjoin(contex, tmp_join, tmp_val);
-	return (result);
-}
-
-char	**env_table_to_array(t_env_table *table, void *arena)
-{
-	char			**arr;
-	t_env_bucket	*current;
-	int				idx;
-	int				k;
-
-	arr = gc_malloc((t_gc_context *)arena, sizeof(char *) * (table->count + 1));
-	idx = 0;
-	k = 0;
-	while (idx < ENV_TABLE_SIZE)
-	{
-		current = table->buckets[idx];
-		while (current)
-		{
-			if (current->_has_value == 1)
-				arr[k++] = join_env_pair(current, (t_gc_context *)arena);
-			current = current->next;
-		}
-		idx++;
-	}
-	arr[k] = NULL;
-	return (arr);
 }
