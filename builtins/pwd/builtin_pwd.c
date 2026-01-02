@@ -24,18 +24,17 @@ int	builtin_pwd(char **args, t_shell *shell)
 
 	(void)args;
 	contex = (t_gc_context *)shell->cmd_arena;
-	current_path = getcwd(NULL, 0);
+	current_path = env_get(shell->env_table, "PWD", contex);
 	if (!current_path)
 	{
-		current_path = env_get(shell->env_table, "PWD", contex);
+		current_path = getcwd(NULL, 0);
 		if (!current_path)
 		{
 			perror("minishell: pwd");
 			return (1);
 		}
-	}
-	else
 		gc_track(contex, current_path);
+	}
 	ft_printf("%s\n", current_path);
 	return (0);
 }

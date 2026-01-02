@@ -26,5 +26,6 @@ void			skip_quoted(char *input, int *i);
 void			find_word_end(char *input, int *i);
 
 char			check_unclosed_quotes_char(char *input);
+t_token			*expand_alias_if_needed(t_token *tokens, t_shell *shell);
 
 #endif
