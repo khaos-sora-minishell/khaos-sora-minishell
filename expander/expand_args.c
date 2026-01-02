@@ -25,7 +25,7 @@ static void	process_arg(char *arg, char ***result, int *idx, t_shell *shell)
 		wildcard_res = expand_wildcard(var_expanded, shell);
 		if (wildcard_res)
 			add_expanded_results(result, idx, wildcard_res);
-		else
+		else if (var_expanded[0] != '\0')
 			(*result)[(*idx)++] = var_expanded;
 	}
 	else
@@ -46,8 +46,10 @@ static int	count_single_expanded(char *arg, t_shell *shell)
 		wildcard_res = expand_wildcard(var_expanded, shell);
 		if (wildcard_res)
 			count = count_args(wildcard_res);
-		else
+		else if (var_expanded[0] != '\0')
 			count = 1;
+		else
+			count = 0;
 	}
 	else
 		count = 1;
