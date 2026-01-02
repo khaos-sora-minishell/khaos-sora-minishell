@@ -170,6 +170,11 @@ void					env_set(t_env_table *table, char *key, char *value,
 							void *arena);
 void					env_unset(t_env_table *table, char *key);
 char					**env_table_to_array(t_env_table *table, void *arena);
+void					add_env_entry(t_env_table *table, char *env_str,
+							t_gc_context *contex);
+void					set_default_shell_vars(t_env_table *table, void *arena);
+void					set_default_env_vars(t_env_table *table, void *arena);
+void					set_default_prompt_vars(t_env_table *table, void *arena);
 
 unsigned long			fnv1a_hash(char *str);
 void					xor_cipher(char *str);

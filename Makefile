@@ -27,7 +27,7 @@ BUILTINS_SRC = cd/builtin_cd.c \
 
 BONUS_BUILTINS = builtin_alias_bonus.c builtin_unalias_bonus.c
 
-ENV_SRC		= env_manager.c env_manager_utils.c env_crypto.c env_array.c parse_path.c
+ENV_SRC		= env_manager.c env_manager_utils.c env_manager_utils2.c env_crypto.c env_array.c parse_path.c
 
 SIGNALS_SRC	= signals.c signal_state.c
 

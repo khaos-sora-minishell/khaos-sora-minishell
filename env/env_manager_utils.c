@@ -14,7 +14,7 @@
 #include "minishell.h"
 #include "garbage_collector.h"
 
-static void	set_default_prompt_vars(t_env_table *table, void *arena)
+void	set_default_prompt_vars(t_env_table *table, void *arena)
 {
 	if (!env_get(table, "PS1", arena))
 		env_set(table, "PS1", "minishell$ ", arena);
@@ -22,7 +22,7 @@ static void	set_default_prompt_vars(t_env_table *table, void *arena)
 		env_set(table, "PS2", "> ", arena);
 }
 
-static void	set_default_env_vars(t_env_table *table, void *arena)
+void	set_default_env_vars(t_env_table *table, void *arena)
 {
 	char	*shlvl_str;
 	char	*new_shlvl;
@@ -51,7 +51,7 @@ static void	set_default_env_vars(t_env_table *table, void *arena)
 	}
 }
 
-static void	add_env_entry(t_env_table *table, char *env_str,
+void	add_env_entry(t_env_table *table, char *env_str,
 		t_gc_context *contex)
 {
 	char	*eq_pos;
@@ -63,4 +63,10 @@ static void	add_env_entry(t_env_table *table, char *env_str,
 		key = gc_strndup(contex, env_str, eq_pos - env_str);
 		env_set(table, key, eq_pos + 1, contex);
 	}
+}
+
+void	set_default_shell_vars(t_env_table *table, void *arena)
+{
+	set_default_env_vars(table, arena);
+	set_default_prompt_vars(table, arena);
 }
