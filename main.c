@@ -17,6 +17,7 @@
 #include "minishell.h"
 #include <readline/history.h>
 #include <stdio.h>
+#include <unistd.h>
 
 void	init_shell(t_shell *shell, char **envp)
 {
@@ -88,7 +89,8 @@ int	main(int argc, char const *argv[], char **envp)
 		input = read_multiline(&shell);
 		if (!input)
 		{
-			ft_printf("exit\n");
+			if (isatty(STDIN_FILENO))
+				ft_printf("exit\n");
 			break ;
 		}
 		process_input(&shell, input);

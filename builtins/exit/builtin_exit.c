@@ -15,6 +15,7 @@
 #include "minishell.h"
 #include "utils.h"
 #include <stdlib.h>
+#include <unistd.h>
 
 static int	is_numeric(char *str)
 {
@@ -59,7 +60,8 @@ static void	quit_shell(t_shell *shell, int status)
 
 int	builtin_exit(char **args, t_shell *shell)
 {
-	ft_putendl_fd("exit", 2);
+	if (isatty(STDIN_FILENO))
+		ft_putendl_fd("exit", 2);
 	if (!args[1])
 		quit_shell(shell, shell->exit_status);
 	if (!is_numeric(args[1]) || (ft_atoll(args[1]) == -1
