@@ -42,6 +42,7 @@ static t_env_bucket	*create_env_node(char *key, char *value,
 		node->value = gc_strdup(contex, "");
 		node->_has_value = 0;
 	}
+	node->_is_exported = 0;
 	xor_cipher(node->value);
 	node->next = NULL;
 	return (node);

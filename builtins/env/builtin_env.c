@@ -48,7 +48,7 @@ static void	print_env_bucket(t_env_bucket *current, t_shell *shell)
 	contex = (t_gc_context *)shell->cmd_arena;
 	while (current)
 	{
-		if (current->_has_value == 1)
+		if (current->_has_value == 1 && current->_is_exported == 1)
 		{
 			decoded_value = gc_strdup(contex, current->value);
 			xor_cipher(decoded_value);

@@ -33,6 +33,24 @@ static int	is_valid_identifier(char *str)
 	return (1);
 }
 
+static void	mark_as_exported(t_env_table *table, char *key)
+{
+	unsigned long	idx;
+	t_env_bucket	*current;
+
+	idx = fnv1a_hash(key);
+	current = table->buckets[idx];
+	while (current)
+	{
+		if (ft_strcmp(current->key, key) == 0)
+		{
+			current->_is_exported = 1;
+			break ;
+		}
+		current = current->next;
+	}
+}
+
 static int	export_arg(char *arg, t_shell *shell)
 {
 	char			*eq_pos;
@@ -59,6 +77,7 @@ static int	export_arg(char *arg, t_shell *shell)
 		if (!env_get(shell->env_table, key, contex))
 			env_set(shell->env_table, key, NULL, contex);
 	}
+	mark_as_exported(shell->env_table, key);
 	return (0);
 }
 

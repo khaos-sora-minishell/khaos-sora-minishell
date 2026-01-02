@@ -22,6 +22,24 @@ void	set_default_prompt_vars(t_env_table *table, void *arena)
 		env_set(table, "PS2", "> ", arena);
 }
 
+static void	mark_env_as_exported(t_env_table *table, char *key)
+{
+	unsigned long	idx;
+	t_env_bucket	*current;
+
+	idx = fnv1a_hash(key);
+	current = table->buckets[idx];
+	while (current)
+	{
+		if (ft_strcmp(current->key, key) == 0)
+		{
+			current->_is_exported = 1;
+			break ;
+		}
+		current = current->next;
+	}
+}
+
 void	set_default_env_vars(t_env_table *table, void *arena)
 {
 	char	*shlvl_str;
@@ -39,6 +57,7 @@ void	set_default_env_vars(t_env_table *table, void *arena)
 	{
 		gc_track((t_gc_context *)arena, new_shlvl);
 		env_set(table, "SHLVL", new_shlvl, arena);
+		mark_env_as_exported(table, "SHLVL");
 	}
 	if (!env_get(table, "PWD", arena))
 	{
@@ -47,6 +66,7 @@ void	set_default_env_vars(t_env_table *table, void *arena)
 		{
 			gc_track((t_gc_context *)arena, cwd);
 			env_set(table, "PWD", cwd, arena);
+			mark_env_as_exported(table, "PWD");
 		}
 	}
 }
@@ -54,14 +74,27 @@ void	set_default_env_vars(t_env_table *table, void *arena)
 void	add_env_entry(t_env_table *table, char *env_str,
 		t_gc_context *contex)
 {
-	char	*eq_pos;
-	char	*key;
+	char			*eq_pos;
+	char			*key;
+	unsigned long	idx;
+	t_env_bucket	*current;
 
 	eq_pos = ft_strchr(env_str, '=');
 	if (eq_pos)
 	{
 		key = gc_strndup(contex, env_str, eq_pos - env_str);
 		env_set(table, key, eq_pos + 1, contex);
+		idx = fnv1a_hash(key);
+		current = table->buckets[idx];
+		while (current)
+		{
+			if (ft_strcmp(current->key, key) == 0)
+			{
+				current->_is_exported = 1;
+				break ;
+			}
+			current = current->next;
+		}
 	}
 }
 

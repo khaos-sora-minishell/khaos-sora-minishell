@@ -84,6 +84,7 @@ typedef struct s_env_bucket
 	char				*key;
 	char				*value;
 	int					_has_value;
+	int					_is_exported;
 	struct s_env_bucket	*next;
 }						t_env_bucket;
 
