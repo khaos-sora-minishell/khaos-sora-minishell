@@ -13,6 +13,7 @@
 #include "libft.h"
 #include "minishell.h"
 #include "garbage_collector.h"
+#include "utils.h"
 
 void	set_default_prompt_vars(t_env_table *table, void *arena)
 {
@@ -40,12 +41,11 @@ static void	mark_env_as_exported(t_env_table *table, char *key)
 	}
 }
 
-void	set_default_env_vars(t_env_table *table, void *arena)
+static void	set_shlvl_var(t_env_table *table, void *arena)
 {
 	char	*shlvl_str;
 	char	*new_shlvl;
 	int		lvl;
-	char	*cwd;
 
 	shlvl_str = env_get(table, "SHLVL", arena);
 	if (!shlvl_str)
@@ -59,6 +59,12 @@ void	set_default_env_vars(t_env_table *table, void *arena)
 		env_set(table, "SHLVL", new_shlvl, arena);
 		mark_env_as_exported(table, "SHLVL");
 	}
+}
+
+static void	set_pwd_var(t_env_table *table, void *arena)
+{
+	char	*cwd;
+
 	if (!env_get(table, "PWD", arena))
 	{
 		cwd = getcwd(NULL, 0);
@@ -69,6 +75,12 @@ void	set_default_env_vars(t_env_table *table, void *arena)
 			mark_env_as_exported(table, "PWD");
 		}
 	}
+}
+
+void	set_default_env_vars(t_env_table *table, void *arena)
+{
+	set_shlvl_var(table, arena);
+	set_pwd_var(table, arena);
 }
 
 void	add_env_entry(t_env_table *table, char *env_str,
@@ -96,10 +108,4 @@ void	add_env_entry(t_env_table *table, char *env_str,
 			current = current->next;
 		}
 	}
-}
-
-void	set_default_shell_vars(t_env_table *table, void *arena)
-{
-	set_default_env_vars(table, arena);
-	set_default_prompt_vars(table, arena);
 }

@@ -1,0 +1,35 @@
+bende hatalı olnalar
+minishell$ ls || > a | ls
+minishell: syntax error near unexpected token `|'
+minishell$ 
+
+bash
+akivam@k1m03s10:~/sgoinfre/khaos-sora-minishell$ ls || > a | ls
+1		 executor	    main.c	 parser		tester
+a		 executor_error     Makefile	 prompt.c	utils
+builtins	 expander	    minishell	 readline.supp
+config_loader.c  history_manager.c  minishell.h  README.md
+DUZELTMELER.md	 lexer		    obj		 resources
+env		 libs		    obj_bonus	 signals
+akivam@k1m03s10:~/sgoinfre/khaos-sora-minishell$ 
+
+
+minishell$ ls && ls
+akivam@k1m03s10:~/sgoinfre/khaos-sora-minishell$ ls && ls
+1		 executor	    main.c	 parser		tester
+a		 executor_error     Makefile	 prompt.c	utils
+builtins	 expander	    minishell	 readline.supp
+config_loader.c  history_manager.c  minishell.h  README.md
+DUZELTMELER.md	 lexer		    obj		 resources
+env		 libs		    obj_bonus	 signals
+1		 executor	    main.c	 parser		tester
+a		 executor_error     Makefile	 prompt.c	utils
+builtins	 expander	    minishell	 readline.supp
+config_loader.c  history_manager.c  minishell.h  README.md
+DUZELTMELER.md	 lexer		    obj		 resources
+env		 libs		    obj_bonus	 signals
+akivam@k1m03s10:~/sgoinfre/khaos-sora-minishell$ 
+
+
+&& || sıkışma yaşıyor expander ve jit kontrol edilecek
+

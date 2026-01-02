@@ -77,8 +77,7 @@ static int	export_arg(char *arg, t_shell *shell)
 		if (!env_get(shell->env_table, key, contex))
 			env_set(shell->env_table, key, NULL, contex);
 	}
-	mark_as_exported(shell->env_table, key);
-	return (0);
+	return (mark_as_exported(shell->env_table, key), 0);
 }
 
 int	builtin_export(char **args, t_shell *shell)
