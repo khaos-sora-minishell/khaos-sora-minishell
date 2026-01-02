@@ -15,6 +15,7 @@
 #include "libft.h"
 #include <readline/readline.h>
 #include <stdio.h>
+#include <unistd.h>
 
 static void	build_prompt_colors(t_shell *shell, char **prompt)
 {
@@ -69,6 +70,18 @@ static char	*join_lines(char *input, char *next_line)
 	return (result);
 }
 
+static char	*remove_trailing_newline(char *str)
+{
+	size_t	len;
+
+	if (!str)
+		return (NULL);
+	len = ft_strlen(str);
+	if (len > 0 && str[len - 1] == '\n')
+		str[len - 1] = '\0';
+	return (str);
+}
+
 static char	*read_continuation(char *input, char quote, t_shell *shell)
 {
 	char	*next_line;
@@ -78,7 +91,13 @@ static char	*read_continuation(char *input, char quote, t_shell *shell)
 	prompt = "dquote> ";
 	if (quote == '\'')
 		prompt = "squote> ";
-	next_line = readline(prompt);
+	if (isatty(STDIN_FILENO))
+		next_line = readline(prompt);
+	else
+	{
+		next_line = get_next_line(STDIN_FILENO);
+		next_line = remove_trailing_newline(next_line);
+	}
 	if (!next_line)
 	{
 		ft_putstr_fd("minishell: unexpected EOF while looking for "
@@ -100,7 +119,13 @@ char	*read_multiline(t_shell *shell)
 	char	*input;
 	char	quote;
 
-	input = readline(get_prompt(shell));
+	if (isatty(STDIN_FILENO))
+		input = readline(get_prompt(shell));
+	else
+	{
+		input = get_next_line(STDIN_FILENO);
+		input = remove_trailing_newline(input);
+	}
 	if (!input)
 		return (NULL);
 	quote = check_unclosed_quotes_char(input);
