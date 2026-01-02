@@ -13,6 +13,8 @@
 #include "minishell.h"
 #include "parser.h"
 
+#ifdef BONUS
+
 static int	validate_token_syntax(t_token *current)
 {
 	if (current->type == TOKEN_PIPE)
@@ -22,13 +24,51 @@ static int	validate_token_syntax(t_token *current)
 		if (current->next->type == TOKEN_PIPE)
 			return (syntax_error("|"), 1);
 	}
-#ifdef BONUS
 	else if (current->type == TOKEN_OR || current->type == TOKEN_AND)
 	{
 		if (current->next == NULL)
 			return (syntax_error("newline"), 1);
 	}
-#endif
+	else if (current->type >= TOKEN_REDIR_IN && current->type <= TOKEN_HEREDOC)
+	{
+		if (current->next == NULL)
+			return (syntax_error("newline"), 1);
+		if (current->next->type != TOKEN_WORD)
+			return (syntax_error(current->next->value), 1);
+	}
+	return (0);
+}
+
+static int	check_syntax(t_token *tokens)
+{
+	t_token	*current;
+
+	if (!tokens)
+		return (0);
+	if (tokens->type == TOKEN_PIPE || tokens->type == TOKEN_OR
+		|| tokens->type == TOKEN_AND)
+		return (syntax_error(tokens->value), 1);
+	current = tokens;
+	while (current)
+	{
+		if (validate_token_syntax(current))
+			return (1);
+		current = current->next;
+	}
+	return (0);
+}
+
+#else
+
+static int	validate_token_syntax(t_token *current)
+{
+	if (current->type == TOKEN_PIPE)
+	{
+		if (current->next == NULL)
+			return (syntax_error("|"), 1);
+		if (current->next->type == TOKEN_PIPE)
+			return (syntax_error("|"), 1);
+	}
 	else if (current->type >= TOKEN_REDIR_IN && current->type <= TOKEN_HEREDOC)
 	{
 		if (current->next == NULL)
@@ -46,11 +86,7 @@ static int	check_syntax(t_token *tokens)
 	if (!tokens)
 		return (0);
 	if (tokens->type == TOKEN_PIPE)
-		return (syntax_error(tokens->value), 1);
-#ifdef BONUS
-	if (tokens->type == TOKEN_OR || tokens->type == TOKEN_AND)
-		return (syntax_error(tokens->value), 1);
-#endif
+		return (syntax_error("|"), 1);
 	current = tokens;
 	while (current)
 	{
@@ -60,6 +96,8 @@ static int	check_syntax(t_token *tokens)
 	}
 	return (0);
 }
+
+#endif
 
 t_ast_node	*parser(t_token *tokens, t_shell *shell)
 {

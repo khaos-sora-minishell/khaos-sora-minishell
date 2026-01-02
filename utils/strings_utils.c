@@ -22,15 +22,22 @@ int	is_whitespace(char c)
 		|| c == '\f');
 }
 
+#ifdef BONUS
+
 int	is_special_char(char c)
 {
-#ifdef BONUS
 	return (c == '|' || c == '<' || c == '>' || c == '&' || c == '('
 		|| c == ')');
-#else
-	return (c == '|' || c == '<' || c == '>');
-#endif
 }
+
+#else
+
+int	is_special_char(char c)
+{
+	return (c == '|' || c == '<' || c == '>');
+}
+
+#endif
 
 int	is_metachar(char c)
 {
