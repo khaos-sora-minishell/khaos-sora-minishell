@@ -22,6 +22,11 @@ static int	validate_token_syntax(t_token *current)
 		if (current->next->type == TOKEN_PIPE)
 			return (syntax_error("|"), 1);
 	}
+	else if (current->type == TOKEN_OR || current->type == TOKEN_AND)
+	{
+		if (current->next == NULL)
+			return (syntax_error("newline"), 1);
+	}
 	else if (current->type >= TOKEN_REDIR_IN && current->type <= TOKEN_HEREDOC)
 	{
 		if (current->next == NULL)
@@ -38,8 +43,9 @@ static int	check_syntax(t_token *tokens)
 
 	if (!tokens)
 		return (0);
-	if (tokens->type == TOKEN_PIPE)
-		return (syntax_error("|"), 1);
+	if (tokens->type == TOKEN_PIPE || tokens->type == TOKEN_OR
+		|| tokens->type == TOKEN_AND)
+		return (syntax_error(tokens->value), 1);
 	current = tokens;
 	while (current)
 	{
