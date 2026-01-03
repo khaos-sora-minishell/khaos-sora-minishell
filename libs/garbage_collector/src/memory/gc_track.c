@@ -118,6 +118,35 @@ void	*gc_track_sized(t_gc_context *contex, void *ptr, size_t size)
  *   gc_untrack(gc, path);
  *   free(path);
  */
+static void	gc_remove_from_scope(t_gc_context *contex, t_gc_allocation *alloc)
+{
+	t_gc_scope		*scope;
+	t_gc_allocation	*current;
+	t_gc_allocation	*prev;
+
+	scope = contex->current_scope;
+	if (!scope)
+		return ;
+	prev = NULL;
+	current = scope->first;
+	while (current)
+	{
+		if (current == alloc)
+		{
+			if (prev)
+				prev->scope_next = current->scope_next;
+			else
+				scope->first = current->scope_next;
+			if (scope->last == current)
+				scope->last = prev;
+			scope->allocation_count--;
+			return ;
+		}
+		prev = current;
+		current = current->scope_next;
+	}
+}
+
 void	gc_untrack(t_gc_context *contex, void *ptr)
 {
 	t_gc_allocation	*alloc;
@@ -135,6 +164,7 @@ void	gc_untrack(t_gc_context *contex, void *ptr)
 		alloc->next->prev = alloc->prev;
 	else
 		contex->all_allocations_tail = alloc->prev;
+	gc_remove_from_scope(contex, alloc);
 	gc_hash_remove(contex, ptr);
 	contex->total_freed += alloc->size;
 	contex->current_usage -= alloc->size;

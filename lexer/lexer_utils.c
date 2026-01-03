@@ -51,6 +51,7 @@ static t_token	*parse_alias_value(char *alias_value, t_shell *shell)
 				gc_strdup(shell->cmd_arena, words[i]), shell->cmd_arena);
 		if (new_token)
 			add_token(&token_list, new_token);
+		free(words[i]);
 		i++;
 	}
 	free(words);

@@ -21,12 +21,14 @@
 static t_builtin	*get_builtins(void)
 {
 	static t_builtin	builtins[] = {
+	{"alias", builtin_alias},
 	{"cd", builtin_cd},
 	{"echo", builtin_echo},
 	{"env", builtin_env},
 	{"exit", builtin_exit},
 	{"export", builtin_export},
 	{"pwd", builtin_pwd},
+	{"unalias", builtin_unalias},
 	{"unset", builtin_unset},
 	{NULL, NULL}};
 

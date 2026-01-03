@@ -57,6 +57,7 @@ void	load_shellrc(t_shell *shell)
 		process_config_line(shell, line);
 		free(line);
 	}
+	get_next_line(-1);
 	close(fd);
 }
 

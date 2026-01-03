@@ -23,7 +23,8 @@ BUILTINS_SRC = cd/builtin_cd.c \
 			   exit/builtin_exit.c \
 			   export/builtin_export.c export/builtin_expot_utils.c \
 			   pwd/builtin_pwd.c \
-			   unset/builtin_unset.c
+			   unset/builtin_unset.c \
+			   builtin_alias_bonus.c builtin_unalias_bonus.c
 
 BONUS_BUILTINS = builtin_alias_bonus.c builtin_unalias_bonus.c
 
@@ -114,7 +115,7 @@ debug: re
 
 valgrind: $(NAME)
 	@valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes \
-		--suppressions=readline.supp ./$(NAME)
+		--track-fds=yes --suppressions=readline.supp ./$(NAME)
 
 norm:
 	@echo "$(YELLOW)Checking norminette...$(RESET)"

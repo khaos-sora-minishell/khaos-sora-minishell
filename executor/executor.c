@@ -23,4 +23,6 @@ void	executor_run(t_shell *shell)
 	dup2(shell->stdout_backup, STDOUT_FILENO);
 	close(shell->stdin_backup);
 	close(shell->stdout_backup);
+	shell->stdin_backup = -1;
+	shell->stdout_backup = -1;
 }

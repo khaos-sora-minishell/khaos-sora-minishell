@@ -161,8 +161,11 @@ typedef struct s_shell
 
 	int					stdin_backup;
 	int					stdout_backup;
+	int					redir_stdin_backup;
+	int					redir_stdout_backup;
 	int					history_fd;
 	char				*history_file;
+	char				*current_input;
 }						t_shell;
 
 t_env_table				*initialize_env_table(char **envp, void *arena);

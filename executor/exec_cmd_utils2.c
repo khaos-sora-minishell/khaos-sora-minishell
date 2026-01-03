@@ -62,19 +62,18 @@ void	exec_child_process(t_cmd *cmd, t_shell *shell)
 
 void	execute_builtin_with_redir(t_cmd *cmd, t_shell *shell)
 {
-	int	saved_stdin;
-	int	saved_stdout;
-
-	saved_stdin = dup(STDIN_FILENO);
-	saved_stdout = dup(STDOUT_FILENO);
+	shell->redir_stdin_backup = dup(STDIN_FILENO);
+	shell->redir_stdout_backup = dup(STDOUT_FILENO);
 	if (setup_redirections(cmd->redirs, shell) == 0)
 		shell->exit_status = execute_builtin(cmd->args, shell);
 	else
 		shell->exit_status = 1;
-	dup2(saved_stdin, STDIN_FILENO);
-	dup2(saved_stdout, STDOUT_FILENO);
-	close(saved_stdin);
-	close(saved_stdout);
+	dup2(shell->redir_stdin_backup, STDIN_FILENO);
+	dup2(shell->redir_stdout_backup, STDOUT_FILENO);
+	close(shell->redir_stdin_backup);
+	close(shell->redir_stdout_backup);
+	shell->redir_stdin_backup = -1;
+	shell->redir_stdout_backup = -1;
 	clean_heredoc(cmd);
 }
 

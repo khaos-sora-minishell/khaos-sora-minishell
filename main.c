@@ -36,6 +36,11 @@ void	init_shell(t_shell *shell, char **envp)
 	shell->terminal_name = "minishell";
 	shell->terminal_name_color = NULL;
 	shell->terminal_bg_color = NULL;
+	shell->stdin_backup = -1;
+	shell->stdout_backup = -1;
+	shell->redir_stdin_backup = -1;
+	shell->redir_stdout_backup = -1;
+	shell->current_input = NULL;
 	init_history(shell);
 	create_shellrc(shell);
 	shell->exit_status = 0;
@@ -52,6 +57,20 @@ void	cleanup_shell(t_shell *shell)
 {
 	save_history_file(shell);
 	rl_clear_history();
+	get_next_line(-1);
+	if (shell->current_input)
+	{
+		free(shell->current_input);
+		shell->current_input = NULL;
+	}
+	if (shell->stdin_backup > 2)
+		close(shell->stdin_backup);
+	if (shell->stdout_backup > 2)
+		close(shell->stdout_backup);
+	if (shell->redir_stdin_backup > 2)
+		close(shell->redir_stdin_backup);
+	if (shell->redir_stdout_backup > 2)
+		close(shell->redir_stdout_backup);
 	if (shell->global_arena)
 		gc_destroy(shell->global_arena);
 	if (shell->cmd_arena)
@@ -93,8 +112,10 @@ int	main(int argc, char const *argv[], char **envp)
 				ft_printf("exit\n");
 			break ;
 		}
+		shell.current_input = input;
 		process_input(&shell, input);
-		free(input);
+		free(shell.current_input);
+		shell.current_input = NULL;
 		clean_loop(&shell);
 	}
 	clean_loop(&shell);

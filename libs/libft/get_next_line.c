@@ -42,7 +42,10 @@ static char	*update_stash(char *stash)
 		free(stash);
 		return (NULL);
 	}
-	new_stash = ft_strdup(new_line + 1);
+	if (*(new_line + 1))
+		new_stash = ft_strdup(new_line + 1);
+	else
+		new_stash = NULL;
 	free(stash);
 	return (new_stash);
 }
