@@ -179,7 +179,8 @@ void					add_env_entry(t_env_table *table, char *env_str,
 							t_gc_context *contex);
 void					set_default_shell_vars(t_env_table *table, void *arena);
 void					set_default_env_vars(t_env_table *table, void *arena);
-void					set_default_prompt_vars(t_env_table *table, void *arena);
+void					set_default_prompt_vars(t_env_table *table,
+							void *arena);
 void					mark_env_as_exported(t_env_table *table, char *key);
 
 unsigned long			fnv1a_hash(char *str);
@@ -192,6 +193,12 @@ char					**parse_path(t_shell *shell);
 
 char					*get_prompt(t_shell *shell);
 char					*read_multiline(t_shell *shell);
+void					build_prompt_colors(t_shell *shell, char **prompt);
+char					*join_lines(char *input, char *next_line);
+char					*remove_trailing_newline(char *str);
+char					*get_continuation_line(char quote);
+void					clean_loop(t_shell *shell);
+void					process_input(t_shell *shell, char *input);
 
 char					*find_command_path(char *cmd, t_shell *shell);
 

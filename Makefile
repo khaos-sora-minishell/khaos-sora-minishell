@@ -13,7 +13,7 @@ EXPANDER_SRC = expander.c wildcard.c expand_args.c \
 
 EXECUTOR_SRC = executor.c exec_ast.c exec_builtin.c exec_cmd.c \
 			   exec_cmd_utils1.c exec_cmd_utils2.c exec_pipe.c redirections.c \
-			   here_doc_utils1.c here_doc_utils2.c here_doc_manager.c
+			   here_doc_utils1.c here_doc_utils2.c here_doc_utils3.c here_doc_manager.c
 
 EXEC_ERROR_SRC = executor_error.c executer_error2.c
 
@@ -32,9 +32,9 @@ ENV_SRC		= env_manager.c env_manager_utils.c env_manager_utils2.c env_crypto.c e
 
 SIGNALS_SRC	= signals.c signal_state.c
 
-UTILS_SRC	= error.c strings.c strings_utils.c
+UTILS_SRC	= error.c ft_atoll.c strings.c strings_utils.c
 
-SRCS = main.c prompt.c history_manager.c config_loader.c \
+SRCS = main.c main_utils.c prompt.c prompt_utils.c history_manager.c config_loader.c \
 	   $(addprefix lexer/, $(LEXER_SRC)) \
 	   $(addprefix parser/, $(PARSER_SRC)) \
 	   $(addprefix expander/, $(EXPANDER_SRC)) \
@@ -65,6 +65,13 @@ LDFLAGS			= -lreadline -lncurses
 
 RM				= rm -f
 
+# Verbose mode (use V=1 for verbose output)
+ifeq ($(V),1)
+Q =
+else
+Q = @
+endif
+
 # Colors
 GREEN			= \033[0;32m
 YELLOW			= \033[0;33m
@@ -76,37 +83,44 @@ all: $(NAME)
 $(NAME): .mandatory
 
 .mandatory: $(OBJS) $(LIBFT_LIB) $(GC_LIB)
-	@echo "$(YELLOW)Linking $(NAME)...$(RESET)"
-	@$(CC) $(OBJS) $(LIBFT_LIB) $(GC_LIB) $(LDFLAGS) -o $(NAME)
-	@touch .mandatory
-	@rm -f .bonus
-	@echo "$(GREEN)✓ Successfully built $(NAME)!$(RESET)"
+	$(Q)if [ -f .bonus ]; then \
+		echo "$(YELLOW)Linking $(NAME)...$(RESET)"; \
+		$(CC) $(OBJS) $(LIBFT_LIB) $(GC_LIB) $(LDFLAGS) -o $(NAME); \
+		rm -f .bonus; \
+		touch .mandatory; \
+		echo "$(GREEN)✓ Successfully built $(NAME)!$(RESET)"; \
+	elif [ ! -f .mandatory ]; then \
+		echo "$(YELLOW)Linking $(NAME)...$(RESET)"; \
+		$(CC) $(OBJS) $(LIBFT_LIB) $(GC_LIB) $(LDFLAGS) -o $(NAME); \
+		touch .mandatory; \
+		echo "$(GREEN)✓ Successfully built $(NAME)!$(RESET)"; \
+	fi
 
 $(OBJ_DIR)/%.o: %.c
-	@mkdir -p $(@D)
-	@echo "$(YELLOW)Compiling $<...$(RESET)"
-	@$(CC) $(CFLAGS) -c $< -o $@
+	$(Q)mkdir -p $(@D)
+	$(Q)echo "$(YELLOW)Compiling $<...$(RESET)"
+	$(Q)$(CC) $(CFLAGS) -c $< -o $@
 
 $(LIBFT_LIB):
-	@echo "$(YELLOW)Building Libft...$(RESET)"
-	@make -s -C $(LIBFT_DIR)
+	$(Q)echo "$(YELLOW)Building Libft...$(RESET)"
+	$(Q)make -s -C $(LIBFT_DIR)
 
 $(GC_LIB):
-	@echo "$(YELLOW)Building garbage collector...$(RESET)"
-	@make -s -C $(GC_DIR)
+	$(Q)echo "$(YELLOW)Building garbage collector...$(RESET)"
+	$(Q)make -s -C $(GC_DIR)
 
 clean:
-	@if [ -d "$(LIBFT_DIR)" ]; then make -s -C $(LIBFT_DIR) clean; fi
-	@if [ -d "$(GC_DIR)" ]; then make -s -C $(GC_DIR) clean; fi
-	@$(RM) -r $(OBJ_DIR) obj_bonus
-	@$(RM) .mandatory .bonus
-	@echo "$(RED)Cleaned object files.$(RESET)"
+	$(Q)if [ -d "$(LIBFT_DIR)" ]; then make -s -C $(LIBFT_DIR) clean; fi
+	$(Q)if [ -d "$(GC_DIR)" ]; then make -s -C $(GC_DIR) clean; fi
+	$(Q)$(RM) -r $(OBJ_DIR) obj_bonus
+	$(Q)$(RM) .mandatory .bonus
+	$(Q)echo "$(RED)Cleaned object files.$(RESET)"
 
 fclean: clean
-	@if [ -d "$(LIBFT_DIR)" ]; then make -s -C $(LIBFT_DIR) fclean; fi
-	@if [ -d "$(GC_DIR)" ]; then make -s -C $(GC_DIR) fclean; fi
-	@$(RM) $(NAME) .mandatory .bonus
-	@echo "$(RED)Removed binary: $(NAME).$(RESET)"
+	$(Q)if [ -d "$(LIBFT_DIR)" ]; then make -s -C $(LIBFT_DIR) fclean; fi
+	$(Q)if [ -d "$(GC_DIR)" ]; then make -s -C $(GC_DIR) fclean; fi
+	$(Q)$(RM) $(NAME) .mandatory .bonus
+	$(Q)echo "$(RED)Removed binary: $(NAME).$(RESET)"
 
 re: fclean all
 
@@ -114,30 +128,53 @@ debug: CFLAGS += -g
 debug: re
 
 valgrind: $(NAME)
-	@valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes \
+	$(Q)valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes \
 		--track-fds=yes --suppressions=readline.supp ./$(NAME)
 
 norm:
-	@echo "$(YELLOW)Checking norminette...$(RESET)"
-	@norminette main.c history_manager.c config_loader.c lexer parser expander executor \
+	$(Q)echo "$(YELLOW)Checking norminette...$(RESET)"
+	$(Q)norminette main.c history_manager.c config_loader.c lexer parser expander executor \
 		builtins env signals executor_utils utils includes 2>&1 | grep -v "OK!" || echo "$(GREEN)✓ Norminette OK!$(RESET)"
+
+time:
+	$(Q)echo "$(YELLOW)=== Mandatory Object Files (obj/) ===$(RESET)"
+	$(Q)if [ -d "$(OBJ_DIR)" ]; then \
+		find $(OBJ_DIR) -name "*.o" -exec ls -lht {} \; | head -10; \
+	else \
+		echo "$(RED)No mandatory objects found$(RESET)"; \
+	fi
+	$(Q)echo "\n$(YELLOW)=== Bonus Object Files (obj_bonus/) ===$(RESET)"
+	$(Q)if [ -d "$(BONUS_OBJ_DIR)" ]; then \
+		find $(BONUS_OBJ_DIR) -name "*.o" -exec ls -lht {} \; | head -10; \
+	else \
+		echo "$(RED)No bonus objects found$(RESET)"; \
+	fi
+	$(Q)echo "\n$(YELLOW)=== Build Markers ===$(RESET)"
+	$(Q)ls -lht .mandatory .bonus $(NAME) 2>/dev/null || echo "$(RED)No markers found$(RESET)"
 
 # Bonus: mandatory + bonus features (uses separate obj directory)
 BONUS_OBJ_DIR = obj_bonus
 BONUS_OBJS = $(addprefix $(BONUS_OBJ_DIR)/, $(SRCS:.c=.o))
 
 $(BONUS_OBJ_DIR)/%.o: %.c
-	@mkdir -p $(@D)
-	@echo "$(YELLOW)Compiling $< (bonus)...$(RESET)"
-	@$(CC) $(CFLAGS) -DBONUS -c $< -o $@
+	$(Q)mkdir -p $(@D)
+	$(Q)echo "$(YELLOW)Compiling $< (bonus)...$(RESET)"
+	$(Q)$(CC) $(CFLAGS) -DBONUS -c $< -o $@
 
 bonus: .bonus
 
 .bonus: $(BONUS_OBJS) $(LIBFT_LIB) $(GC_LIB)
-	@echo "$(YELLOW)Linking $(NAME) with bonus...$(RESET)"
-	@$(CC) $(BONUS_OBJS) $(LIBFT_LIB) $(GC_LIB) $(LDFLAGS) -o $(NAME)
-	@touch .bonus
-	@rm -f .mandatory
-	@echo "$(GREEN)✓ Built with bonus features!$(RESET)"
+	$(Q)if [ -f .mandatory ]; then \
+		echo "$(YELLOW)Linking $(NAME) with bonus...$(RESET)"; \
+		$(CC) $(BONUS_OBJS) $(LIBFT_LIB) $(GC_LIB) $(LDFLAGS) -o $(NAME); \
+		rm -f .mandatory; \
+		touch .bonus; \
+		echo "$(GREEN)✓ Built with bonus features!$(RESET)"; \
+	elif [ ! -f .bonus ]; then \
+		echo "$(YELLOW)Linking $(NAME) with bonus...$(RESET)"; \
+		$(CC) $(BONUS_OBJS) $(LIBFT_LIB) $(GC_LIB) $(LDFLAGS) -o $(NAME); \
+		touch .bonus; \
+		echo "$(GREEN)✓ Built with bonus features!$(RESET)"; \
+	fi
 
-.PHONY: all clean fclean re debug valgrind norm bonus
+.PHONY: all clean fclean re debug valgrind norm time bonus

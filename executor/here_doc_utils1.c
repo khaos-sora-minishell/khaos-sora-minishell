@@ -50,18 +50,13 @@ static size_t	calculate_expanded_length(char *line, t_shell *shell)
 	return (len);
 }
 
-char	*expand_heredoc_line(char *line, t_shell *shell)
+static void	copy_and_expand(char *line, char *result, t_shell *shell)
 {
-	char	*result;
 	int		i;
 	int		j;
 	char	*expanded;
 	int		exp_len;
 
-	result = gc_malloc(shell->cmd_arena,
-			calculate_expanded_length(line, shell) + 1);
-	if (!result)
-		return (line);
 	i = 0;
 	j = 0;
 	while (line[i])
@@ -77,6 +72,17 @@ char	*expand_heredoc_line(char *line, t_shell *shell)
 			result[j++] = line[i++];
 	}
 	result[j] = '\0';
+}
+
+char	*expand_heredoc_line(char *line, t_shell *shell)
+{
+	char	*result;
+
+	result = gc_malloc(shell->cmd_arena,
+			calculate_expanded_length(line, shell) + 1);
+	if (!result)
+		return (line);
+	copy_and_expand(line, result, shell);
 	return (result);
 }
 

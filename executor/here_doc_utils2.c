@@ -14,6 +14,7 @@
 #include "libft.h"
 #include "minishell.h"
 #include <fcntl.h>
+#include <readline/readline.h>
 #include <stdlib.h>
 #include <sys/stat.h>
 #include "utils.h"

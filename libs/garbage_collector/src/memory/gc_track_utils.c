@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 22:10:00 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/31 20:56:44 by akivam           ###   ########.fr       */
+/*   Updated: 2026/01/04 21:22:24 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,22 @@ void	gc_update_stats(t_gc_context *contex, size_t size)
 	contex->allocation_count++;
 	if (contex->current_usage > contex->peak_usage)
 		contex->peak_usage = contex->current_usage;
+}
+
+/*
+ * Add metadata to global doubly-linked list
+ */
+void	gc_add_to_global(t_gc_context *contex, t_gc_allocation *meta)
+{
+	if (!contex->all_allocations)
+	{
+		contex->all_allocations = meta;
+		contex->all_allocations_tail = meta;
+	}
+	else
+	{
+		meta->prev = contex->all_allocations_tail;
+		contex->all_allocations_tail->next = meta;
+		contex->all_allocations_tail = meta;
+	}
 }

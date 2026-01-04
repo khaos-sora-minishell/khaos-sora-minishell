@@ -13,6 +13,34 @@
 #include "libft.h"
 #include "minishell.h"
 #include "garbage_collector.h"
+#include "utils.h"
+
+void	add_env_entry(t_env_table *table, char *env_str,
+		t_gc_context *contex)
+{
+	char			*eq_pos;
+	char			*key;
+	unsigned long	idx;
+	t_env_bucket	*current;
+
+	eq_pos = ft_strchr(env_str, '=');
+	if (eq_pos)
+	{
+		key = gc_strndup(contex, env_str, eq_pos - env_str);
+		env_set(table, key, eq_pos + 1, contex);
+		idx = fnv1a_hash(key);
+		current = table->buckets[idx];
+		while (current)
+		{
+			if (ft_strcmp(current->key, key) == 0)
+			{
+				current->_is_exported = 1;
+				break ;
+			}
+			current = current->next;
+		}
+	}
+}
 
 void	set_default_shell_vars(t_env_table *table, void *arena)
 {
