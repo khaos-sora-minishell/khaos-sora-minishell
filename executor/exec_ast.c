@@ -39,6 +39,8 @@ static void	exec_subshell(t_ast_node *ast, t_shell *shell)
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
 		shell->exit_status = WEXITSTATUS(status);
+	if (ast->subshell_node)
+		clean_ast_heredocs(ast->subshell_node);
 }
 
 int	execute_ast(t_ast_node *ast, t_shell *shell)

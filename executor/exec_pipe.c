@@ -57,4 +57,6 @@ void	execute_pipe(t_ast_node *left, t_ast_node *right, t_shell *shell)
 	waitpid(right_pid, &status, 0);
 	if (WIFEXITED(status))
 		shell->exit_status = WEXITSTATUS(status);
+	clean_ast_heredocs(left);
+	clean_ast_heredocs(right);
 }

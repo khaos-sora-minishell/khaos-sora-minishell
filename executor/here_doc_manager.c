@@ -69,3 +69,25 @@ void	clean_heredoc(t_cmd *cmd)
 		redirection = redirection->next;
 	}
 }
+
+void	clean_ast_heredocs(t_ast_node *ast)
+{
+	if (!ast)
+		return ;
+	if (ast->type == NODE_CMD && ast->cmd)
+		clean_heredoc(ast->cmd);
+	else if (ast->type == NODE_PIPE)
+	{
+		clean_ast_heredocs(ast->left);
+		clean_ast_heredocs(ast->right);
+	}
+#ifdef BONUS
+	else if (ast->type == NODE_AND || ast->type == NODE_OR)
+	{
+		clean_ast_heredocs(ast->left);
+		clean_ast_heredocs(ast->right);
+	}
+	else if (ast->type == NODE_SUBSHELL && ast->subshell_node)
+		clean_ast_heredocs(ast->subshell_node);
+#endif
+}
