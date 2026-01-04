@@ -36,7 +36,7 @@ static char	*read_heredoc_input(char *prompt, int interactive)
 	return (line);
 }
 
-void	read_heredoc_loop(int fd, char *delim, int should_expand, t_shell *shell)
+void	read_heredoc_loop(int fd, t_redir *redir, t_shell *shell)
 {
 	char	*prompt;
 	char	*line;
@@ -52,7 +52,7 @@ void	read_heredoc_loop(int fd, char *delim, int should_expand, t_shell *shell)
 		if (get_signal() == SIGINT)
 			break ;
 		line = read_heredoc_input(prompt, interactive);
-		if (process_heredoc_line(line, delim, fd, should_expand, shell))
+		if (process_heredoc_line(line, fd, redir, shell))
 			break ;
 	}
 }

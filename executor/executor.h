@@ -24,10 +24,9 @@ int		setup_redirections(t_redir *redirs, t_shell *shell);
 
 int		heredoc_signal_checker(void);
 char	*expand_heredoc_line(char *line, t_shell *shell);
-int		process_heredoc_line(char *line, char *delim, int fd, int should_expand,
+int		process_heredoc_line(char *line, int fd, t_redir *redir,
 			t_shell *shell);
-void	read_heredoc_loop(int fd, char *delim, int should_expand,
-			t_shell *shell);
+void	read_heredoc_loop(int fd, t_redir *redir, t_shell *shell);
 char	*get_heredoc_filename(int counter, t_shell *shell);
 int		create_heredoc_dir(void);
 int		process_cmd_heredoc(t_cmd *cmd, t_shell *shell);

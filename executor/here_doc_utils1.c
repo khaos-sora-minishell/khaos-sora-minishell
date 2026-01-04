@@ -80,8 +80,7 @@ char	*expand_heredoc_line(char *line, t_shell *shell)
 	return (result);
 }
 
-int	process_heredoc_line(char *line, char *delim, int fd, int should_expand,
-		t_shell *shell)
+int	process_heredoc_line(char *line, int fd, t_redir *redir, t_shell *shell)
 {
 	char	*expanded;
 
@@ -93,12 +92,12 @@ int	process_heredoc_line(char *line, char *delim, int fd, int should_expand,
 	}
 	if (!line)
 		return (1);
-	if (ft_strcmp(line, delim) == 0)
+	if (ft_strcmp(line, redir->delimiter) == 0)
 	{
 		free(line);
 		return (1);
 	}
-	if (should_expand)
+	if (redir->should_expand)
 	{
 		expanded = expand_heredoc_line(line, shell);
 		ft_putendl_fd(expanded, fd);

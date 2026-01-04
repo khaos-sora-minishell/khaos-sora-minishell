@@ -25,7 +25,7 @@ static int	handle_heredoc_entry(t_redir *redir, int cnt, t_shell *shell)
 	fd = open(redir->heredoc_tmpfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
 		return (perror("heredoc open"), -1);
-	read_heredoc_loop(fd, redir->delimiter, redir->should_expand, shell);
+	read_heredoc_loop(fd, redir, shell);
 	close(fd);
 	if (get_signal() == SIGINT)
 		return (-1);
@@ -70,6 +70,8 @@ void	clean_heredoc(t_cmd *cmd)
 	}
 }
 
+#ifdef BONUS
+
 int	process_ast_heredocs(t_ast_node *ast, t_shell *shell)
 {
 	if (!ast)
@@ -83,7 +85,6 @@ int	process_ast_heredocs(t_ast_node *ast, t_shell *shell)
 		if (process_ast_heredocs(ast->right, shell) == -1)
 			return (-1);
 	}
-#ifdef BONUS
 	else if (ast->type == NODE_AND || ast->type == NODE_OR)
 	{
 		if (process_ast_heredocs(ast->left, shell) == -1)
@@ -93,7 +94,6 @@ int	process_ast_heredocs(t_ast_node *ast, t_shell *shell)
 	}
 	else if (ast->type == NODE_SUBSHELL && ast->subshell_node)
 		return (process_ast_heredocs(ast->subshell_node, shell));
-#endif
 	return (0);
 }
 
@@ -108,7 +108,6 @@ void	clean_ast_heredocs(t_ast_node *ast)
 		clean_ast_heredocs(ast->left);
 		clean_ast_heredocs(ast->right);
 	}
-#ifdef BONUS
 	else if (ast->type == NODE_AND || ast->type == NODE_OR)
 	{
 		clean_ast_heredocs(ast->left);
@@ -116,5 +115,37 @@ void	clean_ast_heredocs(t_ast_node *ast)
 	}
 	else if (ast->type == NODE_SUBSHELL && ast->subshell_node)
 		clean_ast_heredocs(ast->subshell_node);
-#endif
 }
+
+#else
+
+int	process_ast_heredocs(t_ast_node *ast, t_shell *shell)
+{
+	if (!ast)
+		return (0);
+	if (ast->type == NODE_CMD && ast->cmd)
+		return (process_cmd_heredoc(ast->cmd, shell));
+	else if (ast->type == NODE_PIPE)
+	{
+		if (process_ast_heredocs(ast->left, shell) == -1)
+			return (-1);
+		if (process_ast_heredocs(ast->right, shell) == -1)
+			return (-1);
+	}
+	return (0);
+}
+
+void	clean_ast_heredocs(t_ast_node *ast)
+{
+	if (!ast)
+		return ;
+	if (ast->type == NODE_CMD && ast->cmd)
+		clean_heredoc(ast->cmd);
+	else if (ast->type == NODE_PIPE)
+	{
+		clean_ast_heredocs(ast->left);
+		clean_ast_heredocs(ast->right);
+	}
+}
+
+#endif
