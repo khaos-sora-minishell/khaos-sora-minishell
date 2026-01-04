@@ -13,6 +13,58 @@
 #include "minishell.h"
 #include "parser.h"
 
+static int	heredoc_has_outer_quotes(char *str, char *quote_char)
+{
+	int	len;
+
+	if (!str || !*str)
+		return (0);
+	len = ft_strlen(str);
+	if (len >= 2 && ((str[0] == '\'' && str[len - 1] == '\'')
+			|| (str[0] == '\"' && str[len - 1] == '\"')))
+	{
+		*quote_char = str[0];
+		return (1);
+	}
+	return (0);
+}
+
+static char	*heredoc_strip_quotes(char *str, void *arena)
+{
+	int		len;
+	char	*result;
+	int		i;
+
+	len = ft_strlen(str);
+	if (len < 2)
+		return (gc_strdup(arena, str));
+	result = gc_malloc(arena, len - 1);
+	if (!result)
+		return (NULL);
+	i = 0;
+	while (i < len - 2)
+	{
+		result[i] = str[i + 1];
+		i++;
+	}
+	result[i] = '\0';
+	return (result);
+}
+
+char	*parse_heredoc_delimiter(char *raw_delim, int *should_expand,
+		void *arena)
+{
+	char	quote_char;
+
+	if (heredoc_has_outer_quotes(raw_delim, &quote_char))
+	{
+		*should_expand = 0;
+		return (heredoc_strip_quotes(raw_delim, arena));
+	}
+	*should_expand = 1;
+	return (gc_strdup(arena, raw_delim));
+}
+
 t_redir	*create_redir(t_token_type type, char *file, void *arena)
 {
 	t_redir	*redir;
@@ -23,13 +75,15 @@ t_redir	*create_redir(t_token_type type, char *file, void *arena)
 	redir->type = type;
 	if (type == TOKEN_HEREDOC)
 	{
-		redir->delimiter = gc_strdup(arena, file);
+		redir->delimiter = parse_heredoc_delimiter(file, &redir->should_expand,
+				arena);
 		redir->file = NULL;
 	}
 	else
 	{
 		redir->file = gc_strdup(arena, file);
 		redir->delimiter = NULL;
+		redir->should_expand = 0;
 	}
 	redir->heredoc_tmpfile = NULL;
 	redir->next = NULL;

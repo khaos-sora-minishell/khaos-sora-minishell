@@ -25,7 +25,7 @@ static int	handle_heredoc_entry(t_redir *redir, int cnt, t_shell *shell)
 	fd = open(redir->heredoc_tmpfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
 		return (perror("heredoc open"), -1);
-	read_heredoc_loop(fd, redir->delimiter, shell);
+	read_heredoc_loop(fd, redir->delimiter, redir->should_expand, shell);
 	close(fd);
 	if (get_signal() == SIGINT)
 		return (-1);

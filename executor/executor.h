@@ -23,8 +23,11 @@ void	execute_pipe(t_ast_node *left, t_ast_node *right, t_shell *shell);
 int		setup_redirections(t_redir *redirs, t_shell *shell);
 
 int		heredoc_signal_checker(void);
-int		process_heredoc_line(char *line, char *delim, int fd);
-void	read_heredoc_loop(int fd, char *delim, t_shell *shell);
+char	*expand_heredoc_line(char *line, t_shell *shell);
+int		process_heredoc_line(char *line, char *delim, int fd, int should_expand,
+			t_shell *shell);
+void	read_heredoc_loop(int fd, char *delim, int should_expand,
+			t_shell *shell);
 char	*get_heredoc_filename(int counter, t_shell *shell);
 int		create_heredoc_dir(void);
 int		process_cmd_heredoc(t_cmd *cmd, t_shell *shell);

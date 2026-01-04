@@ -31,5 +31,7 @@ t_cmd		*create_cmd(void *arena);
 void		add_arg_to_cmd(t_cmd *cmd, char *arg, void *arena);
 t_redir		*create_redir(t_token_type type, char *file, void *arena);
 void		add_redir(t_redir **list, t_redir *new_redir);
+char		*parse_heredoc_delimiter(char *raw_delim, int *should_expand,
+				void *arena);
 
 #endif

@@ -107,6 +107,7 @@ typedef struct s_redir
 	char				*file;
 	char				*delimiter;
 	char				*heredoc_tmpfile;
+	int					should_expand;
 	struct s_redir		*next;
 }						t_redir;
 

@@ -26,8 +26,65 @@ int	heredoc_signal_checker(void)
 	return (0);
 }
 
-int	process_heredoc_line(char *line, char *delim, int fd)
+static size_t	calculate_expanded_length(char *line, t_shell *shell)
 {
+	size_t	len;
+	int		i;
+	char	*expanded;
+
+	len = 0;
+	i = 0;
+	while (line[i])
+	{
+		if (line[i] == '$')
+		{
+			expanded = process_dollar(line, &i, shell);
+			len += gc_strlen(expanded);
+		}
+		else
+		{
+			len++;
+			i++;
+		}
+	}
+	return (len);
+}
+
+char	*expand_heredoc_line(char *line, t_shell *shell)
+{
+	char	*result;
+	int		i;
+	int		j;
+	char	*expanded;
+	int		exp_len;
+
+	result = gc_malloc(shell->cmd_arena,
+			calculate_expanded_length(line, shell) + 1);
+	if (!result)
+		return (line);
+	i = 0;
+	j = 0;
+	while (line[i])
+	{
+		if (line[i] == '$')
+		{
+			expanded = process_dollar(line, &i, shell);
+			exp_len = gc_strlen(expanded);
+			ft_memcpy(result + j, expanded, exp_len);
+			j += exp_len;
+		}
+		else
+			result[j++] = line[i++];
+	}
+	result[j] = '\0';
+	return (result);
+}
+
+int	process_heredoc_line(char *line, char *delim, int fd, int should_expand,
+		t_shell *shell)
+{
+	char	*expanded;
+
 	if (get_signal() == SIGINT)
 	{
 		if (line)
@@ -41,7 +98,13 @@ int	process_heredoc_line(char *line, char *delim, int fd)
 		free(line);
 		return (1);
 	}
-	ft_putendl_fd(line, fd);
+	if (should_expand)
+	{
+		expanded = expand_heredoc_line(line, shell);
+		ft_putendl_fd(expanded, fd);
+	}
+	else
+		ft_putendl_fd(line, fd);
 	free(line);
 	return (0);
 }
