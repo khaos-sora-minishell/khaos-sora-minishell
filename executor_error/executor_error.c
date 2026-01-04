@@ -31,7 +31,7 @@ void	exit_with_error(char *cmd, char *msg, int code, t_shell *shell)
 {
 	print_execution_error(cmd, msg);
 	if (shell)
-		cleanup_shell(shell);
+		cleanup_child_process(shell);
 	exit(code);
 }
 

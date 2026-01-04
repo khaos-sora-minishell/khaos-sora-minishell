@@ -33,7 +33,7 @@ static void	exec_subshell(t_ast_node *ast, t_shell *shell)
 	{
 		if (ast->subshell_node)
 			execute_ast(ast->subshell_node, shell);
-		cleanup_shell(shell);
+		cleanup_child_process(shell);
 		exit(shell->exit_status);
 	}
 	waitpid(pid, &status, 0);

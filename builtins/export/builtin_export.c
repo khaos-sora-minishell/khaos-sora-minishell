@@ -80,10 +80,22 @@ static int	export_arg(char *arg, t_shell *shell)
 	return (mark_as_exported(shell->env_table, key), 0);
 }
 
+static int	is_path_variable(char *arg)
+{
+	if (!arg)
+		return (0);
+	if (ft_strncmp(arg, "PATH=", 5) == 0)
+		return (1);
+	if (ft_strcmp(arg, "PATH") == 0)
+		return (1);
+	return (0);
+}
+
 int	builtin_export(char **args, t_shell *shell)
 {
 	int	i;
 	int	ret;
+	int	path_changed;
 
 	if (!args[1])
 	{
@@ -92,13 +104,18 @@ int	builtin_export(char **args, t_shell *shell)
 	}
 	i = 1;
 	ret = 0;
+	path_changed = 0;
 	while (args[i])
 	{
+		if (is_path_variable(args[i]))
+			path_changed = 1;
 		if (export_arg(args[i], shell) != 0)
 			ret = 1;
 		i++;
 	}
 	shell->env_array = env_table_to_array(shell->env_table,
 			shell->global_arena);
+	if (path_changed)
+		shell->path_dirs = parse_path(shell);
 	return (ret);
 }

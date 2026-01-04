@@ -23,7 +23,7 @@ void	set_default_prompt_vars(t_env_table *table, void *arena)
 		env_set(table, "PS2", "> ", arena);
 }
 
-static void	mark_env_as_exported(t_env_table *table, char *key)
+void	mark_env_as_exported(t_env_table *table, char *key)
 {
 	unsigned long	idx;
 	t_env_bucket	*current;

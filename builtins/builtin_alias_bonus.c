@@ -27,6 +27,7 @@ static void	print_all_aliases(t_shell *shell)
 {
 	int				i;
 	t_env_bucket	*node;
+	char			*decrypted_val;
 
 	i = -1;
 	while (++i < ENV_TABLE_SIZE)
@@ -35,7 +36,12 @@ static void	print_all_aliases(t_shell *shell)
 		while (node)
 		{
 			if (node->value)
-				ft_printf("alias %s='%s'\n", node->key, node->value);
+			{
+				decrypted_val = env_get(shell->alias_table, node->key,
+						shell->cmd_arena);
+				if (decrypted_val)
+					ft_printf("alias %s='%s'\n", node->key, decrypted_val);
+			}
 			node = node->next;
 		}
 	}

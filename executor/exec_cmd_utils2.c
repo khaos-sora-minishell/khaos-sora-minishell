@@ -31,7 +31,7 @@ void	validate_and_execute(char *cmd_path, t_cmd *cmd, t_shell *shell)
 		handle_permission_denied(cmd_path, shell);
 	execve(cmd_path, cmd->args, shell->env_array);
 	perror("minishell: execve");
-	cleanup_shell(shell);
+	cleanup_child_process(shell);
 	exit(1);
 }
 
@@ -42,12 +42,12 @@ void	exec_child_process(t_cmd *cmd, t_shell *shell)
 	setup_child_signals();
 	if (setup_redirections(cmd->redirs, shell) == -1)
 	{
-		cleanup_shell(shell);
+		cleanup_child_process(shell);
 		exit(1);
 	}
 	if (!cmd->args[0])
 	{
-		cleanup_shell(shell);
+		cleanup_child_process(shell);
 		exit(0);
 	}
 	if (ft_strcmp(cmd->args[0], ".") == 0)

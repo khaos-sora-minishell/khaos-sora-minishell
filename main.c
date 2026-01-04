@@ -53,9 +53,8 @@ static void	clean_loop(t_shell *shell)
 	shell->ast_root = NULL;
 }
 
-void	cleanup_shell(t_shell *shell)
+void	cleanup_child_process(t_shell *shell)
 {
-	save_history_file(shell);
 	rl_clear_history();
 	get_next_line(-1);
 	if (shell->current_input)
@@ -75,6 +74,12 @@ void	cleanup_shell(t_shell *shell)
 		gc_destroy(shell->global_arena);
 	if (shell->cmd_arena)
 		gc_destroy(shell->cmd_arena);
+}
+
+void	cleanup_shell(t_shell *shell)
+{
+	save_history_file(shell);
+	cleanup_child_process(shell);
 }
 
 static void	process_input(t_shell *shell, char *input)

@@ -18,7 +18,7 @@ static void	exec_left_pipe(t_ast_node *left, t_shell *shell, int *pipefd)
 	dup2(pipefd[1], STDOUT_FILENO);
 	close(pipefd[1]);
 	execute_ast(left, shell);
-	cleanup_shell(shell);
+	cleanup_child_process(shell);
 	exit(shell->exit_status);
 }
 
@@ -28,7 +28,7 @@ static void	exec_right_pipe(t_ast_node *right, t_shell *shell, int *pipefd)
 	dup2(pipefd[0], STDIN_FILENO);
 	close(pipefd[0]);
 	execute_ast(right, shell);
-	cleanup_shell(shell);
+	cleanup_child_process(shell);
 	exit(shell->exit_status);
 }
 

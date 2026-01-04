@@ -68,7 +68,7 @@ char	**env_table_to_array(t_env_table *table, void *arena)
 		current = table->buckets[idx];
 		while (current)
 		{
-			if (current->_has_value == 1)
+			if (current->_has_value == 1 && current->_is_exported == 1)
 				arr[k++] = join_env_pair(current, (t_gc_context *)arena);
 			current = current->next;
 		}

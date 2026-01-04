@@ -180,12 +180,14 @@ void					add_env_entry(t_env_table *table, char *env_str,
 void					set_default_shell_vars(t_env_table *table, void *arena);
 void					set_default_env_vars(t_env_table *table, void *arena);
 void					set_default_prompt_vars(t_env_table *table, void *arena);
+void					mark_env_as_exported(t_env_table *table, char *key);
 
 unsigned long			fnv1a_hash(char *str);
 void					xor_cipher(char *str);
 
 void					init_shell(t_shell *shell, char **envp);
 void					cleanup_shell(t_shell *shell);
+void					cleanup_child_process(t_shell *shell);
 char					**parse_path(t_shell *shell);
 
 char					*get_prompt(t_shell *shell);
