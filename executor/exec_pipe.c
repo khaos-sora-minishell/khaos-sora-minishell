@@ -14,6 +14,7 @@
 
 static void	exec_left_pipe(t_ast_node *left, t_shell *shell, int *pipefd)
 {
+	setup_child_signals();
 	close(pipefd[0]);
 	dup2(pipefd[1], STDOUT_FILENO);
 	close(pipefd[1]);
@@ -24,6 +25,7 @@ static void	exec_left_pipe(t_ast_node *left, t_shell *shell, int *pipefd)
 
 static void	exec_right_pipe(t_ast_node *right, t_shell *shell, int *pipefd)
 {
+	setup_child_signals();
 	close(pipefd[1]);
 	dup2(pipefd[0], STDIN_FILENO);
 	close(pipefd[0]);
@@ -57,6 +59,4 @@ void	execute_pipe(t_ast_node *left, t_ast_node *right, t_shell *shell)
 	waitpid(right_pid, &status, 0);
 	if (WIFEXITED(status))
 		shell->exit_status = WEXITSTATUS(status);
-	clean_ast_heredocs(left);
-	clean_ast_heredocs(right);
 }

@@ -31,6 +31,7 @@ void	read_heredoc_loop(int fd, char *delim, int should_expand,
 char	*get_heredoc_filename(int counter, t_shell *shell);
 int		create_heredoc_dir(void);
 int		process_cmd_heredoc(t_cmd *cmd, t_shell *shell);
+int		process_ast_heredocs(t_ast_node *ast, t_shell *shell);
 void	clean_heredoc(t_cmd *cmd);
 void	clean_ast_heredocs(t_ast_node *ast);
 

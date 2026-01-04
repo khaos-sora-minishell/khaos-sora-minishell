@@ -34,7 +34,6 @@ static void	handle_redirection_only(t_cmd *cmd, t_shell *shell)
 	dup2(saved_stdout, STDOUT_FILENO);
 	close(saved_stdin);
 	close(saved_stdout);
-	clean_heredoc(cmd);
 }
 
 void	execute_command(t_cmd *cmd, t_shell *shell)
@@ -52,13 +51,11 @@ void	execute_command(t_cmd *cmd, t_shell *shell)
 		return (execute_builtin_with_redir(cmd, shell));
 	pid = fork();
 	if (pid == -1)
-		return (perror("fork"), (void)(shell->exit_status = 1),
-			clean_heredoc(cmd));
+		return (perror("fork"), (void)(shell->exit_status = 1));
 	if (pid == 0)
 		exec_child_process(cmd, shell);
 	ignore_signals();
 	waitpid(pid, &status, 0);
 	setup_signals();
 	handle_exit_status(shell, status);
-	clean_heredoc(cmd);
 }

@@ -14,7 +14,6 @@
 #include "libft.h"
 #include "minishell.h"
 #include <fcntl.h>
-#include <readline/readline.h>
 #include <stdlib.h>
 #include <sys/stat.h>
 #include "utils.h"
@@ -25,17 +24,14 @@ static char	*read_heredoc_input(char *prompt, int interactive)
 	char	*tmp;
 
 	if (interactive)
-		line = readline(prompt);
+		ft_putstr_fd(prompt, STDOUT_FILENO);
+	tmp = get_next_line(STDIN_FILENO);
+	if (!tmp)
+		line = NULL;
 	else
 	{
-		tmp = get_next_line(STDIN_FILENO);
-		if (!tmp)
-			line = NULL;
-		else
-		{
-			line = ft_strtrim(tmp, "\n");
-			free(tmp);
-		}
+		line = ft_strtrim(tmp, "\n");
+		free(tmp);
 	}
 	return (line);
 }
@@ -51,16 +47,14 @@ void	read_heredoc_loop(int fd, char *delim, int should_expand, t_shell *shell)
 		prompt = "> ";
 	interactive = isatty(STDIN_FILENO);
 	set_signal(0);
-	if (interactive)
-		rl_event_hook = heredoc_signal_checker;
 	while (1)
 	{
+		if (get_signal() == SIGINT)
+			break ;
 		line = read_heredoc_input(prompt, interactive);
 		if (process_heredoc_line(line, delim, fd, should_expand, shell))
 			break ;
 	}
-	if (interactive)
-		rl_event_hook = NULL;
 }
 
 char	*get_heredoc_filename(int counter, t_shell *shell)

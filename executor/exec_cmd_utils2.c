@@ -74,7 +74,6 @@ void	execute_builtin_with_redir(t_cmd *cmd, t_shell *shell)
 	close(shell->redir_stdout_backup);
 	shell->redir_stdin_backup = -1;
 	shell->redir_stdout_backup = -1;
-	clean_heredoc(cmd);
 }
 
 int	prepare_cmd_execution(t_cmd *cmd, t_shell *shell)
@@ -83,12 +82,6 @@ int	prepare_cmd_execution(t_cmd *cmd, t_shell *shell)
 
 	if (!cmd)
 		return (0);
-	if (process_cmd_heredoc(cmd, shell) == -1)
-	{
-		shell->exit_status = 1;
-		clean_heredoc(cmd);
-		return (0);
-	}
 	expand_cmd_args(cmd, shell);
 	redir = cmd->redirs;
 	while (redir)
@@ -98,9 +91,6 @@ int	prepare_cmd_execution(t_cmd *cmd, t_shell *shell)
 		redir = redir->next;
 	}
 	if (!cmd->args || !cmd->args[0])
-	{
-		clean_heredoc(cmd);
 		return (0);
-	}
 	return (1);
 }

@@ -18,7 +18,9 @@ void	executor_run(t_shell *shell)
 		return ;
 	shell->stdin_backup = dup(STDIN_FILENO);
 	shell->stdout_backup = dup(STDOUT_FILENO);
-	execute_ast(shell->ast_root, shell);
+	if (process_ast_heredocs(shell->ast_root, shell) == 0)
+		execute_ast(shell->ast_root, shell);
+	clean_ast_heredocs(shell->ast_root);
 	dup2(shell->stdin_backup, STDIN_FILENO);
 	dup2(shell->stdout_backup, STDOUT_FILENO);
 	close(shell->stdin_backup);
