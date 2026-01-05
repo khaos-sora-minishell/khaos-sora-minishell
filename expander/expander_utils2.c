@@ -6,7 +6,7 @@
 /*   By: harici <harici@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 21:16:17 by harici            #+#    #+#             */
-/*   Updated: 2026/01/05 21:16:21 by harici           ###   ########.fr       */
+/*   Updated: 2026/01/05 21:26:12 by harici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*expand_variable(char *var_name, t_shell *shell)
 	return (value);
 }
 
-static char	*process_simple_special(char *str, int *i, t_shell *shell)
+char	*process_simple_special(char *str, int *i, t_shell *shell)
 {
 	if (str[*i] == '?')
 	{
@@ -45,7 +45,7 @@ static char	*process_simple_special(char *str, int *i, t_shell *shell)
 	return (NULL);
 }
 
-static char	*process_arg_special(char *str, int *i, t_shell *shell)
+char	*process_arg_special(char *str, int *i, t_shell *shell)
 {
 	char	*value;
 

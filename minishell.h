@@ -251,6 +251,16 @@ char					**expand_wildcard(char *pattern, t_shell *shell);
 char					**expand_args(char **args, t_shell *shell);
 char					*process_dollar(char *str, int *i, t_shell *shell);
 char					*process_tilde(char *str, int *i, t_shell *shell);
+char					*expand_exit_status(t_shell *shell);
+char					*expand_arg_count(t_shell *shell);
+char					*expand_positional_arg(t_shell *shell, int index);
+char					*expand_all_args(t_shell *shell);
+char					*extract_var_name(char *str, int *i, t_shell *shell);
+char					*expand_variable(char *var_name, t_shell *shell);
+char					*process_simple_special(char *str, int *i,
+							t_shell *shell);
+char					*process_arg_special(char *str, int *i,
+							t_shell *shell);
 
 char					**split_args(char *str, void *arena);
 
