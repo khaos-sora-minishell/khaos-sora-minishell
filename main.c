@@ -40,18 +40,23 @@ static void	run_shell_loop(t_shell *shell)
 	}
 }
 
-static void	run_file_mode(t_shell *shell, char *filename)
+static int	open_script_file(t_shell *shell, char *filename)
 {
-	int		fd;
-	char	*line;
+	int	fd;
 
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
 	{
 		ft_err_printf("minishell: %s: %s\n", filename, strerror(errno));
 		shell->exit_status = 127;
-		return ;
 	}
+	return (fd);
+}
+
+static void	process_script_lines(t_shell *shell, int fd)
+{
+	char	*line;
+
 	while (1)
 	{
 		line = get_next_line(fd);
@@ -68,6 +73,16 @@ static void	run_file_mode(t_shell *shell, char *filename)
 		shell->current_input = NULL;
 		clean_loop(shell);
 	}
+}
+
+static void	run_file_mode(t_shell *shell, char *filename)
+{
+	int	fd;
+
+	fd = open_script_file(shell, filename);
+	if (fd < 0)
+		return ;
+	process_script_lines(shell, fd);
 	close(fd);
 }
 
