@@ -25,6 +25,12 @@ static void	process_expansion(char *str, char *result, t_shell *shell,
 		contex->quote = 0;
 		contex->i++;
 	}
+	else if (str[contex->i] == '~' && !contex->quote && contex->i == 0)
+	{
+		expanded = process_tilde(str, &contex->i, shell);
+		ft_memcpy(result + contex->j, expanded, gc_strlen(expanded));
+		contex->j += gc_strlen(expanded);
+	}
 	else if (str[contex->i] == '$' && contex->quote != '\'')
 	{
 		expanded = process_dollar(str, &contex->i, shell);
@@ -46,6 +52,11 @@ static void	update_len(char *str, t_expand_contex *contex, size_t *len,
 	{
 		contex->quote = 0;
 		contex->i++;
+	}
+	else if (str[contex->i] == '~' && !contex->quote && contex->i == 0)
+	{
+		expanded = process_tilde(str, &contex->i, shell);
+		*len += gc_strlen(expanded);
 	}
 	else if (str[contex->i] == '$' && contex->quote != '\'')
 	{

@@ -5,14 +5,22 @@ Bu belge, projedeki her kaynak dosya ve içindeki fonksiyonların açıklamasın
 ## Ana Dosyalar
 
 ### main.c
-Minishell programının giriş noktası. Shell'i başlatır, sinyal yöneticilerini kurar ve ana REPL döngüsünü çalıştırır. İnteraktif ve non-interactive mod desteği sağlar.
+Minishell programının giriş noktası. Shell'i başlatır, sinyal yöneticilerini kurar ve ana REPL döngüsünü çalıştırır. İnteraktif, non-interactive ve script mode desteği sağlar.
 
 **Fonksiyonlar:**
-- `init_shell` - Shell yapısını garbage collector'lar, ortam ve geçmişle başlatır
+- `run_shell_loop` - İnteraktif mod için ana REPL döngüsü, kullanıcı girdisini okur ve işler
+- `run_file_mode` - Script mode için dosyadan komutları satır satır okur ve çalıştırır (shebang #!/bin/bash desteği dahil)
+- `main` - Ana giriş noktası, argc > 1 ise script mode, aksi halde interaktif mod çalıştırır
+
+### main_utils.c
+Shell başlatma, temizlik ve girdi işleme yardımcı fonksiyonları.
+
+**Fonksiyonlar:**
+- `init_shell` - Shell yapısını argc/argv, garbage collector'lar, ortam ve geçmişle başlatır
 - `clean_loop` - Komutlar arası kaynakları temizler ve sinyal durumunu sıfırlar
 - `cleanup_shell` - Shell çıkışında son temizlik (geçmişi kaydeder, GC'leri yok eder)
+- `cleanup_child_process` - Alt süreç temizliği (history, GC, fd'ler)
 - `process_input` - Kullanıcı girdisini lexer, parser ve executor üzerinden işler
-- `main` - Ana giriş noktası, shell'i başlatır, config yükler, ana döngüyü çalıştırır (terminal kontrolü ile exit mesajı yönetimi)
 
 ### prompt.c
 Prompt oluşturma ve görüntüleme işlemlerini yönetir. Terminal adı ile renklendirilmiş promptlar oluşturur ve çok satırlı girdi okumayı yönetir. İnteraktif ve non-interactive modlar için girdi okuma desteği sağlar.
@@ -156,13 +164,13 @@ AST oluşturma yardımcı fonksiyonları. Bonus özellik desteği ile mantıksal
 ## Expander Modülü (expander/)
 
 ### expander.c
-Ana genişletme koordinatörü. Komut argümanları için değişken genişletme, tırnak kaldırma ve wildcard işlemeyi yönetir.
+Ana genişletme koordinatörü. Komut argümanları için değişken genişletme, tilde genişletme, tırnak kaldırma ve wildcard işlemeyi yönetir.
 
 **Fonksiyonlar:**
-- `process_expansion` - Değişken genişletme, tırnaklar ve literal karakterleri işler
-- `update_len` - Genişletilmiş dize için gerekli uzunluğu hesaplar
+- `process_expansion` - Değişken genişletme, tilde genişletme, tırnaklar ve literal karakterleri işler
+- `update_len` - Genişletilmiş dize için gerekli uzunluğu hesaplar (tilde desteği dahil)
 - `get_expanded_length` - Genişletme için gereken toplam uzunluğu döndürür
-- `expand_string` - Bir dizede değişkenleri ve tırnakları genişletme ana fonksiyonu
+- `expand_string` - Bir dizede değişkenleri, tilde'ları ve tırnakları genişletme ana fonksiyonu
 
 ### expander_utils.c
 Genişletme yardımcı fonksiyonları. Genişletme sırasında string manipülasyonu için yardımcı fonksiyonlar sağlar.
@@ -170,8 +178,12 @@ Genişletme yardımcı fonksiyonları. Genişletme sırasında string manipülas
 **Fonksiyonlar:**
 - `extract_var_name` - Konumdan başlayarak dizeden değişken adını çıkarır
 - `expand_exit_status` - $? değerini çıkış durumu değerine genişletir
+- `expand_arg_count` - $# değerini argüman sayısına genişletir
+- `expand_positional_arg` - $0-$9 için belirtilen indeksteki argümanı genişletir
+- `expand_all_args` - $@ ve $* için tüm argümanları boşlukla birleştirir
 - `expand_variable` - Bir değişken adını ortamdan değerine genişletir
-- `process_dollar` - $? ve $VAR dahil $ genişletmesini işler
+- `process_dollar` - $?, $$, $#, $0-$9, $@, $*, ve $VAR dahil $ genişletmesini işler
+- `process_tilde` - ~ ve ~/path için tilde genişletmesini işler (HOME değişkenini kullanır)
 
 ### expand_args.c
 Argüman genişletme uygulaması. Ortam değişkenlerini ve wildcardları işleyerek komut argümanlarını işler.
@@ -527,7 +539,9 @@ Ek string yardımcı fonksiyonları. Shell için genişletilmiş string işleme 
 - Hash tablosu ve şifreleme ile ortam değişkeni yönetimi
 - Tırnak işleme ve alias genişletme ile kapsamlı lexer
 - AST oluşturan özyinelemeli iniş parser
-- $VAR ve $? ile değişken genişletme
+- Tam değişken genişletme: $VAR, $?, $$, ~, $0-$9, $#, $@, $*
+- Positional arguments desteği (script argümanları)
+- Script mode desteği (dosyadan komut çalıştırma, shebang desteği)
 - Wildcard genişletme (bonus)
 - Sinyal işleme ile heredoc desteği
 - Pipe ve yönlendirme desteği

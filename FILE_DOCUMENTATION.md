@@ -5,14 +5,22 @@ This document provides a description of each source file and its functions in th
 ## Main Files
 
 ### main.c
-Entry point of the minishell program. Initializes the shell, sets up signal handlers, and runs the main REPL loop. Provides support for both interactive and non-interactive modes.
+Entry point of the minishell program. Initializes the shell, sets up signal handlers, and runs the main REPL loop. Provides support for interactive, non-interactive, and script modes.
 
 **Functions:**
-- `init_shell` - Initializes the shell structure with garbage collectors, environment, and history
+- `run_shell_loop` - Main REPL loop for interactive mode, reads and processes user input
+- `run_file_mode` - Reads and executes commands line-by-line from file for script mode (includes shebang #!/bin/bash support)
+- `main` - Main entry point, runs script mode if argc > 1, otherwise runs interactive mode
+
+### main_utils.c
+Shell initialization, cleanup, and input processing utility functions.
+
+**Functions:**
+- `init_shell` - Initializes the shell structure with argc/argv, garbage collectors, environment, and history
 - `clean_loop` - Cleans up command-specific resources and resets signal state between commands
 - `cleanup_shell` - Final cleanup when exiting the shell (saves history, destroys garbage collectors)
+- `cleanup_child_process` - Child process cleanup (history, GC, file descriptors)
 - `process_input` - Processes user input through lexer, parser, and executor pipeline
-- `main` - Main entry point, initializes shell, loads config, runs main loop (manages exit message with terminal input control)
 
 ### prompt.c
 Handles prompt generation and display. Creates colorized prompts with terminal name and manages multiline input reading. Provides input reading support for both interactive and non-interactive modes.
@@ -156,13 +164,13 @@ AST building helper functions. Provides logic operator parsing, pipe parsing, an
 ## Expander Module (expander/)
 
 ### expander.c
-Main expansion coordinator. Handles variable expansion, quote removal, and wildcard processing for command arguments.
+Main expansion coordinator. Handles variable expansion, tilde expansion, quote removal, and wildcard processing for command arguments.
 
 **Functions:**
-- `process_expansion` - Processes variable expansion, quotes, and literal characters
-- `update_len` - Calculates length needed for expanded string
+- `process_expansion` - Processes variable expansion, tilde expansion, quotes, and literal characters
+- `update_len` - Calculates length needed for expanded string (includes tilde support)
 - `get_expanded_length` - Returns total length needed for expansion
-- `expand_string` - Main function to expand variables and quotes in a string
+- `expand_string` - Main function to expand variables, tildes, and quotes in a string
 
 ### expander_utils.c
 Expansion utility functions. Provides helper functions for string manipulation during expansion.
@@ -170,8 +178,12 @@ Expansion utility functions. Provides helper functions for string manipulation d
 **Functions:**
 - `extract_var_name` - Extracts variable name from string starting at position
 - `expand_exit_status` - Expands $? to exit status value
+- `expand_arg_count` - Expands $# to argument count
+- `expand_positional_arg` - Expands $0-$9 to argument at specified index
+- `expand_all_args` - Expands $@ and $* to all arguments joined with spaces
 - `expand_variable` - Expands a variable name to its value from environment
-- `process_dollar` - Processes $ expansion including $? and $VAR
+- `process_dollar` - Processes $ expansion including $?, $$, $#, $0-$9, $@, $*, and $VAR
+- `process_tilde` - Processes tilde expansion for ~ and ~/path (uses HOME variable)
 
 ### expand_args.c
 Argument expansion implementation. Processes command arguments, handling environment variables and wildcards.
@@ -527,7 +539,9 @@ Additional string utilities. Provides extended string processing functions for t
 - Environment variable management with hash table and encryption
 - Comprehensive lexer with quote handling and alias expansion
 - Recursive descent parser building AST
-- Variable expansion with $VAR and $?
+- Full variable expansion: $VAR, $?, $$, ~, $0-$9, $#, $@, $*
+- Positional arguments support (script arguments)
+- Script mode support (execute commands from file, shebang support)
 - Wildcard expansion (bonus)
 - Heredoc support with signal handling
 - Pipe and redirection support

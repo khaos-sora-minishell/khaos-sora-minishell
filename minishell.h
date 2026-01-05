@@ -167,6 +167,9 @@ typedef struct s_shell
 	int					history_fd;
 	char				*history_file;
 	char				*current_input;
+
+	int					argc;
+	char				**argv;
 }						t_shell;
 
 t_env_table				*initialize_env_table(char **envp, void *arena);
@@ -186,7 +189,8 @@ void					mark_env_as_exported(t_env_table *table, char *key);
 unsigned long			fnv1a_hash(char *str);
 void					xor_cipher(char *str);
 
-void					init_shell(t_shell *shell, char **envp);
+void					init_shell(t_shell *shell, int argc, char **argv,
+							char **envp);
 void					cleanup_shell(t_shell *shell);
 void					cleanup_child_process(t_shell *shell);
 char					**parse_path(t_shell *shell);
@@ -246,6 +250,7 @@ int						count_args(char **args);
 char					**expand_wildcard(char *pattern, t_shell *shell);
 char					**expand_args(char **args, t_shell *shell);
 char					*process_dollar(char *str, int *i, t_shell *shell);
+char					*process_tilde(char *str, int *i, t_shell *shell);
 
 char					**split_args(char *str, void *arena);
 

@@ -40,17 +40,49 @@ static void	run_shell_loop(t_shell *shell)
 	}
 }
 
+static void	run_file_mode(t_shell *shell, char *filename)
+{
+	int		fd;
+	char	*line;
+
+	fd = open(filename, O_RDONLY);
+	if (fd < 0)
+	{
+		ft_err_printf("minishell: %s: %s\n", filename, strerror(errno));
+		shell->exit_status = 127;
+		return ;
+	}
+	while (1)
+	{
+		line = get_next_line(fd);
+		if (!line)
+			break ;
+		if (line[0] == '#' && line[1] == '!')
+		{
+			free(line);
+			continue ;
+		}
+		shell->current_input = line;
+		process_input(shell, line);
+		free(line);
+		shell->current_input = NULL;
+		clean_loop(shell);
+	}
+	close(fd);
+}
+
 int	main(int argc, char const *argv[], char **envp)
 {
 	t_shell	shell;
 
-	(void)argc;
-	(void)argv;
-	init_shell(&shell, (char **)envp);
+	init_shell(&shell, argc, (char **)argv, (char **)envp);
 	shell.path_dirs = parse_path(&shell);
 	load_shellrc(&shell);
 	setup_signals();
-	run_shell_loop(&shell);
+	if (argc > 1)
+		run_file_mode(&shell, (char *)argv[1]);
+	else
+		run_shell_loop(&shell);
 	clean_loop(&shell);
 	cleanup_shell(&shell);
 	return (shell.exit_status);

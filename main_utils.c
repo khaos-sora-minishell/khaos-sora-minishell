@@ -19,7 +19,7 @@
 #include <stdio.h>
 #include <unistd.h>
 
-void	init_shell(t_shell *shell, char **envp)
+void	init_shell(t_shell *shell, int argc, char **argv, char **envp)
 {
 	ft_bzero(shell, sizeof(t_shell));
 	shell->global_arena = gc_create();
@@ -41,6 +41,8 @@ void	init_shell(t_shell *shell, char **envp)
 	shell->redir_stdin_backup = -1;
 	shell->redir_stdout_backup = -1;
 	shell->current_input = NULL;
+	shell->argc = argc;
+	shell->argv = argv;
 	init_history(shell);
 	create_shellrc(shell);
 	shell->exit_status = 0;
