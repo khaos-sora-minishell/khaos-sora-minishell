@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: harici <harici@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: harici <harici@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/22 04:00:26 by harici            #+#    #+#             */
-/*   Updated: 2025/12/22 12:31:31 by harici           ###   ########.fr       */
+/*   Created: 2026/01/05 21:16:02 by harici            #+#    #+#             */
+/*   Updated: 2026/01/05 21:16:02 by harici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

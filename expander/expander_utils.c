@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: harici <harici@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: harici <harici@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/22 03:59:58 by harici            #+#    #+#             */
-/*   Updated: 2025/12/22 04:31:57 by harici           ###   ########.fr       */
+/*   Created: 2026/01/05 21:16:33 by harici            #+#    #+#             */
+/*   Updated: 2026/01/05 21:16:33 by harici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

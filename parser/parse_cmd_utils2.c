@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cmd_utils2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
+/*   By: harici <harici@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/01 22:12:32 by akivam            #+#    #+#             */
-/*   Updated: 2026/01/01 22:13:17 by akivam           ###   ########.fr       */
+/*   Created: 2026/01/05 21:14:50 by harici            #+#    #+#             */
+/*   Updated: 2026/01/05 21:14:50 by harici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

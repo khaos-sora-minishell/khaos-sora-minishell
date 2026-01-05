@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_operator.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: harici <harici@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: harici <harici@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/22 04:01:54 by harici            #+#    #+#             */
-/*   Updated: 2025/12/22 04:01:56 by harici           ###   ########.fr       */
+/*   Created: 2026/01/05 21:15:52 by harici            #+#    #+#             */
+/*   Updated: 2026/01/05 21:15:52 by harici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
