@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 21:22:31 by akivam            #+#    #+#             */
-/*   Updated: 2026/01/06 22:10:02 by akivam           ###   ########.fr       */
+/*   Updated: 2026/01/06 22:19:56 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,8 @@
 
 #ifdef BONUS
 
-int	builtin_help(char **args, t_shell *shell)
+static void	print_help_commands(void)
 {
-	(void)args;
-	(void)shell;
 	printf("\n🐚 MINISHELL HELP 🐚\n");
 	printf("========================\n\n");
 	printf("📋 Built-in Commands:\n");
@@ -37,16 +35,26 @@ int	builtin_help(char **args, t_shell *shell)
 	printf("  help             : Display this help message\n");
 	printf("  alias [name=cmd] : Create command alias\n");
 	printf("  unalias [name]   : Remove command alias\n");
-#ifdef EASTEREGG
+}
+
+static void	print_help_footer(void)
+{
 	printf("\n🎉 Easter Eggs:\n");
 	printf("  harici_matrix      : Display matrix effect\n");
 	printf("  akivam_executer    : Show executor visualization\n");
 	printf("  set-terminal [name]: Set terminal title\n");
-#endif
 	printf("\n💡 Tips:\n");
 	printf("  - Use Ctrl+D (EOF) to exit\n");
 	printf("  - Aliases are loaded from ~/.shellrc\n");
 	printf("  - Use 'man bash' for more shell features\n\n");
+}
+
+int	builtin_help(char **args, t_shell *shell)
+{
+	(void)args;
+	(void)shell;
+	print_help_commands();
+	print_help_footer();
 	return (0);
 }
 
