@@ -12,6 +12,8 @@
 
 #include "minishell.h"
 
+#ifdef BONUS
+
 static char	*get_history_path(t_shell *shell)
 {
 	char	*home;
@@ -38,3 +40,17 @@ void	save_history_file(t_shell *shell)
 		write_history(shell->history_file);
 	}
 }
+
+#else
+
+void	init_history(t_shell *shell)
+{
+	(void)shell;
+}
+
+void	save_history_file(t_shell *shell)
+{
+	(void)shell;
+}
+
+#endif

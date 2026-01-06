@@ -12,6 +12,8 @@
 
 #include "minishell.h"
 
+#ifdef BONUS
+
 static void	process_config_line(t_shell *shell, char *line)
 {
 	t_token	*tokens;
@@ -100,3 +102,23 @@ void	save_to_shellrc(t_shell *shell, char *line)
 		close(fd);
 	}
 }
+
+#else
+
+void	load_shellrc(t_shell *shell)
+{
+	(void)shell;
+}
+
+void	create_shellrc(t_shell *shell)
+{
+	(void)shell;
+}
+
+void	save_to_shellrc(t_shell *shell, char *line)
+{
+	(void)shell;
+	(void)line;
+}
+
+#endif

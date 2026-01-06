@@ -86,6 +86,8 @@ static void	run_file_mode(t_shell *shell, char *filename)
 	close(fd);
 }
 
+#ifdef BONUS
+
 int	main(int argc, char const *argv[], char **envp)
 {
 	t_shell	shell;
@@ -102,3 +104,23 @@ int	main(int argc, char const *argv[], char **envp)
 	cleanup_shell(&shell);
 	return (shell.exit_status);
 }
+
+#else
+
+int	main(int argc, char const *argv[], char **envp)
+{
+	t_shell	shell;
+
+	init_shell(&shell, argc, (char **)argv, (char **)envp);
+	shell.path_dirs = parse_path(&shell);
+	setup_signals();
+	if (argc > 1)
+		run_file_mode(&shell, (char *)argv[1]);
+	else
+		run_shell_loop(&shell);
+	clean_loop(&shell);
+	cleanup_shell(&shell);
+	return (shell.exit_status);
+}
+
+#endif

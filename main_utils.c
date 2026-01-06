@@ -19,6 +19,8 @@
 #include <stdio.h>
 #include <unistd.h>
 
+#ifdef BONUS
+
 void	init_shell(t_shell *shell, int argc, char **argv, char **envp)
 {
 	ft_bzero(shell, sizeof(t_shell));
@@ -47,6 +49,37 @@ void	init_shell(t_shell *shell, int argc, char **argv, char **envp)
 	create_shellrc(shell);
 	shell->exit_status = 0;
 }
+
+#else
+
+void	init_shell(t_shell *shell, int argc, char **argv, char **envp)
+{
+	ft_bzero(shell, sizeof(t_shell));
+	shell->global_arena = gc_create();
+	shell->cmd_arena = gc_create();
+	if (!shell->global_arena || !shell->cmd_arena)
+		exit(1);
+	shell->env_table = initialize_env_table(envp, shell->global_arena);
+	shell->env_array = env_table_to_array(shell->env_table,
+			shell->global_arena);
+	shell->alias_table = gc_calloc(shell->global_arena, 1,
+			sizeof(t_env_table));
+	shell->alias_table->buckets = gc_calloc(shell->global_arena,
+			ENV_TABLE_SIZE, sizeof(t_env_bucket *));
+	shell->terminal_name = "minishell";
+	shell->terminal_name_color = NULL;
+	shell->terminal_bg_color = NULL;
+	shell->stdin_backup = -1;
+	shell->stdout_backup = -1;
+	shell->redir_stdin_backup = -1;
+	shell->redir_stdout_backup = -1;
+	shell->current_input = NULL;
+	shell->argc = argc;
+	shell->argv = argv;
+	shell->exit_status = 0;
+}
+
+#endif
 
 void	clean_loop(t_shell *shell)
 {
@@ -78,11 +111,22 @@ void	cleanup_child_process(t_shell *shell)
 		gc_destroy(shell->cmd_arena);
 }
 
+#ifdef BONUS
+
 void	cleanup_shell(t_shell *shell)
 {
 	save_history_file(shell);
 	cleanup_child_process(shell);
 }
+
+#else
+
+void	cleanup_shell(t_shell *shell)
+{
+	cleanup_child_process(shell);
+}
+
+#endif
 
 void	process_input(t_shell *shell, char *input)
 {
