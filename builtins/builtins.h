@@ -45,8 +45,17 @@ int					builtin_unset(char **args, t_shell *shell);
 int					builtin_env(char **args, t_shell *shell);
 int					builtin_exit(char **args, t_shell *shell);
 
+# ifdef BONUS
+
 /* ========== BONUS BUILTINS ========== */
 int					builtin_alias(char **args, t_shell *shell);
 int					builtin_unalias(char **args, t_shell *shell);
+int					builtin_help(char **args, t_shell *shell);
+int					builtin_tty(char **args, t_shell *shell);
+int					builtin_type(char **args, t_shell *shell);
+int					builtin_true(char **args, t_shell *shell);
+int					builtin_false(char **args, t_shell *shell);
+
+# endif
 
 #endif

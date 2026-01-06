@@ -32,8 +32,8 @@ static t_builtin	*get_builtins(void)
 	{"unalias", builtin_unalias},
 	{"tty", builtin_tty},
 	{"type", builtin_type},
-	{"true", builtin_true_false},
-	{"false", builtin_true_false},
+	{"true", builtin_true},
+	{"false", builtin_false},
 	{"help", builtin_help},
 		#endif
 	{"unset", builtin_unset},
