@@ -19,27 +19,6 @@
 #include <stdio.h>
 #include <unistd.h>
 
-static void	run_shell_loop(t_shell *shell)
-{
-	char	*input;
-
-	while (1)
-	{
-		input = read_multiline(shell);
-		if (!input)
-		{
-			if (isatty(STDIN_FILENO))
-				ft_printf("exit\n");
-			break ;
-		}
-		shell->current_input = input;
-		process_input(shell, input);
-		free(shell->current_input);
-		shell->current_input = NULL;
-		clean_loop(shell);
-	}
-}
-
 static int	open_script_file(t_shell *shell, char *filename)
 {
 	int	fd;

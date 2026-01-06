@@ -264,4 +264,6 @@ char					*process_arg_special(char *str, int *i,
 
 char					**split_args(char *str, void *arena);
 
+void					run_shell_loop(t_shell *shell);
+
 #endif

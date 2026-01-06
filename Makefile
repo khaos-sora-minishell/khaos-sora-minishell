@@ -35,7 +35,7 @@ SIGNALS_SRC	= signals.c signal_state.c
 
 UTILS_SRC	= error.c ft_atoll.c strings.c strings_utils.c
 
-SRCS = main.c main_utils.c prompt.c prompt_utils.c history_manager.c config_loader.c \
+SRCS = main.c main_utils.c main_utils2.c prompt.c prompt_utils.c history_manager.c config_loader.c config_loader_utils.c \
 	   $(addprefix lexer/, $(LEXER_SRC)) \
 	   $(addprefix parser/, $(PARSER_SRC)) \
 	   $(addprefix expander/, $(EXPANDER_SRC)) \

@@ -63,62 +63,11 @@ void	load_shellrc(t_shell *shell)
 	close(fd);
 }
 
-void	create_shellrc(t_shell *shell)
-{
-	int		fd;
-	char	*path;
-	char	*home_dir;
-
-	home_dir = env_get(shell->env_table, "HOME", shell->global_arena);
-	if (!home_dir)
-		return ;
-	path = gc_strjoin(shell->global_arena, home_dir, "/.shellrc");
-	fd = open(path, O_CREAT | O_WRONLY | O_EXCL, 0644);
-	if (fd >= 0)
-	{
-		write(fd, "# Minishell configuration file\n", 31);
-		write(fd, "# Auto-generated - Edit carefully\n\n", 35);
-		close(fd);
-	}
-}
-
-void	save_to_shellrc(t_shell *shell, char *line)
-{
-	int		fd;
-	char	*path;
-	char	*home_dir;
-
-	if (!line || !*line)
-		return ;
-	home_dir = env_get(shell->env_table, "HOME", shell->global_arena);
-	if (!home_dir)
-		return ;
-	path = gc_strjoin(shell->global_arena, home_dir, "/.shellrc");
-	fd = open(path, O_WRONLY | O_APPEND | O_CREAT, 0644);
-	if (fd >= 0)
-	{
-		write(fd, line, ft_strlen(line));
-		write(fd, "\n", 1);
-		close(fd);
-	}
-}
-
 #else
 
 void	load_shellrc(t_shell *shell)
 {
 	(void)shell;
-}
-
-void	create_shellrc(t_shell *shell)
-{
-	(void)shell;
-}
-
-void	save_to_shellrc(t_shell *shell, char *line)
-{
-	(void)shell;
-	(void)line;
 }
 
 #endif
