@@ -21,18 +21,16 @@
 static t_builtin	*get_builtins(void)
 {
 	static t_builtin	builtins[] = {
-#ifdef BONUS
-	{"alias", builtin_alias},
-#endif
 	{"cd", builtin_cd},
 	{"echo", builtin_echo},
 	{"env", builtin_env},
 	{"exit", builtin_exit},
 	{"export", builtin_export},
 	{"pwd", builtin_pwd},
-#ifdef BONUS
+		#ifdef BONUS
+	{"alias", builtin_alias},
 	{"unalias", builtin_unalias},
-#endif
+		#endif
 	{"unset", builtin_unset},
 	{NULL, NULL}};
 
