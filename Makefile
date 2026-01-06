@@ -110,32 +110,6 @@ $(GC_LIB):
 	$(Q)echo "$(YELLOW)Building garbage collector...$(RESET)"
 	$(Q)make -s -C $(GC_DIR)
 
-clean:
-	$(Q)if [ -d "$(LIBFT_DIR)" ]; then make -s -C $(LIBFT_DIR) clean; fi
-	$(Q)if [ -d "$(GC_DIR)" ]; then make -s -C $(GC_DIR) clean; fi
-	$(Q)$(RM) -r $(OBJ_DIR) obj_bonus
-	$(Q)$(RM) .mandatory .bonus
-	$(Q)echo "$(RED)Cleaned object files.$(RESET)"
-
-fclean: clean
-	$(Q)if [ -d "$(LIBFT_DIR)" ]; then make -s -C $(LIBFT_DIR) fclean; fi
-	$(Q)if [ -d "$(GC_DIR)" ]; then make -s -C $(GC_DIR) fclean; fi
-	$(Q)$(RM) $(NAME) .mandatory .bonus
-	$(Q)echo "$(RED)Removed binary: $(NAME).$(RESET)"
-
-re: fclean all
-
-debug: CFLAGS += -g
-debug: re
-
-valgrind: $(NAME)
-	$(Q)valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes \
-		--track-fds=yes --suppressions=readline.supp ./$(NAME)
-
-norm:
-	$(Q)echo "$(YELLOW)Checking norminette...$(RESET)"
-	$(Q)norminette main.c history_manager.c config_loader.c lexer parser expander executor \
-		builtins env signals executor_utils utils includes 2>&1 | grep -v "OK!" || echo "$(GREEN)✓ Norminette OK!$(RESET)"
 
 time:
 	$(Q)echo "$(YELLOW)=== Mandatory Object Files (obj/) ===$(RESET)"
@@ -177,5 +151,23 @@ bonus: .bonus
 		touch .bonus; \
 		echo "$(GREEN)✓ Built with bonus features!$(RESET)"; \
 	fi
+
+clean:
+	$(Q)if [ -d "$(LIBFT_DIR)" ]; then make -s -C $(LIBFT_DIR) clean; fi
+	$(Q)if [ -d "$(GC_DIR)" ]; then make -s -C $(GC_DIR) clean; fi
+	$(Q)$(RM) -r $(OBJ_DIR) obj_bonus
+	$(Q)$(RM) .mandatory .bonus
+	$(Q)echo "$(RED)Cleaned object files.$(RESET)"
+
+fclean: clean
+	$(Q)if [ -d "$(LIBFT_DIR)" ]; then make -s -C $(LIBFT_DIR) fclean; fi
+	$(Q)if [ -d "$(GC_DIR)" ]; then make -s -C $(GC_DIR) fclean; fi
+	$(Q)$(RM) $(NAME) .mandatory .bonus
+	$(Q)echo "$(RED)Removed binary: $(NAME).$(RESET)"
+
+re: fclean all
+
+debug: CFLAGS += -g
+debug: re
 
 .PHONY: all clean fclean re debug valgrind norm time bonus
