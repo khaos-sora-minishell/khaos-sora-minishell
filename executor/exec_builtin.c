@@ -30,6 +30,11 @@ static t_builtin	*get_builtins(void)
 		#ifdef BONUS
 	{"alias", builtin_alias},
 	{"unalias", builtin_unalias},
+	{"tty", builtin_tty},
+	{"type", builtin_type},
+	{"true", builtin_true_false},
+	{"false", builtin_true_false},
+	{"help", builtin_help},
 		#endif
 	{"unset", builtin_unset},
 	{NULL, NULL}};

@@ -25,9 +25,13 @@ BUILTINS_SRC = cd/builtin_cd.c \
 			   export/builtin_export.c export/builtin_expot_utils.c \
 			   pwd/builtin_pwd.c \
 			   unset/builtin_unset.c \
-			   builtin_alias_bonus.c builtin_unalias_bonus.c
+			   builtin_alias_bonus.c builtin_unalias_bonus.c \
+			   extras/builtin_help.c extras/builtin_true_false.c \
+			   extras/builtin_tty.c extras/builtin_type.c
 
-BONUS_BUILTINS = builtin_alias_bonus.c builtin_unalias_bonus.c
+BONUS_BUILTINS = builtin_alias_bonus.c builtin_unalias_bonus.c \
+				 extras/builtin_help.c extras/builtin_true_false.c \
+				 extras/builtin_tty.c extras/builtin_type.c
 
 ENV_SRC		= env_manager.c env_manager_utils.c env_manager_utils2.c env_crypto.c env_array.c parse_path.c
 
