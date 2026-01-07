@@ -16,7 +16,7 @@
 # include "minishell.h"
 # include "utils.h"
 
-static char	*get_fg_color(char *name)
+static char	*get_foreground_color(char *name)
 {
 	if (ft_strcmp(name, "red") == 0)
 		return (C_RED);
@@ -35,7 +35,7 @@ static char	*get_fg_color(char *name)
 	return (NULL);
 }
 
-static char	*get_ansi_bg(char *name)
+static char	*get_background_color(char *name)
 {
 	if (ft_strcmp(name, "red") == 0)
 		return (BG_RED);
@@ -54,40 +54,46 @@ static char	*get_ansi_bg(char *name)
 	return (NULL);
 }
 
-static char	*get_ansi_code(char *name, int is_bg)
+static char	*get_ansi_code(char *name, int is_background)
 {
 	if (!name)
 		return (NULL);
 	if (ft_strcmp(name, "reset") == 0)
 		return (C_RESET);
-	if (is_bg)
-		return (get_ansi_bg(name));
+	if (is_background)
+		return (get_background_color(name));
 	else
-		return (get_fg_color(name));
+		return (get_foreground_color(name));
 }
 
-int	builtin_set_name_color(char **args, t_shell *shell)
+void	set_name_color(char **args, t_shell *shell)
 {
 	char	*code;
 
 	if (!args[1])
-		return (1);
+	{
+		shell->exit_status = 1;
+		return ;
+	}
 	code = get_ansi_code(args[1], 0);
 	if (code)
 		shell->terminal_name_color = gc_strdup(shell->global_arena, code);
-	return (0);
+	shell->exit_status = 0;
 }
 
-int	builtin_set_name_bg_color(char **args, t_shell *shell)
+void	set_name_background_color(char **args, t_shell *shell)
 {
 	char	*code;
 
 	if (!args[1])
-		return (1);
+	{
+		shell->exit_status = 1;
+		return ;
+	}
 	code = get_ansi_code(args[1], 1);
 	if (code)
 		shell->terminal_name_bg_color = gc_strdup(shell->global_arena, code);
-	return (0);
+	shell->exit_status = 0;
 }
 
 #endif

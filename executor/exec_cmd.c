@@ -18,6 +18,9 @@
 #include "utils.h"
 #include <sys/wait.h>
 #include <sys/stat.h>
+#ifdef BONUS
+# include "extra_commands.h"
+#endif
 
 static void	handle_redirection_only(t_cmd *cmd, t_shell *shell)
 {
@@ -35,6 +38,39 @@ static void	handle_redirection_only(t_cmd *cmd, t_shell *shell)
 	close(saved_stdin);
 	close(saved_stdout);
 }
+
+#ifdef BONUS
+
+void	execute_command(t_cmd *cmd, t_shell *shell)
+{
+	pid_t	pid;
+	int		status;
+
+	if (!prepare_cmd_execution(cmd, shell))
+	{
+		if (cmd && cmd->redirs)
+			handle_redirection_only(cmd, shell);
+		return ;
+	}
+	if (is_builtin(cmd->args[0]))
+		return (execute_builtin_with_redir(cmd, shell));
+	if (is_extra_command(cmd->args[0]))
+	{
+		execute_extra_command(cmd->args, shell);
+		return ;
+	}
+	pid = fork();
+	if (pid == -1)
+		return (perror("fork"), (void)(shell->exit_status = 1));
+	if (pid == 0)
+		exec_child_process(cmd, shell);
+	ignore_signals();
+	waitpid(pid, &status, 0);
+	setup_signals();
+	handle_exit_status(shell, status);
+}
+
+#else
 
 void	execute_command(t_cmd *cmd, t_shell *shell)
 {
@@ -59,3 +95,5 @@ void	execute_command(t_cmd *cmd, t_shell *shell)
 	setup_signals();
 	handle_exit_status(shell, status);
 }
+
+#endif

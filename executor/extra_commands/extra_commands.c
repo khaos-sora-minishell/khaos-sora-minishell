@@ -15,49 +15,53 @@
 # include "extra_commands.h"
 # include "utils.h"
 
-static t_easter_egg	*get_easter_egg(void)
+static t_extra_command	*get_extra_command(void)
 {
-	static t_easter_egg	easter[] = {
+	static t_extra_command	extra_cmd[] = {
 	{"harici_matrix", harici_matrix},
 	{"akivam_executer", akivam_executer},
 	{"set-terminal", set_terminal_name},
+	{"set-prompt", set_prompt},
+	{"set-background", set_background},
+	{"set-name-color", set_name_color},
+	{"set-name-background", set_name_background_color},
 	{NULL, NULL}};
 
-	return (easter);
+	return (extra_cmd);
 }
 
-int	is_easter_egg(char *cmd)
+int	is_extra_command(char *cmd)
 {
-	t_easter_egg	*easters;
+	t_extra_command	*extra_cmd;
 	int				i;
 
 	if (!cmd)
 		return (0);
-	easters = get_easter_egg();
+	extra_cmd = get_extra_command();
 	i = 0;
-	while (easters[i].name)
+	while (extra_cmd[i].name)
 	{
-		if (ft_strcmp(cmd, easters[i].name) == 0)
+		if (ft_strcmp(cmd, extra_cmd[i].name) == 0)
 			return (1);
 		i++;
 	}
 	return (0);
 }
 
-void	execute_easter_egg(char **args, t_shell *shell)
+void	execute_extra_command(char **args, t_shell *shell)
 {
-	t_easter_egg	*easters;
+	t_extra_command	*extra_cmd;
 	int				i;
 
 	if (!args || !args[0])
 		return ;
-	easters = get_easter_egg();
+	extra_cmd = get_extra_command();
 	i = 0;
-	while (easters[i].name)
+	while (extra_cmd[i].name)
 	{
-		if (ft_strcmp(args[0], easters[i].name) == 0)
+		if (ft_strcmp(args[0], extra_cmd[i].name) == 0)
 		{
-			easters[i].func(args, shell);
+			extra_cmd[i].func(args, shell);
 			return ;
 		}
 		i++;

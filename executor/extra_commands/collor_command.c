@@ -36,7 +36,7 @@ static char	*get_prompt_color(char *arg)
 	return (NULL);
 }
 
-static char	*get_bg_color(char *arg)
+static char	*get_background_color(char *arg)
 {
 	if (ft_strcmp(arg, "red") == 0)
 		return (BG_RED);
@@ -55,19 +55,19 @@ static char	*get_bg_color(char *arg)
 	return (NULL);
 }
 
-static char	*get_color_code(char *arg, int is_bg)
+static char	*get_color_code(char *arg, int is_background)
 {
 	if (!arg)
 		return (NULL);
 	if (ft_strcmp(arg, "reset") == 0)
 		return (C_RESET);
-	if (is_bg)
-		return (get_bg_color(arg));
+	if (is_background)
+		return (get_background_color(arg));
 	else
 		return (get_prompt_color(arg));
 }
 
-int	builtin_set_prompt(char **args, t_shell *shell)
+void	set_prompt(char **args, t_shell *shell)
 {
 	char	*code;
 
@@ -75,19 +75,21 @@ int	builtin_set_prompt(char **args, t_shell *shell)
 	{
 		ft_printf("Usage: set-prompt ");
 		ft_printf("[red/green/blue/cyan/yellow/white/reset]\n");
-		return (1);
+		shell->exit_status = 1;
+		return ;
 	}
 	code = get_color_code(args[1], 0);
 	if (!code)
 	{
 		ft_printf("Error: '%s' unknown color.\n", args[1]);
-		return (1);
+		shell->exit_status = 1;
+		return ;
 	}
 	shell->terminal_name_color = gc_strdup(shell->global_arena, code);
-	return (0);
+	shell->exit_status = 0;
 }
 
-int	builtin_set_bg(char **args, t_shell *shell)
+void	set_background(char **args, t_shell *shell)
 {
 	char	*code;
 
@@ -95,16 +97,18 @@ int	builtin_set_bg(char **args, t_shell *shell)
 	{
 		ft_printf("Usage: set-bg ");
 		ft_printf("[red/green/blue/cyan/yellow/black/reset]\n");
-		return (1);
+		shell->exit_status = 1;
+		return ;
 	}
 	code = get_color_code(args[1], 1);
 	if (!code)
 	{
 		ft_printf("Error: '%s' unknown background color.\n", args[1]);
-		return (1);
+		shell->exit_status = 1;
+		return ;
 	}
 	shell->terminal_bg_color = gc_strdup(shell->global_arena, code);
-	return (0);
+	shell->exit_status = 0;
 }
 
 #endif

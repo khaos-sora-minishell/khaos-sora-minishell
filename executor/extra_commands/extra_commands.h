@@ -37,21 +37,27 @@
 
 #  include "minishell.h"
 
-typedef void		(*t_easter_func)(char **args, t_shell *shell);
+typedef void		(*t_extra_command_func)(char **args, t_shell *shell);
 
-typedef struct s_easter_egg
+typedef struct s_extra_command
 {
-	char			*name;
-	t_easter_func	func;
-}					t_easter_egg;
+	char					*name;
+	t_extra_command_func	func;
+}					t_extra_command;
 
-/* ========== EASTER EGGS ========== */
-int					is_easter_egg(char *cmd);
-void				execute_easter_egg(char **args, t_shell *shell);
+/* ========== EXTRA COMMANDS ========== */
+int					is_extra_command(char *cmd);
+void				execute_extra_command(char **args, t_shell *shell);
 
 void				harici_matrix(char **args, t_shell *shell);
 void				akivam_executer(char **args, t_shell *shell);
 void				set_terminal_name(char **args, t_shell *shell);
+
+/* ========== COLOR COMMANDS ========== */
+void				set_prompt(char **args, t_shell *shell);
+void				set_background(char **args, t_shell *shell);
+void				set_name_color(char **args, t_shell *shell);
+void				set_name_background_color(char **args, t_shell *shell);
 
 # endif
 
