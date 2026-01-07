@@ -95,7 +95,7 @@ void	set_background(char **args, t_shell *shell)
 
 	if (!args[1])
 	{
-		ft_printf("Usage: set-bg ");
+		ft_printf("Usage: set-background ");
 		ft_printf("[red/green/blue/cyan/yellow/black/reset]\n");
 		shell->exit_status = 1;
 		return ;

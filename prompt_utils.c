@@ -19,6 +19,13 @@
 
 void	build_prompt_colors(t_shell *shell, char **prompt)
 {
+	if (shell->terminal_bg_color)
+	{
+		*prompt = gc_strjoin(shell->cmd_arena, *prompt, "\001");
+		*prompt = gc_strjoin(shell->cmd_arena, *prompt,
+				shell->terminal_bg_color);
+		*prompt = gc_strjoin(shell->cmd_arena, *prompt, "\002");
+	}
 	if (shell->terminal_name_bg_color)
 	{
 		*prompt = gc_strjoin(shell->cmd_arena, *prompt, "\001");
