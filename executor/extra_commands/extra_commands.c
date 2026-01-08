@@ -23,8 +23,6 @@ static t_extra_command	*get_extra_command(void)
 	{"set-terminal", set_terminal_name},
 	{"set-prompt", set_prompt},
 	{"set-background", set_background},
-	{"set-name-color", set_name_color},
-	{"set-name-background", set_name_background_color},
 	{NULL, NULL}};
 
 	return (extra_cmd);

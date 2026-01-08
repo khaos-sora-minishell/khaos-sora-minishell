@@ -56,8 +56,6 @@ void				set_terminal_name(char **args, t_shell *shell);
 /* ========== COLOR COMMANDS ========== */
 void				set_prompt(char **args, t_shell *shell);
 void				set_background(char **args, t_shell *shell);
-void				set_name_color(char **args, t_shell *shell);
-void				set_name_background_color(char **args, t_shell *shell);
 
 # endif
 

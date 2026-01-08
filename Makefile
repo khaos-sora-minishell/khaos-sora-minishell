@@ -15,7 +15,7 @@ EXPANDER_SRC = expander.c wildcard.c expand_args.c \
 EXECUTOR_SRC = executor.c exec_ast.c exec_builtin.c exec_cmd.c \
 			   exec_cmd_utils1.c exec_cmd_utils2.c exec_pipe.c redirections.c \
 			   here_doc_utils1.c here_doc_utils2.c here_doc_utils3.c here_doc_manager.c \
-			   extra_commands/collor_command.c extra_commands/color_manager.c \
+			   extra_commands/collor_command.c \
 			   extra_commands/extra_commands.c extra_commands/harici_matrix.c \
 			   extra_commands/harici_matrix_utils.c extra_commands/pars_vs_executer.c \
 			   extra_commands/set_terminal_name.c
