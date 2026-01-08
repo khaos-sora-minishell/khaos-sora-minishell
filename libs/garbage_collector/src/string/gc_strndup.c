@@ -24,10 +24,10 @@ static size_t	gc_strnlen(const char *s, size_t n)
 }
 
 /*
- *duplicate up to n charactes of string with gc tracking
+ *duplicate up to n characters of string with gc tracking
  *s: source string to duplicate
- *n: maximum number ıf characters to copy
- *return new string or NULL on faliure
+ *n: maximum number of characters to copy
+ *return new string or NULL on failure
  */
 char	*gc_strndup(t_gc_context *contex, const char *s, size_t n)
 {

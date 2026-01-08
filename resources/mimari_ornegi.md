@@ -8,13 +8,14 @@ Bu doküman, Minishell projesinin genel mimarisini, güncellenmiş veri yapılar
 2.  [Veri Yapıları (Structs)](#2-veri-yapıları-structs)
 3.  [Global Değişken ve Signal Handling](#3-global-değişken-ve-signal-handling)
 4.  [Dosya Organizasyonu](#4-dosya-organizasyonu)
-5.  [Yeniden Dengelenmiş İş Bölümü](#5-yeniden-dengelenmiş-iş-bölümü)
-6.  [Modül Detayları ve Sorumluluklar](#6-modül-detayları-ve-sorumluluklar)
-7.  [Garbage Collector Entegrasyonu](#7-garbage-collector-entegrasyonu)
-8.  [Geliştirme Yol Haritası](#8-geliştirme-yol-haritası)
-9.  [Önemli Dikkat Noktaları](#9-önemli-dikkat-noktaları)
-10. [Test Senaryoları](#10-test-senaryoları)
-11. [Kaynaklar](#11-kaynaklar)
+5.  [Derleme ve Bonus Sistemi](#5-derleme-ve-bonus-sistemi)
+6.  [Yeniden Dengelenmiş İş Bölümü](#6-yeniden-dengelenmiş-iş-bölümü)
+7.  [Modül Detayları ve Sorumluluklar](#7-modül-detayları-ve-sorumluluklar)
+8.  [Garbage Collector Entegrasyonu](#8-garbage-collector-entegrasyonu)
+9.  [Geliştirme Yol Haritası](#9-geliştirme-yol-haritası)
+10. [Önemli Dikkat Noktaları](#10-önemli-dikkat-noktaları)
+11. [Test Senaryoları](#11-test-senaryoları)
+12. [Kaynaklar](#12-kaynaklar)
 
 ---
 
@@ -96,6 +97,7 @@ typedef struct s_redir
     char            *file;          // Hedef dosya adı
     char            *delimiter;     // SADECE heredoc (<<) için
     char            *heredoc_tmpfile; // Heredoc için temp dosya yolu
+    int             should_expand;  // Heredoc expansion kontrolü
     struct s_redir  *next;          // Sonraki yönlendirme
 }   t_redir;
 
@@ -148,6 +150,7 @@ typedef struct s_env_bucket
     char                    *key;       // Değişken ismi (örn: "PATH")
     char                    *value;     // Değişken değeri
     int                     _has_value; // export VAR vs export VAR=val ayrımı
+    int                     _is_exported; // Export durumu kontrolü
     struct s_env_bucket     *next;      // Collision durumunda sonraki bucket
 }   t_env_bucket;
 
@@ -174,9 +177,10 @@ typedef struct s_shell
     void            *global_arena;      // Shell lifetime için arena
     void            *cmd_arena;         // Her komut için yeni arena
 
-    // Terminal Özelleştirme (EASTEREGG)
+    // Terminal Özelleştirme (Extra Commands)
     char            *terminal_name;     // Prompt'ta gösterilen isim
-    char            *terminal_name_color;   // Prompt rengi
+    char            *terminal_name_color;   // Prompt isim rengi
+    char            *terminal_name_bg_color; // Prompt isim arka plan rengi
     char            *terminal_text_color;   // Text rengi
     char            *terminal_bg_color;     // Arka plan rengi
 
@@ -195,10 +199,19 @@ typedef struct s_shell
     // File Descriptor Yedekleri
     int             stdin_backup;       // stdin restore için
     int             stdout_backup;      // stdout restore için
+    int             redir_stdin_backup; // Redirection stdin backup
+    int             redir_stdout_backup; // Redirection stdout backup
 
     // History Yönetimi
     int             history_fd;         // History dosya descriptor
     char            *history_file;      // History dosya yolu
+
+    // Input Management
+    char            *current_input;     // Şu anki işlenen input
+
+    // Command Line Arguments
+    int             argc;               // Argüman sayısı
+    char            **argv;             // Argüman dizisi
 }   t_shell;
 ```
 
@@ -266,8 +279,13 @@ minishell/
 ├── Makefile
 ├── minishell.h                 # Ana header, tüm struct'lar ve prototipler
 ├── main.c                      # Ana döngü, shell init
+├── main_utils.c                # Main yardımcı fonksiyonlar
+├── main_utils2.c               # Main yardımcı fonksiyonlar 2
+├── prompt.c                    # Prompt oluşturma
+├── prompt_utils.c              # Prompt yardımcı fonksiyonlar
 ├── history_manager.c           # History yönetimi
 ├── config_loader.c             # Konfigürasyon yükleme
+├── config_loader_utils.c       # Config loader yardımcıları
 │
 ├── lexer/
 │   ├── lexer.h                 # Lexer header
@@ -275,6 +293,7 @@ minishell/
 │   ├── lexer_operator.c        # Operatör işleme (|, <, >, vb.)
 │   ├── lexer_word.c            # Word token işleme
 │   ├── lexer_token.c           # Token oluşturma
+│   ├── lexer_utils.c           # Lexer yardımcı fonksiyonlar
 │   └── quotes.c                # Quote handling
 │
 ├── parser/
@@ -282,11 +301,15 @@ minishell/
 │   ├── parser.c                # Ana parser
 │   ├── parse_cmd.c             # Basit komut parse
 │   ├── parse_cmd_utils.c       # Parse yardımcı fonksiyonlar
-│   └── build_ast.c             # AST oluşturma
+│   ├── parse_cmd_utils2.c      # Parse yardımcı fonksiyonlar 2
+│   ├── build_ast.c             # AST oluşturma
+│   └── build_ast_utils.c       # AST yardımcı fonksiyonlar
 │
 ├── expander/
 │   ├── expander.c              # $VAR, $? genişletme
 │   ├── expander_utils.c        # Expander yardımcılar
+│   ├── expander_utils2.c       # Expander yardımcılar 2
+│   ├── expander_utils3.c       # Expander yardımcılar 3
 │   ├── expand_args.c           # Argüman genişletme
 │   ├── expand_helpers.c        # Genişletme yardımcıları
 │   ├── wildcard.c              # * genişletme (bonus)
@@ -297,27 +320,34 @@ minishell/
 │   ├── executor.c              # Ana executor
 │   ├── exec_ast.c              # AST traverse
 │   ├── exec_cmd.c              # Komut çalıştırma
-│   ├── exec_cmd_utils.c        # Komut yardımcıları
+│   ├── exec_cmd_utils1.c       # Komut yardımcıları 1
+│   ├── exec_cmd_utils2.c       # Komut yardımcıları 2
 │   ├── exec_builtin.c          # Built-in çalıştırma
 │   ├── exec_pipe.c             # Pipe yönetimi
 │   ├── redirections.c          # Yönlendirme setup
 │   ├── redirections.h          # Yönlendirme header
 │   ├── here_doc_manager.c      # Heredoc yönetimi
-│   ├── here_doc_utils.c        # Heredoc yardımcıları
-│   └── easter_egg/             # Easter egg özellikleri (EASTEREGG flag)
-│       ├── easteregg.h
-│       ├── easter_egg.c
+│   ├── here_doc_utils1.c       # Heredoc yardımcıları 1
+│   ├── here_doc_utils2.c       # Heredoc yardımcıları 2
+│   ├── here_doc_utils3.c       # Heredoc yardımcıları 3
+│   └── extra_commands/         # Extra komutlar ve özellikler
+│       ├── extra_commands.h    # Extra commands header
+│       ├── extra_commands.c    # Extra komut dispatcher
+│       ├── collor_command.c    # Color komutları
+│       ├── color_manager.c     # Color yönetimi
 │       ├── harici_matrix.c     # Matrix rain efekti
-│       ├── pars_vs_executer.c  # Şaka mesajları
+│       ├── harici_matrix_utils.c # Matrix yardımcıları
+│       ├── pars_vs_executer.c  # Easter egg mesajları
 │       └── set_terminal_name.c # Terminal adı değiştirme
 │
 ├── builtins/
 │   ├── builtins.h              # Built-in header
+│   ├── builtin_alias_bonus.c   # Alias built-in (BONUS)
+│   ├── builtin_unalias_bonus.c # Unalias built-in (BONUS)
 │   ├── cd/
 │   │   └── builtin_cd.c
 │   ├── echo/
-│   │   ├── builtin_echo.c
-│   │   └── builtin_echo_utils.c
+│   │   └── builtin_echo.c
 │   ├── env/
 │   │   └── builtin_env.c
 │   ├── exit/
@@ -329,17 +359,18 @@ minishell/
 │   │   └── builtin_pwd.c
 │   ├── unset/
 │   │   └── builtin_unset.c
-│   └── extras/                 # Ekstra built-in'ler
-│       ├── builtin_help.c
-│       ├── builtin_true_false.c
-│       ├── builtin_tty.c
-│       └── builtin_type.c
+│   └── extras/                 # Ekstra built-in'ler (BONUS)
+│       ├── builtin_help.c      # Help komutu
+│       ├── builtin_true_false.c # True/False komutları
+│       ├── builtin_tty.c       # TTY komutu
+│       └── builtin_type.c      # Type komutu
 │
 ├── env/
 │   ├── env_manager.c           # Env hash table yönetimi
 │   ├── env_manager_utils.c     # Env yardımcıları
+│   ├── env_manager_utils2.c    # Env yardımcıları 2
 │   ├── env_array.c             # Env array dönüşümü
-│   ├── env_crypto.c            # XOR cipher (bonus)
+│   ├── env_crypto.c            # XOR cipher
 │   └── parse_path.c            # PATH parsing
 │
 ├── signals/
@@ -349,30 +380,110 @@ minishell/
 ├── utils/
 │   ├── utils.h                 # Utils header
 │   ├── error.c                 # Hata mesajları
+│   ├── ft_atoll.c              # atoll implementasyonu
 │   ├── strings.c               # String helpers
 │   └── strings_utils.c         # String yardımcıları
 │
-├── executor_utils/
-│   ├── file_utils.c            # Dosya yardımcıları
-│   ├── ft_atoll.c              # atoll implementasyonu
-│   ├── ft_strcmp.c             # strcmp implementasyonu
-│   ├── is_special_char.c       # Özel karakter kontrolü
-│   └── is_whitespace.c         # Whitespace kontrolü
-│
 ├── executor_error/
 │   ├── executor_error.h        # Hata header
-│   └── executor_error.c        # Executor hata mesajları
+│   ├── executor_error.c        # Executor hata mesajları
+│   └── executer_error2.c       # Executor hata mesajları 2
+│
+├── resources/
+│   ├── mimari_ornegi.md        # Bu dosya - Mimari dokümantasyonu
+│   └── ...                     # Diğer dokümantasyon dosyaları
 │
 └── libs/
     ├── libft/                  # Libft kütüphanesi
-    ├── ft_printf/              # ft_printf kütüphanesi
-    ├── garbage_collector/      # GC kütüphanesi
-    └── get-next-line/          # GNL kütüphanesi
+    └── garbage_collector/      # GC kütüphanesi
+        ├── garbage_collector.h
+        ├── include/
+        │   └── internal_collector.h
+        └── src/
+            ├── collector/      # GC toplama algoritmaları
+            ├── config/         # GC konfigürasyonu
+            ├── lifecycle/      # GC yaşam döngüsü
+            ├── memory/         # Bellek yönetimi
+            ├── scope/          # Scope yönetimi
+            ├── stats/          # İstatistikler
+            ├── string/         # String fonksiyonları
+            ├── utils/          # Yardımcı fonksiyonlar
+            └── wrapper/        # Wrapper fonksiyonları
 ```
 
 ---
 
-## 5. Yeniden Dengelenmiş İş Bölümü
+## 5. Derleme ve Bonus Sistemi
+
+### 5.1 Makefile Kullanımı
+
+```bash
+# Mandatory versiyon (zorunlu özellikler)
+make
+
+# Bonus versiyon (bonus özelliklerle)
+make bonus
+
+# Temizlik
+make clean      # Object dosyalarını sil
+make fclean     # Tümünü sil
+make re         # Yeniden derle
+
+# Debug mode
+make debug      # -g flag ile derle
+```
+
+### 5.2 Bonus Sistemi
+
+Proje, **-DBONUS** flag'i ile derlenerek bonus özellikleri aktif eder:
+
+- **Mandatory**: Sadece zorunlu özellikler (default)
+  - Temel built-ins (cd, echo, env, exit, export, pwd, unset)
+  - Pipe (`|`)
+  - Redirections (`<`, `>`, `>>`, `<<`)
+  - Variable expansion (`$VAR`, `$?`)
+  - Quote handling
+
+- **Bonus**: Tüm özellikler + bonus
+  - AND (`&&`) ve OR (`||`) operatörleri
+  - Subshell `()` desteği
+  - Wildcard `*` expansion
+  - Alias/unalias komutları
+  - Extra built-ins (help, type, tty, true, false)
+  - Extra commands (color management, terminal name, matrix efekti)
+
+### 5.3 Compilation Flag'leri
+
+```makefile
+# Mandatory compilation
+CFLAGS = -Wall -Wextra -Werror
+
+# Bonus compilation
+CFLAGS = -Wall -Wextra -Werror -DBONUS
+
+# Include paths
+-I. -I./libs/libft -I./libs/garbage_collector
+-I./lexer -I./parser -I./expander -I./executor
+-I./builtins -I./env -I./signals -I./utils
+
+# Link flags
+LDFLAGS = -lreadline -lncurses
+```
+
+### 5.4 Ayrı Object Directory Stratejisi
+
+```
+obj/              # Mandatory objects
+obj_bonus/        # Bonus objects (ayrı dizin)
+.mandatory        # Mandatory build marker
+.bonus            # Bonus build marker
+```
+
+Bu sistem sayede mandatory ve bonus versiyonlar birbirini bozmadan çalışır.
+
+---
+
+## 6. Yeniden Dengelenmiş İş Bölümü
 
 ### **`harici`'nin Görevleri (Hazırlık ve Kontrol)**
 
@@ -524,7 +635,7 @@ cat file | grep hello
 
 **Fork gerektirmez** - Ana shell prosesinde çalışır
 
-**Liste:**
+**Zorunlu Built-ins:**
 
 - `cd [path]`: `chdir()` ile directory değiştirme
 - `echo [-n] [args...]`: Çıktı yazdırma
@@ -533,6 +644,25 @@ cat file | grep hello
 - `export [VAR=value]`: Değişken export et
 - `pwd`: `getcwd()` ile current directory
 - `unset [VAR]`: Değişkeni sil
+
+**Bonus Built-ins (BONUS flag ile):**
+
+- `alias [name='value']`: Alias tanımlama
+- `unalias [name]`: Alias silme
+- `help`: Yardım mesajı gösterme
+- `type [command]`: Komut tipini gösterme
+- `tty`: TTY bilgisi
+- `true`: Exit status 0 döner
+- `false`: Exit status 1 döner
+
+**Extra Commands:**
+
+- `set_terminal_name [name]`: Terminal prompt adını değiştir
+- `set_prompt_color [color]`: Prompt rengini değiştir
+- `set_text_color [color]`: Text rengini değiştir
+- `set_bg_color [color]`: Arka plan rengini değiştir
+- `harici_matrix`: Matrix rain efekti göster
+- `pars_vs_executer`: Easter egg mesajı
 
 ---
 
@@ -1538,8 +1668,8 @@ Minishell, 42'nin en keyifli projelerinden biridir çünkü **somut ve kullanı�
 
 ---
 
-**Son Güncelleme:** Kasım 2025  
-**Versiyon:** 2.0  
+**Son Güncelleme:** Ocak 2026
+**Versiyon:** 2.1
 **Hazırlayanlar:** harici (suatkvam) & Akivam (hudayiarici)
 
 ---

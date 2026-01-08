@@ -37,8 +37,8 @@ t_gc_pool	*gc_pool_create(size_t size)
 }
 
 /*
-	allocate from poll (bump allocator)
-	returns pointer from pool ır NULL if pool is full
+	allocate from pool (bump allocator)
+	returns pointer from pool or NULL if pool is full
 	Align to 8 bytes for better performance
 
 	*/

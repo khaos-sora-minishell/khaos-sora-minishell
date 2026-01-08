@@ -12,14 +12,16 @@
 
 #ifndef INTERNAL_COLLECTOR_H
 # define INTERNAL_COLLECTOR_H
-// Hash table configuration
+
+/* Hash table configuration */
 # define GC_HASH_SIZE 1024
-// FNV-1a hash constants
+
+/* FNV-1a hash constants */
 # define FNV_OFFSET_BASIS 2166136261u
 # define FNV_PRIME 16777619u
 # define BYTE_MASK 0xFF
 
-// memory pool configuration
+/* Memory pool configuration */
 # define GC_POOL_SIZE 1048576
 # define GC_SMALL_ALLOC_THRESHOLD 256
 
@@ -39,7 +41,7 @@ typedef struct s_gc_allocation
 
 }							t_gc_allocation;
 
-// hash table bucket structure
+/* Hash table bucket structure */
 typedef struct s_gc_hash_bucket
 {
 	void					*ptr;
@@ -47,7 +49,7 @@ typedef struct s_gc_hash_bucket
 	struct s_gc_hash_bucket	*next;
 }							t_gc_hash_bucket;
 
-// memory pool structure
+/* Memory pool structure */
 typedef struct s_gc_pool
 {
 	void					*memory;
@@ -136,7 +138,7 @@ t_gc_allocation	*gc_create_meta(void *ptr, size_t size, size_t level);
 void			gc_update_stats(t_gc_context *contex, size_t size);
 void			gc_add_to_global(t_gc_context *contex, t_gc_allocation *meta);
 
-// Hash functions
+/* Hash functions */
 size_t			gc_hash_ptr(void *ptr);
 void			gc_hash_add(t_gc_context *contex, void *ptr,
 					t_gc_allocation *alloc);
@@ -144,7 +146,7 @@ t_gc_allocation	*gc_hash_find(t_gc_context *contex, void *ptr);
 void			gc_hash_remove(t_gc_context *contex, void *ptr);
 void			gc_hash_clear(t_gc_context *contex);
 
-// Pool functions
+/* Pool functions */
 t_gc_pool		*gc_pool_create(size_t size);
 void			*gc_pool_alloc(t_gc_context *contex, size_t size);
 void			gc_pool_destroy_all(t_gc_context *contex);

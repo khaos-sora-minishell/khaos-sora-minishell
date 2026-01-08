@@ -14,16 +14,25 @@
 
 static volatile sig_atomic_t	g_signal = 0;
 
+/*
+ * Returns the current signal state
+ */
 int	get_signal(void)
 {
 	return (g_signal);
 }
 
+/*
+ * Sets the global signal state to the specified value
+ */
 void	set_signal(int value)
 {
 	g_signal = value;
 }
 
+/*
+ * Resets the global signal state to zero
+ */
 void	reset_signal(void)
 {
 	g_signal = 0;

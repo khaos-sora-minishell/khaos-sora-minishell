@@ -12,6 +12,10 @@
 
 #include "minishell.h"
 
+/*
+ * Handles SIGINT (Ctrl+C) in interactive mode
+ * Displays new prompt line without exiting shell
+ */
 void	signal_handler(int signum)
 {
 	if (signum == SIGINT)
@@ -24,6 +28,10 @@ void	signal_handler(int signum)
 	}
 }
 
+/*
+ * Configures signal handlers for parent shell process
+ * SIGINT handled by custom handler, SIGQUIT ignored
+ */
 void	setup_signals(void)
 {
 	struct sigaction	sa_int;
@@ -39,6 +47,10 @@ void	setup_signals(void)
 	sigaction(SIGQUIT, &sa_quit, NULL);
 }
 
+/*
+ * Restores default signal behavior for child processes
+ * SIGINT and SIGQUIT reset to default, SIGPIPE ignored
+ */
 void	setup_child_signals(void)
 {
 	struct sigaction	sa;
@@ -52,6 +64,10 @@ void	setup_child_signals(void)
 	sigaction(SIGPIPE, &sa, NULL);
 }
 
+/*
+ * Ignores SIGINT and SIGQUIT signals
+ * Used during child process execution to prevent interruption
+ */
 void	ignore_signals(void)
 {
 	struct sigaction	sa;

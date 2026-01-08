@@ -55,7 +55,7 @@ static void	gc_free_scope_allocs(t_gc_context *contex, t_gc_scope *scope)
 
 /*
  *pop current scope from stack and free all its allocations
- *deterministic memıry cleanup for scope-based managment
+ *deterministic memory cleanup for scope-based management
  */
 void	gc_scope_pop(t_gc_context *contex)
 {

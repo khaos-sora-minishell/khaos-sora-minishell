@@ -15,8 +15,8 @@
 #include "utils.h"
 
 /*
-** Builtin listesini döndürür
-** Fonksiyon içi static - global değil!
+** Returns the list of builtin commands
+** Static function - not global!
 */
 static t_builtin	*get_builtins(void)
 {
@@ -43,7 +43,7 @@ static t_builtin	*get_builtins(void)
 }
 
 /*
-** Komutun builtin olup olmadığını kontrol eder
+** Checks if the command is a builtin
 */
 int	is_builtin(char *cmd)
 {
@@ -64,8 +64,8 @@ int	is_builtin(char *cmd)
 }
 
 /*
-** Builtin komutunu çalıştırır
-** cmd parametresi yok - args[0]'dan alınır
+** Executes a builtin command
+** No cmd parameter - taken from args[0]
 */
 int	execute_builtin(char **args, t_shell *shell)
 {

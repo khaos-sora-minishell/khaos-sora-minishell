@@ -19,6 +19,10 @@
 #include <stdio.h>
 #include <unistd.h>
 
+/*
+ * Opens script file for reading in file mode
+ * Sets exit status to 127 if file cannot be opened
+ */
 static int	open_script_file(t_shell *shell, char *filename)
 {
 	int	fd;
@@ -32,6 +36,10 @@ static int	open_script_file(t_shell *shell, char *filename)
 	return (fd);
 }
 
+/*
+ * Reads and processes each line from script file
+ * Skips shebang lines starting with #!
+ */
 static void	process_script_lines(t_shell *shell, int fd)
 {
 	char	*line;
@@ -54,6 +62,10 @@ static void	process_script_lines(t_shell *shell, int fd)
 	}
 }
 
+/*
+ * Executes minishell in script file mode
+ * Processes commands from file line by line
+ */
 static void	run_file_mode(t_shell *shell, char *filename)
 {
 	int	fd;
@@ -67,6 +79,10 @@ static void	run_file_mode(t_shell *shell, char *filename)
 
 #ifdef BONUS
 
+/*
+ * Main entry point with bonus features
+ * Supports interactive mode and script file execution with history
+ */
 int	main(int argc, char const *argv[], char **envp)
 {
 	t_shell	shell;
@@ -86,6 +102,10 @@ int	main(int argc, char const *argv[], char **envp)
 
 #else
 
+/*
+ * Main entry point without bonus features
+ * Supports interactive mode and script file execution
+ */
 int	main(int argc, char const *argv[], char **envp)
 {
 	t_shell	shell;

@@ -21,6 +21,10 @@
 
 #ifdef BONUS
 
+/*
+ * Initializes shell structure and sets up memory arenas
+ * Creates environment table and alias table with history support
+ */
 void	init_shell(t_shell *shell, int argc, char **argv, char **envp)
 {
 	ft_bzero(shell, sizeof(t_shell));
@@ -52,6 +56,10 @@ void	init_shell(t_shell *shell, int argc, char **argv, char **envp)
 
 #else
 
+/*
+ * Initializes shell structure and sets up memory arenas
+ * Creates environment table and alias table without history support
+ */
 void	init_shell(t_shell *shell, int argc, char **argv, char **envp)
 {
 	ft_bzero(shell, sizeof(t_shell));
@@ -81,6 +89,10 @@ void	init_shell(t_shell *shell, int argc, char **argv, char **envp)
 
 #endif
 
+/*
+ * Cleans up command arena after each command execution
+ * Resets signal state and AST root for next command
+ */
 void	clean_loop(t_shell *shell)
 {
 	gc_scope_pop_all(shell->cmd_arena);
@@ -88,6 +100,10 @@ void	clean_loop(t_shell *shell)
 	shell->ast_root = NULL;
 }
 
+/*
+ * Performs cleanup before child process termination
+ * Closes file descriptors and frees allocated memory
+ */
 void	cleanup_child_process(t_shell *shell)
 {
 	rl_clear_history();

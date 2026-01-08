@@ -17,6 +17,10 @@
 
 #ifdef BONUS
 
+/*
+ * Cleans up shell resources before exit
+ * Saves history file and performs final cleanup
+ */
 void	cleanup_shell(t_shell *shell)
 {
 	save_history_file(shell);
@@ -25,6 +29,10 @@ void	cleanup_shell(t_shell *shell)
 
 #else
 
+/*
+ * Cleans up shell resources before exit
+ * Performs final cleanup without history saving
+ */
 void	cleanup_shell(t_shell *shell)
 {
 	cleanup_child_process(shell);
@@ -32,6 +40,10 @@ void	cleanup_shell(t_shell *shell)
 
 #endif
 
+/*
+ * Processes user input through lexer, parser, and executor
+ * Adds non-empty input to command history
+ */
 void	process_input(t_shell *shell, char *input)
 {
 	t_token	*tokens;
@@ -47,6 +59,10 @@ void	process_input(t_shell *shell, char *input)
 	}
 }
 
+/*
+ * Main interactive shell loop
+ * Reads and processes commands until EOF or exit
+ */
 void	run_shell_loop(t_shell *shell)
 {
 	char	*input;

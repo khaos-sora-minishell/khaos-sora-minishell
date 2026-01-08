@@ -83,8 +83,8 @@ t_gc_allocation	*gc_hash_find(t_gc_context *contex, void *ptr)
 }
 
 /*
-	remove allocation frım hash table
-	frees the buccket but not the allocation itself
+	remove allocation from hash table
+	frees the bucket but not the allocation itself
 */
 void	gc_hash_remove(t_gc_context *contex, void *ptr)
 {

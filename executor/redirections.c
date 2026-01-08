@@ -71,7 +71,7 @@ static int	handle_heredoc(t_redir *redir)
 }
 
 /*
- * Yönlendirmeleri setup eder - <, >, >>, <<
+ * Sets up redirections - <, >, >>, <<
  */
 int	setup_redirections(t_redir *redirs, t_shell *shell)
 {
