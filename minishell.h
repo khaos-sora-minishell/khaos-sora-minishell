@@ -243,6 +243,12 @@ void					sort_strings(char **strings, int count);
 
 int						has_quotes(char *str);
 char					*expand_string(char *str, t_shell *shell);
+#ifdef BONUS
+void					update_len(char *str, t_expand_contex *contex,
+							size_t *len, t_shell *shell);
+void					process_expansion(char *str, char *result,
+							t_shell *shell, t_expand_contex *contex);
+#endif
 void					executor_run(t_shell *shell);
 int						add_expanded_results(char ***result, int *idx,
 							char **wildcard_res);
