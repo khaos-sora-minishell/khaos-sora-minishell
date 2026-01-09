@@ -42,6 +42,8 @@ char	*process_dollar(char *str, int *i, t_shell *shell)
 	return (value);
 }
 
+#ifdef BONUS
+
 char	*process_tilde(char *str, int *i, t_shell *shell)
 {
 	char	*home;
@@ -57,3 +59,62 @@ char	*process_tilde(char *str, int *i, t_shell *shell)
 	(*i)--;
 	return (gc_strdup(shell->cmd_arena, "~"));
 }
+
+void	process_expansion(char *str, char *result, t_shell *shell,
+		t_expand_contex *contex)
+{
+	char	*expanded;
+
+	if (!contex->quote && (str[contex->i] == '\'' || str[contex->i] == '"'))
+		contex->quote = str[contex->i++];
+	else if (contex->quote && str[contex->i] == contex->quote)
+	{
+		contex->quote = 0;
+		contex->i++;
+	}
+	else if (str[contex->i] == '~' && !contex->quote && contex->i == 0)
+	{
+		expanded = process_tilde(str, &contex->i, shell);
+		ft_memcpy(result + contex->j, expanded, gc_strlen(expanded));
+		contex->j += gc_strlen(expanded);
+	}
+	else if (str[contex->i] == '$' && contex->quote != '\'')
+	{
+		expanded = process_dollar(str, &contex->i, shell);
+		ft_memcpy(result + contex->j, expanded, gc_strlen(expanded));
+		contex->j += gc_strlen(expanded);
+	}
+	else
+		result[contex->j++] = str[contex->i++];
+}
+
+void	update_len(char *str, t_expand_contex *contex, size_t *len,
+		t_shell *shell)
+{
+	char	*expanded;
+
+	if (!contex->quote && (str[contex->i] == '\'' || str[contex->i] == '"'))
+		contex->quote = str[contex->i++];
+	else if (contex->quote && str[contex->i] == contex->quote)
+	{
+		contex->quote = 0;
+		contex->i++;
+	}
+	else if (str[contex->i] == '~' && !contex->quote && contex->i == 0)
+	{
+		expanded = process_tilde(str, &contex->i, shell);
+		*len += gc_strlen(expanded);
+	}
+	else if (str[contex->i] == '$' && contex->quote != '\'')
+	{
+		expanded = process_dollar(str, &contex->i, shell);
+		*len += gc_strlen(expanded);
+	}
+	else
+	{
+		(*len)++;
+		contex->i++;
+	}
+}
+
+#endif
