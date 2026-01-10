@@ -13,57 +13,57 @@
 #include "minishell.h"
 #include "parser.h"
 
-static int	heredoc_has_outer_quotes(char *str, char *quote_char)
+static int	heredoc_has_any_quotes(char *str)
 {
-	int	len;
+	int	i;
 
 	if (!str || !*str)
 		return (0);
-	len = ft_strlen(str);
-	if (len >= 2 && ((str[0] == '\'' && str[len - 1] == '\'')
-			|| (str[0] == '\"' && str[len - 1] == '\"')))
+	i = 0;
+	while (str[i])
 	{
-		*quote_char = str[0];
-		return (1);
+		if (str[i] == '\'' || str[i] == '\"')
+			return (1);
+		i++;
 	}
 	return (0);
 }
 
-static char	*heredoc_strip_quotes(char *str, void *arena)
+static char	*heredoc_strip_all_quotes(char *str, void *arena)
 {
 	int		len;
 	char	*result;
 	int		i;
+	int		j;
 
 	len = ft_strlen(str);
-	if (len < 2)
-		return (gc_strdup(arena, str));
-	result = gc_malloc(arena, len - 1);
+	result = gc_malloc(arena, len + 1);
 	if (!result)
 		return (NULL);
 	i = 0;
-	while (i < len - 2)
+	j = 0;
+	while (str[i])
 	{
-		result[i] = str[i + 1];
+		if (str[i] != '\'' && str[i] != '\"')
+			result[j++] = str[i];
 		i++;
 	}
-	result[i] = '\0';
+	result[j] = '\0';
 	return (result);
 }
 
 char	*parse_heredoc_delimiter(char *raw_delim, int *should_expand,
 		void *arena)
 {
-	char	quote_char;
-
-	if (heredoc_has_outer_quotes(raw_delim, &quote_char))
+	if (heredoc_has_any_quotes(raw_delim))
 	{
 		*should_expand = 0;
-		return (heredoc_strip_quotes(raw_delim, arena));
+		return (heredoc_strip_all_quotes(raw_delim, arena));
 	}
 	*should_expand = 1;
 	return (gc_strdup(arena, raw_delim));
 }
+
 
 t_redir	*create_redir(t_token_type type, char *file, void *arena)
 {
