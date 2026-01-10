@@ -8,7 +8,7 @@ LEXER_SRC	= lexer.c lexer_operator.c lexer_word.c lexer_token.c quotes.c lexer_u
 
 PARSER_SRC	= parser.c parse_cmd.c parse_cmd_utils.c parse_cmd_utils2.c build_ast.c build_ast_utils.c
 
-EXPANDER_SRC = expander.c wildcard.c expand_args.c \
+EXPANDER_SRC = expander.c expander_utils4.c wildcard.c expand_args.c expand_args2.c \
 			   expander_utils.c expander_utils2.c expander_utils3.c \
 			   wildcard_utils.c expand_helpers.c expander_positional.c
 

@@ -51,3 +51,8 @@ int	add_expanded_results(char ***result, int *idx, char **wildcard_res)
 	}
 	return (j);
 }
+
+int	is_ifs(char c)
+{
+	return (c == ' ' || c == '\t' || c == '\n');
+}

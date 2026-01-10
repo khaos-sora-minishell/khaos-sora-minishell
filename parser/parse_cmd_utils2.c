@@ -64,7 +64,6 @@ char	*parse_heredoc_delimiter(char *raw_delim, int *should_expand,
 	return (gc_strdup(arena, raw_delim));
 }
 
-
 t_redir	*create_redir(t_token_type type, char *file, void *arena)
 {
 	t_redir	*redir;

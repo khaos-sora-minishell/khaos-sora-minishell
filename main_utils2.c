@@ -11,9 +11,33 @@
 /* ************************************************************************** */
 
 #include "executor.h"
+#include "garbage_collector.h"
 #include "lexer.h"
 #include "minishell.h"
 #include <readline/history.h>
+
+void	cleanup_child_process(t_shell *shell)
+{
+	rl_clear_history();
+	get_next_line(-1);
+	if (shell->current_input)
+	{
+		free(shell->current_input);
+		shell->current_input = NULL;
+	}
+	if (shell->stdin_backup > 2)
+		close(shell->stdin_backup);
+	if (shell->stdout_backup > 2)
+		close(shell->stdout_backup);
+	if (shell->redir_stdin_backup > 2)
+		close(shell->redir_stdin_backup);
+	if (shell->redir_stdout_backup > 2)
+		close(shell->redir_stdout_backup);
+	if (shell->global_arena)
+		gc_destroy(shell->global_arena);
+	if (shell->cmd_arena)
+		gc_destroy(shell->cmd_arena);
+}
 
 #ifdef BONUS
 

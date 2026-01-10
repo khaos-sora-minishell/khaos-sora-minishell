@@ -26,6 +26,19 @@ static char	*process_special_param(char *str, int *i, t_shell *shell)
 	return (NULL);
 }
 
+static char	*process_brace_var(char *str, int *i, t_shell *shell)
+{
+	char	*var_name;
+	char	*value;
+
+	(*i)++;
+	var_name = extract_var_name(str, i, shell);
+	if (str[*i] == '}')
+		(*i)++;
+	value = expand_variable(var_name, shell);
+	return (value);
+}
+
 char	*process_dollar(char *str, int *i, t_shell *shell)
 {
 	char	*var_name;
@@ -35,6 +48,10 @@ char	*process_dollar(char *str, int *i, t_shell *shell)
 	value = process_special_param(str, i, shell);
 	if (value)
 		return (value);
+	if (str[*i] == '"' || str[*i] == '\'')
+		return (gc_strdup(shell->cmd_arena, ""));
+	if (str[*i] == '{')
+		return (process_brace_var(str, i, shell));
 	if (!str[*i] || (!ft_isalnum(str[*i]) && str[*i] != '_'))
 		return (gc_strdup(shell->cmd_arena, "$"));
 	var_name = extract_var_name(str, i, shell);
@@ -58,63 +75,6 @@ char	*process_tilde(char *str, int *i, t_shell *shell)
 	}
 	(*i)--;
 	return (gc_strdup(shell->cmd_arena, "~"));
-}
-
-void	process_expansion(char *str, char *result, t_shell *shell,
-		t_expand_contex *contex)
-{
-	char	*expanded;
-
-	if (!contex->quote && (str[contex->i] == '\'' || str[contex->i] == '"'))
-		contex->quote = str[contex->i++];
-	else if (contex->quote && str[contex->i] == contex->quote)
-	{
-		contex->quote = 0;
-		contex->i++;
-	}
-	else if (str[contex->i] == '~' && !contex->quote && contex->i == 0)
-	{
-		expanded = process_tilde(str, &contex->i, shell);
-		ft_memcpy(result + contex->j, expanded, gc_strlen(expanded));
-		contex->j += gc_strlen(expanded);
-	}
-	else if (str[contex->i] == '$' && contex->quote != '\'')
-	{
-		expanded = process_dollar(str, &contex->i, shell);
-		ft_memcpy(result + contex->j, expanded, gc_strlen(expanded));
-		contex->j += gc_strlen(expanded);
-	}
-	else
-		result[contex->j++] = str[contex->i++];
-}
-
-void	update_len(char *str, t_expand_contex *contex, size_t *len,
-		t_shell *shell)
-{
-	char	*expanded;
-
-	if (!contex->quote && (str[contex->i] == '\'' || str[contex->i] == '"'))
-		contex->quote = str[contex->i++];
-	else if (contex->quote && str[contex->i] == contex->quote)
-	{
-		contex->quote = 0;
-		contex->i++;
-	}
-	else if (str[contex->i] == '~' && !contex->quote && contex->i == 0)
-	{
-		expanded = process_tilde(str, &contex->i, shell);
-		*len += gc_strlen(expanded);
-	}
-	else if (str[contex->i] == '$' && contex->quote != '\'')
-	{
-		expanded = process_dollar(str, &contex->i, shell);
-		*len += gc_strlen(expanded);
-	}
-	else
-	{
-		(*len)++;
-		contex->i++;
-	}
 }
 
 #endif

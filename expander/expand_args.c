@@ -12,47 +12,55 @@
 
 #include "minishell.h"
 
+static void	process_words(char **words, char ***result, int *idx,
+		t_shell *shell)
+{
+	int	i;
+
+	i = 0;
+	while (words[i])
+		add_word_or_wc(words[i++], result, idx, shell);
+}
+
 static void	process_arg(char *arg, char ***result, int *idx, t_shell *shell)
 {
-	char	**wildcard_res;
-	char	*var_expanded;
+	char	*exp;
+	char	**words;
 
-	var_expanded = expand_string(arg, shell);
-	if (!var_expanded)
-		var_expanded = gc_strdup(shell->cmd_arena, arg);
+	exp = expand_string(arg, shell);
+	if (!exp)
+		exp = gc_strdup(shell->cmd_arena, arg);
 	if (!has_quotes(arg))
 	{
-		wildcard_res = expand_wildcard(var_expanded, shell);
-		if (wildcard_res)
-			add_expanded_results(result, idx, wildcard_res);
-		else if (var_expanded[0] != '\0')
-			(*result)[(*idx)++] = var_expanded;
+		words = split_words(exp, shell);
+		if (words)
+			process_words(words, result, idx, shell);
+		else if (exp[0] != '\0')
+			add_word_or_wc(exp, result, idx, shell);
 	}
 	else
-		(*result)[(*idx)++] = var_expanded;
+		(*result)[(*idx)++] = exp;
 }
 
 static int	count_single_expanded(char *arg, t_shell *shell)
 {
-	char	**wildcard_res;
-	char	*var_expanded;
+	char	*exp;
+	char	**words;
 	int		count;
+	int		i;
 
-	var_expanded = expand_string(arg, shell);
-	if (!var_expanded)
-		var_expanded = arg;
-	if (!has_quotes(arg))
-	{
-		wildcard_res = expand_wildcard(var_expanded, shell);
-		if (wildcard_res)
-			count = count_args(wildcard_res);
-		else if (var_expanded[0] != '\0')
-			count = 1;
-		else
-			count = 0;
-	}
-	else
-		count = 1;
+	exp = expand_string(arg, shell);
+	if (!exp)
+		exp = arg;
+	if (has_quotes(arg))
+		return (1);
+	words = split_words(exp, shell);
+	if (!words)
+		return (exp[0] != '\0');
+	count = 0;
+	i = 0;
+	while (words[i])
+		count += count_word_with_wildcard(words[i++], shell);
 	return (count);
 }
 
@@ -64,10 +72,7 @@ static int	count_total_expanded(char **args, t_shell *shell)
 	total = 0;
 	i = 0;
 	while (args[i])
-	{
-		total += count_single_expanded(args[i], shell);
-		i++;
-	}
+		total += count_single_expanded(args[i++], shell);
 	return (total);
 }
 
