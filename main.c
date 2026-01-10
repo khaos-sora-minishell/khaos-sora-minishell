@@ -60,6 +60,7 @@ static void	process_script_lines(t_shell *shell, int fd)
 		shell->current_input = NULL;
 		clean_loop(shell);
 	}
+	get_next_line(-1);
 }
 
 /*

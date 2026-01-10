@@ -60,21 +60,20 @@ void	read_heredoc_loop(int fd, t_redir *redir, t_shell *shell)
 
 char	*get_heredoc_filename(int counter, t_shell *shell)
 {
-	return (gc_strjoin(shell->cmd_arena, "/tmp/minishell_heredocs/heredoc_",
+	static int	session_id = 0;
+	char		*user;
+	char		*base;
+
+	if (session_id == 0)
+		session_id = (int)((size_t)shell % 100000);
+	user = getenv("USER");
+	if (!user)
+		user = "unknown";
+	base = gc_strjoin(shell->cmd_arena, "/tmp/msh_hd_", user);
+	base = gc_strjoin(shell->cmd_arena, base, "_");
+	base = gc_strjoin(shell->cmd_arena, base,
+			gc_itoa(shell->cmd_arena, session_id));
+	base = gc_strjoin(shell->cmd_arena, base, "_");
+	return (gc_strjoin(shell->cmd_arena, base,
 			gc_itoa(shell->cmd_arena, counter)));
-}
-
-int	create_heredoc_dir(void)
-{
-	struct stat	st;
-
-	if (stat("/tmp/minishell_heredocs", &st) == -1)
-	{
-		if (mkdir("/tmp/minishell_heredocs", 0777) == -1)
-		{
-			perror("minishell: heredoc dir");
-			return (-1);
-		}
-	}
-	return (0);
 }

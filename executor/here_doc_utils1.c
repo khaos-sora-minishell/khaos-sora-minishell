@@ -14,17 +14,9 @@
 #include "libft.h"
 #include "minishell.h"
 #include <fcntl.h>
-#include <readline/readline.h>
 #include <stdlib.h>
 #include <sys/stat.h>
 #include "utils.h"
-
-int	heredoc_signal_checker(void)
-{
-	if (get_signal() == SIGINT)
-		rl_done = 1;
-	return (0);
-}
 
 static size_t	calculate_expanded_length(char *line, t_shell *shell)
 {

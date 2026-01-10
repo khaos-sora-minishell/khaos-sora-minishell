@@ -36,6 +36,8 @@ char	*expand_exit_status(t_shell *shell)
 	return (gc_itoa(shell->cmd_arena, shell->exit_status));
 }
 
+#ifdef BONUS
+
 char	*expand_arg_count(t_shell *shell)
 {
 	int	count;
@@ -46,28 +48,12 @@ char	*expand_arg_count(t_shell *shell)
 	return (gc_itoa(shell->cmd_arena, count));
 }
 
-char	*expand_positional_arg(t_shell *shell, int index)
+#else
+
+char	*expand_arg_count(t_shell *shell)
 {
-	if (index < 0 || index >= shell->argc)
-		return (gc_strdup(shell->cmd_arena, ""));
-	return (gc_strdup(shell->cmd_arena, shell->argv[index]));
+	(void)shell;
+	return (gc_strdup(shell->cmd_arena, "0"));
 }
 
-char	*expand_all_args(t_shell *shell)
-{
-	char	*result;
-	char	*temp;
-	int		i;
-
-	if (shell->argc <= 1)
-		return (gc_strdup(shell->cmd_arena, ""));
-	result = gc_strdup(shell->cmd_arena, shell->argv[1]);
-	i = 2;
-	while (i < shell->argc)
-	{
-		temp = gc_strjoin(shell->cmd_arena, result, " ");
-		result = gc_strjoin(shell->cmd_arena, temp, shell->argv[i]);
-		i++;
-	}
-	return (result);
-}
+#endif

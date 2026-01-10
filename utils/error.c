@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <stdio.h>
+#include "libft.h"
 
 /*
  * Prints formatted error message to stderr
@@ -19,10 +19,15 @@
  */
 void	print_error(const char *cmd, const char *arg, const char *msg)
 {
-	fprintf(stderr, "minishell: %s", cmd);
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd((char *)cmd, 2);
 	if (arg)
-		fprintf(stderr, ": %s", arg);
-	fprintf(stderr, ": %s\n", msg);
+	{
+		ft_putstr_fd(": ", 2);
+		ft_putstr_fd((char *)arg, 2);
+	}
+	ft_putstr_fd(": ", 2);
+	ft_putendl_fd((char *)msg, 2);
 }
 
 /*
@@ -30,7 +35,7 @@ void	print_error(const char *cmd, const char *arg, const char *msg)
  */
 void	syntax_error(char *token)
 {
-	fprintf(stderr, "minishell: syntax error near unexpected token `%s'\n",
+	ft_err_printf("minishell: syntax error near unexpected token `%s'\n",
 		token);
 }
 
@@ -39,7 +44,7 @@ void	syntax_error(char *token)
  */
 int	command_not_found(char *cmd)
 {
-	fprintf(stderr, "minishell: %s: command not found\n", cmd);
+	ft_err_printf("minishell: %s: command not found\n", cmd);
 	return (127);
 }
 
@@ -49,6 +54,6 @@ int	command_not_found(char *cmd)
 void	error_exit(char *msg, t_shell *shell)
 {
 	(void)shell;
-	fprintf(stderr, "minishell: %s\n", msg);
+	ft_err_printf("minishell: %s\n", msg);
 	exit(1);
 }

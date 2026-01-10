@@ -35,7 +35,7 @@ char	*process_simple_special(char *str, int *i, t_shell *shell)
 	if (str[*i] == '$')
 	{
 		(*i)++;
-		return (gc_itoa(shell->cmd_arena, getpid()));
+		return (gc_strdup(shell->cmd_arena, "0"));
 	}
 	if (str[*i] == '#')
 	{

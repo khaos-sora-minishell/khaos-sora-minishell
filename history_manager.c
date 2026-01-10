@@ -11,33 +11,31 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "libft.h"
+#include <fcntl.h>
+#include <readline/history.h>
 
 #ifdef BONUS
-
-static char	*get_history_path(t_shell *shell)
-{
-	char	*home;
-	char	*path;
-
-	home = getenv("HOME");
-	if (!home)
-		return (NULL);
-	path = gc_strjoin(shell->global_arena, home, "/.shell_history");
-	return (path);
-}
 
 void	init_history(t_shell *shell)
 {
 	shell->history_file = get_history_path(shell);
 	if (shell->history_file)
-		read_history(shell->history_file);
+	{
+		load_history_from_file(shell->history_file);
+		shell->history_fd = open(shell->history_file,
+				O_WRONLY | O_CREAT | O_APPEND, 0644);
+	}
 }
 
-void	save_history_file(t_shell *shell)
+void	add_history_entry(t_shell *shell, char *line)
 {
-	if (shell->history_file)
+	if (!line || !*line)
+		return ;
+	add_history(line);
+	if (shell->history_fd > 0)
 	{
-		write_history(shell->history_file);
+		ft_putendl_fd(line, shell->history_fd);
 	}
 }
 
@@ -48,9 +46,11 @@ void	init_history(t_shell *shell)
 	(void)shell;
 }
 
-void	save_history_file(t_shell *shell)
+void	add_history_entry(t_shell *shell, char *line)
 {
 	(void)shell;
+	if (line && *line)
+		add_history(line);
 }
 
 #endif

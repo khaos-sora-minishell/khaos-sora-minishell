@@ -40,8 +40,6 @@ int	process_cmd_heredoc(t_cmd *cmd, t_shell *shell)
 	t_redir	*curr;
 	int		counter;
 
-	if (create_heredoc_dir() == -1)
-		return (-1);
 	curr = cmd->redirs;
 	counter = 0;
 	while (curr)

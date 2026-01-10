@@ -49,7 +49,7 @@ void	process_input(t_shell *shell, char *input)
 	t_token	*tokens;
 
 	if (*input)
-		add_history(input);
+		add_history_entry(shell, input);
 	tokens = lexer(input, shell);
 	if (tokens)
 	{

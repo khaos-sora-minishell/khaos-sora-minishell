@@ -22,13 +22,11 @@ void	execute_command(t_cmd *cmd, t_shell *shell);
 void	execute_pipe(t_ast_node *left, t_ast_node *right, t_shell *shell);
 int		setup_redirections(t_redir *redirs, t_shell *shell);
 
-int		heredoc_signal_checker(void);
 char	*expand_heredoc_line(char *line, t_shell *shell);
 int		process_heredoc_line(char *line, int fd, t_redir *redir,
 			t_shell *shell);
 void	read_heredoc_loop(int fd, t_redir *redir, t_shell *shell);
 char	*get_heredoc_filename(int counter, t_shell *shell);
-int		create_heredoc_dir(void);
 int		process_cmd_heredoc(t_cmd *cmd, t_shell *shell);
 int		process_ast_heredocs(t_ast_node *ast, t_shell *shell);
 void	clean_heredoc(t_cmd *cmd);

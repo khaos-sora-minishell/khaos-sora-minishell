@@ -33,11 +33,15 @@ int	match_pattern(char *pattern, char *str)
 	return (0);
 }
 
-int	count_matches(DIR *directory, char *pattern)
+int	count_matches(char *pattern)
 {
+	DIR				*directory;
 	struct dirent	*entry;
 	int				count;
 
+	directory = opendir(".");
+	if (!directory)
+		return (0);
 	count = 0;
 	while (1)
 	{
@@ -49,7 +53,7 @@ int	count_matches(DIR *directory, char *pattern)
 		if (match_pattern(pattern, entry->d_name))
 			count++;
 	}
-	rewinddir(directory);
+	closedir(directory);
 	return (count);
 }
 

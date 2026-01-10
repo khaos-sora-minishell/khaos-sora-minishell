@@ -216,6 +216,9 @@ void					reset_signal(void);
 
 void					init_history(t_shell *shell);
 void					save_history_file(t_shell *shell);
+void					add_history_entry(t_shell *shell, char *line);
+char					*get_history_path(t_shell *shell);
+void					load_history_from_file(char *path);
 void					load_shellrc(t_shell *shell);
 void					create_shellrc(t_shell *shell);
 void					save_to_shellrc(t_shell *shell, char *line);
@@ -236,19 +239,23 @@ int						is_special_char(char c);
 t_ast_node				*build_ast(t_token *tokens, t_shell *shell);
 
 int						match_pattern(char *pattern, char *str);
-int						count_matches(DIR *directory, char *pattern);
+int						count_matches(char *pattern);
 void					add_matches(DIR *directory, char *pattern,
 							char **result, t_shell *shell);
 void					sort_strings(char **strings, int count);
 
 int						has_quotes(char *str);
 char					*expand_string(char *str, t_shell *shell);
-#ifdef BONUS
+
+# ifdef BONUS
+
 void					update_len(char *str, t_expand_contex *contex,
 							size_t *len, t_shell *shell);
 void					process_expansion(char *str, char *result,
 							t_shell *shell, t_expand_contex *contex);
-#endif
+
+# endif
+
 void					executor_run(t_shell *shell);
 int						add_expanded_results(char ***result, int *idx,
 							char **wildcard_res);
