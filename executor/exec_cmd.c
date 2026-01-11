@@ -39,6 +39,17 @@ static void	handle_redirection_only(t_cmd *cmd, t_shell *shell)
 	close(saved_stdout);
 }
 
+static void	handle_no_command(t_cmd *cmd, t_shell *shell)
+{
+	if (cmd && cmd->redirs)
+		handle_redirection_only(cmd, shell);
+	else if (cmd && cmd->args && cmd->args[0] && !cmd->args[0][0])
+	{
+		print_execution_error("", ERR_NO_FILE);
+		shell->exit_status = EXIT_CMD_NOT_FOUND;
+	}
+}
+
 #ifdef BONUS
 
 void	execute_command(t_cmd *cmd, t_shell *shell)
@@ -47,11 +58,7 @@ void	execute_command(t_cmd *cmd, t_shell *shell)
 	int		status;
 
 	if (!prepare_cmd_execution(cmd, shell))
-	{
-		if (cmd && cmd->redirs)
-			handle_redirection_only(cmd, shell);
-		return ;
-	}
+		return (handle_no_command(cmd, shell));
 	if (is_builtin(cmd->args[0]))
 		return (execute_builtin_with_redir(cmd, shell));
 	if (is_extra_command(cmd->args[0]))
@@ -78,11 +85,7 @@ void	execute_command(t_cmd *cmd, t_shell *shell)
 	int		status;
 
 	if (!prepare_cmd_execution(cmd, shell))
-	{
-		if (cmd && cmd->redirs)
-			handle_redirection_only(cmd, shell);
-		return ;
-	}
+		return (handle_no_command(cmd, shell));
 	if (is_builtin(cmd->args[0]))
 		return (execute_builtin_with_redir(cmd, shell));
 	pid = fork();

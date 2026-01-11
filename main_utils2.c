@@ -100,6 +100,8 @@ void	run_shell_loop(t_shell *shell)
 				ft_printf("exit\n");
 			break ;
 		}
+		if (get_signal() == SIGINT)
+			shell->exit_status = 130;
 		shell->current_input = input;
 		process_input(shell, input);
 		free(shell->current_input);

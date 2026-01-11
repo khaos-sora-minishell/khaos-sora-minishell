@@ -44,7 +44,7 @@ char	*read_multiline(t_shell *shell)
 	char	*input;
 	char	quote;
 
-	if (isatty(STDIN_FILENO))
+	if (isatty(STDIN_FILENO) && isatty(STDOUT_FILENO))
 		input = readline(get_prompt(shell));
 	else
 	{

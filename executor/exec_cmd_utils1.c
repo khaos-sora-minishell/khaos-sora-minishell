@@ -40,10 +40,26 @@ void	handle_exit_status(t_shell *shell, int status)
 	}
 }
 
+static char	*search_in_path_dirs(char *cmd, t_shell *shell, t_gc_context *ctx)
+{
+	int		i;
+	char	*path;
+	char	*full_path;
+
+	i = 0;
+	while (shell->path_dirs[i])
+	{
+		path = gc_strjoin(ctx, shell->path_dirs[i], "/");
+		full_path = gc_strjoin(ctx, path, cmd);
+		if (access(full_path, X_OK) == 0)
+			return (full_path);
+		i++;
+	}
+	return (NULL);
+}
+
 char	*find_command_path(char *cmd, t_shell *shell)
 {
-	int				i;
-	char			*path;
 	char			*full_path;
 	t_gc_context	*contex;
 
@@ -53,15 +69,11 @@ char	*find_command_path(char *cmd, t_shell *shell)
 	if (ft_strchr(cmd, '/'))
 		return (gc_strdup(contex, cmd));
 	if (!shell->path_dirs)
-		return (NULL);
-	i = 0;
-	while (shell->path_dirs[i])
 	{
-		path = gc_strjoin(contex, shell->path_dirs[i], "/");
-		full_path = gc_strjoin(contex, path, cmd);
+		full_path = gc_strjoin(contex, "./", cmd);
 		if (access(full_path, X_OK) == 0)
 			return (full_path);
-		i++;
+		return (NULL);
 	}
-	return (NULL);
+	return (search_in_path_dirs(cmd, shell, contex));
 }

@@ -45,11 +45,6 @@ void	exec_child_process(t_cmd *cmd, t_shell *shell)
 		cleanup_child_process(shell);
 		exit(1);
 	}
-	if (!cmd->args[0])
-	{
-		cleanup_child_process(shell);
-		exit(0);
-	}
 	if (ft_strcmp(cmd->args[0], ".") == 0)
 		exit_with_error(NULL, ".: filename argument required", 2, shell);
 	if (ft_strcmp(cmd->args[0], "..") == 0)
@@ -90,7 +85,7 @@ int	prepare_cmd_execution(t_cmd *cmd, t_shell *shell)
 			redir->file = expand_string(redir->file, shell);
 		redir = redir->next;
 	}
-	if (!cmd->args || !cmd->args[0])
+	if (!cmd->args || !cmd->args[0] || !cmd->args[0][0])
 		return (0);
 	return (1);
 }

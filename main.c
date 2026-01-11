@@ -94,8 +94,10 @@ int	main(int argc, char const *argv[], char **envp)
 	setup_signals();
 	if (argc > 1)
 		run_file_mode(&shell, (char *)argv[1]);
-	else
+	else if (!isatty(STDIN_FILENO) || isatty(STDOUT_FILENO))
 		run_shell_loop(&shell);
+	else if (isatty(STDIN_FILENO))
+		ft_printf("exit\n");
 	clean_loop(&shell);
 	cleanup_shell(&shell);
 	return (shell.exit_status);
@@ -116,8 +118,10 @@ int	main(int argc, char const *argv[], char **envp)
 	setup_signals();
 	if (argc > 1)
 		run_file_mode(&shell, (char *)argv[1]);
-	else
+	else if (!isatty(STDIN_FILENO) || isatty(STDOUT_FILENO))
 		run_shell_loop(&shell);
+	else if (isatty(STDIN_FILENO))
+		ft_printf("exit\n");
 	clean_loop(&shell);
 	cleanup_shell(&shell);
 	return (shell.exit_status);

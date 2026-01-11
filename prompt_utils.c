@@ -97,7 +97,7 @@ char	*get_continuation_line(char quote)
 	prompt = "dquote> ";
 	if (quote == '\'')
 		prompt = "squote> ";
-	if (isatty(STDIN_FILENO))
+	if (isatty(STDIN_FILENO) && isatty(STDOUT_FILENO))
 		next_line = readline(prompt);
 	else
 	{
