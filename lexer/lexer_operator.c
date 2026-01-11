@@ -52,6 +52,11 @@ t_token_type	handle_single_op(char c, int *i)
 		return ((*i)++, TOKEN_LPAREN);
 	else if (c == ')')
 		return ((*i)++, TOKEN_RPAREN);
+	else if (c == '&')
+	{
+		(*i)++;
+		return (TOKEN_WORD);
+	}
 	return (TOKEN_WORD);
 }
 
