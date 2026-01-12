@@ -67,8 +67,16 @@ Main lexer implementation. Converts raw input strings into tokens for parsing.
 - `append_tokens` - Appends user tokens to alias tokens
 - `expand_alias_if_needed` - Expands alias if the first token matches an alias
 
-### lexer_operator.c
-Handles tokenization of operators (pipes, redirections, &&, ||, parentheses). Supports both mandatory and bonus operators.
+### lexer_operator.c (Mandatory)
+Handles tokenization of mandatory operators (pipes, redirections).
+
+**Functions:**
+- `handle_double_op` - Handles double-character operators (<<, >>)
+- `handle_single_op` - Handles single-character operators (|, <, >)
+- `handle_operator` - Main operator handler that tries double then single operators
+
+### lexer_operator_bonus.c (Bonus)
+Handles tokenization of bonus operators (&&, ||, parentheses) in addition to mandatory operators.
 
 **Functions:**
 - `handle_double_op` - Handles double-character operators (<<, >>, &&, ||)
@@ -83,13 +91,21 @@ Processes word tokens, handling quoted strings and special characters. Manages t
 - `find_word_end` - Finds the end position of a word token
 - `extract_word` - Extracts a word from input string
 
-### lexer_token.c
-Token creation and management utilities. Provides functions to create tokens and convert operator types to string values.
+### lexer_token.c (Mandatory)
+Token creation and management utilities for mandatory operators.
 
 **Functions:**
 - `create_token` - Creates a new token with given type and value
 - `add_token` - Adds a token to the end of token list
-- `get_operator_value` - Returns string representation of operator token type
+- `get_operator_value` - Returns string representation of mandatory operator token types
+
+### lexer_token_bonus.c (Bonus)
+Token creation and management utilities including bonus operator types.
+
+**Functions:**
+- `create_token` - Creates a new token with given type and value
+- `add_token` - Adds a token to the end of token list
+- `get_operator_value` - Returns string representation of all operator token types (including &&, ||, parentheses)
 
 ### quotes.c
 Quote handling logic for lexer. Manages single and double quotes, ensuring proper string parsing.
@@ -112,12 +128,20 @@ Utility functions for lexer. Supports alias expansion and token concatenation op
 
 ## Parser Module (parser/)
 
-### parser.c
-Main parser interface. Converts token stream into an abstract syntax tree (AST) for execution.
+### parser.c (Mandatory)
+Main parser interface for mandatory features. Converts token stream into AST.
 
 **Functions:**
-- `validate_token_syntax` - Validates syntax of individual tokens
+- `validate_token_syntax` - Validates syntax of individual tokens (pipes, redirections)
 - `check_syntax` - Checks overall syntax of token list
+- `parser` - Main parser function that validates syntax and builds AST
+
+### parser_bonus.c (Bonus)
+Parser interface with bonus feature support (&&, ||, parentheses).
+
+**Functions:**
+- `validate_token_syntax` - Validates syntax of individual tokens (including &&, ||)
+- `check_syntax` - Checks overall syntax including bonus operators
 - `parser` - Main parser function that validates syntax and builds AST
 
 ### parse_cmd.c
@@ -144,15 +168,30 @@ Additional command parsing utilities. Redirection creation and list management.
 - `create_redir` - Creates a new redirection structure with type and file/delimiter
 - `add_redir` - Adds a redirection to the end of redirection list
 
-### build_ast.c
-Constructs the abstract syntax tree from tokens. Handles the main AST building logic.
+### build_ast.c (Mandatory)
+Constructs the AST from tokens for mandatory features.
 
 **Functions:**
-- `parse_primary` - Parses primary expressions (commands or subshells)
+- `parse_primary` - Parses primary expressions (commands only)
 - `build_ast` - Builds the complete Abstract Syntax Tree from tokens
 
-### build_ast_utils.c
-AST building helper functions. Provides logic operator parsing, pipe parsing, and primary expression handling with bonus feature support.
+### build_ast_bonus.c (Bonus)
+Constructs the AST with bonus features (subshells).
+
+**Functions:**
+- `parse_primary` - Parses primary expressions (commands or subshells with parentheses)
+- `build_ast` - Builds the complete Abstract Syntax Tree from tokens
+
+### build_ast_utils.c (Mandatory)
+AST building helper functions for mandatory features.
+
+**Functions:**
+- `new_ast_node` - Creates a new AST node with given type
+- `parse_logic` - Passes through to pipe parsing (no logic operators in mandatory)
+- `parse_pipe` - Parses pipe operators
+
+### build_ast_utils_bonus.c (Bonus)
+AST building helper functions with bonus features (&&, ||).
 
 **Functions:**
 - `new_ast_node` - Creates a new AST node with given type
@@ -194,6 +233,22 @@ Argument expansion implementation. Processes command arguments, handling environ
 - `count_total_expanded` - Counts total expanded arguments
 - `expand_args` - Expands all arguments with variables and wildcards
 
+### expand_args2.c (Mandatory)
+Word splitting utilities without wildcard expansion.
+
+**Functions:**
+- `split_words` - Splits string into words by IFS characters
+- `count_word_with_wildcard` - Counts words (no wildcard in mandatory)
+- `add_word_or_wc` - Adds words to result (no wildcard in mandatory)
+
+### expand_args2_bonus.c (Bonus)
+Word splitting utilities with wildcard expansion support.
+
+**Functions:**
+- `split_words` - Splits string into words by IFS characters
+- `count_word_with_wildcard` - Counts words with wildcard expansion
+- `add_word_or_wc` - Adds words or wildcard results to result array
+
 ### expand_helpers.c
 Helper functions for expansion operations. Supports quote handling and special character processing during expansion.
 
@@ -202,15 +257,15 @@ Helper functions for expansion operations. Supports quote handling and special c
 - `has_quotes` - Checks if string contains quotes
 - `add_expanded_results` - Adds wildcard expansion results to result array
 
-### wildcard.c
-Wildcard (glob) pattern matching implementation. Expands * patterns to matching filenames in the current directory (bonus feature).
+### wildcard_bonus.c (Bonus)
+Wildcard (glob) pattern matching implementation. Expands * patterns to matching filenames in the current directory.
 
 **Functions:**
 - `create_single_result` - Creates a single-element result array with pattern
 - `process_matches` - Processes directory matches and returns sorted results
-- `expand_wildcard` - Expands wildcard patterns to matching filenames (BONUS)
+- `expand_wildcard` - Expands wildcard patterns to matching filenames
 
-### wildcard_utils.c
+### wildcard_utils_bonus.c (Bonus)
 Wildcard matching utilities. Provides pattern matching algorithms and result sorting for glob expansion.
 
 **Functions:**
@@ -229,12 +284,18 @@ Main executor implementation. Coordinates AST traversal and command execution.
 **Functions:**
 - `executor_run` - Main executor entry point, backs up stdin/stdout and executes AST
 
-### exec_ast.c
-AST execution logic. Handles different node types (commands, pipes, logical operators) with separate bonus/mandatory implementations.
+### exec_ast.c (Mandatory)
+AST execution logic for mandatory features (commands and pipes).
 
 **Functions:**
-- `exec_subshell` - Executes subshell in forked process (BONUS)
-- `execute_ast` - Recursively executes AST nodes (commands, pipes, logic operators)
+- `execute_ast` - Recursively executes AST nodes (commands, pipes)
+
+### exec_ast_bonus.c (Bonus)
+AST execution logic with bonus features (&&, ||, subshells).
+
+**Functions:**
+- `exec_subshell` - Executes subshell in forked process
+- `execute_ast` - Recursively executes AST nodes (commands, pipes, &&, ||, subshells)
 
 ### exec_builtin.c
 Builtin command dispatcher. Identifies and executes builtin commands like cd, echo, env, etc.
@@ -521,19 +582,21 @@ Additional string utilities. Provides extended string processing functions for t
 
 ## Statistics
 
-**Total Files Analyzed:** 60 source files
+**Total Files Analyzed:** 68+ source files (includes separate _bonus.c files)
 
 **By Directory:**
 - Main files: 4 files
-- Lexer: 6 files
-- Parser: 6 files
-- Expander: 6 files
-- Executor: 11 files
+- Lexer: 8 files (4 mandatory + 4 bonus)
+- Parser: 10 files (5 mandatory + 5 bonus)
+- Expander: 8 files (4 mandatory + 4 bonus)
+- Executor: 12 files (6 mandatory + 6 bonus)
 - Executor_error: 2 files
 - Builtins: 10 files
 - Env: 6 files
 - Signals: 2 files
 - Utils: 3 files
+
+**Note:** Bonus features are physically separated into `_bonus.c` files following RNCP requirements.
 
 **Key Features:**
 - Environment variable management with hash table and encryption

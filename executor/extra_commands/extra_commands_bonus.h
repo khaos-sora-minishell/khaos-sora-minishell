@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   extra_commands.h                                   :+:      :+:    :+:   */
+/*   extra_commands_bonus.h                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 22:22:18 by akivam            #+#    #+#             */
-/*   Updated: 2026/01/06 22:22:18 by akivam           ###   ########.fr       */
+/*   Updated: 2026/01/13 00:00:00 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXTRA_COMMANDS_H
-# define EXTRA_COMMANDS_H
+#ifndef EXTRA_COMMANDS_BONUS_H
+# define EXTRA_COMMANDS_BONUS_H
 
 # ifdef BONUS
 

@@ -67,8 +67,16 @@ Ana lexer uygulaması. Ham girdi dizelerini ayrıştırma için tokenlara dönü
 - `append_tokens` - Kullanıcı tokenlerini alias tokenlerine ekler
 - `expand_alias_if_needed` - İlk token bir alias'a eşleşirse alias'ı genişletir
 
-### lexer_operator.c
-Operatörlerin (pipe, yönlendirme, &&, ||, parantez) tokenizasyonunu işler. Hem zorunlu hem de bonus operatörleri destekler.
+### lexer_operator.c (Zorunlu)
+Zorunlu operatörlerin (pipe, yönlendirme) tokenizasyonunu işler.
+
+**Fonksiyonlar:**
+- `handle_double_op` - İki karakterli operatörleri işler (<<, >>)
+- `handle_single_op` - Tek karakterli operatörleri işler (|, <, >)
+- `handle_operator` - Önce çift sonra tek operatörleri deneyen ana operatör işleyici
+
+### lexer_operator_bonus.c (Bonus)
+Bonus operatörlerin (&&, ||, parantez) tokenizasyonunu zorunlu operatörlere ek olarak işler.
 
 **Fonksiyonlar:**
 - `handle_double_op` - İki karakterli operatörleri işler (<<, >>, &&, ||)
@@ -83,13 +91,21 @@ Kelime tokenlerini işler, tırnaklı dizileri ve özel karakterleri yönetir. T
 - `find_word_end` - Bir kelime tokeninin bitiş konumunu bulur
 - `extract_word` - Girdi dizesinden bir kelime çıkarır
 
-### lexer_token.c
-Token oluşturma ve yönetim yardımcı fonksiyonları. Token oluşturma ve operatör türlerini string değerlerine dönüştürme fonksiyonları sağlar.
+### lexer_token.c (Zorunlu)
+Zorunlu operatörler için token oluşturma ve yönetim yardımcı fonksiyonları.
 
 **Fonksiyonlar:**
 - `create_token` - Verilen tip ve değerle yeni bir token oluşturur
 - `add_token` - Token listesinin sonuna bir token ekler
-- `get_operator_value` - Operatör token tipinin string gösterimini döndürür
+- `get_operator_value` - Zorunlu operatör token tiplerinin string gösterimini döndürür
+
+### lexer_token_bonus.c (Bonus)
+Bonus operatör tipleri dahil token oluşturma ve yönetim yardımcı fonksiyonları.
+
+**Fonksiyonlar:**
+- `create_token` - Verilen tip ve değerle yeni bir token oluşturur
+- `add_token` - Token listesinin sonuna bir token ekler
+- `get_operator_value` - Tüm operatör token tiplerinin string gösterimini döndürür (&&, ||, parantez dahil)
 
 ### quotes.c
 Lexer için tırnak işleme mantığı. Tek ve çift tırnakları yönetir ve doğru string ayrıştırmasını sağlar.
@@ -112,12 +128,20 @@ Lexer için yardımcı fonksiyonlar. Alias genişletme ve token birleştirme iş
 
 ## Parser Modülü (parser/)
 
-### parser.c
-Ana parser arayüzü. Token akışını çalıştırma için soyut sözdizimi ağacına (AST) dönüştürür.
+### parser.c (Zorunlu)
+Zorunlu özellikler için ana parser arayüzü. Token akışını AST'ye dönüştürür.
 
 **Fonksiyonlar:**
-- `validate_token_syntax` - Tekil tokenların sözdizimini doğrular
+- `validate_token_syntax` - Tekil tokenların sözdizimini doğrular (pipe, yönlendirme)
 - `check_syntax` - Token listesinin genel sözdizimini kontrol eder
+- `parser` - Sözdizimini doğrular ve AST oluşturan ana parser fonksiyonu
+
+### parser_bonus.c (Bonus)
+Bonus özellik desteği ile parser arayüzü (&&, ||, parantez).
+
+**Fonksiyonlar:**
+- `validate_token_syntax` - Tekil tokenların sözdizimini doğrular (&&, || dahil)
+- `check_syntax` - Bonus operatörler dahil genel sözdizimini kontrol eder
 - `parser` - Sözdizimini doğrular ve AST oluşturan ana parser fonksiyonu
 
 ### parse_cmd.c
@@ -144,15 +168,30 @@ Ek komut ayrıştırma yardımcı fonksiyonları. Yönlendirme oluşturma ve lis
 - `create_redir` - Tip ve dosya/delimiter ile yeni yönlendirme yapısı oluşturur
 - `add_redir` - Yönlendirme listesinin sonuna bir yönlendirme ekler
 
-### build_ast.c
-Tokenlerdan soyut sözdizimi ağacını oluşturur. Ana AST oluşturma mantığını yönetir.
+### build_ast.c (Zorunlu)
+Zorunlu özellikler için tokenlerdan AST oluşturur.
 
 **Fonksiyonlar:**
-- `parse_primary` - Birincil ifadeleri ayrıştırır (komutlar veya alt kabuklar)
+- `parse_primary` - Birincil ifadeleri ayrıştırır (sadece komutlar)
 - `build_ast` - Tokenlerdan tam Soyut Sözdizim Ağacını oluşturur
 
-### build_ast_utils.c
-AST oluşturma yardımcı fonksiyonları. Bonus özellik desteği ile mantıksal operatör ayrıştırma, pipe ayrıştırma ve birincil ifade işleme sağlar.
+### build_ast_bonus.c (Bonus)
+Bonus özelliklerle (alt kabuklar) AST oluşturur.
+
+**Fonksiyonlar:**
+- `parse_primary` - Birincil ifadeleri ayrıştırır (komutlar veya parantezli alt kabuklar)
+- `build_ast` - Tokenlerdan tam Soyut Sözdizim Ağacını oluşturur
+
+### build_ast_utils.c (Zorunlu)
+Zorunlu özellikler için AST oluşturma yardımcı fonksiyonları.
+
+**Fonksiyonlar:**
+- `new_ast_node` - Verilen tipte yeni bir AST düğümü oluşturur
+- `parse_logic` - Pipe ayrıştırmaya geçer (zorunluda mantıksal operatör yok)
+- `parse_pipe` - Pipe operatörlerini ayrıştırır
+
+### build_ast_utils_bonus.c (Bonus)
+Bonus özelliklerle (&&, ||) AST oluşturma yardımcı fonksiyonları.
 
 **Fonksiyonlar:**
 - `new_ast_node` - Verilen tipte yeni bir AST düğümü oluşturur
@@ -194,6 +233,22 @@ Argüman genişletme uygulaması. Ortam değişkenlerini ve wildcardları işley
 - `count_total_expanded` - Toplam genişletilmiş argümanları sayar
 - `expand_args` - Tüm argümanları değişkenler ve wildcardlarla genişletir
 
+### expand_args2.c (Zorunlu)
+Wildcard genişletme olmadan kelime bölme yardımcı fonksiyonları.
+
+**Fonksiyonlar:**
+- `split_words` - Dizeyi IFS karakterlerine göre kelimelere böler
+- `count_word_with_wildcard` - Kelimeleri sayar (zorunluda wildcard yok)
+- `add_word_or_wc` - Sonuca kelime ekler (zorunluda wildcard yok)
+
+### expand_args2_bonus.c (Bonus)
+Wildcard genişletme desteği ile kelime bölme yardımcı fonksiyonları.
+
+**Fonksiyonlar:**
+- `split_words` - Dizeyi IFS karakterlerine göre kelimelere böler
+- `count_word_with_wildcard` - Wildcard genişletme ile kelimeleri sayar
+- `add_word_or_wc` - Sonuç dizisine kelime veya wildcard sonuçları ekler
+
 ### expand_helpers.c
 Genişletme işlemleri için yardımcı fonksiyonlar. Genişletme sırasında tırnak işleme ve özel karakter işlemeyi destekler.
 
@@ -202,15 +257,15 @@ Genişletme işlemleri için yardımcı fonksiyonlar. Genişletme sırasında t�
 - `has_quotes` - Dizenin tırnak içerip içermediğini kontrol eder
 - `add_expanded_results` - Wildcard genişletme sonuçlarını sonuç dizisine ekler
 
-### wildcard.c
-Wildcard (glob) desen eşleştirme uygulaması. Mevcut dizindeki eşleşen dosya adlarına * desenlerini genişletir (bonus özellik).
+### wildcard_bonus.c (Bonus)
+Wildcard (glob) desen eşleştirme uygulaması. Mevcut dizindeki eşleşen dosya adlarına * desenlerini genişletir.
 
 **Fonksiyonlar:**
 - `create_single_result` - Desenle tek elemanlı sonuç dizisi oluşturur
 - `process_matches` - Dizin eşleşmelerini işler ve sıralı sonuçlar döndürür
-- `expand_wildcard` - Wildcard desenlerini eşleşen dosya adlarına genişletir (BONUS)
+- `expand_wildcard` - Wildcard desenlerini eşleşen dosya adlarına genişletir
 
-### wildcard_utils.c
+### wildcard_utils_bonus.c (Bonus)
 Wildcard eşleştirme yardımcı fonksiyonları. Glob genişletme için desen eşleştirme algoritmaları ve sonuç sıralama sağlar.
 
 **Fonksiyonlar:**
@@ -229,12 +284,18 @@ Ana executor uygulaması. AST gezinme ve komut yürütmeyi koordine eder.
 **Fonksiyonlar:**
 - `executor_run` - Ana executor giriş noktası, stdin/stdout'u yedekler ve AST'yi çalıştırır
 
-### exec_ast.c
-AST yürütme mantığı. Ayrı bonus/zorunlu uygulamalarla farklı düğüm türlerini (komutlar, pipe'lar, mantıksal operatörler) işler.
+### exec_ast.c (Zorunlu)
+Zorunlu özellikler (komutlar ve pipe'lar) için AST yürütme mantığı.
 
 **Fonksiyonlar:**
-- `exec_subshell` - Alt kabuğu fork edilmiş süreçte çalıştırır (BONUS)
-- `execute_ast` - AST düğümlerini özyinelemeli olarak çalıştırır (komutlar, pipe'lar, mantık operatörleri)
+- `execute_ast` - AST düğümlerini özyinelemeli olarak çalıştırır (komutlar, pipe'lar)
+
+### exec_ast_bonus.c (Bonus)
+Bonus özellikler (&&, ||, alt kabuklar) ile AST yürütme mantığı.
+
+**Fonksiyonlar:**
+- `exec_subshell` - Alt kabuğu fork edilmiş süreçte çalıştırır
+- `execute_ast` - AST düğümlerini özyinelemeli olarak çalıştırır (komutlar, pipe'lar, &&, ||, alt kabuklar)
 
 ### exec_builtin.c
 Yerleşik komut dağıtıcısı. cd, echo, env gibi yerleşik komutları tanımlar ve çalıştırır.
@@ -521,19 +582,21 @@ Ek string yardımcı fonksiyonları. Shell için genişletilmiş string işleme 
 
 ## İstatistikler
 
-**Toplam Analiz Edilen Dosya:** 60 kaynak dosya
+**Toplam Analiz Edilen Dosya:** 68+ kaynak dosya (ayrı _bonus.c dosyaları dahil)
 
 **Dizin Bazında:**
 - Ana dosyalar: 4 dosya
-- Lexer: 6 dosya
-- Parser: 6 dosya
-- Expander: 6 dosya
-- Executor: 11 dosya
+- Lexer: 8 dosya (4 zorunlu + 4 bonus)
+- Parser: 10 dosya (5 zorunlu + 5 bonus)
+- Expander: 8 dosya (4 zorunlu + 4 bonus)
+- Executor: 12 dosya (6 zorunlu + 6 bonus)
 - Executor_error: 2 dosya
 - Builtins: 10 dosya
 - Env: 6 dosya
 - Signals: 2 dosya
 - Utils: 3 dosya
+
+**Not:** Bonus özellikler RNCP gerekliliklerine uygun olarak fiziksel olarak `_bonus.c` dosyalarına ayrılmıştır.
 
 **Temel Özellikler:**
 - Hash tablosu ve şifreleme ile ortam değişkeni yönetimi
