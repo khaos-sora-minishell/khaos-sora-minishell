@@ -55,5 +55,6 @@ dkms.conf
 *.dwo
 minishell
 .claude
+CLAUDE.md
 
 .gitignore

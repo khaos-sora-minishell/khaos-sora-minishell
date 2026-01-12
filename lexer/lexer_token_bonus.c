@@ -1,12 +1,12 @@
 /******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_token.c                                      :+:      :+:    :+:   */
+/*   lexer_token_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: harici <harici@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 21:15:46 by harici            #+#    #+#             */
-/*   Updated: 2026/01/10 18:50:00 by harici           ###   ########.fr       */
+/*   Updated: 2026/01/13 00:00:00 by harici           ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -53,5 +53,13 @@ char	*get_operator_value(t_token_type type)
 		return (">>");
 	else if (type == TOKEN_HEREDOC)
 		return ("<<");
+	else if (type == TOKEN_AND)
+		return ("&&");
+	else if (type == TOKEN_OR)
+		return ("||");
+	else if (type == TOKEN_LPAREN)
+		return ("(");
+	else if (type == TOKEN_RPAREN)
+		return (")");
 	return ("");
 }

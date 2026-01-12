@@ -1,12 +1,12 @@
 /******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_args2.c                                     :+:      :+:    :+:   */
+/*   expand_args2_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: harici <harici@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 21:16:50 by harici            #+#    #+#             */
-/*   Updated: 2026/01/10 18:49:17 by harici           ###   ########.fr       */
+/*   Updated: 2026/01/13 00:00:00 by harici           ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -63,15 +63,23 @@ char	**split_words(char *str, t_shell *shell)
 
 int	count_word_with_wildcard(char *word, t_shell *shell)
 {
-	(void)shell;
-	if (word[0] != '\0')
+	char	**wildcard_res;
+
+	wildcard_res = expand_wildcard(word, shell);
+	if (wildcard_res)
+		return (count_args(wildcard_res));
+	else if (word[0] != '\0')
 		return (1);
 	return (0);
 }
 
 void	add_word_or_wc(char *word, char ***result, int *idx, t_shell *shell)
 {
-	(void)shell;
-	if (word[0] != '\0')
+	char	**wc;
+
+	wc = expand_wildcard(word, shell);
+	if (wc)
+		add_expanded_results(result, idx, wc);
+	else if (word[0] != '\0')
 		(*result)[(*idx)++] = word;
 }

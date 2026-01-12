@@ -19,7 +19,7 @@
 #include <sys/wait.h>
 #include <sys/stat.h>
 #ifdef BONUS
-# include "extra_commands.h"
+# include "extra_commands_bonus.h"
 #endif
 
 static void	handle_redirection_only(t_cmd *cmd, t_shell *shell)

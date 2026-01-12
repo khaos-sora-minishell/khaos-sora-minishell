@@ -287,6 +287,16 @@ minishell> type ls
 - **Config**: Terminal renkleri ve isim özelleştirilebilir
 - **Extra commands**: Easter egg komutlar ve matrix efekti
 
+## 🎨 Visualizer
+
+Shell'in iç yapısını görselleştirmek için interaktif web uygulaması:
+
+**[Khaos-Sora Shell Visualizer](https://khaos-sora-shell-visulazer.vercel.app/)**
+
+- Lexer token'larını görselleştirme
+- AST (Abstract Syntax Tree) yapısını inceleme
+- Komut çalıştırma simülasyonu
+
 ## 🔗 Kaynaklar
 
 - [Bash Reference Manual](https://www.gnu.org/software/bash/manual/)
