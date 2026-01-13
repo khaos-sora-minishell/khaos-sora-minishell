@@ -66,3 +66,22 @@ void	ignore_signals(void)
 	sigaction(SIGINT, &sa, NULL);
 	sigaction(SIGQUIT, &sa, NULL);
 }
+
+void	heredoc_signal_handler(int signum)
+{
+	if (signum == SIGINT)
+	{
+		set_signal(SIGINT);
+		write(1, "\n", 1);
+	}
+}
+
+void	setup_heredoc_signals(void)
+{
+	struct sigaction	sa;
+
+	sa.sa_handler = heredoc_signal_handler;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = 0;
+	sigaction(SIGINT, &sa, NULL);
+}

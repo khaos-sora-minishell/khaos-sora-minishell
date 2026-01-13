@@ -43,6 +43,7 @@ void	read_heredoc_loop(int fd, t_redir *redir, t_shell *shell)
 	char	*line;
 	int		interactive;
 
+	setup_heredoc_signals();
 	prompt = env_get(shell->env_table, "PS2", shell->cmd_arena);
 	if (!prompt)
 		prompt = "> ";
@@ -56,6 +57,7 @@ void	read_heredoc_loop(int fd, t_redir *redir, t_shell *shell)
 		if (process_heredoc_line(line, fd, redir, shell))
 			break ;
 	}
+	setup_signals();
 }
 
 char	*get_heredoc_filename(int counter, t_shell *shell)
