@@ -55,6 +55,8 @@ SIGNALS_SRC	= signals.c signal_state.c
 
 UTILS_SRC	= error.c ft_atoll.c strings.c strings_utils.c
 
+UTILS_BONUS_SRC	= error.c ft_atoll.c strings.c strings_utils_bonus.c
+
 SRCS = main.c main_utils.c main_utils2.c prompt.c prompt_utils.c history_manager.c history_manager_utils.c \
 	   $(addprefix lexer/, $(LEXER_SRC)) \
 	   $(addprefix parser/, $(PARSER_SRC)) \
@@ -75,7 +77,7 @@ BONUS_SRCS = main.c main_utils.c main_utils2.c prompt.c prompt_utils.c history_m
 	   $(addprefix builtins/, $(BUILTINS_BONUS_SRC)) \
 	   $(addprefix env/, $(ENV_SRC)) \
 	   $(addprefix signals/, $(SIGNALS_SRC)) \
-	   $(addprefix utils/, $(UTILS_SRC))
+	   $(addprefix utils/, $(UTILS_BONUS_SRC))
 
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
 
