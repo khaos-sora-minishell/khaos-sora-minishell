@@ -8,21 +8,21 @@ LEXER_SRC	= lexer.c lexer_operator.c lexer_word.c lexer_token.c quotes.c lexer_u
 LEXER_BONUS_SRC = lexer.c lexer_operator_bonus.c lexer_word.c lexer_token_bonus.c quotes.c lexer_utils.c
 
 PARSER_SRC	= parser.c parse_cmd.c parse_cmd_utils.c parse_cmd_utils2.c build_ast.c build_ast_utils.c
-PARSER_BONUS_SRC = parser_bonus.c parse_cmd.c parse_cmd_utils.c parse_cmd_utils2.c build_ast_bonus.c build_ast_utils_bonus.c
+PARSER_BONUS_SRC = parser_bonus.c parse_cmd.c parse_cmd_utils_bonus.c parse_cmd_utils2.c build_ast_bonus.c build_ast_utils_bonus.c
 
-EXPANDER_SRC = expander.c expander_utils4.c expand_args.c expand_args2.c \
+EXPANDER_SRC = expander.c expand_args.c expand_args2.c \
 			   expander_utils.c expander_utils2.c expander_utils3.c \
 			   expand_helpers.c expander_positional.c
-EXPANDER_BONUS_SRC = expander.c expander_utils4.c wildcard_bonus.c expand_args.c expand_args2_bonus.c \
-			   expander_utils.c expander_utils2.c expander_utils3.c \
-			   wildcard_utils_bonus.c expand_helpers.c expander_positional.c
+EXPANDER_BONUS_SRC = expander.c expander_utils4_bonus.c wildcard_bonus.c expand_args.c expand_args2_bonus.c \
+			   expander_utils_bonus.c expander_utils2.c expander_utils3_bonus.c \
+			   wildcard_utils_bonus.c expand_helpers.c expander_positional_bonus.c
 
 EXECUTOR_SRC = executor.c exec_ast.c exec_builtin.c exec_cmd.c \
 			   exec_cmd_utils1.c exec_cmd_utils2.c exec_pipe.c redirections.c \
 			   here_doc_utils1.c here_doc_utils2.c here_doc_utils3.c here_doc_manager.c
-EXECUTOR_BONUS_SRC = executor.c exec_ast_bonus.c exec_builtin.c exec_cmd.c \
+EXECUTOR_BONUS_SRC = executor.c exec_ast_bonus.c exec_builtin_bonus.c exec_cmd_bonus.c \
 			   exec_cmd_utils1.c exec_cmd_utils2.c exec_pipe.c redirections.c \
-			   here_doc_utils1.c here_doc_utils2.c here_doc_utils3.c here_doc_manager.c \
+			   here_doc_utils1.c here_doc_utils2.c here_doc_utils3.c here_doc_manager_bonus.c \
 			   extra_commands/collor_command_bonus.c \
 			   extra_commands/extra_commands_bonus.c extra_commands/harici_matrix_bonus.c \
 			   extra_commands/harici_matrix_utils_bonus.c extra_commands/pars_vs_executer_bonus.c \
@@ -68,7 +68,7 @@ SRCS = main.c main_utils.c main_utils2.c prompt.c prompt_utils.c history_manager
 	   $(addprefix signals/, $(SIGNALS_SRC)) \
 	   $(addprefix utils/, $(UTILS_SRC))
 
-BONUS_SRCS = main.c main_utils.c main_utils2.c prompt.c prompt_utils.c history_manager.c history_manager_utils.c config_loader_bonus.c config_loader_utils_bonus.c \
+BONUS_SRCS = main_bonus.c main_utils_bonus.c main_utils2_bonus.c prompt.c prompt_utils.c history_manager_bonus.c history_manager_utils_bonus.c config_loader_bonus.c config_loader_utils_bonus.c \
 	   $(addprefix lexer/, $(LEXER_BONUS_SRC)) \
 	   $(addprefix parser/, $(PARSER_BONUS_SRC)) \
 	   $(addprefix expander/, $(EXPANDER_BONUS_SRC)) \

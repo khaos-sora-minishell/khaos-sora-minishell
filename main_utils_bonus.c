@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main_utils.c                                       :+:      :+:    :+:   */
+/*   main_utils_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 12:06:42 by akivam            #+#    #+#             */
-/*   Updated: 2026/01/11 12:06:42 by akivam           ###   ########.fr       */
+/*   Updated: 2026/01/15 00:00:00 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ static void	init_shell_common(t_shell *shell, int argc, char **argv,
 void	init_shell(t_shell *shell, int argc, char **argv, char **envp)
 {
 	init_shell_common(shell, argc, argv, envp);
+	init_history(shell);
+	create_shellrc(shell);
 }
 
 void	clean_loop(t_shell *shell)

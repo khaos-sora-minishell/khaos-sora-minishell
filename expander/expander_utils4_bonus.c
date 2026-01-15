@@ -1,19 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expander_utils4.c                                  :+:      :+:    :+:   */
+/*   expander_utils4_bonus.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: harici <harici@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 20:28:55 by harici            #+#    #+#             */
-/*   Updated: 2026/01/13 20:28:55 by harici           ###   ########.fr       */
+/*   Updated: 2026/01/15 00:00:00 by harici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "minishell.h"
-
-#ifdef BONUS
 
 static void	handle_dollar_exp(char *str, char *result, t_shell *shell,
 		t_expand_contex *contex)
@@ -77,5 +75,3 @@ void	update_len(char *str, t_expand_contex *contex, size_t *len,
 		contex->i++;
 	}
 }
-
-#endif

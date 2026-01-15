@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 12:06:21 by akivam            #+#    #+#             */
-/*   Updated: 2026/01/11 12:06:21 by akivam           ###   ########.fr       */
+/*   Updated: 2026/01/15 00:00:00 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,8 @@ static void	run_file_mode(t_shell *shell, char *filename)
 }
 
 /*
- * Main entry point without bonus features
- * Supports interactive mode and script file execution
+ * Main entry point with bonus features
+ * Supports interactive mode and script file execution with history
  */
 int	main(int argc, char const *argv[], char **envp)
 {
@@ -88,6 +88,7 @@ int	main(int argc, char const *argv[], char **envp)
 
 	init_shell(&shell, argc, (char **)argv, (char **)envp);
 	shell.path_dirs = parse_path(&shell);
+	load_shellrc(&shell);
 	setup_signals();
 	if (argc > 1)
 		run_file_mode(&shell, (char *)argv[1]);

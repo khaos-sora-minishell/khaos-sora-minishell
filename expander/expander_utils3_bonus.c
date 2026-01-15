@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expander_utils3.c                                  :+:      :+:    :+:   */
+/*   expander_utils3_bonus.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: harici <harici@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 20:28:47 by harici            #+#    #+#             */
-/*   Updated: 2026/01/13 20:28:47 by harici           ###   ########.fr       */
+/*   Updated: 2026/01/15 00:00:00 by harici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,20 @@ char	*process_dollar(char *str, int *i, t_shell *shell)
 	var_name = extract_var_name(str, i, shell);
 	value = expand_variable(var_name, shell);
 	return (value);
+}
+
+char	*process_tilde(char *str, int *i, t_shell *shell)
+{
+	char	*home;
+
+	(*i)++;
+	if (!str[*i] || str[*i] == '/')
+	{
+		home = env_get(shell->env_table, "HOME", shell->cmd_arena);
+		if (!home)
+			return (gc_strdup(shell->cmd_arena, "~"));
+		return (home);
+	}
+	(*i)--;
+	return (gc_strdup(shell->cmd_arena, "~"));
 }
