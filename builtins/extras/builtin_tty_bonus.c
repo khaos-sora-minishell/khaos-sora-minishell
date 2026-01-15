@@ -13,8 +13,6 @@
 #include "minishell.h"
 #include "printf.h"
 
-#ifdef BONUS
-
 int	builtin_tty(char **args, t_shell *shell)
 {
 	char	*tty;
@@ -33,5 +31,3 @@ int	builtin_tty(char **args, t_shell *shell)
 	printf("not a tty\n");
 	return (1);
 }
-
-#endif

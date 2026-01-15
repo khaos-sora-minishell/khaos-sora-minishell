@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   collor_command.c                                   :+:      :+:    :+:   */
+/*   collor_command_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
+/*   By: harici <harici@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 19:49:05 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/22 19:49:35 by akivam           ###   ########.fr       */
+/*   Updated: 2026/01/15 03:58:16 by harici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 #include "extra_commands_bonus.h"
 #include "libft.h"
 #include "utils.h"
-
-#ifdef BONUS
 
 static char	*get_prompt_color(char *arg)
 {
@@ -110,5 +108,3 @@ void	set_background(char **args, t_shell *shell)
 	shell->terminal_bg_color = gc_strdup(shell->global_arena, code);
 	shell->exit_status = 0;
 }
-
-#endif

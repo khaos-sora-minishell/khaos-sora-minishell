@@ -12,8 +12,6 @@
 
 #include "minishell.h"
 
-#ifdef BONUS
-
 void	create_shellrc(t_shell *shell)
 {
 	int		fd;
@@ -53,18 +51,3 @@ void	save_to_shellrc(t_shell *shell, char *line)
 		close(fd);
 	}
 }
-
-#else
-
-void	create_shellrc(t_shell *shell)
-{
-	(void)shell;
-}
-
-void	save_to_shellrc(t_shell *shell, char *line)
-{
-	(void)shell;
-	(void)line;
-}
-
-#endif

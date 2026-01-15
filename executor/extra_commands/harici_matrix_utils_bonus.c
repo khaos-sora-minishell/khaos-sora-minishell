@@ -3,14 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   harici_matrix_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
+/*   By: harici <harici@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 22:30:00 by akivam            #+#    #+#             */
-/*   Updated: 2026/01/13 01:34:34 by akivam           ###   ########.fr       */
+/*   Updated: 2026/01/15 03:57:18 by harici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#ifdef BONUS
 
 # include "extra_commands_bonus.h"
 # include "libft.h"
@@ -81,5 +79,3 @@ void	draw_rain(int *drops, int width, int height, unsigned int *seed)
 		x++;
 	}
 }
-
-#endif

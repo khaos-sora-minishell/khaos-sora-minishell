@@ -12,8 +12,6 @@
 
 #include "minishell.h"
 
-#ifdef BONUS
-
 int	builtin_true(char **args, t_shell *shell)
 {
 	(void)args;
@@ -27,5 +25,3 @@ int	builtin_false(char **args, t_shell *shell)
 	(void)shell;
 	return (1);
 }
-
-#endif

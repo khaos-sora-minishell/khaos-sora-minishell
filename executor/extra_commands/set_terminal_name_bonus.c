@@ -3,14 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   set_terminal_name_bonus.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
+/*   By: harici <harici@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 21:47:22 by akivam            #+#    #+#             */
-/*   Updated: 2026/01/13 01:34:42 by akivam           ###   ########.fr       */
+/*   Updated: 2026/01/15 03:56:53 by harici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#ifdef BONUS
 
 # include "extra_commands_bonus.h"
 # include "garbage_collector.h"
@@ -30,5 +28,3 @@ void	set_terminal_name(char **args, t_shell *shell)
 	}
 	shell->terminal_name = gc_strdup(contex, args[1]);
 }
-
-#endif

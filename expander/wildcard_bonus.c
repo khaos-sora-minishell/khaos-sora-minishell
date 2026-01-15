@@ -14,8 +14,6 @@
 #include "libft.h"
 #include "utils.h"
 
-#ifdef BONUS
-
 static char	**create_single_result(char *pattern, t_shell *shell)
 {
 	char	**result;
@@ -53,14 +51,3 @@ char	**expand_wildcard(char *pattern, t_shell *shell)
 		return (create_single_result(pattern, shell));
 	return (process_matches(pattern, shell));
 }
-
-#else
-
-char	**expand_wildcard(char *pattern, t_shell *shell)
-{
-	(void)pattern;
-	(void)shell;
-	return (NULL);
-}
-
-#endif

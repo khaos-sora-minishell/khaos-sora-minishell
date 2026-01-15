@@ -12,8 +12,6 @@
 
 #include "minishell.h"
 
-#ifdef BONUS
-
 static void	print_help_commands(void)
 {
 	printf("\n🐚 MINISHELL HELP 🐚\n");
@@ -57,5 +55,3 @@ int	builtin_help(char **args, t_shell *shell)
 	print_help_footer();
 	return (0);
 }
-
-#endif

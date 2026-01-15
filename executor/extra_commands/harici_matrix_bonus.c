@@ -3,14 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   harici_matrix_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
+/*   By: harici <harici@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 13:25:00 by harici            #+#    #+#             */
-/*   Updated: 2026/01/13 01:34:30 by akivam           ###   ########.fr       */
+/*   Updated: 2026/01/15 03:57:31 by harici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#ifdef BONUS
 
 # include "extra_commands_bonus.h"
 # include "libft.h"
@@ -76,5 +74,3 @@ void	harici_matrix(char **args, t_shell *shell)
 			shell->exit_status = 128 + WTERMSIG(status);
 	}
 }
-
-#endif

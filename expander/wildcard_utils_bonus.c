@@ -14,8 +14,6 @@
 #include "minishell.h"
 #include "utils.h"
 
-#ifdef BONUS
-
 int	match_pattern(char *pattern, char *str)
 {
 	if (!*pattern && !*str)
@@ -103,4 +101,3 @@ void	sort_strings(char **strings, int count)
 		i++;
 	}
 }
-#endif

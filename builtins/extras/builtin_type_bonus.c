@@ -14,8 +14,6 @@
 #include "minishell.h"
 #include "printf.h"
 
-#ifdef BONUS
-
 int	builtin_type(char **args, t_shell *shell)
 {
 	char	*path;
@@ -42,5 +40,3 @@ int	builtin_type(char **args, t_shell *shell)
 	}
 	return (0);
 }
-
-#endif
