@@ -203,8 +203,6 @@ void			setup_signals(void);
 void			signal_handler(int signum);
 void			setup_child_signals(void);
 void			ignore_signals(void);
-void			heredoc_signal_handler(int signum);
-void			setup_heredoc_signals(void);
 int				get_signal(void);
 void			set_signal(int value);
 void			reset_signal(void);

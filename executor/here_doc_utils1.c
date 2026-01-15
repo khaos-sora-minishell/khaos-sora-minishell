@@ -98,10 +98,11 @@ int	process_heredoc_line(char *line, int fd, t_redir *redir, t_shell *shell)
 	if (redir->should_expand)
 	{
 		expanded = expand_heredoc_line(line, shell);
-		ft_putendl_fd(expanded, fd);
+		ft_putstr_fd(expanded, fd);
 	}
 	else
-		ft_putendl_fd(line, fd);
+		ft_putstr_fd(line, fd);
+	write(fd, "\n", 1);
 	free(line);
 	return (0);
 }
