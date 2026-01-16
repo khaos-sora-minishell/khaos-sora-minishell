@@ -19,15 +19,10 @@
  */
 void	print_error(const char *cmd, const char *arg, const char *msg)
 {
-	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd((char *)cmd, 2);
 	if (arg)
-	{
-		ft_putstr_fd(": ", 2);
-		ft_putstr_fd((char *)arg, 2);
-	}
-	ft_putstr_fd(": ", 2);
-	ft_putendl_fd((char *)msg, 2);
+		ft_err_printf("minishell: %s: %s: %s\n", cmd, arg, msg);
+	else
+		ft_err_printf("minishell: %s: %s\n", cmd, msg);
 }
 
 /*

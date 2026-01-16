@@ -22,6 +22,20 @@ static int	is_path_variable(char *arg)
 	return (0);
 }
 
+static int	check_invalid_option(char *arg)
+{
+	if (!arg || arg[0] != '-')
+		return (0);
+	if (arg[1])
+	{
+		ft_err_printf("minishell: unset: %c%c: invalid option\n",
+			arg[0], arg[1]);
+		ft_err_printf("unset: usage: unset [-f] [-v] [-n] [name ...]\n");
+		return (1);
+	}
+	return (0);
+}
+
 int	builtin_unset(char **args, t_shell *shell)
 {
 	int				i;
@@ -33,6 +47,8 @@ int	builtin_unset(char **args, t_shell *shell)
 	contex = (t_gc_context *)shell->global_arena;
 	while (args[i])
 	{
+		if (check_invalid_option(args[i]))
+			return (2);
 		if (is_path_variable(args[i]))
 			path_changed = 1;
 		env_unset(shell->env_table, args[i]);

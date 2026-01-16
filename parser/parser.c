@@ -54,7 +54,7 @@ t_ast_node	*parser(t_token *tokens, t_shell *shell)
 {
 	if (check_syntax(tokens))
 	{
-		shell->exit_status = 258;
+		shell->exit_status = 2;
 		return (NULL);
 	}
 	return (build_ast(tokens, shell));

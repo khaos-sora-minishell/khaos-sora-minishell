@@ -80,6 +80,8 @@ int	builtin_cd(char **args, t_shell *shell)
 		if (old_path)
 			gc_track(contex, old_path);
 	}
+	if (args[1] && ft_strcmp(args[1], "--") == 0)
+		args[1] = NULL;
 	if (args[1] && args[2])
 		return (ft_putendl_fd("minishell: cd: too many arguments", 2), 1);
 	target_path = resolve_path(args, shell);
