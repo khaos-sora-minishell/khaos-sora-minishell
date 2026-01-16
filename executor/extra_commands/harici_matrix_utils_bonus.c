@@ -6,13 +6,13 @@
 /*   By: harici <harici@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 22:30:00 by akivam            #+#    #+#             */
-/*   Updated: 2026/01/15 03:57:18 by harici           ###   ########.fr       */
+/*   Updated: 2026/01/16 23:14:18 by harici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "extra_commands_bonus.h"
-# include "libft.h"
-# include <unistd.h>
+#include "extra_commands_bonus.h"
+#include "libft.h"
+#include <unistd.h>
 
 unsigned int	simple_rand(unsigned int *seed)
 {

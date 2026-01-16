@@ -6,12 +6,12 @@
 /*   By: harici <harici@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 22:41:47 by akivam            #+#    #+#             */
-/*   Updated: 2026/01/15 03:57:57 by harici           ###   ########.fr       */
+/*   Updated: 2026/01/16 23:12:57 by harici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "extra_commands_bonus.h"
-# include "utils.h"
+#include "extra_commands_bonus.h"
+#include "utils.h"
 
 static t_extra_command	*get_extra_command(void)
 {

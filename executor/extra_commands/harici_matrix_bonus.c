@@ -6,16 +6,16 @@
 /*   By: harici <harici@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 13:25:00 by harici            #+#    #+#             */
-/*   Updated: 2026/01/15 03:57:31 by harici           ###   ########.fr       */
+/*   Updated: 2026/01/16 23:13:53 by harici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "extra_commands_bonus.h"
-# include "libft.h"
-# include <readline/readline.h>
-# include <stdlib.h>
-# include <sys/wait.h>
-# include <unistd.h>
+#include "extra_commands_bonus.h"
+#include "libft.h"
+#include <readline/readline.h>
+#include <stdlib.h>
+#include <sys/wait.h>
+#include <unistd.h>
 
 unsigned int	simple_rand(unsigned int *seed);
 void			simple_delay(void);

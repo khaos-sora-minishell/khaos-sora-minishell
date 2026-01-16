@@ -14,6 +14,7 @@
 # define EXECUTOR_H
 
 # include "minishell.h"
+# include <termios.h>
 
 void	executor_run(t_shell *shell);
 int		execute_ast(t_ast_node *ast_node, t_shell *shell);
@@ -25,6 +26,9 @@ int		setup_redirections(t_redir *redirs, t_shell *shell);
 char	*expand_heredoc_line(char *line, t_shell *shell);
 int		process_heredoc_line(char *line, int fd, t_redir *redir,
 			t_shell *shell);
+void	setup_raw_mode(struct termios *old_term);
+int		process_char(char c, char *buffer, int *pos, int *len);
+char	*read_line_raw(char *prompt);
 void	read_heredoc_loop(int fd, t_redir *redir, t_shell *shell);
 char	*get_heredoc_filename(int counter, t_shell *shell);
 int		process_cmd_heredoc(t_cmd *cmd, t_shell *shell);

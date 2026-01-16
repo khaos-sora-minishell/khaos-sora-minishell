@@ -18,6 +18,36 @@
 #include <sys/stat.h>
 #include "utils.h"
 
+static char	*read_raw_input(char *buffer, int *len)
+{
+	int		pos;
+	char	c;
+
+	pos = 0;
+	*len = 0;
+	while (read(STDIN_FILENO, &c, 1) == 1)
+	{
+		if (process_char(c, buffer, &pos, len))
+			break ;
+	}
+	buffer[*len] = '\0';
+	return (buffer);
+}
+
+char	*read_line_raw(char *prompt)
+{
+	char	buffer[4096];
+	int		len;
+
+	ft_putstr_fd(prompt, STDOUT_FILENO);
+	read_raw_input(buffer, &len);
+	if (get_signal() != SIGINT)
+		write(STDOUT_FILENO, "\n", 1);
+	if (get_signal() == SIGINT)
+		return (NULL);
+	return (ft_strdup(buffer));
+}
+
 static int	handle_heredoc_entry(t_redir *redir, int cnt, t_shell *shell)
 {
 	int	fd;

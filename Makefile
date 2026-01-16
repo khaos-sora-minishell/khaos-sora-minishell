@@ -19,10 +19,10 @@ EXPANDER_BONUS_SRC = expander.c expander_utils4_bonus.c wildcard_bonus.c expand_
 
 EXECUTOR_SRC = executor.c exec_ast.c exec_builtin.c exec_cmd.c \
 			   exec_cmd_utils1.c exec_cmd_utils2.c exec_pipe.c redirections.c \
-			   here_doc_utils1.c here_doc_utils2.c here_doc_utils3.c here_doc_manager.c
+			   here_doc_utils1.c here_doc_utils2.c here_doc_utils3.c here_doc_utils4.c here_doc_manager.c
 EXECUTOR_BONUS_SRC = executor.c exec_ast_bonus.c exec_builtin_bonus.c exec_cmd_bonus.c \
 			   exec_cmd_utils1.c exec_cmd_utils2.c exec_pipe.c redirections.c \
-			   here_doc_utils1.c here_doc_utils2.c here_doc_utils3.c here_doc_manager_bonus.c \
+			   here_doc_utils1.c here_doc_utils2.c here_doc_utils3.c here_doc_utils4.c here_doc_manager_bonus.c \
 			   extra_commands/collor_command_bonus.c \
 			   extra_commands/extra_commands_bonus.c extra_commands/harici_matrix_bonus.c \
 			   extra_commands/harici_matrix_utils_bonus.c extra_commands/pars_vs_executer_bonus.c \
