@@ -26,7 +26,11 @@ EXECUTOR_BONUS_SRC = executor.c exec_ast_bonus.c exec_builtin_bonus.c exec_cmd_b
 			   extra_commands/collor_command_bonus.c \
 			   extra_commands/extra_commands_bonus.c extra_commands/harici_matrix_bonus.c \
 			   extra_commands/harici_matrix_utils_bonus.c extra_commands/pars_vs_executer_bonus.c \
-			   extra_commands/set_terminal_name_bonus.c
+			   extra_commands/set_terminal_name_bonus.c \
+			   extra_commands/tetris.c extra_commands/init_tetris.c extra_commands/movement.c \
+			   extra_commands/terminal_utils.c extra_commands/render.c extra_commands/collision.c \
+			   extra_commands/lock_piece.c extra_commands/spawn_piece.c extra_commands/cleare_piece.c \
+			   extra_commands/calc_speed.c extra_commands/tetromino.c
 
 EXEC_ERROR_SRC = executor_error.c executer_error2.c
 

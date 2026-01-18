@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   harici_matrix_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: harici <harici@student.42istanbul.com.tr>  +#+  +:+       +#+        */
+/*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/22 13:25:00 by harici            #+#    #+#             */
-/*   Updated: 2026/01/16 23:13:53 by harici           ###   ########.fr       */
+/*   Created: 2026/01/18 20:59:47 by akivam            #+#    #+#             */
+/*   Updated: 2026/01/18 20:59:52 by akivam           ###   ########.tr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,6 @@
 #include <stdlib.h>
 #include <sys/wait.h>
 #include <unistd.h>
-
-unsigned int	simple_rand(unsigned int *seed);
-void			simple_delay(void);
-void			write_at(int row, int col, char c, int bright);
-void			draw_rain(int *drops, int width, int height, unsigned int *s);
 
 static void	run_matrix_child(t_shell *shell)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   extra_commands_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: harici <harici@student.42istanbul.com.tr>  +#+  +:+       +#+        */
+/*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/06 22:41:47 by akivam            #+#    #+#             */
-/*   Updated: 2026/01/16 23:12:57 by harici           ###   ########.fr       */
+/*   Created: 2026/01/18 21:01:11 by akivam            #+#    #+#             */
+/*   Updated: 2026/01/18 21:01:14 by akivam           ###   ########.tr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ static t_extra_command	*get_extra_command(void)
 	{"set-terminal", set_terminal_name},
 	{"set-prompt", set_prompt},
 	{"set-background", set_background},
+	{"tetris",	start_game},
 	{NULL, NULL}};
 
 	return (extra_cmd);

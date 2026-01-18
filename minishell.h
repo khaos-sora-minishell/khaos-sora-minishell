@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/11 12:05:55 by akivam            #+#    #+#             */
-/*   Updated: 2026/01/11 12:05:55 by akivam           ###   ########.fr       */
+/*   Created: 2026/01/18 21:12:44 by akivam            #+#    #+#             */
+/*   Updated: 2026/01/18 21:12:49 by akivam           ###   ########.tr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@
 # define FNV_PRIME_64 1099511628211UL
 # define FNV_OFFSET 14695981039346656037UL
 # define XOR_KEY 0x1F
+
+typedef struct s_tetris	t_tetris;
 
 # ifdef BONUS
 
@@ -149,6 +151,7 @@ typedef struct s_shell
 	char					*terminal_name_bg_color;
 	char					*terminal_text_color;
 	char					*terminal_bg_color;
+	t_tetris				*tetris;
 	t_env_table				*env_table;
 	char					**env_array;
 	t_env_table				*alias_table;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   collor_command_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: harici <harici@student.42istanbul.com.tr>  +#+  +:+       +#+        */
+/*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/22 19:49:05 by akivam            #+#    #+#             */
-/*   Updated: 2026/01/15 03:58:16 by harici           ###   ########.fr       */
+/*   Created: 2026/01/18 21:00:47 by akivam            #+#    #+#             */
+/*   Updated: 2026/01/18 21:00:54 by akivam           ###   ########.tr       */
 /*                                                                            */
 /* ************************************************************************** */
 
