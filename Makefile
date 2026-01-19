@@ -113,8 +113,6 @@ YELLOW			= \033[0;33m
 RED				= \033[0;31m
 RESET			= \033[0m
 
-all: $(NAME)
-
 $(NAME): .mandatory
 
 .mandatory: $(OBJS) $(LIBFT_LIB) $(GC_LIB)
@@ -164,6 +162,8 @@ time:
 # Bonus: mandatory + bonus features (uses separate obj directory)
 BONUS_OBJ_DIR = obj_bonus
 BONUS_OBJS = $(addprefix $(BONUS_OBJ_DIR)/, $(BONUS_SRCS:.c=.o))
+
+all: .mandatory .bonus
 
 $(BONUS_OBJ_DIR)/%.o: %.c
 	$(Q)mkdir -p $(@D)
