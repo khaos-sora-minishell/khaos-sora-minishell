@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "extra_commands_bonus.h"
+#include "extra_commands.h"
 
 int	calc_speed(int level)
 {

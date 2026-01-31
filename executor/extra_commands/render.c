@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "extra_commands_bonus.h"
+#include "extra_commands.h"
 
 static int	check_active_piece(t_tetris *t, int x, int y)
 {

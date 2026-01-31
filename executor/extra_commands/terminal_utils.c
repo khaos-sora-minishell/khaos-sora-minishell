@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "extra_commands_bonus.h"
+#include "extra_commands.h"
 #include <termios.h>
 
 void	setup_tetris_terminal(struct termios *old)

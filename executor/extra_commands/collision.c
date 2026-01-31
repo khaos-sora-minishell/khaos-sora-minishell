@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "extra_commands_bonus.h"
+#include "extra_commands.h"
 
 int	check_collision(t_tetris *t, int new_x, int new_y, int new_rot)
 {

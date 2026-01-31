@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "extra_commands_bonus.h"
+#include "extra_commands.h"
 
 static int	**allocate_board(int h, int w, void *arena)
 {

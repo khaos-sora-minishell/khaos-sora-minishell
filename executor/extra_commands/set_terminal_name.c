@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "extra_commands_bonus.h"
+#include "extra_commands.h"
 #include "garbage_collector.h"
 #include "libft.h"
 #include "minishell.h"

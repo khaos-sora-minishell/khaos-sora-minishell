@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main_utils2.c                                      :+:      :+:    :+:   */
+/*   main_utils2_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 12:06:34 by akivam            #+#    #+#             */
-/*   Updated: 2026/01/11 12:06:34 by akivam           ###   ########.fr       */
+/*   Updated: 2026/01/18 01:45:18 by akivam           ###   ########.tr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,11 @@ void	cleanup_child_process(t_shell *shell)
 
 /*
  * Cleans up shell resources before exit
- * Performs final cleanup without history saving
+ * Saves history file and performs final cleanup
  */
 void	cleanup_shell(t_shell *shell)
 {
+	save_history_file(shell);
 	cleanup_child_process(shell);
 }
 
