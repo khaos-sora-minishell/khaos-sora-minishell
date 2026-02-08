@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/31 21:27:02 by akivam            #+#    #+#             */
-/*   Updated: 2026/02/09 01:33:25 by akivam           ###   ########.fr       */
+/*   Updated: 2026/02/09 02:19:24 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ int	builtin_source(char **args, t_shell *shell)
 		return (2);
 	if (fd == -1)
 		return (1);
-	while ((line = get_next_line(fd)) != NULL)
+	line = get_next_line(fd);
+	while (line != NULL)
 	{
 		old_input = shell->current_input;
 		shell->current_input = line;

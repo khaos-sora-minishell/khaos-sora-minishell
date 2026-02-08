@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   extra_commands_bonus.h                             :+:      :+:    :+:   */
+/*   extra_commands.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/07 20:50:44 by akivam            #+#    #+#             */
-/*   Updated: 2026/02/07 20:50:44 by akivam           ###   ########.fr       */
+/*   Updated: 2026/02/09 02:16:59 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXTRA_COMMANDS_BONUS_H
-# define EXTRA_COMMANDS_BONUS_H
+#ifndef EXTRA_COMMANDS_H
+# define EXTRA_COMMANDS_H
 
 # include "minishell.h"
 # include "tetris.h"

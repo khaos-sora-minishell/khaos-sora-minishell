@@ -264,6 +264,8 @@ int				count_args(char **args);
 char			**expand_wildcard(char *pattern, t_shell *shell);
 char			**expand_args(char **args, t_shell *shell);
 char			*process_dollar(char *str, int *i, t_shell *shell);
+char			*process_command_substitution(char *str, int *i,
+					t_shell *shell);
 char			*process_tilde(char *str, int *i, t_shell *shell);
 char			*expand_exit_status(t_shell *shell);
 char			*expand_arg_count(t_shell *shell);

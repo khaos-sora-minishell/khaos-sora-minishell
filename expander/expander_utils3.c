@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expander_utils3_bonus.c                            :+:      :+:    :+:   */
+/*   expander_utils3.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: harici <harici@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 00:31:57 by harici            #+#    #+#             */
-/*   Updated: 2026/01/18 00:31:57 by harici           ###   ########.fr       */
+/*   Updated: 2026/02/09 02:14:26 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ char	*process_dollar(char *str, int *i, t_shell *shell)
 	char	*value;
 
 	(*i)++;
+	if (str[*i] == '(')
+		return (process_command_substitution(str, i, shell));
 	value = process_special_param(str, i, shell);
 	if (value)
 		return (value);

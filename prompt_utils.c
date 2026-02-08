@@ -6,7 +6,7 @@
 /*   By: harici <harici@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 20:27:05 by harici            #+#    #+#             */
-/*   Updated: 2026/01/13 20:27:05 by harici           ###   ########.fr       */
+/*   Updated: 2026/02/09 02:24:20 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,15 +56,15 @@ static char	*wrap_ansi_codes(char *ps1, t_shell *shell)
 			result = gc_strjoin(shell->cmd_arena, result, "\001");
 			while (ps1[i] && ps1[i] != 'm')
 				result = gc_strjoin(shell->cmd_arena, result,
-					gc_strndup(shell->cmd_arena, &ps1[i++], 1));
+						gc_strndup(shell->cmd_arena, &ps1[i++], 1));
 			if (ps1[i])
 				result = gc_strjoin(shell->cmd_arena, result,
-					gc_strndup(shell->cmd_arena, &ps1[i++], 1));
+						gc_strndup(shell->cmd_arena, &ps1[i++], 1));
 			result = gc_strjoin(shell->cmd_arena, result, "\002");
 		}
 		else
 			result = gc_strjoin(shell->cmd_arena, result,
-				gc_strndup(shell->cmd_arena, &ps1[i++], 1));
+					gc_strndup(shell->cmd_arena, &ps1[i++], 1));
 	}
 	return (result);
 }

@@ -10,7 +10,8 @@ PARSER_SRC	= parser.c parse_cmd.c parse_cmd_utils.c parse_cmd_utils2.c build_ast
 
 EXPANDER_SRC = expander.c expand_args.c expand_args2.c \
 			   expander_utils.c expander_utils2.c expander_utils3.c expander_utils4.c \
-			   expand_helpers.c expander_positional.c wildcard.c wildcard_utils.c
+			   expand_helpers.c expander_positional.c wildcard.c wildcard_utils.c \
+			   command_substitution.c
 
 EXECUTOR_SRC = executor.c exec_ast.c exec_builtin.c exec_cmd.c \
 			   exec_cmd_utils1.c exec_cmd_utils2.c exec_pipe.c redirections.c \
