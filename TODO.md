@@ -4,6 +4,7 @@
 - [ ] **Semicolon operator (;)** - Command separator: `cmd1 ; cmd2 ; cmd3`
 - [ ] **Custom readline implementation** - Replace GNU readline with custom implementation
 - [ ] **Parser FD handling** - Update parser to read/write from specific file descriptors
+- [x] **Command substitution $()**  - ✅ IMPLEMENTED (needs testing)
 - [ ]
 
 ## 🟡 Medium Priority (Bash Compatibility)
@@ -11,12 +12,13 @@
 ### Builtin Commands
 - [ ] `history` - Show command history
 - [ ] `fc` - Fix command (history editor)
+- [ ] History limits - HISTSIZE and HISTFILESIZE (bash-like limits)
 - [ ]
 
 ### Core Features
-- [ ] Command substitution - `$(command)` or `` `command` ``
+- [x] **Command substitution** - `$(command)` ✅ IMPLEMENTED
+- [x] **Tilde expansion** - `~` and `~user` ✅ ALREADY EXISTS
 - [ ] Arithmetic expansion - `$(( expression ))`
-- [ ] Tilde expansion - `~` and `~user`
 - [ ] Tab completion - Command and file completion
 - [ ]
 
