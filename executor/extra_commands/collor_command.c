@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   collor_command_bonus.c                             :+:      :+:    :+:   */
+/*   collor_command.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/18 21:00:47 by akivam            #+#    #+#             */
-/*   Updated: 2026/01/18 21:00:54 by akivam           ###   ########.tr       */
+/*   Created: 2026/02/07 20:50:34 by akivam            #+#    #+#             */
+/*   Updated: 2026/02/09 01:50:27 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,56 +14,6 @@
 #include "extra_commands.h"
 #include "libft.h"
 #include "utils.h"
-
-static char	*get_prompt_color(char *arg)
-{
-	if (ft_strcmp(arg, "red") == 0)
-		return (C_RED);
-	if (ft_strcmp(arg, "green") == 0)
-		return (C_GREEN);
-	if (ft_strcmp(arg, "yellow") == 0)
-		return (C_YELLOW);
-	if (ft_strcmp(arg, "blue") == 0)
-		return (C_BLUE);
-	if (ft_strcmp(arg, "magenta") == 0)
-		return (C_MAGENTA);
-	if (ft_strcmp(arg, "cyan") == 0)
-		return (C_CYAN);
-	if (ft_strcmp(arg, "white") == 0)
-		return (C_WHITE);
-	return (NULL);
-}
-
-static char	*get_background_color(char *arg)
-{
-	if (ft_strcmp(arg, "red") == 0)
-		return (BG_RED);
-	if (ft_strcmp(arg, "green") == 0)
-		return (BG_GREEN);
-	if (ft_strcmp(arg, "yellow") == 0)
-		return (BG_YELLOW);
-	if (ft_strcmp(arg, "blue") == 0)
-		return (BG_BLUE);
-	if (ft_strcmp(arg, "magenta") == 0)
-		return (BG_MAGENTA);
-	if (ft_strcmp(arg, "cyan") == 0)
-		return (BG_CYAN);
-	if (ft_strcmp(arg, "black") == 0)
-		return (BG_BLACK);
-	return (NULL);
-}
-
-static char	*get_color_code(char *arg, int is_background)
-{
-	if (!arg)
-		return (NULL);
-	if (ft_strcmp(arg, "reset") == 0)
-		return (C_RESET);
-	if (is_background)
-		return (get_background_color(arg));
-	else
-		return (get_prompt_color(arg));
-}
 
 void	set_prompt(char **args, t_shell *shell)
 {
@@ -76,6 +26,14 @@ void	set_prompt(char **args, t_shell *shell)
 		shell->exit_status = 1;
 		return ;
 	}
+	if (ft_strcmp(args[1], "reset") == 0)
+	{
+		shell->terminal_name_color = NULL;
+		env_set(shell->env_table, "PROMPT_COLOR", "", shell->global_arena);
+		update_ps1(shell);
+		shell->exit_status = 0;
+		return ;
+	}
 	code = get_color_code(args[1], 0);
 	if (!code)
 	{
@@ -84,6 +42,8 @@ void	set_prompt(char **args, t_shell *shell)
 		return ;
 	}
 	shell->terminal_name_color = gc_strdup(shell->global_arena, code);
+	env_set(shell->env_table, "PROMPT_COLOR", code, shell->global_arena);
+	update_ps1(shell);
 	shell->exit_status = 0;
 }
 
@@ -98,6 +58,14 @@ void	set_background(char **args, t_shell *shell)
 		shell->exit_status = 1;
 		return ;
 	}
+	if (ft_strcmp(args[1], "reset") == 0)
+	{
+		shell->terminal_bg_color = NULL;
+		env_set(shell->env_table, "PROMPT_BG_COLOR", "", shell->global_arena);
+		update_ps1(shell);
+		shell->exit_status = 0;
+		return ;
+	}
 	code = get_color_code(args[1], 1);
 	if (!code)
 	{
@@ -106,5 +74,7 @@ void	set_background(char **args, t_shell *shell)
 		return ;
 	}
 	shell->terminal_bg_color = gc_strdup(shell->global_arena, code);
+	env_set(shell->env_table, "PROMPT_BG_COLOR", code, shell->global_arena);
+	update_ps1(shell);
 	shell->exit_status = 0;
 }

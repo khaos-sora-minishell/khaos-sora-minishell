@@ -13,56 +13,6 @@
 #include "libft.h"
 #include "minishell.h"
 
-#ifndef BONUS
-
-static void	process_expansion(char *str, char *result, t_shell *shell,
-		t_expand_contex *contex)
-{
-	char	*expanded;
-
-	if (!contex->quote && (str[contex->i] == '\'' || str[contex->i] == '"'))
-		contex->quote = str[contex->i++];
-	else if (contex->quote && str[contex->i] == contex->quote)
-	{
-		contex->quote = 0;
-		contex->i++;
-	}
-	else if (str[contex->i] == '$' && contex->quote != '\'')
-	{
-		expanded = process_dollar(str, &contex->i, shell);
-		ft_memcpy(result + contex->j, expanded, gc_strlen(expanded));
-		contex->j += gc_strlen(expanded);
-	}
-	else
-		result[contex->j++] = str[contex->i++];
-}
-
-static void	update_len(char *str, t_expand_contex *contex, size_t *len,
-		t_shell *shell)
-{
-	char	*expanded;
-
-	if (!contex->quote && (str[contex->i] == '\'' || str[contex->i] == '"'))
-		contex->quote = str[contex->i++];
-	else if (contex->quote && str[contex->i] == contex->quote)
-	{
-		contex->quote = 0;
-		contex->i++;
-	}
-	else if (str[contex->i] == '$' && contex->quote != '\'')
-	{
-		expanded = process_dollar(str, &contex->i, shell);
-		*len += gc_strlen(expanded);
-	}
-	else
-	{
-		(*len)++;
-		contex->i++;
-	}
-}
-
-#endif
-
 static size_t	get_expanded_length(char *str, t_shell *shell)
 {
 	t_expand_contex	contex;

@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "extra_commands_bonus.h"
+#include "extra_commands.h"
 #include "libft.h"
 
 static void	restore_colors_from_env(t_shell *shell)
@@ -63,12 +63,16 @@ void	update_ps1(t_shell *shell)
 	char	*ps1;
 	char	*temp;
 
-	extract_terminal_name_from_ps1(shell);
+	if (!shell->terminal_name && !shell->terminal_name_color
+		&& !shell->terminal_bg_color)
+		extract_terminal_name_from_ps1(shell);
 	ps1 = gc_strdup(shell->global_arena, "");
 	if (shell->terminal_bg_color)
 		ps1 = gc_strjoin(shell->global_arena, ps1, shell->terminal_bg_color);
 	if (shell->terminal_name_color)
 		ps1 = gc_strjoin(shell->global_arena, ps1, shell->terminal_name_color);
+	else if (shell->terminal_bg_color)
+		ps1 = gc_strjoin(shell->global_arena, ps1, "\033[97m");
 	if (shell->terminal_name)
 		temp = shell->terminal_name;
 	else

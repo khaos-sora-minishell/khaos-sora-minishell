@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars_vs_executer_bonus.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: harici <harici@student.42istanbul.com.tr>  +#+  +:+       +#+        */
+/*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 20:59:45 by akivam            #+#    #+#             */
-/*   Updated: 2026/01/16 23:15:15 by harici           ###   ########.fr       */
+/*   Updated: 2026/01/20 21:32:48 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 #include "libft.h"
 #include "minishell.h"
 
-void	akivam_executer(char **args, t_shell *shell)
+void	akivam_executor(char **args, t_shell *shell)
 {
 	(void)args;
 	ft_putendl_fd("Please write it without going overboard 🥺\n", 1);
 	shell->exit_status = 0;
 }
 
-void	harici_parse(char **args, t_shell *shell)
+void	harici_parser(char **args, t_shell *shell)
 {
 	(void)args;
-	ft_putendl_fd("Please write parse \n", 1);
+	ft_putendl_fd("Please write parse 🥺🥺🥺🥺🥺\n", 1);
 	shell->exit_status = 0;
 }

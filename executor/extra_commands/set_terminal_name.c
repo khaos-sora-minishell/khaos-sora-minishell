@@ -17,14 +17,14 @@
 
 void	set_terminal_name(char **args, t_shell *shell)
 {
-	t_gc_context	*contex;
-
-	contex = (t_gc_context *)shell->global_arena;
 	if (!args[1])
 	{
-		ft_err_printf("Error: armunan is missing");
-		ft_err_printf("Usage-example: set-terminal sora");
+		ft_err_printf("Error: argument is missing\n");
+		ft_err_printf("Usage: set-terminal <name>\n");
+		shell->exit_status = 1;
 		return ;
 	}
-	shell->terminal_name = gc_strdup(contex, args[1]);
+	shell->terminal_name = gc_strdup(shell->global_arena, args[1]);
+	update_ps1(shell);
+	shell->exit_status = 0;
 }

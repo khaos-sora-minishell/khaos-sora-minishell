@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_help.c                                     :+:      :+:    :+:   */
+/*   builtin_help_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 21:22:31 by akivam            #+#    #+#             */
-/*   Updated: 2026/01/06 22:19:56 by akivam           ###   ########.fr       */
+/*   Updated: 2026/02/06 22:48:10 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,16 @@ static void	print_help_commands(void)
 
 static void	print_help_footer(void)
 {
-	printf("\n🎉 Easter Eggs:\n");
-	printf("  harici_matrix      : Display matrix effect\n");
-	printf("  akivam_executer    : Show executor visualization\n");
-	printf("  set-terminal [name]: Set terminal title\n");
+	printf("\n🎉 Extra commands:\n");
+	printf("  akivam-executor         : Akivam's friendly reminder\n");
+	printf("  harici-parser           : Harici's friendly reminder\n");
+	printf("  tetris-42               : Play Tetris game\n");
+	printf("  set-terminal [name]     : Set terminal title\n");
+	printf("  set-prompt-color [color]: Set prompt text color\n");
+	printf("  set-prompt-background [color]: Set prompt background color\n");
 	printf("\n💡 Tips:\n");
 	printf("  - Use Ctrl+D (EOF) to exit\n");
 	printf("  - Aliases are loaded from ~/.shellrc\n");
-	printf("  - Use 'man bash' for more shell features\n\n");
 }
 
 int	builtin_help(char **args, t_shell *shell)

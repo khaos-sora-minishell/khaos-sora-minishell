@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_operator.c                                   :+:      :+:    :+:   */
+/*   lexer_operator_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: harici <harici@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/13 20:29:47 by harici            #+#    #+#             */
-/*   Updated: 2026/01/13 20:29:47 by harici           ###   ########.fr       */
+/*   Created: 2026/01/13 20:29:39 by harici            #+#    #+#             */
+/*   Updated: 2026/01/13 20:29:39 by harici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,17 @@
 
 t_token_type	handle_double_op(char c, char next, int *i)
 {
-	if (c == '<' && next == '<')
+	if (c == '|' && next == '|')
+	{
+		(*i) += 2;
+		return (TOKEN_OR);
+	}
+	else if (c == '&' && next == '&')
+	{
+		(*i) += 2;
+		return (TOKEN_AND);
+	}
+	else if (c == '<' && next == '<')
 	{
 		(*i) += 2;
 		return (TOKEN_HEREDOC);
@@ -36,6 +46,15 @@ t_token_type	handle_single_op(char c, int *i)
 		return ((*i)++, TOKEN_REDIR_IN);
 	else if (c == '>')
 		return ((*i)++, TOKEN_REDIR_OUT);
+	else if (c == '(')
+		return ((*i)++, TOKEN_LPAREN);
+	else if (c == ')')
+		return ((*i)++, TOKEN_RPAREN);
+	else if (c == '&')
+	{
+		(*i)++;
+		return (TOKEN_WORD);
+	}
 	return (TOKEN_WORD);
 }
 

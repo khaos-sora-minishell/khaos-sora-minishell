@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_builtin.c                                     :+:      :+:    :+:   */
+/*   exec_builtin_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 22:21:32 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/12 17:14:52 by akivam           ###   ########.fr       */
+/*   Updated: 2026/01/18 01:44:56 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,13 @@ static t_builtin	*get_builtins(void)
 	{"exit", builtin_exit},
 	{"export", builtin_export},
 	{"pwd", builtin_pwd},
+	{"alias", builtin_alias},
+	{"unalias", builtin_unalias},
+	{"tty", builtin_tty},
+	{"type", builtin_type},
+	{"true", builtin_true},
+	{"false", builtin_false},
+	{"help", builtin_help},
 	{"unset", builtin_unset},
 	{NULL, NULL}};
 

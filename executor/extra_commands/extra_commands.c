@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 21:01:11 by akivam            #+#    #+#             */
-/*   Updated: 2026/01/18 21:01:14 by akivam           ###   ########.tr       */
+/*   Updated: 2026/02/02 18:27:10 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@
 static t_extra_command	*get_extra_command(void)
 {
 	static t_extra_command	extra_cmd[] = {
-	{"harici_matrix", harici_matrix},
-	{"akivam_executer", akivam_executer},
+	{"akivam-executor", akivam_executor},
+	{"harici-parser", harici_parser},
 	{"set-terminal", set_terminal_name},
-	{"set-prompt", set_prompt},
-	{"set-background", set_background},
-	{"tetris",	start_game},
+	{"set-prompt-color", set_prompt},
+	{"set-prompt-background", set_background},
+	{"tetris-42", start_game},
 	{NULL, NULL}};
 
 	return (extra_cmd);

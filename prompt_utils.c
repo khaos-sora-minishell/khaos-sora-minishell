@@ -42,6 +42,59 @@ void	build_prompt_colors(t_shell *shell, char **prompt)
 	}
 }
 
+static char	*wrap_ansi_codes(char *ps1, t_shell *shell)
+{
+	char	*result;
+	int		i;
+
+	result = gc_strdup(shell->cmd_arena, "");
+	i = 0;
+	while (ps1[i])
+	{
+		if (ps1[i] == '\033')
+		{
+			result = gc_strjoin(shell->cmd_arena, result, "\001");
+			while (ps1[i] && ps1[i] != 'm')
+				result = gc_strjoin(shell->cmd_arena, result,
+					gc_strndup(shell->cmd_arena, &ps1[i++], 1));
+			if (ps1[i])
+				result = gc_strjoin(shell->cmd_arena, result,
+					gc_strndup(shell->cmd_arena, &ps1[i++], 1));
+			result = gc_strjoin(shell->cmd_arena, result, "\002");
+		}
+		else
+			result = gc_strjoin(shell->cmd_arena, result,
+				gc_strndup(shell->cmd_arena, &ps1[i++], 1));
+	}
+	return (result);
+}
+
+static void	sync_from_ps1(t_shell *shell, char *ps1)
+{
+	int		i;
+	char	*name_start;
+	char	*name_end;
+
+	i = 0;
+	while (ps1[i] && ps1[i] == '\033')
+	{
+		while (ps1[i] && ps1[i] != 'm')
+			i++;
+		if (ps1[i])
+			i++;
+	}
+	if (!ps1[i])
+		return ;
+	name_start = ps1 + i;
+	name_end = name_start;
+	while (*name_end && *name_end != '$' && *name_end != '>'
+		&& *name_end != '\033')
+		name_end++;
+	if (name_end > name_start)
+		shell->terminal_name = gc_strndup(shell->global_arena,
+				name_start, name_end - name_start);
+}
+
 char	*get_prompt(t_shell *shell)
 {
 	char	*prompt;
@@ -50,7 +103,10 @@ char	*get_prompt(t_shell *shell)
 
 	ps1 = env_get(shell->env_table, "PS1", shell->cmd_arena);
 	if (ps1)
-		return (gc_strdup(shell->cmd_arena, ps1));
+	{
+		sync_from_ps1(shell, ps1);
+		return (wrap_ansi_codes(ps1, shell));
+	}
 	reset = "\001\033[0m\002";
 	prompt = gc_strdup(shell->cmd_arena, "");
 	build_prompt_colors(shell, &prompt);

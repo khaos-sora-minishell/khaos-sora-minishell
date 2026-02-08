@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_cmd_utils.c                                  :+:      :+:    :+:   */
+/*   parse_cmd_utils_bonus.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: harici <harici@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/20 21:59:14 by harici            #+#    #+#             */
-/*   Updated: 2026/01/20 21:59:14 by harici           ###   ########.fr       */
+/*   Created: 2026/01/20 21:59:15 by harici            #+#    #+#             */
+/*   Updated: 2026/01/20 21:59:16 by harici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ int	is_redirection_token(t_token_type type)
 
 int	is_operator_token(t_token_type type)
 {
-	return (type == TOKEN_PIPE);
+	return (type == TOKEN_PIPE || type == TOKEN_AND || type == TOKEN_OR
+		|| type == TOKEN_LPAREN || type == TOKEN_RPAREN);
 }
 
 t_cmd	*create_cmd(void *arena)

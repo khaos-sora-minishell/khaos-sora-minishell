@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   build_ast.c                                        :+:      :+:    :+:   */
+/*   build_ast_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/20 16:36:35 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/22 16:14:32 by akivam           ###   ########.fr       */
+/*   Updated: 2026/01/18 01:48:12 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,15 @@ t_ast_node	*parse_primary(t_token **current, t_shell *shell)
 
 	if (!*current)
 		return (NULL);
+	if ((*current)->type == TOKEN_LPAREN)
+	{
+		*current = (*current)->next;
+		node = new_ast_node(NODE_SUBSHELL, shell);
+		node->subshell_node = parse_logic(current, shell);
+		if (*current && (*current)->type == TOKEN_RPAREN)
+			*current = (*current)->next;
+		return (node);
+	}
 	node = new_ast_node(NODE_CMD, shell);
 	node->cmd = parse_simple_command(current, shell);
 	return (node);
