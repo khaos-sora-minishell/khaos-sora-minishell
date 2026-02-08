@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   here_doc_manager_bonus.c                           :+:      :+:    :+:   */
+/*   here_doc_manager.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 11:35:14 by akivam            #+#    #+#             */
-/*   Updated: 2026/01/18 01:45:03 by akivam           ###   ########.tr       */
+/*   Updated: 2025/12/22 13:37:45 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,6 @@ int	process_ast_heredocs(t_ast_node *ast, t_shell *shell)
 		if (process_ast_heredocs(ast->right, shell) == -1)
 			return (-1);
 	}
-	else if (ast->type == NODE_AND || ast->type == NODE_OR)
-	{
-		if (process_ast_heredocs(ast->left, shell) == -1)
-			return (-1);
-		if (process_ast_heredocs(ast->right, shell) == -1)
-			return (-1);
-	}
-	else if (ast->type == NODE_SUBSHELL && ast->subshell_node)
-		return (process_ast_heredocs(ast->subshell_node, shell));
 	return (0);
 }
 
@@ -53,11 +44,4 @@ void	clean_ast_heredocs(t_ast_node *ast)
 		clean_ast_heredocs(ast->left);
 		clean_ast_heredocs(ast->right);
 	}
-	else if (ast->type == NODE_AND || ast->type == NODE_OR)
-	{
-		clean_ast_heredocs(ast->left);
-		clean_ast_heredocs(ast->right);
-	}
-	else if (ast->type == NODE_SUBSHELL && ast->subshell_node)
-		clean_ast_heredocs(ast->subshell_node);
 }

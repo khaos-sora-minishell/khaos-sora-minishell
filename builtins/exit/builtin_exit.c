@@ -60,7 +60,7 @@ static void	quit_shell(t_shell *shell, int status)
 
 int	builtin_exit(char **args, t_shell *shell)
 {
-	if (isatty(STDIN_FILENO))
+	if (isatty(STDIN_FILENO) && read_shell_pid() == shell->shell_pid)
 		ft_putendl_fd("exit", 2);
 	if (!args[1])
 		quit_shell(shell, shell->exit_status);

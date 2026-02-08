@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_bonus.c                                     :+:      :+:    :+:   */
+/*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 22:29:47 by akivam            #+#    #+#             */
-/*   Updated: 2026/01/18 01:48:12 by akivam           ###   ########.tr       */
+/*   Updated: 2025/12/21 21:34:46 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,6 @@ static int	validate_token_syntax(t_token *current)
 			return (syntax_error("|"), 1);
 		if (current->next->type == TOKEN_PIPE)
 			return (syntax_error("|"), 1);
-	}
-	else if (current->type == TOKEN_OR || current->type == TOKEN_AND)
-	{
-		if (current->next == NULL)
-			return (syntax_error("newline"), 1);
 	}
 	else if (current->type >= TOKEN_REDIR_IN && current->type <= TOKEN_HEREDOC)
 	{
@@ -43,9 +38,8 @@ static int	check_syntax(t_token *tokens)
 
 	if (!tokens)
 		return (0);
-	if (tokens->type == TOKEN_PIPE || tokens->type == TOKEN_OR
-		|| tokens->type == TOKEN_AND)
-		return (syntax_error(tokens->value), 1);
+	if (tokens->type == TOKEN_PIPE)
+		return (syntax_error("|"), 1);
 	current = tokens;
 	while (current)
 	{

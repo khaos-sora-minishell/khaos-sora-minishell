@@ -45,8 +45,12 @@ void	build_prompt_colors(t_shell *shell, char **prompt)
 char	*get_prompt(t_shell *shell)
 {
 	char	*prompt;
+	char	*ps1;
 	char	*reset;
 
+	ps1 = env_get(shell->env_table, "PS1", shell->cmd_arena);
+	if (ps1)
+		return (gc_strdup(shell->cmd_arena, ps1));
 	reset = "\001\033[0m\002";
 	prompt = gc_strdup(shell->cmd_arena, "");
 	build_prompt_colors(shell, &prompt);

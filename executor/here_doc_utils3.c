@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/04 21:11:56 by akivam            #+#    #+#             */
-/*   Updated: 2026/01/04 21:14:25 by akivam           ###   ########.fr       */
+/*   Updated: 2026/02/06 20:24:42 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,32 +18,54 @@
 #include <sys/stat.h>
 #include "utils.h"
 
-static char	*read_raw_input(char *buffer, int *len)
+int	process_char(char c, char *buffer, int *pos, int *len)
+{
+	int	ret;
+
+	if (c == 27)
+		handle_escape_sequence(pos, len);
+	else
+	{
+		ret = handle_special_char(c, buffer, pos, len);
+		if (ret == 1)
+			return (1);
+		if (ret == -1)
+			add_char_to_buffer(c, buffer, pos, len);
+	}
+	return (0);
+}
+
+static int	read_raw_input(char *buffer, int *len, char *last_char)
 {
 	int		pos;
 	char	c;
 
 	pos = 0;
 	*len = 0;
+	*last_char = 0;
 	while (read(STDIN_FILENO, &c, 1) == 1)
 	{
+		*last_char = c;
 		if (process_char(c, buffer, &pos, len))
 			break ;
 	}
 	buffer[*len] = '\0';
-	return (buffer);
+	return (0);
 }
 
 char	*read_line_raw(char *prompt)
 {
 	char	buffer[4096];
 	int		len;
+	char	last_char;
 
 	ft_putstr_fd(prompt, STDOUT_FILENO);
-	read_raw_input(buffer, &len);
+	read_raw_input(buffer, &len, &last_char);
 	if (get_signal() != SIGINT)
 		write(STDOUT_FILENO, "\n", 1);
 	if (get_signal() == SIGINT)
+		return (NULL);
+	if (last_char == 4 && len == 0)
 		return (NULL);
 	return (ft_strdup(buffer));
 }
@@ -82,19 +104,4 @@ int	process_cmd_heredoc(t_cmd *cmd, t_shell *shell)
 		curr = (counter++, curr->next);
 	}
 	return (0);
-}
-
-void	clean_heredoc(t_cmd *cmd)
-{
-	t_redir	*redirection;
-
-	if (!cmd || !cmd->redirs)
-		return ;
-	redirection = cmd->redirs;
-	while (redirection)
-	{
-		if (redirection->heredoc_tmpfile)
-			unlink(redirection->heredoc_tmpfile);
-		redirection = redirection->next;
-	}
 }

@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 19:20:48 by akivam            #+#    #+#             */
-/*   Updated: 2026/02/01 01:18:41 by akivam           ###   ########.fr       */
+/*   Updated: 2026/02/06 22:49:08 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int					builtin_unset(char **args, t_shell *shell);
 int					builtin_env(char **args, t_shell *shell);
 int					builtin_exit(char **args, t_shell *shell);
 
-
+# ifdef BONUS
 
 /* ========== BONUS BUILTINS ========== */
 int					builtin_alias(char **args, t_shell *shell);
@@ -55,7 +55,7 @@ int					builtin_tty(char **args, t_shell *shell);
 int					builtin_type(char **args, t_shell *shell);
 int					builtin_true(char **args, t_shell *shell);
 int					builtin_false(char **args, t_shell *shell);
-int					builtin_source(char **args, t_shell *shell);
 
+# endif
 
 #endif

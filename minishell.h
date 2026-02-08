@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 21:12:44 by akivam            #+#    #+#             */
-/*   Updated: 2026/02/01 01:17:01 by akivam           ###   ########.fr       */
+/*   Updated: 2026/02/06 20:51:04 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,9 @@
 # define XOR_KEY 0x1F
 
 typedef struct s_tetris	t_tetris;
+
+# ifdef BONUS
+
 typedef enum e_token_type
 {
 	TOKEN_WORD,
@@ -57,6 +60,26 @@ typedef enum e_node_type
 	NODE_OR,
 	NODE_SUBSHELL,
 }	t_node_type;
+
+# else
+
+typedef enum e_token_type
+{
+	TOKEN_WORD,
+	TOKEN_PIPE,
+	TOKEN_REDIR_IN,
+	TOKEN_REDIR_OUT,
+	TOKEN_REDIR_APPEND,
+	TOKEN_HEREDOC,
+}	t_token_type;
+
+typedef enum e_node_type
+{
+	NODE_CMD,
+	NODE_PIPE,
+}	t_node_type;
+
+# endif
 
 typedef struct s_env_bucket
 {
@@ -140,6 +163,7 @@ typedef struct s_shell
 	int						redir_stdin_backup;
 	int						redir_stdout_backup;
 	int						history_fd;
+	int						cmd_count;
 	char					*history_file;
 	char					*current_input;
 	int						argc;
@@ -147,6 +171,7 @@ typedef struct s_shell
 	pid_t					shell_pid;
 }	t_shell;
 
+pid_t			read_shell_pid(void);
 t_env_table		*initialize_env_table(char **envp, void *arena);
 char			*env_get(t_env_table *table, char *key, void *arena);
 void			env_set(t_env_table *table, char *key, char *value,

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expander_utils_bonus.c                             :+:      :+:    :+:   */
+/*   expander_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: harici <harici@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/18 00:31:46 by harici            #+#    #+#             */
-/*   Updated: 2026/01/18 00:31:46 by harici           ###   ########.fr       */
+/*   Created: 2026/01/13 20:28:32 by harici            #+#    #+#             */
+/*   Updated: 2026/01/13 20:28:32 by harici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,6 @@ char	*expand_exit_status(t_shell *shell)
 
 char	*expand_arg_count(t_shell *shell)
 {
-	int	count;
-
-	count = shell->argc - 1;
-	if (count < 0)
-		count = 0;
-	return (gc_itoa(shell->cmd_arena, count));
+	(void)shell;
+	return (gc_strdup(shell->cmd_arena, "0"));
 }

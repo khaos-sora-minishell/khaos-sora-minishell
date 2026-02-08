@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main_utils_bonus.c                                 :+:      :+:    :+:   */
+/*   main_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 12:06:42 by akivam            #+#    #+#             */
-/*   Updated: 2026/01/18 01:48:12 by akivam           ###   ########.tr       */
+/*   Updated: 2026/01/11 12:06:42 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #include <stdio.h>
 #include <unistd.h>
 
-static pid_t	read_shell_pid(void)
+pid_t	read_shell_pid(void)
 {
 	int		fd;
 	char	buf[32];
@@ -71,13 +71,12 @@ static void	init_shell_common(t_shell *shell, int argc, char **argv,
 	shell->argv = argv;
 	shell->shell_pid = read_shell_pid();
 	shell->exit_status = 0;
+	shell->cmd_count = 0;
 }
 
 void	init_shell(t_shell *shell, int argc, char **argv, char **envp)
 {
 	init_shell_common(shell, argc, argv, envp);
-	init_history(shell);
-	create_shellrc(shell);
 }
 
 void	clean_loop(t_shell *shell)

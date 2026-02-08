@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 01:50:11 by akivam            #+#    #+#             */
-/*   Updated: 2026/01/18 01:50:18 by akivam           ###   ########.tr       */
+/*   Updated: 2026/02/06 20:24:13 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,21 @@
 #include <termios.h>
 #include <stdlib.h>
 #include "utils.h"
+
+void	clean_heredoc(t_cmd *cmd)
+{
+	t_redir	*redirection;
+
+	if (!cmd || !cmd->redirs)
+		return ;
+	redirection = cmd->redirs;
+	while (redirection)
+	{
+		if (redirection->heredoc_tmpfile)
+			unlink(redirection->heredoc_tmpfile);
+		redirection = redirection->next;
+	}
+}
 
 static char	*read_heredoc_input(char *prompt)
 {
@@ -46,7 +61,15 @@ void	read_heredoc_loop(int fd, t_redir *redir, t_shell *shell)
 	while (1)
 	{
 		line = read_heredoc_input(prompt);
-		if (!line || get_signal() == SIGINT)
+		if (!line)
+		{
+			if (get_signal() != SIGINT)
+				ft_err_printf("minishell: warning: here-document at line %d "
+					"delimited by end-of-file (wanted `%s')\n",
+					shell->cmd_count, redir->delimiter);
+			break ;
+		}
+		if (get_signal() == SIGINT)
 			break ;
 		if (process_heredoc_line(line, fd, redir, shell))
 			break ;

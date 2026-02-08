@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_cmd_bonus.c                                   :+:      :+:    :+:   */
+/*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 19:20:37 by akivam            #+#    #+#             */
-/*   Updated: 2026/01/18 01:44:59 by akivam           ###   ########.tr       */
+/*   Updated: 2025/12/22 14:32:06 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 #include "utils.h"
 #include <sys/wait.h>
 #include <sys/stat.h>
-#include "extra_commands.h"
 
 static void	handle_redirection_only(t_cmd *cmd, t_shell *shell)
 {
@@ -57,11 +56,6 @@ void	execute_command(t_cmd *cmd, t_shell *shell)
 		return (handle_no_command(cmd, shell));
 	if (is_builtin(cmd->args[0]))
 		return (execute_builtin_with_redir(cmd, shell));
-	if (is_extra_command(cmd->args[0]))
-	{
-		execute_extra_command(cmd->args, shell);
-		return ;
-	}
 	pid = fork();
 	if (pid == -1)
 		return (perror("fork"), (void)(shell->exit_status = 1));

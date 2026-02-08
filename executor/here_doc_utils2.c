@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/01 21:42:26 by akivam            #+#    #+#             */
-/*   Updated: 2026/01/01 21:47:21 by akivam           ###   ########.fr       */
+/*   Updated: 2026/02/06 22:35:31 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,20 @@ void	setup_raw_mode(struct termios *old_term)
 	tcsetattr(STDIN_FILENO, TCSANOW, &new_term);
 }
 
-static int	handle_special_char(char c, char *buffer, int *pos, int *len)
+static int	handle_backspace(char *buffer, int *pos, int *len)
+{
+	if (*pos > 0)
+	{
+		(*pos)--;
+		(*len)--;
+		ft_memmove(buffer + *pos, buffer + *pos + 1, *len - *pos);
+		buffer[*len] = '\0';
+		write(STDOUT_FILENO, "\b \b", 3);
+	}
+	return (0);
+}
+
+int	handle_special_char(char c, char *buffer, int *pos, int *len)
 {
 	if (c == 3)
 	{
@@ -41,24 +54,16 @@ static int	handle_special_char(char c, char *buffer, int *pos, int *len)
 		set_signal(SIGINT);
 		return (1);
 	}
+	if (c == 4 && *pos == 0 && *len == 0)
+		return (1);
 	if (c == 127 || c == 8)
-	{
-		if (*pos > 0)
-		{
-			(*pos)--;
-			(*len)--;
-			ft_memmove(buffer + *pos, buffer + *pos + 1, *len - *pos);
-			buffer[*len] = '\0';
-			write(STDOUT_FILENO, "\b \b", 3);
-		}
-		return (0);
-	}
+		return (handle_backspace(buffer, pos, len));
 	if (c == '\n')
 		return (1);
 	return (-1);
 }
 
-static void	handle_escape_sequence(int *pos, int *len)
+void	handle_escape_sequence(int *pos, int *len)
 {
 	char	seq[3];
 
@@ -80,7 +85,7 @@ static void	handle_escape_sequence(int *pos, int *len)
 	}
 }
 
-static void	add_char_to_buffer(char c, char *buffer, int *pos, int *len)
+void	add_char_to_buffer(char c, char *buffer, int *pos, int *len)
 {
 	if (*len < 4095)
 	{
@@ -89,21 +94,4 @@ static void	add_char_to_buffer(char c, char *buffer, int *pos, int *len)
 		(*len)++;
 		write(STDOUT_FILENO, &c, 1);
 	}
-}
-
-int	process_char(char c, char *buffer, int *pos, int *len)
-{
-	int	ret;
-
-	if (c == 27)
-		handle_escape_sequence(pos, len);
-	else
-	{
-		ret = handle_special_char(c, buffer, pos, len);
-		if (ret == 1)
-			return (1);
-		if (ret == -1)
-			add_char_to_buffer(c, buffer, pos, len);
-	}
-	return (0);
 }

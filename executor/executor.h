@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 19:20:48 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/22 16:05:04 by akivam           ###   ########.fr       */
+/*   Updated: 2026/02/06 20:27:22 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,9 @@ char	*expand_heredoc_line(char *line, t_shell *shell);
 int		process_heredoc_line(char *line, int fd, t_redir *redir,
 			t_shell *shell);
 void	setup_raw_mode(struct termios *old_term);
+void	handle_escape_sequence(int *pos, int *len);
+int		handle_special_char(char c, char *buffer, int *pos, int *len);
+void	add_char_to_buffer(char c, char *buffer, int *pos, int *len);
 int		process_char(char c, char *buffer, int *pos, int *len);
 char	*read_line_raw(char *prompt);
 void	read_heredoc_loop(int fd, t_redir *redir, t_shell *shell);
