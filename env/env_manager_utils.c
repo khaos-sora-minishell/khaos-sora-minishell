@@ -17,8 +17,15 @@
 
 void	set_default_prompt_vars(t_env_table *table, void *arena)
 {
+	char	*terminal_name;
+	char	*ps1;
+
 	if (!env_get(table, "PS1", arena))
-		env_set(table, "PS1", "minishell$ ", arena);
+	{
+		terminal_name = get_default_terminal_name(arena);
+		ps1 = gc_strjoin(arena, terminal_name, "$ ");
+		env_set(table, "PS1", ps1, arena);
+	}
 	if (!env_get(table, "PS2", arena))
 		env_set(table, "PS2", "> ", arena);
 }

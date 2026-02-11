@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main_utils_bonus.c                                 :+:      :+:    :+:   */
+/*   main_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 12:06:42 by akivam            #+#    #+#             */
-/*   Updated: 2026/01/18 01:48:12 by akivam           ###   ########.fr       */
+/*   Updated: 2026/02/12 02:42:09 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,45 +45,73 @@ pid_t	read_shell_pid(void)
 	return (pid);
 }
 
-static void	init_shell_common(t_shell *shell, int argc, char **argv,
-		char **envp)
+char	*read_hostname(void *arena)
 {
-	ft_bzero(shell, sizeof(t_shell));
-	shell->global_arena = gc_create();
-	shell->cmd_arena = gc_create();
-	if (!shell->global_arena || !shell->cmd_arena)
-		exit(1);
-	shell->env_table = initialize_env_table(envp, shell->global_arena);
-	shell->env_array = env_table_to_array(shell->env_table,
-			shell->global_arena);
-	shell->alias_table = gc_calloc(shell->global_arena, 1, sizeof(t_env_table));
-	shell->alias_table->buckets = gc_calloc(shell->global_arena,
-			ENV_TABLE_SIZE, sizeof(t_env_bucket *));
-	shell->terminal_name = "minishell";
-	shell->terminal_name_color = NULL;
-	shell->terminal_bg_color = NULL;
-	shell->stdin_backup = -1;
-	shell->stdout_backup = -1;
-	shell->redir_stdin_backup = -1;
-	shell->redir_stdout_backup = -1;
-	shell->current_input = NULL;
-	shell->argc = argc;
-	shell->argv = argv;
-	shell->shell_pid = read_shell_pid();
-	shell->exit_status = 0;
-	shell->cmd_count = 0;
+	int		fd;
+	char	buf[256];
+	int		bytes;
+	int		i;
+
+	fd = open("/etc/hostname", O_RDONLY);
+	if (fd < 0)
+		return (NULL);
+	bytes = read(fd, buf, 255);
+	close(fd);
+	if (bytes <= 0)
+		return (NULL);
+	buf[bytes] = '\0';
+	i = 0;
+	while (buf[i] && buf[i] != '\n')
+		i++;
+	buf[i] = '\0';
+	return (gc_strdup(arena, buf));
 }
 
-void	init_shell(t_shell *shell, int argc, char **argv, char **envp)
+static char	*get_user_hostname(void *arena)
 {
-	init_shell_common(shell, argc, argv, envp);
-	init_history(shell);
-	create_shellrc(shell);
+	char	*hostname;
+	char	*user;
+	char	*result;
+
+	user = getenv("USER");
+	if (!user)
+		user = "user";
+	hostname = getenv("HOSTNAME");
+	if (!hostname)
+		hostname = getenv("HOST");
+	if (!hostname)
+		hostname = read_hostname(arena);
+	result = gc_strdup(arena, user);
+	if (hostname)
+	{
+		result = gc_strjoin(arena, result, "@");
+		result = gc_strjoin(arena, result, hostname);
+	}
+	return (result);
 }
 
-void	clean_loop(t_shell *shell)
+char	*get_default_terminal_name(void *arena)
 {
-	gc_scope_pop_all(shell->cmd_arena);
-	set_signal(0);
-	shell->ast_root = NULL;
+	char	*result;
+	char	*cwd;
+	char	*home;
+
+	result = get_user_hostname(arena);
+	result = gc_strjoin(arena, result, ":");
+	cwd = getcwd(NULL, 0);
+	if (cwd)
+	{
+		gc_track((t_gc_context *)arena, cwd);
+		home = getenv("HOME");
+		if (home && ft_strncmp(cwd, home, ft_strlen(home)) == 0)
+		{
+			result = gc_strjoin(arena, result, "~");
+			result = gc_strjoin(arena, result, cwd + ft_strlen(home));
+		}
+		else
+			result = gc_strjoin(arena, result, cwd);
+	}
+	else
+		result = gc_strjoin(arena, result, "?");
+	return (result);
 }

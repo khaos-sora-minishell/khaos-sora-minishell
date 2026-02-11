@@ -192,6 +192,8 @@ void			init_shell(t_shell *shell, int argc, char **argv, char **envp);
 void			cleanup_shell(t_shell *shell);
 void			cleanup_child_process(t_shell *shell);
 char			**parse_path(t_shell *shell);
+char			*get_default_terminal_name(void *arena);
+char			*read_hostname(void *arena);
 
 char			*get_prompt(t_shell *shell);
 char			*read_multiline(t_shell *shell);
