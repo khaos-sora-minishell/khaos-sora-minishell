@@ -136,33 +136,3 @@ char	*join_lines(char *input, char *next_line)
 	result[len1 + len2 + 1] = '\0';
 	return (result);
 }
-
-char	*remove_trailing_newline(char *str)
-{
-	size_t	len;
-
-	if (!str)
-		return (NULL);
-	len = ft_strlen(str);
-	if (len > 0 && str[len - 1] == '\n')
-		str[len - 1] = '\0';
-	return (str);
-}
-
-char	*get_continuation_line(char quote)
-{
-	char	*next_line;
-	char	*prompt;
-
-	prompt = "dquote> ";
-	if (quote == '\'')
-		prompt = "squote> ";
-	if (isatty(STDIN_FILENO) && isatty(STDOUT_FILENO))
-		next_line = readline(prompt);
-	else
-	{
-		next_line = get_next_line(STDIN_FILENO);
-		next_line = remove_trailing_newline(next_line);
-	}
-	return (next_line);
-}

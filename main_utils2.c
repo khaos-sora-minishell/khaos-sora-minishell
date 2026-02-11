@@ -50,6 +50,38 @@ void	cleanup_shell(t_shell *shell)
 }
 
 /*
+ * Splits input on newlines and processes each line separately
+ * Handles pasted multi-line input correctly
+ */
+static void	process_multiline_input(t_shell *shell, char *input)
+{
+	char	*line_start;
+	char	*line_end;
+	char	*line;
+	int		len;
+
+	line_start = input;
+	while (*line_start)
+	{
+		line_end = line_start;
+		while (*line_end && *line_end != '\n')
+			line_end++;
+		len = line_end - line_start;
+		line = gc_strndup(shell->cmd_arena, line_start, len);
+		if (line && *line)
+		{
+			shell->current_input = line;
+			process_input(shell, line);
+			shell->current_input = NULL;
+			clean_loop(shell);
+		}
+		if (*line_end == '\n')
+			line_end++;
+		line_start = line_end;
+	}
+}
+
+/*
  * Processes user input through lexer, parser, and executor
  * Adds non-empty input to command history
  */
@@ -90,10 +122,15 @@ void	run_shell_loop(t_shell *shell)
 		}
 		if (get_signal() == SIGINT)
 			shell->exit_status = 130;
-		shell->current_input = input;
-		process_input(shell, input);
-		free(shell->current_input);
-		shell->current_input = NULL;
-		clean_loop(shell);
+		if (ft_strchr(input, '\n'))
+			process_multiline_input(shell, input);
+		else
+		{
+			shell->current_input = input;
+			process_input(shell, input);
+			shell->current_input = NULL;
+			clean_loop(shell);
+		}
+		free(input);
 	}
 }

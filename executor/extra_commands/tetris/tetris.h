@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/07 14:05:38 by harici            #+#    #+#             */
-/*   Updated: 2026/02/07 18:05:05 by akivam           ###   ########.fr       */
+/*   Updated: 2026/02/12 02:00:53 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ typedef struct s_tetris
 	int				board_w;
 	int				board_h;
 	const t_shape	*pieces;
-	int				score;
+	long long		score;
 	int				level;
 	int				lines;
 	int				tick;

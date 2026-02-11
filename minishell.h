@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 21:12:44 by akivam            #+#    #+#             */
-/*   Updated: 2026/02/06 20:51:04 by akivam           ###   ########.fr       */
+/*   Updated: 2026/02/12 01:56:28 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -266,6 +266,12 @@ char			**expand_args(char **args, t_shell *shell);
 char			*process_dollar(char *str, int *i, t_shell *shell);
 char			*process_command_substitution(char *str, int *i,
 					t_shell *shell);
+char			*extract_command_from_parens(char *str, int *i, t_shell *shell);
+char			*read_pipe_output(int fd, t_shell *shell);
+void			child_execute_command(char *command, t_shell *shell,
+					int write_fd);
+char			*parent_read_output(int read_fd, t_shell *shell);
+char			*execute_command_in_subshell(char *command, t_shell *shell);
 char			*process_tilde(char *str, int *i, t_shell *shell);
 char			*expand_exit_status(t_shell *shell);
 char			*expand_arg_count(t_shell *shell);

@@ -11,7 +11,7 @@ PARSER_SRC	= parser.c parse_cmd.c parse_cmd_utils.c parse_cmd_utils2.c build_ast
 EXPANDER_SRC = expander.c expand_args.c expand_args2.c \
 			   expander_utils.c expander_utils2.c expander_utils3.c expander_utils4.c \
 			   expand_helpers.c expander_positional.c wildcard.c wildcard_utils.c \
-			   command_substitution.c
+			   command_substitution_utils.c command_substitution.c
 
 EXECUTOR_SRC = executor.c exec_ast.c exec_builtin.c exec_cmd.c \
 			   exec_cmd_utils1.c exec_cmd_utils2.c exec_pipe.c redirections.c \
@@ -57,8 +57,10 @@ SIGNALS_SRC	= signals.c signal_state.c
 
 UTILS_SRC	= error.c ft_atoll.c strings.c strings_utils.c
 
-SRCS = main.c main_utils.c main_utils2.c prompt.c prompt_utils.c history_manager.c history_manager_utils.c \
-	   config_loader.c config_loader_utils.c \
+ROOT_SRC	= main.c main_utils.c main_utils2.c prompt.c prompt_utils.c prompt_utils2.c \
+			  history_manager.c history_manager_utils.c config_loader.c config_loader_utils.c
+
+SRCS = $(ROOT_SRC) \
 	   $(addprefix lexer/, $(LEXER_SRC)) \
 	   $(addprefix parser/, $(PARSER_SRC)) \
 	   $(addprefix expander/, $(EXPANDER_SRC)) \
