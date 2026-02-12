@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "shell.h"
 #include "extra_commands.h"
 #include "libft.h"
 #include "utils.h"

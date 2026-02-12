@@ -12,7 +12,7 @@
 
 #include "garbage_collector.h"
 #include "libft.h"
-#include "minishell.h"
+#include "shell.h"
 #include "utils.h"
 #include <stdlib.h>
 #include <unistd.h>

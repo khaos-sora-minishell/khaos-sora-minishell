@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "shell.h"
 #include "libft.h"
 
 char	*extract_var_name(char *str, int *i, t_shell *shell)

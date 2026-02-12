@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "minishell.h"
+#include "shell.h"
 #include "garbage_collector.h"
 #include "utils.h"
 

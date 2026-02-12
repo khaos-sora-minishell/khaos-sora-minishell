@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "shell.h"
 #include "lexer.h"
 
 t_token	*create_token(t_token_type type, char *value, void *arena)

@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "minishell.h"
+#include "shell.h"
 
 int	builtin_unalias(char **args, t_shell *shell)
 {

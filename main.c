@@ -14,7 +14,7 @@
 #include "garbage_collector.h"
 #include "lexer.h"
 #include "libft.h"
-#include "minishell.h"
+#include "shell.h"
 #include <readline/history.h>
 #include <stdio.h>
 #include <unistd.h>

@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "minishell.h"
+#include "shell.h"
 #include "utils.h"
 
 static void	update_env_node(t_env_bucket *node, char *value,

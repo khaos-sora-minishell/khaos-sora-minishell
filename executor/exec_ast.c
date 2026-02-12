@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "executor.h"
-#include "minishell.h"
+#include "shell.h"
 #include <sys/wait.h>
 #include <unistd.h>
 

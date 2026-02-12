@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "shell.h"
 #include "parser.h"
 
 t_ast_node	*parse_primary(t_token **current, t_shell *shell)

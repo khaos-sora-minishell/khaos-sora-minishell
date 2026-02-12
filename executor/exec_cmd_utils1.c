@@ -13,7 +13,7 @@
 #include "executor.h"
 #include "executor_error.h"
 #include "libft.h"
-#include "minishell.h"
+#include "shell.h"
 #include <fcntl.h>
 #include <stdio.h>
 #include <sys/wait.h>

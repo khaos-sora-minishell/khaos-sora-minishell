@@ -12,7 +12,7 @@
 
 #include "builtins.h"
 #include "libft.h"
-#include "minishell.h"
+#include "shell.h"
 #include "utils.h"
 
 static int	is_valid_identifier(char *str)

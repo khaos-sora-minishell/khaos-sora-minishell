@@ -1,4 +1,4 @@
-NAME		= minishell
+NAME		= khaos_sora_shell
 OBJ_DIR		= obj
 
 LIBFT_DIR	= libs/libft

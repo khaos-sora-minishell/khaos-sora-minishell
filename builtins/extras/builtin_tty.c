@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "shell.h"
 #include "printf.h"
 
 int	builtin_tty(char **args, t_shell *shell)

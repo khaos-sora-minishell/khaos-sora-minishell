@@ -13,7 +13,7 @@
 #include "extra_commands.h"
 #include "garbage_collector.h"
 #include "libft.h"
-#include "minishell.h"
+#include "shell.h"
 
 void	set_terminal_name(char **args, t_shell *shell)
 {

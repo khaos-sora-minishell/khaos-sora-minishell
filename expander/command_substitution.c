@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "shell.h"
 #include "libft.h"
 
 static char	*trim_trailing_newline(char *str, t_shell *shell)

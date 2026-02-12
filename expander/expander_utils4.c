@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "minishell.h"
+#include "shell.h"
 
 static void	handle_dollar_exp(char *str, char *result, t_shell *shell,
 		t_expand_contex *contex)

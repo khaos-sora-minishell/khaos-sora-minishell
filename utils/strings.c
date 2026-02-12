@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "minishell.h"
+#include "shell.h"
 #include "utils.h"
 #include <fcntl.h>
 #include <unistd.h>

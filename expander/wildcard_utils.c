@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "minishell.h"
+#include "shell.h"
 #include "utils.h"
 
 int	match_pattern(char *pattern, char *str)

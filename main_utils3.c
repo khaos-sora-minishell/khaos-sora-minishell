@@ -13,7 +13,7 @@
 #include "executor.h"
 #include "garbage_collector.h"
 #include "lexer.h"
-#include "minishell.h"
+#include "shell.h"
 #include <readline/history.h>
 
 void	cleanup_child_process(t_shell *shell)

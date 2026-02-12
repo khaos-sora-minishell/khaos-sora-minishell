@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "shell.h"
 #include "libft.h"
 #include <readline/readline.h>
 #include <unistd.h>

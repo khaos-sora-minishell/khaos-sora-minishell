@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "shell.h"
 #include "parser.h"
 
 void	add_arg_to_cmd(t_cmd *cmd, char *arg, void *arena)

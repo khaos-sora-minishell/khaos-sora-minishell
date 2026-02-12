@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "shell.h"
 #include "parser.h"
 
 static int	heredoc_has_any_quotes(char *str)

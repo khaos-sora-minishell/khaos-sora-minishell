@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "shell.h"
 #include "libft.h"
 
 char	*expand_positional_arg(t_shell *shell, int index)

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "shell.h"
 #include "lexer.h"
 
 char	check_unclosed_quotes_char(char *input)

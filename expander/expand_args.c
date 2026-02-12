@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "shell.h"
 
 static void	process_words(char **words, char ***result, int *idx,
 		t_shell *shell)

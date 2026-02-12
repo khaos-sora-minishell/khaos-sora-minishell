@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "garbage_collector.h"
-#include "minishell.h"
+#include "shell.h"
 
 char	**parse_path(t_shell *shell)
 {

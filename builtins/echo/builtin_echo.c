@@ -13,7 +13,7 @@
 #include "builtins.h"
 #include "garbage_collector.h"
 #include "libft.h"
-#include "minishell.h"
+#include "shell.h"
 
 static int	parse_flags(char *arg, t_echo_contex *contex)
 {

@@ -14,7 +14,7 @@
 #include "executor.h"
 #include "executor_error.h"
 #include "libft.h"
-#include "minishell.h"
+#include "shell.h"
 #include "utils.h"
 #include <sys/wait.h>
 #include <sys/stat.h>

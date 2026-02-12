@@ -6,7 +6,7 @@
 /*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/12 02:25:01 by akivam            #+#    #+#             */
-/*   Updated: 2026/02/12 02:43:49 by akivam           ###   ########.fr       */
+/*   Updated: 2026/02/12 02:53:08 by akivam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "garbage_collector.h"
 #include "lexer.h"
 #include "libft.h"
-#include "minishell.h"
+#include "shell.h"
 #include <readline/history.h>
 #include <stdio.h>
 #include <unistd.h>

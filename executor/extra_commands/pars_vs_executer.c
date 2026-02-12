@@ -12,7 +12,7 @@
 
 #include "extra_commands.h"
 #include "libft.h"
-#include "minishell.h"
+#include "shell.h"
 
 void	akivam_executor(char **args, t_shell *shell)
 {

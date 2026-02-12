@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "builtins.h"
-#include "minishell.h"
+#include "shell.h"
 #include "printf.h"
 
 int	builtin_type(char **args, t_shell *shell)

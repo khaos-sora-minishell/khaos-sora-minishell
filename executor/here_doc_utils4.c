@@ -12,7 +12,7 @@
 
 #include "executor.h"
 #include "libft.h"
-#include "minishell.h"
+#include "shell.h"
 #include <unistd.h>
 #include <termios.h>
 #include <stdlib.h>

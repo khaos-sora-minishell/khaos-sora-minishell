@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "shell.h"
 #include "lexer.h"
 
 t_token_type	handle_double_op(char c, char next, int *i)

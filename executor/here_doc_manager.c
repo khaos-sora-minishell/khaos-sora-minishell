@@ -12,7 +12,7 @@
 
 #include "executor.h"
 #include "libft.h"
-#include "minishell.h"
+#include "shell.h"
 #include <fcntl.h>
 #include <sys/types.h>
 #include <unistd.h>

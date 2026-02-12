@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "minishell.h"
+#include "shell.h"
 
 static size_t	get_expanded_length(char *str, t_shell *shell)
 {

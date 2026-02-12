@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "shell.h"
 #include <stddef.h>
 
 static int	count_env_nodes(t_env *env)
