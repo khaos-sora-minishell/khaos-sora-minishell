@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   tetris.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
+/*   By: harici <harici@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/07 14:05:38 by harici            #+#    #+#             */
-/*   Updated: 2026/02/12 02:43:55 by akivam           ###   ########.fr       */
+/*   Updated: 2026/02/22 00:03:31 by harici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TETRIS_H
 # define TETRIS_H
 
-# include "minishell.h"
+# include "shell.h"
 # include "garbage_collector.h"
 # include <stdio.h>
 # include <stdlib.h>

@@ -6,14 +6,14 @@
 /*   By: harici <harici@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 20:31:08 by harici            #+#    #+#             */
-/*   Updated: 2026/01/13 20:31:08 by harici           ###   ########.fr       */
+/*   Updated: 2026/02/22 00:03:31 by harici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEXER_H
 # define LEXER_H
 
-# include "minishell.h"
+# include "shell.h"
 
 char			*get_operator_value(t_token_type type);
 

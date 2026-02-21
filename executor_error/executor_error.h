@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   executor_error.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
+/*   By: harici <harici@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/14 21:42:24 by akivam            #+#    #+#             */
-/*   Updated: 2025/12/22 15:30:00 by akivam           ###   ########.fr       */
+/*   Updated: 2026/02/22 00:03:31 by harici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXECUTOR_ERROR_H
 # define EXECUTOR_ERROR_H
 
-# include "minishell.h"
+# include "shell.h"
 
 # define ERR_CMD_NOT_FOUND "command not found"
 # define ERR_NO_FILE "No such file or directory"

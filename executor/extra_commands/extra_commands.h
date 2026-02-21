@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   extra_commands.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akivam <akivam@student.42istanbul.com.tr>  +#+  +:+       +#+        */
+/*   By: harici <harici@student.42istanbul.com.tr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/07 20:50:44 by akivam            #+#    #+#             */
-/*   Updated: 2026/02/09 02:16:59 by akivam           ###   ########.fr       */
+/*   Updated: 2026/02/22 00:03:31 by harici           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXTRA_COMMANDS_H
 # define EXTRA_COMMANDS_H
 
-# include "minishell.h"
+# include "shell.h"
 # include "tetris.h"
 # include <termios.h>
 
@@ -34,7 +34,7 @@
 # define BG_CYAN "\033[46m"
 # define BG_BLACK "\033[40m"
 
-# include "minishell.h"
+# include "shell.h"
 # include "tetris.h"
 
 typedef void		(*t_extra_command_func)(char **args, t_shell *shell);
